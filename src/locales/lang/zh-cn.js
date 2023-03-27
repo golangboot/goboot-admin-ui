@@ -25,7 +25,10 @@ export default {
 		createAccount: '创建新账号',
 		wechatLoginTitle: '二维码登录',
 		wechatLoginMsg: '请使用微信扫一扫登录 | 模拟3秒后自动扫描',
-		wechatLoginResult: '已扫描 | 请在设备中点击授权登录'
+		wechatLoginResult: '已扫描 | 请在设备中点击授权登录',
+		organization: '企业',
+		merchant: '商家',
+		loginSuccess: '登录成功',
 	},
 	user: {
 		dynamic: '近期动态',

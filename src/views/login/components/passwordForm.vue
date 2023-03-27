@@ -3,9 +3,11 @@
 		<el-form-item prop="user">
 			<el-input v-model="form.user" prefix-icon="el-icon-user" clearable :placeholder="$t('login.userPlaceholder')">
 				<template #append>
-					<el-select v-model="userType" style="width: 130px;">
-						<el-option :label="$t('login.admin')" value="admin"></el-option>
+					<el-select v-model="userType" style="width: 120px;">
 						<el-option :label="$t('login.user')" value="user"></el-option>
+						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
+						<el-option :label="$t('login.organization')" value="organization"></el-option>
+						<el-option :label="$t('login.admin')" value="admin"></el-option>
 					</el-select>
 				</template>
 			</el-input>
@@ -34,10 +36,10 @@
 	export default {
 		data() {
 			return {
-				userType: 'admin',
+				userType: 'user',
 				form: {
 					user: "admin",
-					password: "admin",
+					password: "123456",
 					autologin: false
 				},
 				rules: {
@@ -55,10 +57,16 @@
 			userType(val){
 				if(val == 'admin'){
 					this.form.user = 'admin'
-					this.form.password = 'admin'
+					this.form.password = '123456'
 				}else if(val == 'user'){
 					this.form.user = 'user'
-					this.form.password = 'user'
+					this.form.password = '123456'
+				}else if(val == 'organization'){
+					this.form.user = 'organization'
+					this.form.password = '123456'
+				}else if(val == 'merchant'){
+					this.form.user = 'merchant'
+					this.form.password = '123456'
 				}
 			}
 		},
@@ -74,7 +82,8 @@
 				this.islogin = true
 				var data = {
 					username: this.form.user,
-					password: this.$TOOL.crypto.MD5(this.form.password)
+					// password: this.$TOOL.crypto.MD5(this.form.password)
+					password: this.form.password
 				}
 				//获取token
 				var user = await this.$API.auth.token.post(data)
@@ -82,7 +91,7 @@
 					this.$TOOL.cookie.set("TOKEN", user.data.token, {
 						expires: this.form.autologin? 24*60*60 : 0
 					})
-					this.$TOOL.data.set("USER_INFO", user.data.userInfo)
+					this.$TOOL.data.set("USER_INFO", user.data.userInfo || user.data.userinfo)
 				}else{
 					this.islogin = false
 					this.$message.warning(user.message)
@@ -116,7 +125,7 @@
 				this.$router.replace({
 					path: '/'
 				})
-				this.$message.success("Login Success 登录成功")
+				this.$message.success(this.$t('login.loginSuccess'))
 				this.islogin = false
 			},
 		}

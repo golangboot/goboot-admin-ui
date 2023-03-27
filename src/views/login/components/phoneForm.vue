@@ -3,6 +3,14 @@
 		<el-form-item prop="phone">
 			<el-input v-model="form.phone" prefix-icon="el-icon-iphone" clearable :placeholder="$t('login.mobilePlaceholder')">
 				<template #prepend>+86</template>
+				<template #append>
+					<el-select v-model="userType" style="width: 120px;">
+						<el-option :label="$t('login.user')" value="user"></el-option>
+						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
+						<el-option :label="$t('login.organization')" value="organization"></el-option>
+						<el-option :label="$t('login.admin')" value="admin"></el-option>
+					</el-select>
+				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item prop="yzm"  style="margin-bottom: 35px;">
@@ -24,6 +32,7 @@
 	export default {
 		data() {
 			return {
+				userType: 'user',
 				form: {
 					phone: "",
 					yzm: "",

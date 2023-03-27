@@ -15,6 +15,14 @@ module.exports = defineConfig({
 		open: false, //运行后自动打开浏览器
 		port: process.env.VUE_APP_PORT, //挂载端口
 		proxy: {
+			//TODO: 开发调试中...
+			'/api/token': {
+				target: 'http://localhost:8188',
+				ws: true,
+				pathRewrite: {
+					'^/api/token': '/api/auth/token'
+				}
+			},
 			'/api': {
 				target: process.env.VUE_APP_API_BASEURL,
 				ws: true,
