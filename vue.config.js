@@ -19,6 +19,7 @@ module.exports = defineConfig({
 			'/api/token': {
 				target: 'http://localhost:8188',
 				ws: true,
+				changeOrigin: true,
 				pathRewrite: {
 					'^/api/token': '/api/auth/token'
 				}

@@ -86,7 +86,12 @@
 					password: this.form.password
 				}
 				//获取token
-				var user = await this.$API.auth.token.post(data)
+				try {
+					var user = await this.$API.auth.token.post(data)
+				} catch (e) {
+					this.islogin = false
+					return false
+				}
 				if(user.code == 200){
 					this.$TOOL.cookie.set("TOKEN", user.data.token, {
 						expires: this.form.autologin? 24*60*60 : 0

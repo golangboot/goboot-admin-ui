@@ -126,7 +126,10 @@
 			this.$store.commit("clearViewTags")
 			this.$store.commit("clearKeepLive")
 			this.$store.commit("clearIframeList")
-			console.log('%c GoUI %c Gitee: https://github.com/golangboot/goui', 'background:#666;color:#fff;border-radius:3px;', '')
+			// console.log(`\n%c ${this.$CONFIG.APP_NAME} %c ${window.location.protocol}//${window.location.host}\n\n`, 'background:#666;color:#fff;border-radius:3px;', '')
+			console.log(`%c ${this.$CONFIG.SYSTEM_NAME} %c v${this.$CONFIG.SYSTEM_VERSION} %c\nCopyright © 2015-${(new Date()).getFullYear()} %c${this.$CONFIG.SYSTEM_NAME}®%c ${this.$CONFIG.SYSTEM_AUTHOR} All rights reserved. %c\n${this.$CONFIG.SYSTEM_SUPPORT_URL}\n\n`,
+				'color:#fadfa3;background:#030307;padding:5px 0;margin:10px 0;', 'background:#fadfa3;padding:5px 0;', 'font-style:italic;', 'color:red;', 'font-style:italic;', '',
+			);
 		},
 		methods: {
 			configDark(){
