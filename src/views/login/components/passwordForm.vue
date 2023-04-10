@@ -124,7 +124,7 @@
 					}
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.MENU, menu.data.menu)
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.PERMISSIONS, menu.data.permissions)
-					this.$TOOL.data.set("DASHBOARDGRID", menu.data.dashboardGrid)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.DASHBOARD_GRID, menu.data.dashboardGrid)
 				}else{
 					this.islogin = false
 					this.$message.warning(menu.message)

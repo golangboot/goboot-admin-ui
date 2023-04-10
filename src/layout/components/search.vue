@@ -29,7 +29,7 @@
 			}
 		},
 		mounted() {
-			var searchHistory = this.$TOOL.data.get("SEARCH_HISTORY") || []
+			var searchHistory = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.SEARCH_HISTORY) || []
 			this.history = searchHistory
 			var menuTree = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.MENU)
 			this.filterMenu(menuTree)
@@ -94,7 +94,7 @@
 			to(item){
 				if(!this.history.includes(this.input)){
 					this.history.push(this.input)
-					this.$TOOL.data.set("SEARCH_HISTORY", this.history)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.SEARCH_HISTORY, this.history)
 				}
 				if(item.type=="link"){
 					setTimeout(()=>{
@@ -118,9 +118,9 @@
 			historyClose(index){
 				this.history.splice(index, 1);
 				if(this.history.length <= 0){
-					this.$TOOL.data.remove("SEARCH_HISTORY")
+					this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.SEARCH_HISTORY)
 				}else{
-					this.$TOOL.data.set("SEARCH_HISTORY", this.history)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.SEARCH_HISTORY, this.history)
 				}
 			}
 		}

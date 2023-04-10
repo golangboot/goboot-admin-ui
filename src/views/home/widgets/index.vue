@@ -133,7 +133,7 @@
 				return allCompsList
 			},
 			myCompsList(){
-				var myGrid = this.$TOOL.data.get("DASHBOARDGRID")
+				var myGrid = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.DASHBOARD_GRID)
 				return this.allCompsList.filter(item => !item.disabled && myGrid.includes(item.key))
 			},
 			nowCompsList(){

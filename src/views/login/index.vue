@@ -121,7 +121,7 @@
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.USER_INFO)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.MENU)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.PERMISSIONS)
-			this.$TOOL.data.remove("DASHBOARDGRID")
+			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.DASHBOARD_GRID)
 			this.$TOOL.data.remove("grid")
 			this.$store.commit("clearViewTags")
 			this.$store.commit("clearKeepLive")
