@@ -1,4 +1,5 @@
 import { permissionAll } from '@/utils/permission'
+import config from "@/config"
 import tool from '@/utils/tool';
 
 /**
@@ -12,7 +13,7 @@ export default {
 		if(permissionAll()){
 			return
 		}
-		let permissions = tool.data.get("PERMISSIONS");
+		let permissions = tool.data.get(config.DATA_CODE.PERMISSIONS);
 		let flag = false;
 		permissions.map((val) => {
 			binding.value.map((v) => {

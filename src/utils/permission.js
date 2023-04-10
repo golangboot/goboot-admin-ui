@@ -1,3 +1,4 @@
+import config from "@/config"
 import tool from '@/utils/tool';
 
 /**
@@ -5,7 +6,7 @@ import tool from '@/utils/tool';
  */
 export function permissionAll() {
 	const allPermissions = "*/*/*"
-	let permissions = tool.data.get("PERMISSIONS");
+	let permissions = tool.data.get(config.DATA_CODE.PERMISSIONS);
 	return permissions.includes(allPermissions);
 }
 
@@ -33,7 +34,7 @@ export function judementSameArr(news, old) {
 }
 
 export function permission(data) {
-	let permissions = tool.data.get("PERMISSIONS");
+	let permissions = tool.data.get(config.DATA_CODE.PERMISSIONS);
 	if(!permissions){
 		return false;
 	}
