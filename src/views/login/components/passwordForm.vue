@@ -119,7 +119,7 @@
 						})
 						return false
 					}
-					this.$TOOL.data.set("MENU", menu.data.menu)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.MENU, menu.data.menu)
 					this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
 					this.$TOOL.data.set("DASHBOARDGRID", menu.data.dashboardGrid)
 				}else{

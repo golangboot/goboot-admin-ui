@@ -31,7 +31,7 @@
 		mounted() {
 			var searchHistory = this.$TOOL.data.get("SEARCH_HISTORY") || []
 			this.history = searchHistory
-			var menuTree = this.$TOOL.data.get("MENU")
+			var menuTree = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.MENU)
 			this.filterMenu(menuTree)
 			this.$refs.input.focus()
 		},
