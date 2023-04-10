@@ -62,6 +62,9 @@
 				}else if(val == 'user'){
 					this.form.user = 'user'
 					this.form.password = '123456'
+				}else if(val == 'enterprise'){
+					this.form.user = 'enterprise'
+					this.form.password = '123456'
 				}else if(val == 'organization'){
 					this.form.user = 'organization'
 					this.form.password = '123456'
@@ -94,7 +97,7 @@
 					return false
 				}
 				if(user.code == 200){
-					this.$TOOL.cookie.set("TOKEN", user.data.token, {
+					this.$TOOL.cookie.set(this.$CONFIG.DATA_CODE.TOKEN, user.data.token, {
 						expires: this.form.autologin? 24*60*60 : 0
 					})
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.USER_INFO, user.data.userInfo || user.data.userinfo)
