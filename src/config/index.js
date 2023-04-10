@@ -1,16 +1,4 @@
 const DEFAULT_CONFIG = {
-	// 系统名称
-	SYSTEM_NAME: process.env.VUE_SYSTEM_NAME || "GoBoot",
-
-	// 系统版本号
-	SYSTEM_VERSION: process.env.VUE_SYSTEM_VERSION || "1.0.0",
-
-	// 系统开发者
-	SYSTEM_AUTHOR: process.env.VUE_SYSTEM_SUPPORT_URL || "鸿宇科技",
-
-	// 系统支持网址
-	SYSTEM_SUPPORT_URL: process.env.VUE_SYSTEM_SUPPORT_URL || "http://hongyuvip.com",
-
 	//标题
 	APP_NAME: process.env.VUE_APP_TITLE,
 
@@ -95,9 +83,10 @@ const DEFAULT_CONFIG = {
 		USER_INFO: 'USER_INFO',
 		MENU: 'MENU',
 		PERMISSIONS: 'PERMISSIONS',
-		DASHBOARD_GRID: 'DASHBOARDGRID',
+		DASHBOARD_GRID: 'DASHBOARD_GRID',
 		GRID: 'GRID',
 		SEARCH_HISTORY: 'SEARCH_HISTORY',
+		MY_MODS: 'MY_MODS',
 	},
 }
 

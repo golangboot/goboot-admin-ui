@@ -107,7 +107,7 @@
 			}
 		},
 		created(){
-			this.grid = this.$TOOL.data.get("grid") || JSON.parse(JSON.stringify(this.defaultGrid))
+			this.grid = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.GRID) || JSON.parse(JSON.stringify(this.defaultGrid))
 		},
 		mounted() {
 			this.$emit('on-mounted')
