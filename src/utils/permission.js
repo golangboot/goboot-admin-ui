@@ -43,7 +43,7 @@ export function permission(data) {
 }
 
 export function rolePermission(data) {
-	let userInfo = tool.data.get("USER_INFO");
+	let userInfo = tool.data.get(config.DATA_CODE.USER_INFO);
 	if(!userInfo){
 		return false;
 	}

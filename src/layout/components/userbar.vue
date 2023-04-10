@@ -119,7 +119,7 @@
 			}
 		},
 		created() {
-			var userInfo = this.$TOOL.data.get("USER_INFO");
+			var userInfo = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.USER_INFO);
 			this.username = userInfo.username;
 			this.usernameF = this.username.substring(0,1);
 		},

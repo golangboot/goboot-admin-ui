@@ -118,7 +118,7 @@
 		},
 		created: function() {
 			this.$TOOL.cookie.remove("TOKEN")
-			this.$TOOL.data.remove("USER_INFO")
+			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.USER_INFO)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.MENU)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.PERMISSIONS)
 			this.$TOOL.data.remove("DASHBOARDGRID")

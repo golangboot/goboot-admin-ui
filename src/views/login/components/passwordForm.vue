@@ -97,7 +97,7 @@
 					this.$TOOL.cookie.set("TOKEN", user.data.token, {
 						expires: this.form.autologin? 24*60*60 : 0
 					})
-					this.$TOOL.data.set("USER_INFO", user.data.userInfo || user.data.userinfo)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.USER_INFO, user.data.userInfo || user.data.userinfo)
 				}else{
 					this.islogin = false
 					this.$message.warning(user.message)
