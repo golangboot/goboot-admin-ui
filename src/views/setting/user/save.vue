@@ -4,8 +4,8 @@
 			<el-form-item label="头像" prop="avatar">
 				<sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
 			</el-form-item>
-			<el-form-item label="登录账号" prop="userName">
-				<el-input v-model="form.userName" placeholder="用于登录系统" clearable></el-input>
+			<el-form-item label="登录账号" prop="username">
+				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="姓名" prop="name">
 				<el-input v-model="form.name" placeholder="请输入完整的真实姓名" clearable></el-input>
@@ -50,7 +50,7 @@
 				//表单数据
 				form: {
 					id:"",
-					userName: "",
+					username: "",
 					avatar: "",
 					name: "",
 					dept: "",
@@ -61,7 +61,7 @@
 					avatar:[
 						{required: true, message: '请上传头像'}
 					],
-					userName: [
+					username: [
 						{required: true, message: '请输入登录账号'}
 					],
 					name: [
@@ -149,7 +149,7 @@
 			//表单注入数据
 			setData(data){
 				this.form.id = data.id
-				this.form.userName = data.userName
+				this.form.username = data.username
 				this.form.avatar = data.avatar
 				this.form.name = data.name
 				this.form.group = data.group

@@ -34,7 +34,7 @@
 								<el-avatar :src="scope.row.avatar" size="small"></el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column label="登录账号" prop="userName" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
+						<el-table-column label="登录账号" prop="username" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
 						<el-table-column label="姓名" prop="name" width="150" sortable='custom'></el-table-column>
 						<el-table-column label="所属角色" prop="groupName" width="200" sortable='custom'></el-table-column>
 						<el-table-column label="加入时间" prop="date" width="170" sortable='custom'></el-table-column>

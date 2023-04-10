@@ -23,8 +23,8 @@
 			</el-form-item>
 		</el-form>
 		<el-form v-if="stepActive==1" ref="stepForm_1" :model="form" :rules="rules" :label-width="120">
-			<el-form-item label="真实姓名" prop="userName">
-				<el-input v-model="form.userName" placeholder="请输入真实姓名"></el-input>
+			<el-form-item label="真实姓名" prop="username">
+				<el-input v-model="form.username" placeholder="请输入真实姓名"></el-input>
 			</el-form-item>
 			<el-form-item label="邮箱" prop="email">
 				<el-input v-model="form.email" placeholder="请输入邮箱地址"></el-input>
@@ -83,7 +83,7 @@
 					password: "",
 					password2: "",
 					agree: false,
-					userName: "",
+					username: "",
 					email: "",
 					userType: "1",
 					open: []
@@ -114,7 +114,7 @@
 							}
 						}}
 					],
-					userName: [
+					username: [
 						{ required: true, message: '请输入真实姓名'}
 					],
 					email: [

@@ -26,8 +26,9 @@ export default {
 		wechatLoginTitle: 'QR code sign in',
 		wechatLoginMsg: 'Please use wechat to scan and log in | Auto scan after 3 seconds of simulation',
 		wechatLoginResult: 'Scanned | Please click authorize login in the device',
-		organization: 'Organization',
 		merchant: 'Merchant',
+		enterprise: 'Enterprise',
+		organization: 'Organization',
 		loginSuccess: 'Login Success',
 	},
 	user: {

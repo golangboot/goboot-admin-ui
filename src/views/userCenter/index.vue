@@ -5,7 +5,7 @@
 				<el-header style="height: auto;display: block;">
 					<div class="user-info-top">
 						<el-avatar :size="70" src="img/avatar.jpg"></el-avatar>
-						<h2>{{ user.userName }}</h2>
+						<h2>{{ user.username }}</h2>
 						<p><el-tag effect="dark" round size="large" disable-transitions>{{ user.role }}</el-tag></p>
 					</div>
 				</el-header>
@@ -105,7 +105,7 @@
 					}
 				],
 				user: {
-					userName: "GoUI",
+					username: "GoUI",
 					role: "超级管理员",
 				},
 				page: "account"

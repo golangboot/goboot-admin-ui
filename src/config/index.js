@@ -76,7 +76,29 @@ const DEFAULT_CONFIG = {
 			['about', 'ver'],
 			['time', 'progress']
 		]
-	}
+	},
+
+	SYSTEM: {
+		// 系统名称
+		NAME: process.env.VUE_SYSTEM_NAME || "GoBoot",
+		// 系统版本号
+		VERSION: process.env.VUE_SYSTEM_VERSION || "1.0.0",
+		// 系统开发者
+		AUTHOR: process.env.VUE_SYSTEM_SUPPORT_URL || "鸿宇科技",
+		// 系统支持网址
+		SUPPORT_URL: process.env.VUE_SYSTEM_SUPPORT_URL || "http://hongyuvip.com",
+	},
+
+	// 数据CODE编码
+	DATA_CODE: {
+		TOKEN: 'TOKEN',
+		USER_INFO: 'USER_INF',
+		MENU: 'MENUS',
+		PERMISSION: 'PERMISSIONS',
+		DASHBOARD_GRID: 'DASHBOARD_GRID',
+		GRID: 'GRID',
+		SEARCH_HISTORY: 'SEARCH_HISTORY',
+	},
 }
 
 //合并业务配置

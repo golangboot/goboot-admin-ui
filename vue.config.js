@@ -17,11 +17,19 @@ module.exports = defineConfig({
 		proxy: {
 			//TODO: 开发调试中...
 			'/api/token': {
-				target: 'http://localhost:8188',
+				target: 'http://localhost:8000',
 				ws: true,
 				changeOrigin: true,
 				pathRewrite: {
-					'^/api/token': '/api/auth/token'
+					'^/api/token': '/api/auth/login'
+				}
+			},
+			'/api/system/menu/my/1.6.1': {
+				target: 'http://localhost:8000',
+				ws: true,
+				changeOrigin: true,
+				pathRewrite: {
+					'^/api/system/menu/my/1.6.1': '/api/system/menu/myMenus'
 				}
 			},
 			'/api': {
