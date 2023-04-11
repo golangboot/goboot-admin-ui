@@ -18,22 +18,23 @@ module.exports = defineConfig({
 			//TODO: 开发调试中...
 			'/api/token': {
 				target: 'http://localhost:8000',
+				// changeOrigin: true,
 				ws: true,
-				changeOrigin: true,
 				pathRewrite: {
 					'^/api/token': '/api/auth/login'
 				}
 			},
-			'/api/system/menu/my/1.6.1': {
+			'/api/system/menu': {
 				target: 'http://localhost:8000',
+				// changeOrigin: true,
 				ws: true,
-				changeOrigin: true,
 				pathRewrite: {
-					'^/api/system/menu/my/1.6.1': '/api/system/menu/myMenus'
+					'^/api/system/menu': '/api/system/menu'
 				}
 			},
 			'/api': {
 				target: process.env.VUE_APP_API_BASEURL,
+				// changeOrigin: true, // 处理跨域
 				ws: true,
 				pathRewrite: {
 					'^/api': '/'

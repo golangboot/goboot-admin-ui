@@ -11,7 +11,7 @@
 						<el-input v-model="form.meta.title" clearable placeholder="菜单显示名字"></el-input>
 					</el-form-item>
 					<el-form-item label="上级菜单" prop="parentId">
-						<el-cascader v-model="form.parentId" :options="menuOptions" :props="menuProps" :show-all-levels="false" placeholder="顶级菜单" clearable disabled></el-cascader>
+						<el-cascader v-model="form.parentId" :options="menuOptions" :props="menuProps" :show-all-levels="false" placeholder="顶级菜单" clearable></el-cascader>
 					</el-form-item>
 					<el-form-item label="类型" prop="meta.type">
 						<el-radio-group v-model="form.meta.type">
@@ -46,7 +46,6 @@
 					</el-form-item>
 					<el-form-item label="颜色" prop="color">
 						<el-color-picker v-model="form.meta.color" :predefine="predefineColors"></el-color-picker>
-
 					</el-form-item>
 					<el-form-item label="是否隐藏" prop="meta.hidden">
 						<el-checkbox v-model="form.meta.hidden">隐藏菜单</el-checkbox>
@@ -65,7 +64,13 @@
 				</el-form>
 
 			</el-col>
-			<el-col :lg="12" class="apilist">
+			<el-col :lg="12" class="api-list">
+				<h2>接口角色</h2>
+				<el-form-item label="所属角色" prop="group">
+					<el-select v-model="form.meta.role" multiple filterable style="width: 100%">
+						<el-option v-for="item in sysRoles" :key="item.id" :label="item.label" :value="item.alias"/>
+					</el-select>
+				</el-form-item>
 				<h2>接口权限</h2>
 				<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
 					<el-table-column prop="code" label="标识" width="150">
@@ -113,7 +118,8 @@
 						fullpage: false,
 						tag: "",
 					},
-					apiList: []
+					apiList: [],
+					role: [],
 				},
 				menuOptions: [],
 				menuProps: {
@@ -131,6 +137,12 @@
 					'#c71585'
 				],
 				rules: [],
+				sysRoles: [],
+				sysRolesProps: {
+					value: "id",
+					multiple: true,
+					checkStrictly: true
+				},
 				apiListAddTemplate: {
 					code: "",
 					url: ""
@@ -147,9 +159,14 @@
 			}
 		},
 		mounted() {
-
+			this.getSysRoles()
 		},
 		methods: {
+			//加载树数据
+			async getSysRoles(){
+				var res = await this.$API.system.role.list.get();
+				this.sysRoles = res.data.rows;
+			},
 			//简单化菜单
 			treeToMap(tree){
 				const map = []
@@ -167,7 +184,7 @@
 			//保存
 			async save(){
 				this.loading = true
-				var res = await this.$API.demo.post.post(this.form)
+				var res = await this.$API.system.menu.update.put(this.form)
 				this.loading = false
 				if(res.code == 200){
 					this.$message.success("保存成功")
@@ -187,8 +204,8 @@
 
 <style scoped>
 	h2 {font-size: 17px;color: #3c4a54;padding:0 0 30px 0;}
-	.apilist {border-left: 1px solid #eee;}
+	.api-list {border-left: 1px solid #eee;}
 
 	[data-theme="dark"] h2 {color: #fff;}
-	[data-theme="dark"] .apilist {border-color: #434343;}
+	[data-theme="dark"] .api-list {border-color: #434343;}
 </style>
