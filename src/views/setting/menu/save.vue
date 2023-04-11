@@ -184,7 +184,12 @@
 			//保存
 			async save(){
 				this.loading = true
-				var res = await this.$API.system.menu.update.put(this.form)
+				var res
+				if (this.form.id) {
+					res = await this.$API.system.menu.update.put(this.form)
+				} else {
+					res = await this.$API.system.menu.add.post(this.form)
+				}
 				this.loading = false
 				if(res.code == 200){
 					this.$message.success("保存成功")

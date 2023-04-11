@@ -85,9 +85,34 @@
 				return targetText.indexOf(value) !== -1;
 			},
 			//树拖拽
-			nodeDrop(draggingNode, dropNode, dropType){
+			async nodeDrop(draggingNode, dropNode, dropType){
 				this.$refs.save.setData({})
 				this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
+
+				var parentId = dropNode.data.parentId || 0;
+				var sort = dropType === 'before' ? parseInt(dropNode.data.sort) - 1 : parseInt(dropNode.data.sort) + 1;
+				// console.log('dropType:', dropType); // dropType: before | after
+				// console.log('parentId:', parentId);
+				// console.log('sort:', sort);
+				// console.log('dropNode.data:', dropNode.data);
+				// console.log('draggingNode.data:', draggingNode.data);
+
+				var data = draggingNode.data;
+				data.parentId = parentId;
+				data.sort = sort;
+				this.loading = true
+				var res
+				if (data.id) {
+					res = await this.$API.system.menu.update.put(data)
+				} else {
+					res = await this.$API.system.menu.add.post(data)
+				}
+				this.loading = false
+				if (res.code == 200) {
+					this.$message.success("保存成功")
+				} else {
+					this.$message.warning(res.message)
+				}
 			},
 			//增加
 			async add(node, data){
