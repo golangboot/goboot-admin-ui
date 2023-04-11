@@ -18,7 +18,6 @@ module.exports = defineConfig({
 			//TODO: 开发调试中...
 			'/api/token': {
 				target: 'http://localhost:8000',
-				// changeOrigin: true,
 				ws: true,
 				pathRewrite: {
 					'^/api/token': '/api/auth/login'
@@ -26,10 +25,16 @@ module.exports = defineConfig({
 			},
 			'/api/system/menu': {
 				target: 'http://localhost:8000',
-				// changeOrigin: true,
 				ws: true,
 				pathRewrite: {
 					'^/api/system/menu': '/api/system/menu'
+				}
+			},
+			'/api/system/role': {
+				target: 'http://localhost:8000',
+				ws: true,
+				pathRewrite: {
+					'^/api/system/role': '/api/system/role'
 				}
 			},
 			'/api': {

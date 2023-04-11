@@ -65,12 +65,12 @@
 
 			</el-col>
 			<el-col :lg="12" class="api-list">
-				<h2>接口角色</h2>
+				<!--<h2>接口角色</h2>
 				<el-form-item label="所属角色" prop="group">
 					<el-select v-model="form.meta.role" multiple filterable style="width: 100%">
 						<el-option v-for="item in sysRoles" :key="item.id" :label="item.label" :value="item.alias"/>
 					</el-select>
-				</el-form-item>
+				</el-form-item>-->
 				<h2>接口权限</h2>
 				<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
 					<el-table-column prop="code" label="标识" width="150">
@@ -159,7 +159,7 @@
 			}
 		},
 		mounted() {
-			this.getSysRoles()
+			// this.getSysRoles()
 		},
 		methods: {
 			//加载树数据

@@ -79,7 +79,7 @@ export default {
 	},
 	role: {
 		list: {
-			url: `${config.API_URL}/system/role/list2`,
+			url: `${config.API_URL}/system/role/list`,
 			name: "获取角色列表",
 			get: async function(params){
 				return await http.get(this.url, params);

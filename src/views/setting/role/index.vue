@@ -16,17 +16,17 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="#" type="index" width="50"></el-table-column>
-				<el-table-column label="角色名称" prop="label" width="150"></el-table-column>
-				<el-table-column label="别名" prop="alias" width="200"></el-table-column>
+				<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
+				<el-table-column label="角色名称" prop="name" width="150"></el-table-column>
+				<el-table-column label="编码" prop="code" width="200"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80"></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
-						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" active-value="1" inactive-value="0"></el-switch>
+						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
-				<el-table-column label="创建时间" prop="date" width="180"></el-table-column>
-				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
+				<el-table-column label="创建时间" prop="create_time" width="180"></el-table-column>
+				<el-table-column label="备注" prop="description" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
