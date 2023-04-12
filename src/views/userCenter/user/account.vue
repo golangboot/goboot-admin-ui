@@ -30,7 +30,7 @@
 					<el-option label="女" :value="2"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="生日" prop="date">
+			<el-form-item label="生日" prop="birthday">
 				<el-date-picker type="date" placeholder="选择日期" v-model="form.birthday"></el-date-picker>
 			</el-form-item>
 			<el-form-item>
@@ -91,7 +91,7 @@
 			},
 			submit() {
 				this.$refs.form.validate(async (valid) => {
-					console.log(`valid:${valid}`)
+					// console.log(`valid:${valid}`)
 					if (valid) {
 						this.isSaving = true;
 						const res = await this.$API.user.setUserInfo.post(this.form);

@@ -15,7 +15,7 @@
 				<el-input v-model="form.confirmNewPassword" type="password" show-password placeholder="请再次输入新密码"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="save">保存密码</el-button>
+				<el-button type="primary" :loading="isSaving" @click="save">保存密码</el-button>
 			</el-form-item>
 		</el-form>
 	</el-card>
@@ -30,6 +30,7 @@
 		},
 		data() {
 			return {
+				isSaving: false,
 				form: {
 					userPassword: "",
 					newPassword: "",
@@ -57,16 +58,26 @@
 		},
 		methods: {
 			save(){
-				this.$refs.form.validate(valid => {
+				this.$refs.form.validate(async (valid) => {
 					if (valid) {
-						this.$alert("密码修改成功，是否跳转至登录页使用新密码登录", "修改成功", {
-							type: 'success',
-							center: true
-						}).then(() => {
-							this.$router.replace({
-								path: '/login'
-							})
-						}).catch(() => {})
+						this.isSaving = true;
+						const res = await this.$API.user.changeUserPassword.post(this.form);
+						this.isSaving = false;
+						if (res.code == 200) {
+							this.$emit('success', this.form, this.mode)
+							this.visible = false;
+							this.$message.success("操作成功")
+							this.$alert("密码修改成功，是否跳转至登录页使用新密码登录", "修改成功", {
+								type: 'success',
+								center: true
+							}).then(() => {
+								this.$router.replace({
+									path: '/login'
+								})
+							}).catch(() => {})
+						} else {
+							await this.$alert(res.message, "提示", {type: 'error'})
+						}
 					}else{
 						return false
 					}

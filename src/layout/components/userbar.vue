@@ -47,7 +47,8 @@
 		</div>
 		<el-dropdown class="user panel-item" trigger="click" @command="handleUser">
 			<div class="user-avatar">
-				<el-avatar :size="30">{{ usernameF }}</el-avatar>
+				<el-avatar :size="30" :src="userInfo.avatar" v-if="userInfo && userInfo.avatar"></el-avatar>
+				<el-avatar :size="30" v-else>{{ usernameF }}</el-avatar>
 				<label>{{ username }}</label>
 				<el-icon class="el-icon--right"><el-icon-arrow-down /></el-icon>
 			</div>
@@ -82,6 +83,7 @@
 		},
 		data(){
 			return {
+				userInfo: {},
 				username: "",
 				usernameF: "",
 				searchVisible: false,
@@ -120,6 +122,7 @@
 		},
 		created() {
 			var userInfo = this.$TOOL.data.get(this.$CONFIG.DATA_CODE.USER_INFO);
+			this.userInfo = userInfo;
 			this.username = userInfo.username;
 			this.usernameF = this.username.substring(0,1);
 		},
