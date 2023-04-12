@@ -31,7 +31,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="生日" prop="birthday">
-				<el-date-picker type="date" placeholder="选择日期" v-model="form.birthday"></el-date-picker>
+				<el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" :loading="isSaving" @click="submit()">保存</el-button>
