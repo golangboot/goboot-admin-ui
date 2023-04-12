@@ -33,6 +33,13 @@ export default {
 			return await http.post(this.url, params)
 		}
 	},
+	getLogRecord: {
+		url: `${config.API_URL}/user/getLogRecord`,
+		name: "获取用户日志记录",
+		get: async function(params){
+			return await http.get(this.url, params)
+		}
+	},
 	list: {
 		url: `${config.API_URL}/api/user/list`,
 		name: "用户列表",
