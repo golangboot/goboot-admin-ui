@@ -30,6 +30,13 @@ module.exports = defineConfig({
 					'^/api/auth': '/api/auth'
 				}
 			},
+			'/api/upload': {
+				target: 'http://localhost:8000',
+				ws: true,
+				pathRewrite: {
+					'^/api/upload': '/api/upload'
+				}
+			},
 			'/api/user': {
 				target: 'http://localhost:8000',
 				ws: true,
