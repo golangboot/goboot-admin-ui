@@ -91,7 +91,10 @@
 
 				var parentId = dropNode.data.parentId || 0;
 				var sort = dropType === 'before' ? parseInt(dropNode.data.sort) - 1 : parseInt(dropNode.data.sort) + 1;
-				// console.log('dropType:', dropType); // dropType: before | after
+				if (dropType === 'inner'){
+					parentId = dropNode.data.id;
+				}
+				// console.log('dropType:', dropType); // dropType: before | after | inner
 				// console.log('parentId:', parentId);
 				// console.log('sort:', sort);
 				// console.log('dropNode.data:', dropNode.data);
@@ -158,7 +161,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.system.menu.batchDelete.delete(reqData)
+				var res = await this.$API.system.menu.delete.delete(reqData)
 				this.menuloading = false
 
 				if(res.code == 200){

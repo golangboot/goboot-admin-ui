@@ -43,14 +43,11 @@ export default {
 			url: `${config.API_URL}/system/menu`,
 			name: "删除菜单",
 			delete: async function(data){
-				return await http.delete(`${this.url}/${data.id}`, data);
-			}
-		},
-		batchDelete: {
-			url: `${config.API_URL}/system/menu/batchDelete`,
-			name: "删除菜单",
-			delete: async function(data){
-				return await http.delete(`${this.url}`, data);
+				let id = data.id;
+				if (data.ids) {
+					id = data.ids.join(',');
+				}
+				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
 	},
@@ -84,7 +81,39 @@ export default {
 			get: async function(params){
 				return await http.get(this.url, params);
 			}
-		}
+		},
+		add: {
+			url: `${config.API_URL}/system/role`,
+			name: "添加菜单",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
+		show: {
+			url: `${config.API_URL}/system/role`,
+			name: "查看菜单",
+			get: async function(data){
+				return await http.get(`${this.url}/${data.id}`, data);
+			}
+		},
+		update: {
+			url: `${config.API_URL}/system/role`,
+			name: "更新菜单",
+			put: async function(data){
+				return await http.put(`${this.url}/${data.id}`, data);
+			}
+		},
+		delete: {
+			url: `${config.API_URL}/system/role`,
+			name: "删除菜单",
+			delete: async function(data){
+				let id = data.id;
+				if (data.ids) {
+					id = data.ids.join(',');
+				}
+				return await http.delete(`${this.url}/${id}`, data);
+			}
+		},
 	},
 	dept: {
 		list: {

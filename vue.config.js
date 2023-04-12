@@ -23,6 +23,20 @@ module.exports = defineConfig({
 					'^/api/token': '/api/auth/login'
 				}
 			},
+			'/api/auth': {
+				target: 'http://localhost:8000',
+				ws: true,
+				pathRewrite: {
+					'^/api/auth': '/api/auth'
+				}
+			},
+			'/api/user': {
+				target: 'http://localhost:8000',
+				ws: true,
+				pathRewrite: {
+					'^/api/user': '/api/user'
+				}
+			},
 			'/api/system/menu': {
 				target: 'http://localhost:8000',
 				ws: true,
