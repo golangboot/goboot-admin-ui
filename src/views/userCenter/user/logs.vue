@@ -1,20 +1,24 @@
 <template>
 	<el-card shadow="never" header="近7天操作记录">
 		<scTable ref="table" :apiObj="apiObj" :pageSize="10" row-key="id" @selection-change="selectionChange" stripe height="auto" paginationLayout="total, prev, pager, next" hideDo>
-			<sc-table-column label="序号" type="index"></sc-table-column>
+			<!--<sc-table-column label="序号" type="index"></sc-table-column>-->
+			<el-table-column label="ID" prop="id" min-width="150" sortable='custom'></el-table-column>
 			<!-- <sc-table-column label="业务类型" prop="type" min-width="100"></sc-table-column> -->
 			<!-- <sc-table-column label="业务编号" prop="bizNo" min-width="100"></sc-table-column> -->
-			<sc-table-column label="操作" prop="action" min-width="240"></sc-table-column>
-			<sc-table-column label="IP" prop="ip" width="150"></sc-table-column>
-			<sc-table-column label="地址" prop="ipAddress" min-width="100"></sc-table-column>
-			<sc-table-column label="结果" prop="fail" width="150">
+			<sc-table-column label="操作" prop="action" min-width="150"></sc-table-column>
+			<sc-table-column label="请求接口" prop="uri" min-width="200"></sc-table-column>
+			<sc-table-column label="请求方法" prop="method" min-width="80"></sc-table-column>
+			<sc-table-column label="浏览器" prop="browser" min-width="80"></sc-table-column>
+			<sc-table-column label="IP" prop="ip" min-width="100"></sc-table-column>
+			<sc-table-column label="IP地址" prop="ipAddress" min-width="100"></sc-table-column>
+			<sc-table-column label="结果" prop="fail" width="80">
 				<template #default="scope">
 				<el-tag type="success" v-if="!scope.row.fail">成功</el-tag>
 				<el-tag type="warning" v-else>失败</el-tag>
 				</template>
 			</sc-table-column>
 			<sc-table-column label="操作时间" prop="createTime" width="150"></sc-table-column>
-			<el-table-column label="操作" fixed="right" align="right" width="160">
+			<el-table-column label="操作" fixed="right" align="center" min-width="100">
 				<template #default="scope">
 					<el-button-group>
 						<!-- <el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button> -->
@@ -47,7 +51,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.user.getLogRecord,
+				apiObj: this.$API.user.logRecord,
 				selection: [],
 				data: [
 					{
@@ -96,7 +100,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.user.del.post(reqData);
+				var res = await this.$API.user.deleteLogRecord.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);

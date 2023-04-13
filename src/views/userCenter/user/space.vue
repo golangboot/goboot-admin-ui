@@ -4,22 +4,22 @@
 		<el-row :gutter="15" style="margin-top: 20px;">
 			<el-col :lg="6">
 				<el-card shadow="never">
-					<sc-statistic title="文档" value="7.41" suffix="GB" groupSeparator></sc-statistic>
+					<sc-statistic title="文档" value="0" suffix="GB" groupSeparator></sc-statistic>
 				</el-card>
 			</el-col>
 			<el-col :lg="6">
 				<el-card shadow="never">
-					<sc-statistic title="图片" value="12.90" suffix="GB" groupSeparator></sc-statistic>
+					<sc-statistic title="图片" value="0" suffix="GB" groupSeparator></sc-statistic>
 				</el-card>
 			</el-col>
 			<el-col :lg="6">
 				<el-card shadow="never">
-					<sc-statistic title="视音频" value="68.79" suffix="MB" groupSeparator></sc-statistic>
+					<sc-statistic title="视音频" value="0" suffix="MB" groupSeparator></sc-statistic>
 				</el-card>
 			</el-col>
 			<el-col :lg="6">
 				<el-card shadow="never">
-					<sc-statistic title="其他" value="17.58" suffix="GB" groupSeparator></sc-statistic>
+					<sc-statistic title="其他" value="0" suffix="GB" groupSeparator></sc-statistic>
 				</el-card>
 			</el-col>
 		</el-row>
@@ -35,7 +35,7 @@
 		},
 		data() {
 			return {
-				value: 39.58,
+				value: 0,
 				color: [
 					{ color: '#67C23A', percentage: 40 },
 					{ color: '#E6A23C', percentage: 60 },

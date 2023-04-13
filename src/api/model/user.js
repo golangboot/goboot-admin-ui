@@ -33,11 +33,18 @@ export default {
 			return await http.post(this.url, params)
 		}
 	},
-	getLogRecord: {
-		url: `${config.API_URL}/user/getLogRecord`,
+	logRecord: {
+		url: `${config.API_URL}/user/logRecord`,
 		name: "获取用户日志记录",
 		get: async function(params){
 			return await http.get(this.url, params)
+		}
+	},
+	deleteLogRecord: {
+		url: `${config.API_URL}/user/logRecord`,
+		name: "删除用户日志记录",
+		delete: async function(data){
+			return await http.delete(`${this.url}/${data.id}`, data)
 		}
 	},
 	list: {

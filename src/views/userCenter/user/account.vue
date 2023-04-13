@@ -1,5 +1,5 @@
 <template>
-	<el-alert title="异步组件动态加载使用了正处于试验阶段的<Suspense>组件, 其API和使用方式可能会改变. <Suspense> is an experimental feature and its API will likely change." type="warning" show-icon style="margin-bottom: 15px;"/>
+	<!-- <el-alert title="异步组件动态加载使用了正处于试验阶段的<Suspense>组件, 其API和使用方式可能会改变. <Suspense> is an experimental feature and its API will likely change." type="warning" show-icon style="margin-bottom: 15px;"/> -->
 
 	<el-card shadow="never" header="个人信息">
 		<el-form ref="form" :model="form" :rules="rules" label-width="120px" style="margin-top:20px;">
@@ -86,7 +86,9 @@
 		},
 		methods: {
 			async getData() {
+				this.isSaving = true;
 				const res = await this.$API.user.getUserInfo.get();
+				this.isSaving = false;
 				this.form = res.data;
 			},
 			submit() {
