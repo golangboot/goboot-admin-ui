@@ -4,8 +4,8 @@
 			<el-container>
 				<el-header style="height: auto;display: block;">
 					<div class="user-info-top">
-						<el-avatar :size="70" src="img/avatar.jpg"></el-avatar>
-						<h2>{{ user.username }}</h2>
+						<el-avatar :size="70" :src="userInfo.avatar || 'img/avatar.jpg'"></el-avatar>
+						<h2>{{ userInfo.username || user.username }}</h2>
 						<p><el-tag effect="dark" round size="large" disable-transitions>{{ user.role }}</el-tag></p>
 					</div>
 				</el-header>
@@ -108,6 +108,7 @@
 					username: "GoUI",
 					role: "超级管理员",
 				},
+				userInfo: {},
 				page: "account"
 			}
 		},
@@ -125,10 +126,19 @@
 				}
 			})
 		},
+		mounted() {
+			this.getData();
+		},
 		methods: {
 			openPage(item){
 				this.page = item.index
-			}
+			},
+			async getData() {
+				this.isSaving = true;
+				const res = await this.$API.user.getUserInfo.get();
+				this.isSaving = false;
+				this.userInfo = res.data;
+			},
 		}
 	}
 </script>

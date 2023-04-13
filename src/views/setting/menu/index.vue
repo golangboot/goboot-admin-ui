@@ -87,7 +87,7 @@
 			//树拖拽
 			async nodeDrop(draggingNode, dropNode, dropType){
 				this.$refs.save.setData({})
-				this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
+				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
 
 				var parentId = dropNode.data.parentId || 0;
 				var sort = dropType === 'before' ? parseInt(dropNode.data.sort) - 1 : parseInt(dropNode.data.sort) + 1;
@@ -101,8 +101,8 @@
 				// console.log('draggingNode.data:', draggingNode.data);
 
 				var data = draggingNode.data;
-				data.parentId = parentId;
-				data.sort = sort;
+				data.parentId = parentId || 0;
+				data.sort = sort || 1000;
 				this.loading = true
 				var res
 				if (data.id) {
@@ -133,7 +133,7 @@
 				this.menuloading = true
 				var res = await this.$API.system.menu.add.post(newMenuData)
 				this.menuloading = false
-				newMenuData.id = res.data
+				newMenuData.id = res.data.id || res.data
 
 				this.$refs.menu.append(newMenuData, node)
 				this.$refs.menu.setCurrentKey(newMenuData.id)

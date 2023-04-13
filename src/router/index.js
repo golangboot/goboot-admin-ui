@@ -75,7 +75,11 @@ router.beforeEach(async (to, from, next) => {
 		var menuRouter = filterAsyncRouter(menu)
 		menuRouter = flatAsyncRoutes(menuRouter)
 		menuRouter.forEach(item => {
-			router.addRoute("layout", item)
+			try {
+				router.addRoute("layout", item)
+			} catch (e) {
+				console.error('router.addRoute error:', e);
+			}
 		})
 		routes_404_r = router.addRoute(routes_404)
 		if (to.matched.length == 0) {
