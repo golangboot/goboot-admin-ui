@@ -26,7 +26,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="create_time" width="180"></el-table-column>
-				<el-table-column label="备注" prop="description" min-width="150"></el-table-column>
+				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>

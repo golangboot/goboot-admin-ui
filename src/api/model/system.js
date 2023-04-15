@@ -5,42 +5,42 @@ export default {
 	menu: {
 		tree: {
 			url: `${config.API_URL}/system/menu/tree`,
-			name: "获取菜单树",
+			name: "列表树",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		list: {
-			url: `${config.API_URL}/system/menu/list`,
-			name: "获取菜单",
+			url: `${config.API_URL}/system/menu`,
+			name: "获取",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		add: {
 			url: `${config.API_URL}/system/menu`,
-			name: "添加菜单",
+			name: "添加",
 			post: async function(data){
 				return await http.post(this.url, data);
 			}
 		},
 		show: {
 			url: `${config.API_URL}/system/menu`,
-			name: "查看菜单",
+			name: "查看",
 			get: async function(data){
 				return await http.get(`${this.url}/${data.id}`, data);
 			}
 		},
 		update: {
 			url: `${config.API_URL}/system/menu`,
-			name: "更新菜单",
+			name: "更新",
 			put: async function(data){
 				return await http.put(`${this.url}`, data);
 			}
 		},
 		delete: {
 			url: `${config.API_URL}/system/menu`,
-			name: "删除菜单",
+			name: "删除",
 			delete: async function(data){
 				let id = data.id;
 				if (data.ids) {
@@ -59,7 +59,7 @@ export default {
 			}
 		},
 		list: {
-			url: `${config.API_URL}/system/dict/list`,
+			url: `${config.API_URL}/system/dict`,
 			name: "列表",
 			get: async function(data){
 				return await http.get(this.url, data);
@@ -100,7 +100,7 @@ export default {
 	},
 	dictItem: {
 		list: {
-			url: `${config.API_URL}/system/dictItem/list`,
+			url: `${config.API_URL}/system/dictItem`,
 			name: "列表",
 			get: async function(data){
 				return await http.get(this.url, data);
@@ -141,36 +141,36 @@ export default {
 	},
 	role: {
 		list: {
-			url: `${config.API_URL}/system/role/list`,
-			name: "获取角色列表",
+			url: `${config.API_URL}/system/role`,
+			name: "列表",
 			get: async function(params){
 				return await http.get(this.url, params);
 			}
 		},
 		add: {
 			url: `${config.API_URL}/system/role`,
-			name: "添加菜单",
+			name: "添加",
 			post: async function(data){
 				return await http.post(this.url, data);
 			}
 		},
 		show: {
 			url: `${config.API_URL}/system/role`,
-			name: "查看菜单",
+			name: "查看",
 			get: async function(data){
 				return await http.get(`${this.url}/${data.id}`, data);
 			}
 		},
 		update: {
 			url: `${config.API_URL}/system/role`,
-			name: "更新菜单",
+			name: "更新",
 			put: async function(data){
 				return await http.put(`${this.url}/${data.id}`, data);
 			}
 		},
 		delete: {
 			url: `${config.API_URL}/system/role`,
-			name: "删除菜单",
+			name: "删除",
 			delete: async function(data){
 				let id = data.id;
 				if (data.ids) {
@@ -182,16 +182,48 @@ export default {
 	},
 	dept: {
 		list: {
-			url: `${config.API_URL}/system/dept/list`,
-			name: "获取部门列表",
-			get: async function(params){
-				return await http.get(this.url, params);
+			url: `${config.API_URL}/system/department`,
+			name: "列表",
+			get: async function(data){
+				return await http.get(this.url, data);
 			}
-		}
+		},
+		add: {
+			url: `${config.API_URL}/system/department`,
+			name: "添加",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
+		show: {
+			url: `${config.API_URL}/system/department`,
+			name: "查看",
+			get: async function(data){
+				return await http.get(`${this.url}/${data.id}`, data);
+			}
+		},
+		update: {
+			url: `${config.API_URL}/system/department`,
+			name: "更新",
+			put: async function(data){
+				return await http.put(`${this.url}`, data);
+			}
+		},
+		delete: {
+			url: `${config.API_URL}/system/department`,
+			name: "删除",
+			delete: async function(data){
+				let id = data.id;
+				if (data.ids) {
+					id = data.ids.join(',');
+				}
+				return await http.delete(`${this.url}/${id}`, data);
+			}
+		},
 	},
 	user: {
 		list: {
-			url: `${config.API_URL}/system/user/list`,
+			url: `${config.API_URL}/system/user`,
 			name: "获取用户列表",
 			get: async function(params){
 				return await http.get(this.url, params);
@@ -200,7 +232,7 @@ export default {
 	},
 	app: {
 		list: {
-			url: `${config.API_URL}/system/app/list`,
+			url: `${config.API_URL}/system/app`,
 			name: "应用列表",
 			get: async function(){
 				return await http.get(this.url);
@@ -209,7 +241,7 @@ export default {
 	},
 	log: {
 		list: {
-			url: `${config.API_URL}/system/log/list`,
+			url: `${config.API_URL}/system/log`,
 			name: "日志列表",
 			get: async function(params){
 				return await http.get(this.url, params);
@@ -218,7 +250,7 @@ export default {
 	},
 	table: {
 		list: {
-			url: `${config.API_URL}/system/table/list`,
+			url: `${config.API_URL}/system/table`,
 			name: "表格列管理列表",
 			get: async function(params){
 				return await http.get(this.url, params);
@@ -234,7 +266,7 @@ export default {
 	},
 	tasks: {
 		list: {
-			url: `${config.API_URL}/system/tasks/list`,
+			url: `${config.API_URL}/system/tasks`,
 			name: "系统任务管理",
 			get: async function(params){
 				return await http.get(this.url, params);

@@ -13,7 +13,7 @@
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" active-value="1" inactive-value="0"></el-switch>
 			</el-form-item>
-			<el-form-item label="备注" prop="description">
+			<el-form-item label="备注" prop="remark">
 				<el-input v-model="form.description" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
@@ -44,7 +44,7 @@
 					code: "",
 					sort: 1,
 					status: 1,
-					description: ""
+					remark: ""
 				},
 				//验证规则
 				rules: {
