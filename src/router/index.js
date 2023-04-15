@@ -78,7 +78,7 @@ router.beforeEach(async (to, from, next) => {
 			try {
 				router.addRoute("layout", item)
 			} catch (e) {
-				console.error('router.addRoute error:', e);
+				console.warn('[router] addRoute error:', e);
 			}
 		})
 		routes_404_r = router.addRoute(routes_404)

@@ -6,7 +6,7 @@
 					<el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="menu" class="menu" node-key="id" :data="menuList" :props="menuProps" draggable highlight-current :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop">
+					<el-tree ref="menu" class="menu" node-key="id" :data="menuList" :props="menuProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop">
 
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
@@ -68,7 +68,7 @@
 			//加载树数据
 			async getMenu(){
 				this.menuloading = true
-				var res = await this.$API.system.menu.list.get();
+				var res = await this.$API.system.menu.tree.get();
 				this.menuloading = false
 				this.menuList = res.data;
 			},
@@ -88,34 +88,43 @@
 			async nodeDrop(draggingNode, dropNode, dropType){
 				this.$refs.save.setData({})
 				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
-
-				var parentId = dropNode.data.parentId || 0;
-				var sort = dropType === 'before' ? parseInt(dropNode.data.sort) - 1 : parseInt(dropNode.data.sort) + 1;
-				if (dropType === 'inner'){
-					parentId = dropNode.data.id;
-				}
 				// console.log('dropType:', dropType); // dropType: before | after | inner
-				// console.log('parentId:', parentId);
-				// console.log('sort:', sort);
 				// console.log('dropNode.data:', dropNode.data);
 				// console.log('draggingNode.data:', draggingNode.data);
 
+				// 父类id
+				var parentId = dropNode.data.parentId || 0;
+				if (dropType === 'inner'){
+					parentId = dropNode.data.id;
+				}
+				// 排序
+				var sort = dropNode.data.sort;
+				if (sort) {
+					sort = dropType === 'before' ? parseInt(sort) - 1 : parseInt(sort) + 1;
+				} else {
+					sort = 1000
+				}
+				// console.log('parentId:', parentId);
+				// console.log('sort:', sort);
 				var data = draggingNode.data;
-				data.parentId = parentId || 0;
-				data.sort = sort || 1000;
+				data.parentId = parentId;
+				data.sort = sort;
+
 				this.loading = true
+
 				var res
 				if (data.id) {
 					res = await this.$API.system.menu.update.put(data)
 				} else {
 					res = await this.$API.system.menu.add.post(data)
 				}
-				this.loading = false
 				if (res.code == 200) {
 					this.$message.success("保存成功")
 				} else {
 					this.$message.warning(res.message)
 				}
+
+				this.loading = false
 			},
 			//增加
 			async add(node, data){

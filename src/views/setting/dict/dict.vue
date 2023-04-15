@@ -8,7 +8,7 @@
 				<el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
 			</el-form-item>
 			<el-form-item label="父路径" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="dic" :props="dicProps" :show-all-levels="false" clearable></el-cascader>
+				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -44,8 +44,8 @@
 						{required: true, message: '请输入字典名称'}
 					]
 				},
-				dic: [],
-				dicProps: {
+				dict: [],
+				dictProps: {
 					value: "id",
 					label: "name",
 					emitPath: false,
@@ -54,7 +54,7 @@
 			}
 		},
 		mounted() {
-			this.getDic()
+			this.getDict()
 		},
 		methods: {
 			//显示
@@ -64,16 +64,22 @@
 				return this;
 			},
 			//获取字典列表
-			async getDic(){
-				var res = await this.$API.system.dic.tree.get();
-				this.dic = res.data;
+			async getDict(){
+				var res = await this.$API.system.dict.tree.get();
+				this.dict = res.data;
 			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
+						var res;
+						if (this.form.id) {
+							res = await this.$API.system.dict.update.put(this.form)
+						} else {
+							res = await this.$API.system.dict.add.post(this.form)
+							this.form.id = res.data.id
+						}
 						this.isSaveing = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)

@@ -1,20 +1,20 @@
 <template>
 	<el-container>
-		<el-aside width="300px" v-loading="showDicloading">
+		<el-aside width="300px" v-loading="showDictloading">
 			<el-container>
 				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="dicFilterText" clearable></el-input>
+					<el-input placeholder="输入关键字进行过滤" v-model="dictFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="dic" class="menu" node-key="id" :data="dicList" :props="dicProps" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="dicFilterNode" @node-click="dicClick">
+					<el-tree ref="dict" class="menu" node-key="id" :data="dictList" :props="dictProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="dictFilterNode" @node-click="dictClick" @node-drop="nodeDrop">
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
 								<span class="code">{{ data.code }}</span>
 								<span class="do">
 									<el-button-group>
-										<el-button icon="el-icon-edit" size="small" @click.stop="dicEdit(data)"></el-button>
-										<el-button icon="el-icon-delete" size="small" @click.stop="dicDel(node, data)"></el-button>
+										<el-button icon="el-icon-edit" size="small" @click.stop="dictEdit(data)"></el-button>
+										<el-button icon="el-icon-delete" size="small" @click.stop="dictDel(node, data)"></el-button>
 									</el-button-group>
 								</span>
 							</span>
@@ -22,7 +22,8 @@
 					</el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button type="primary" size="small" icon="el-icon-plus" style="width: 100%;" @click="addDic">字典分类</el-button>
+					<el-button type="primary" size="small" icon="el-icon-plus" @click="addDict"></el-button>
+					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="delDict"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
@@ -43,9 +44,9 @@
 					</el-table-column>
 					<el-table-column label="名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="键值" prop="key" width="150"></el-table-column>
-					<el-table-column label="是否有效" prop="yx" width="100">
+					<el-table-column label="是否有效" prop="status" width="100">
 						<template #default="scope">
-							<el-switch v-model="scope.row.yx" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_yx" active-value="1" inactive-value="0"></el-switch>
+							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="120">
@@ -65,33 +66,33 @@
 		</el-container>
 	</el-container>
 
-	<dic-dialog v-if="dialog.dic" ref="dicDialog" @success="handleDicSuccess" @closed="dialog.dic=false"></dic-dialog>
+	<dict-dialog v-if="dialog.dict" ref="dictDialog" @success="handleDictSuccess" @closed="dialog.dict=false"></dict-dialog>
 
 	<list-dialog v-if="dialog.list" ref="listDialog" @success="handleListSuccess" @closed="dialog.list=false"></list-dialog>
 
 </template>
 
 <script>
-	import dicDialog from './dic'
+	import dictDialog from './dict'
 	import listDialog from './list'
 	import Sortable from 'sortablejs'
 
 	export default {
-		name: 'dic',
+		name: 'dict',
 		components: {
-			dicDialog,
+			dictDialog,
 			listDialog
 		},
 		data() {
 			return {
 				dialog: {
-					dic: false,
+					dict: false,
 					info: false
 				},
-				showDicloading: true,
-				dicList: [],
-				dicFilterText: '',
-				dicProps: {
+				showDictloading: true,
+				dictList: [],
+				dictFilterText: '',
+				dictProps: {
 					label: 'name'
 				},
 				listApi: null,
@@ -100,89 +101,175 @@
 			}
 		},
 		watch: {
-			dicFilterText(val) {
-				this.$refs.dic.filter(val);
+			dictFilterText(val) {
+				this.$refs.dict.filter(val);
 			}
 		},
 		mounted() {
-			this.getDic()
+			this.getDict()
 			this.rowDrop()
 		},
 		methods: {
 			//加载树数据
-			async getDic(){
-				var res = await this.$API.system.dic.tree.get();
-				this.showDicloading = false;
-				this.dicList = res.data;
+			async getDict(){
+				var res = await this.$API.system.dict.tree.get();
+				this.showDictloading = false;
+				this.dictList = res.data;
 				//获取第一个节点,设置选中 & 加载明细列表
-				var firstNode = this.dicList[0];
+				var firstNode = this.dictList[0];
 				if(firstNode){
 					this.$nextTick(() => {
-						this.$refs.dic.setCurrentKey(firstNode.id)
+						this.$refs.dict.setCurrentKey(firstNode.id)
 					})
 					this.listApiParams = {
-						code: firstNode.code
+						dictId: firstNode.id,
+						// code: firstNode.code,
 					}
-					this.listApi = this.$API.system.dic.list;
+					this.listApi = this.$API.system.dictItem.list;
 				}
 			},
 			//树过滤
-			dicFilterNode(value, data){
+			dictFilterNode(value, data){
 				if (!value) return true;
 				var targetText = data.name + data.code;
 				return targetText.indexOf(value) !== -1;
 			},
 			//树增加
-			addDic(){
-				this.dialog.dic = true
+			addDict(){
+				this.dialog.dict = true
 				this.$nextTick(() => {
-					this.$refs.dicDialog.open()
+					this.$refs.dictDialog.open()
 				})
 			},
+			//批量删除选中字典
+			async delDict(){
+				var CheckedNodes = this.$refs.dict.getCheckedNodes()
+				if (CheckedNodes.length == 0) {
+					this.$message.warning("请选择需要删除的项")
+					return false;
+				}
+
+				var confirm = await this.$confirm('确认删除已选择的字典吗？', '提示', {
+					type: 'warning',
+					confirmButtonText: '删除',
+					confirmButtonClass: 'el-button--danger'
+				}).catch(() => {
+				})
+				if (confirm != 'confirm') {
+					return false
+				}
+
+				this.menuloading = true
+				var reqData = {
+					ids: CheckedNodes.map(item => item.id)
+				}
+				var res = await this.$API.system.dict.delete.delete(reqData)
+				this.menuloading = false
+
+				if (res.code == 200) {
+					CheckedNodes.forEach(item => {
+						var node = this.$refs.dict.getNode(item)
+						if (node.isCurrent) {
+							// this.$refs.save.setData({})
+						}
+						this.$refs.dict.remove(item)
+					})
+				} else {
+					this.$message.warning(res.message)
+				}
+			},
 			//编辑树
-			dicEdit(data){
-				this.dialog.dic = true
+			dictEdit(data){
+				this.dialog.dict = true
 				this.$nextTick(() => {
-					var editNode = this.$refs.dic.getNode(data.id);
+					var editNode = this.$refs.dict.getNode(data.id);
 					var editNodeParentId =  editNode.level==1?undefined:editNode.parent.data.id
 					data.parentId = editNodeParentId
-					this.$refs.dicDialog.open('edit').setData(data)
+					this.$refs.dictDialog.open('edit').setData(data)
 				})
 			},
 			//树点击事件
-			dicClick(data){
+			dictClick(data){
 				this.$refs.table.reload({
-					code: data.code
+					dictId: data.id,
+					// code: data.code,
 				})
 			},
 			//删除树
-			dicDel(node, data){
+			async dictDel(node, data){
 				this.$confirm(`确定删除 ${data.name} 项吗？`, '提示', {
 					type: 'warning'
-				}).then(() => {
-					this.showDicloading = true;
+				}).then(async () => {
+					this.showDictloading = true;
 
-					//删除节点是否为高亮当前 是的话 设置第一个节点高亮
-					var dicCurrentKey = this.$refs.dic.getCurrentKey();
-					this.$refs.dic.remove(data.id)
-					if(dicCurrentKey == data.id){
-						var firstNode = this.dicList[0];
-						if(firstNode){
-							this.$refs.dic.setCurrentKey(firstNode.id);
-							this.$refs.table.upData({
-								code: firstNode.code
-							})
-						}else{
-							this.listApi = null;
-							this.$refs.table.tableData = []
+					var reqData = {
+						id: data.id
+					}
+					var res = await this.$API.system.dict.delete.delete(reqData)
+					if (res.code == 200) {
+						//删除节点是否为高亮当前 是的话 设置第一个节点高亮
+						var dictCurrentKey = this.$refs.dict.getCurrentKey();
+						this.$refs.dict.remove(data.id)
+						if (dictCurrentKey == data.id) {
+							var firstNode = this.dictList[0];
+							if (firstNode) {
+								this.$refs.dict.setCurrentKey(firstNode.id);
+								this.$refs.table.upData({
+									code: firstNode.code
+								})
+							} else {
+								this.listApi = null;
+								this.$refs.table.tableData = []
+							}
 						}
+
+						this.$message.success("操作成功")
+					} else {
+						this.$message.warning(res.message)
 					}
 
-					this.showDicloading = false;
-					this.$message.success("操作成功")
+					this.showDictloading = false;
+
 				}).catch(() => {
 
 				})
+			},
+			//树拖拽
+			async nodeDrop(draggingNode, dropNode, dropType){
+				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
+
+				// 父类id
+				var parentId = dropNode.data.parentId || 0;
+				if (dropType === 'inner'){
+					parentId = dropNode.data.id;
+				}
+				// 排序
+				var sort = dropNode.data.sort;
+				if (sort) {
+					sort = dropType === 'before' ? parseInt(sort) - 1 : parseInt(sort) + 1;
+				} else {
+					sort = 1000
+				}
+
+				var data = draggingNode.data;
+				data.parentId = parentId;
+				data.sort = sort;
+
+				this.loading = true
+
+				var res
+				if (data.id) {
+					res = await this.$API.system.dict.update.put(data)
+				} else {
+					res = await this.$API.system.dict.add.post(data)
+				}
+				if (res.code == 200) {
+					this.$message.success("保存成功")
+				} else {
+					this.$message.warning(res.message)
+				}
+
+				this.loading = false
 			},
 			//行拖拽
 			rowDrop(){
@@ -204,9 +291,12 @@
 			addInfo(){
 				this.dialog.list = true
 				this.$nextTick(() => {
-					var dicCurrentKey = this.$refs.dic.getCurrentKey();
+					var dictCurrentKey = this.$refs.dict.getCurrentKey();
+					console.log('dictCurrentKey', dictCurrentKey)
 					const data = {
-						dic: dicCurrentKey
+						// dict: dictCurrentKey,
+						// dict: this.dictList,
+						dictId: dictCurrentKey,
 					}
 					this.$refs.listDialog.open().setData(data)
 				})
@@ -221,7 +311,7 @@
 			//删除明细
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.demo.post.post(reqData);
+				var res = await this.$API.system.dictItem.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.tableData.splice(index, 1);
 					this.$message.success("删除成功")
@@ -233,17 +323,28 @@
 			async batch_del(){
 				this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
 					type: 'warning'
-				}).then(() => {
+				}).then(async () => {
 					const loading = this.$loading();
-					this.selection.forEach(item => {
-						this.$refs.table.tableData.forEach((itemI, indexI) => {
-							if (item.id === itemI.id) {
-								this.$refs.table.tableData.splice(indexI, 1)
-							}
+
+					// var ids = this.selection.map(v => v.id)
+					var reqData = {
+						ids: this.selection.map(v => v.id)
+					}
+					var res = await this.$API.system.dictItem.delete.delete(reqData)
+					if (res.code == 200) {
+						this.selection.forEach(item => {
+							this.$refs.table.tableData.forEach((itemI, indexI) => {
+								if (item.id === itemI.id) {
+									this.$refs.table.tableData.splice(indexI, 1)
+								}
+							})
 						})
-					})
+						this.$message.success("操作成功")
+					} else {
+						this.$alert(res.message, "提示", {type: 'error'})
+					}
+
 					loading.close();
-					this.$message.success("操作成功")
 				}).catch(() => {
 
 				})
@@ -270,48 +371,54 @@
 			//表格内开关事件
 			changeSwitch(val, row){
 				//1.还原数据
-				row.yx = row.yx == '1'?'0':'1'
+				row.status = row.status == '1'?'0':'1'
 				//2.执行加载
-				row.$switch_yx = true;
+				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				setTimeout(()=>{
-					delete row.$switch_yx;
-					row.yx = val;
+					delete row.$switch_status;
+					row.status = val;
 					this.$message.success(`操作成功id:${row.id} val:${val}`)
 				}, 500)
 			},
 			//本地更新数据
-			handleDicSuccess(data, mode){
+			handleDictSuccess(data, mode){
+				console.log('handleDictSuccess data', data)
+				console.log('handleDictSuccess mode', mode)
 				if(mode=='add'){
-					data.id = new Date().getTime()
-					if(this.dicList.length > 0){
+					// data.id = new Date().getTime()
+					if(this.dictList.length > 0){
 						this.$refs.table.upData({
 							code: data.code
 						})
 					}else{
 						this.listApiParams = {
-							code: data.code
+							code: data.code,
 						}
-						this.listApi = this.$API.dic.info;
+						this.listApi = this.$API.dict.info;
 					}
-					this.$refs.dic.append(data, data.parentId[0])
-					this.$refs.dic.setCurrentKey(data.id)
+					this.$refs.dict.append(data, data.parentId[0])
+					this.$refs.dict.setCurrentKey(data.id)
 				}else if(mode=='edit'){
-					var editNode = this.$refs.dic.getNode(data.id);
+					var editNode = this.$refs.dict.getNode(data.id);
 					//判断是否移动？
 					var editNodeParentId =  editNode.level==1?undefined:editNode.parent.data.id
+					console.log('handleDictSuccess editNodeParentId', editNodeParentId)
 					if(editNodeParentId != data.parentId){
 						var obj = editNode.data;
-						this.$refs.dic.remove(data.id)
-						this.$refs.dic.append(obj, data.parentId[0])
+						this.$refs.dict.remove(data.id)
+						this.$refs.dict.append(obj, data.parentId[0])
 					}
 					Object.assign(editNode.data, data)
 				}
+				this.getDict()
 			},
 			//本地更新数据
 			handleListSuccess(data, mode){
+				console.log('handleListSuccess data', data)
+				console.log('handleListSuccess mode', mode)
 				if(mode=='add'){
-					data.id = new Date().getTime()
+					// data.id = new Date().getTime()
 					this.$refs.table.tableData.push(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

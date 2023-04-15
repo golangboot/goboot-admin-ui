@@ -118,11 +118,28 @@
 			async batch_del(){
 				this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？如果删除项中含有子集将会被一并删除`, '提示', {
 					type: 'warning'
-				}).then(() => {
+				}).then(async () => {
 					const loading = this.$loading();
-					this.$refs.table.refresh()
+
+					var reqData = {
+						ids: this.selection.map(v => v.id)
+					}
+					var res = await this.$API.system.role.delete.delete(reqData)
+					if (res.code == 200) {
+						this.selection.forEach(item => {
+							this.$refs.table.tableData.forEach((itemI, indexI) => {
+								if (item.id === itemI.id) {
+									this.$refs.table.tableData.splice(indexI, 1)
+								}
+							})
+						})
+						this.$message.success("操作成功")
+					} else {
+						this.$alert(res.message, "提示", {type: 'error'})
+					}
+
+					// this.$refs.table.refresh()
 					loading.close();
-					this.$message.success("操作成功")
 				}).catch(() => {
 
 				})

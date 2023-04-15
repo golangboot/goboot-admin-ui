@@ -1,17 +1,17 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="400" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="所属字典" prop="dic">
-				<el-cascader v-model="form.dic" :options="dic" :props="dicProps" :show-all-levels="false" clearable></el-cascader>
+			<el-form-item label="所属字典" prop="dictId">
+				<el-cascader v-model="form.dictId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="键值" prop="key">
-				<el-input v-model="form.key" clearable></el-input>
+			<el-form-item label="键值" prop="value">
+				<el-input v-model="form.value" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="是否有效" prop="yx">
-				<el-switch v-model="form.yx" active-value="1" inactive-value="0"></el-switch>
+			<el-form-item label="是否有效" prop="status">
+				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -35,24 +35,24 @@
 				isSaveing: false,
 				form: {
 					id: "",
-					dic: "",
+					dictId: 0,
 					name: "",
-					key: "",
-					yx: "1"
+					value: "",
+					status: 1
 				},
 				rules: {
-					dic: [
+					dictId: [
 						{required: true, message: '请选择所属字典'}
 					],
 					name: [
 						{required: true, message: '请输入项名称'}
 					],
-					key: [
+					value: [
 						{required: true, message: '请输入键值'}
 					]
 				},
-				dic: [],
-				dicProps: {
+				dict: [],
+				dictProps: {
 					value: "id",
 					label: "name",
 					emitPath: false,
@@ -61,10 +61,11 @@
 			}
 		},
 		mounted() {
+			console.log('> this.params:', this.params)
 			if(this.params){
-				this.form.dic = this.params.code
+				this.form.dictId = this.params.dictId
 			}
-			this.getDic()
+			this.getDict()
 		},
 		methods: {
 			//显示
@@ -74,16 +75,22 @@
 				return this;
 			},
 			//获取字典列表
-			async getDic(){
-				var res = await this.$API.system.dic.tree.get();
-				this.dic = res.data;
+			async getDict(){
+				var res = await this.$API.system.dict.tree.get();
+				this.dict = res.data;
 			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
+						var res;
+						if (this.form.id) {
+							res = await this.$API.system.dictItem.update.put(this.form)
+						} else {
+							res = await this.$API.system.dictItem.add.post(this.form)
+							this.form.id = res.data.id
+						}
 						this.isSaveing = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
@@ -99,9 +106,14 @@
 			setData(data){
 				this.form.id = data.id
 				this.form.name = data.name
-				this.form.key = data.key
-				this.form.yx = data.yx
-				this.form.dic = data.dic
+				this.form.value = data.value
+				this.form.status = data.status || 1
+				// this.form.dict = data.dict
+				this.form.dictId = data.dictId
+
+				console.log('> setData data', data)
+				console.log('> setData form', this.form)
+
 			}
 		}
 	}

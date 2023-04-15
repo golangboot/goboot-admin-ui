@@ -26,13 +26,13 @@
 	export default {
 		props: {
 			apiObj: { type: Object, default: () => {} },
-			dic: { type: String, default: "" },
+			dict: { type: String, default: "" },
 			objValueType: { type: Boolean, default: false },
 			params: { type: Object, default: () => ({}) }
 		},
 		data() {
 			return {
-				dicParams: this.params,
+				dictParams: this.params,
 				loading: false,
 				options: [],
 				props: config.props,
@@ -49,19 +49,19 @@
 		methods: {
 			//选项显示隐藏事件
 			visibleChange(ispoen){
-				if(ispoen && this.options.length==0 && (this.dic || this.apiObj)){
+				if(ispoen && this.options.length==0 && (this.dict || this.apiObj)){
 					this.getRemoteData()
 				}
 			},
 			//获取数据
 			async getRemoteData(){
 				this.loading = true
-				this.dicParams[config.request.name] = this.dic
+				this.dictParams[config.request.name] = this.dict
 				var res = {}
 				if(this.apiObj){
 					res = await this.apiObj.get(this.params)
-				}else if(this.dic){
-					res = await config.dicApiObj.get(this.params)
+				}else if(this.dict){
+					res = await config.dictApiObj.get(this.params)
 				}
 				var response = config.parseData(res)
 				this.options = response.data

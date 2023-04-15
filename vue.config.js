@@ -44,18 +44,11 @@ module.exports = defineConfig({
 					'^/api/user': '/api/user'
 				}
 			},
-			'/api/system/menu': {
+			'/api/system': {
 				target: 'http://localhost:8000',
 				ws: true,
 				pathRewrite: {
-					'^/api/system/menu': '/api/system/menu'
-				}
-			},
-			'/api/system/role': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/system/role': '/api/system/role'
+					'^/api/system': '/api/system'
 				}
 			},
 			'/api': {
