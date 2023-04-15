@@ -4,8 +4,8 @@
 			<el-form-item label="上级部门" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="groups" :props="groupsProps" :show-all-levels="false" clearable style="width: 100%;"></el-cascader>
 			</el-form-item>
-			<el-form-item label="部门名称" prop="label">
-				<el-input v-model="form.label" placeholder="请输入部门名称" clearable></el-input>
+			<el-form-item label="部门名称" prop="name">
+				<el-input v-model="form.name" placeholder="请输入部门名称" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
@@ -41,17 +41,17 @@
 				form: {
 					id:"",
 					parentId: "",
-					label: "",
-					sort: 1,
-					status: "1",
+					name: "",
+					sort: null,
+					status: 1,
 					remark: ""
 				},
 				//验证规则
 				rules: {
-					sort: [
+					/*sort: [
 						{required: true, message: '请输入排序', trigger: 'change'}
-					],
-					label: [
+					],*/
+					name: [
 						{required: true, message: '请输入部门名称'}
 					]
 				},
@@ -59,6 +59,7 @@
 				groups: [],
 				groupsProps: {
 					value: "id",
+					label: 'name',
 					emitPath: false,
 					checkStrictly: true
 				}
@@ -76,7 +77,7 @@
 			},
 			//加载树数据
 			async getGroup(){
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.system.dept.tree.get();
 				this.groups = res.data;
 			},
 			//表单提交方法
@@ -84,7 +85,13 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
+						var res;
+						if (this.form.id) {
+							res = await this.$API.system.dept.update.put(this.form)
+						} else {
+							res = await this.$API.system.dept.add.post(this.form)
+							this.form.id = res.data.id
+						}
 						this.isSaveing = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
@@ -99,6 +106,7 @@
 			//表单注入数据
 			setData(data){
 				this.form.id = data.id
+				this.form.name = data.name
 				this.form.label = data.label
 				this.form.status = data.status
 				this.form.sort = data.sort

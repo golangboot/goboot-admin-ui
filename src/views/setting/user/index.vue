@@ -6,7 +6,7 @@
 					<el-input placeholder="输入关键字进行过滤" v-model="groupFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="group" class="menu" node-key="id" :data="group" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
+					<el-tree ref="group" class="menu" node-key="id" :data="group" :props="groupProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
 				</el-main>
 			</el-container>
 		</el-aside>
@@ -35,6 +35,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column label="登录账号" prop="username" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
+						<el-table-column label="邮箱" prop="email" width="150" sortable='custom'></el-table-column>
 						<el-table-column label="姓名" prop="name" width="150" sortable='custom'></el-table-column>
 						<el-table-column label="所属角色" prop="groupName" width="200" sortable='custom'></el-table-column>
 						<el-table-column label="加入时间" prop="date" width="170" sortable='custom'></el-table-column>
@@ -77,6 +78,12 @@
 				showGrouploading: false,
 				groupFilterText: '',
 				group: [],
+				groupProps: {
+					value: "id",
+					label: "name",
+					emitPath: false,
+					checkStrictly: true
+				},
 				apiObj: this.$API.system.user.list,
 				selection: [],
 				search: {
@@ -152,9 +159,10 @@
 			//加载树数据
 			async getGroup(){
 				this.showGrouploading = true;
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.system.dept.tree.get();
 				this.showGrouploading = false;
-				var allNode ={id: '', label: '所有'}
+				// var allNode ={id: '', label: '所有'}
+				var allNode ={id: '', name: '所有', label: '所有'}
 				res.data.unshift(allNode);
 				this.group = res.data;
 			},

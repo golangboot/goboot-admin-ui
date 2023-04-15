@@ -181,6 +181,13 @@ export default {
 		},
 	},
 	dept: {
+		tree: {
+			url: `${config.API_URL}/system/department/tree`,
+			name: "列表树",
+			get: async function(data){
+				return await http.get(this.url, data);
+			}
+		},
 		list: {
 			url: `${config.API_URL}/system/department`,
 			name: "列表",

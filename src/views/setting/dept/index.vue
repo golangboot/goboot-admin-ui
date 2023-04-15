@@ -60,7 +60,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.system.dept.list,
+				apiObj: this.$API.system.dept.tree,
 				selection: [],
 				search: {
 					keyword: null
@@ -92,7 +92,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.demo.post.post(reqData);
+				var res = await this.$API.system.dept.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -104,11 +104,28 @@
 			async batch_del(){
 				this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？如果删除项中含有子集将会被一并删除`, '提示', {
 					type: 'warning'
-				}).then(() => {
+				}).then(async () => {
 					const loading = this.$loading();
-					this.$refs.table.refresh()
+
+					var reqData = {
+						ids: this.selection.map(v => v.id)
+					}
+					var res = await this.$API.system.dictItem.delete.delete(reqData)
+					if (res.code == 200) {
+						this.selection.forEach(item => {
+							this.$refs.table.tableData.forEach((itemI, indexI) => {
+								if (item.id === itemI.id) {
+									this.$refs.table.tableData.splice(indexI, 1)
+								}
+							})
+						})
+						this.$message.success("操作成功")
+					} else {
+						this.$alert(res.message, "提示", {type: 'error'})
+					}
+
+					// this.$refs.table.refresh()
 					loading.close();
-					this.$message.success("操作成功")
 				}).catch(() => {
 
 				})
