@@ -51,7 +51,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.user.logRecord,
+				apiObj: this.$API.userCenter.logRecord,
 				selection: [],
 				data: [
 					{
@@ -74,7 +74,7 @@
 		},
 		methods: {
 			async getData() {
-				this.apiObj = await this.$API.user.getUserInfo.get();
+				this.apiObj = await this.$API.userCenter.getUserInfo.get();
 			},
 			//增加
 			add(){
@@ -100,7 +100,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.user.deleteLogRecord.delete(reqData);
+				var res = await this.$API.userCenter.deleteLogRecord.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);
