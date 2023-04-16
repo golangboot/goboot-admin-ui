@@ -39,7 +39,7 @@
 </template>
 
 <script>
-	import saveDialog from "./../../system/logRecord/save";
+	import saveDialog from "./../logRecord/save";
 
 	export default {
 		components: {

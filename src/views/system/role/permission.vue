@@ -3,7 +3,7 @@
 		<el-tabs tab-position="top">
 			<el-tab-pane label="菜单权限">
 				<div class="treeMain">
-					<el-tree ref="menu" node-key="name" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
+					<el-tree ref="menu" node-key="id" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="数据权限">
@@ -67,7 +67,12 @@
 					props: {
 						label: (data)=>{
 							return data.meta.title
-						}
+						},
+						/*children: 'children',
+						isLeaf: (data) => {
+							// 是否为叶子节点(终端节点/没有子节点)
+							return !data.children || data.children.length === 0;
+						},*/
 					}
 				},
 				grid: {
@@ -86,7 +91,11 @@
 					dataType :"1",
 					list: [],
 					checked: [],
-					props: {},
+					props: {
+						label: (data)=>{
+							return data.name
+						},
+					},
 					rule: ""
 				},
 				dashboard: "0",
@@ -95,7 +104,6 @@
 						value: '0',
 						label: '数据统计',
 						views: 'stats'
-
 					},
 					{
 						value: '1',
@@ -119,10 +127,13 @@
 
 				//选中的和半选的合并后传值接口
 				var checkedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
-				console.log(checkedKeys)
+				console.log('menu:', checkedKeys)
 
 				var checkedKeys_dept = this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys())
-				console.log(checkedKeys_dept)
+				console.log('dept:', checkedKeys_dept)
+
+				console.log('data:', this.data)
+				console.log('dashboard:', this.dashboard)
 
 				setTimeout(()=>{
 					this.isSaveing = false;
@@ -138,16 +149,20 @@
 				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
 				this.menu.checked = ["system", "user", "user.add", "user.edit", "user.del", "directive.edit", "other", "directive"]
 				this.$nextTick(() => {
-					let filterKeys = this.menu.checked.filter(key => this.$refs.menu.getNode(key).isLeaf)
+					let filterKeys = this.menu.checked.filter(key => {
+						return this.$refs.menu.getNode(key)?.isLeaf ?? true
+					})
 					this.$refs.menu.setCheckedKeys(filterKeys, true)
 				})
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.system.dept.tree.get();
 				this.data.list = res.data
 				this.data.checked = ["12", "2", "21", "22", "1"]
 				this.$nextTick(() => {
-					let filterKeys = this.data.checked.filter(key => this.$refs.dept.getNode(key).isLeaf)
+					let filterKeys = this.data.checked.filter(key => {
+						return this.$refs.menu.getNode(key)?.isLeaf ?? true
+					})
 					this.$refs.dept.setCheckedKeys(filterKeys, true)
 				})
 			},

@@ -18,7 +18,7 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
 				<el-table-column label="角色名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="编码" prop="code" width="200"></el-table-column>
+				<el-table-column label="编码" prop="code" width="150"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80"></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
@@ -106,7 +106,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.demo.post.post(reqData);
+				var res = await this.$API.system.role.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -149,14 +149,18 @@
 				this.selection = selection;
 			},
 			//表格内开关
-			changeSwitch(val, row){
+			async changeSwitch(val, row){
 				row.status = row.status == '1'?'0':'1'
 				row.$switch_status = true;
-				setTimeout(()=>{
-					delete row.$switch_status;
+				var reqData = {id: row.id,status: val}
+				var res = await this.$API.system.role.update.put(reqData);
+				delete row.$switch_status;
+				if(res.code == 200){
 					row.status = val;
 					this.$message.success("操作成功")
-				}, 500)
+				}else{
+					this.$alert(res.message, "提示", {type: 'error'})
+				}
 			},
 			//搜索
 			upsearch(){
