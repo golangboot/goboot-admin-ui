@@ -1,8 +1,8 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="400" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="所属字典" prop="dictId">
-				<el-cascader v-model="form.dictId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
+			<el-form-item label="所属字典" prop="parentId">
+				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
@@ -35,13 +35,13 @@
 				isSaveing: false,
 				form: {
 					id: "",
-					dictId: 0,
+					parentId: 0,
 					name: "",
 					value: "",
 					status: 1
 				},
 				rules: {
-					dictId: [
+					parentId: [
 						{required: true, message: '请选择所属字典'}
 					],
 					name: [
@@ -63,7 +63,7 @@
 		mounted() {
 			console.log('> this.params:', this.params)
 			if(this.params){
-				this.form.dictId = this.params.dictId
+				this.form.parentId = this.params.parentId
 			}
 			this.getDict()
 		},
@@ -86,9 +86,9 @@
 						this.isSaveing = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.dictItem.update.put(this.form)
+							res = await this.$API.system.dict.update.put(this.form)
 						} else {
-							res = await this.$API.system.dictItem.add.post(this.form)
+							res = await this.$API.system.dict.add.post(this.form)
 							this.form.id = res.data.id
 						}
 						this.isSaveing = false;
@@ -109,7 +109,7 @@
 				this.form.value = data.value
 				this.form.status = data.status || 1
 				// this.form.dict = data.dict
-				this.form.dictId = data.dictId
+				this.form.parentId = data.parentId
 
 				console.log('> setData data', data)
 				console.log('> setData form', this.form)

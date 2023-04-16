@@ -10,6 +10,9 @@
 			<el-form-item label="父路径" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
 			</el-form-item>
+			<el-form-item label="是否有效" prop="status">
+				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
@@ -34,7 +37,8 @@
 					id:"",
 					name: "",
 					code: "",
-					parentId: ""
+					parentId: "",
+					status: 0
 				},
 				rules: {
 					code: [

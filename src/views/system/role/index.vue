@@ -164,7 +164,7 @@
 			},
 			//搜索
 			upsearch(){
-
+				this.$refs.table.upData(this.search)
 			},
 			//根据ID获取树结构
 			filterTree(id){

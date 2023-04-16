@@ -138,8 +138,11 @@
 			},
 			//表格内开关
 			async changeSwitch(val, row){
+				//1.还原数据
 				row.status = row.status == '1'?'0':'1'
+				//2.执行加载
 				row.$switch_status = true;
+				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
 				var res = await this.$API.system.permission.update.put(reqData);
 				delete row.$switch_status;

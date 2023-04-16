@@ -122,10 +122,10 @@
 						this.$refs.dict.setCurrentKey(firstNode.id)
 					})
 					this.listApiParams = {
-						dictId: firstNode.id,
+						parentId: firstNode.id,
 						// code: firstNode.code,
 					}
-					this.listApi = this.$API.system.dictItem.list;
+					this.listApi = this.$API.system.dict.list;
 				}
 			},
 			//树过滤
@@ -191,7 +191,7 @@
 			//树点击事件
 			dictClick(data){
 				this.$refs.table.reload({
-					dictId: data.id,
+					parentId: data.id,
 					// code: data.code,
 				})
 			},
@@ -296,7 +296,7 @@
 					const data = {
 						// dict: dictCurrentKey,
 						// dict: this.dictList,
-						dictId: dictCurrentKey,
+						parentId: dictCurrentKey,
 					}
 					this.$refs.listDialog.open().setData(data)
 				})
@@ -311,7 +311,7 @@
 			//删除明细
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.system.dictItem.delete.delete(reqData);
+				var res = await this.$API.system.dict.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.tableData.splice(index, 1);
 					this.$message.success("删除成功")
@@ -330,7 +330,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.system.dictItem.delete.delete(reqData)
+					var res = await this.$API.system.dict.delete.delete(reqData)
 					if (res.code == 200) {
 						this.selection.forEach(item => {
 							this.$refs.table.tableData.forEach((itemI, indexI) => {
@@ -369,17 +369,21 @@
 				this.selection = selection;
 			},
 			//表格内开关事件
-			changeSwitch(val, row){
+			async changeSwitch(val, row){
 				//1.还原数据
 				row.status = row.status == '1'?'0':'1'
 				//2.执行加载
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
-				setTimeout(()=>{
-					delete row.$switch_status;
+				var reqData = {id: row.id,status: val}
+				var res = await this.$API.system.dict.update.put(reqData);
+				delete row.$switch_status;
+				if(res.code == 200){
 					row.status = val;
-					this.$message.success(`操作成功id:${row.id} val:${val}`)
-				}, 500)
+					this.$message.success("操作成功")
+				}else{
+					this.$alert(res.message, "提示", {type: 'error'})
+				}
 			},
 			//本地更新数据
 			handleDictSuccess(data, mode){
