@@ -89,10 +89,17 @@ export default {
 			url: `${config.API_URL}/user/user`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
+				/*let id = data.id;
 				if (data.ids) {
 					id = data.ids.join(',');
-				}
+				}*/
+				/*let id = data.id;
+				if (data.ids) {
+					let idSet = new Set(data.ids);
+					idSet.add(id);
+					id = Array.from(idSet).join(',');
+				}*/
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -130,10 +137,7 @@ export default {
 			url: `${config.API_URL}/user/userGroup`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},

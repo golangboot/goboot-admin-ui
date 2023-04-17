@@ -49,10 +49,7 @@ export default {
 			url: `${config.API_URL}/system/department`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -97,10 +94,7 @@ export default {
 			url: `${config.API_URL}/system/menu`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -145,10 +139,7 @@ export default {
 			url: `${config.API_URL}/system/dict`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -186,10 +177,7 @@ export default {
 			url: `${config.API_URL}/system/role`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -227,10 +215,7 @@ export default {
 			url: `${config.API_URL}/system/permission`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -275,10 +260,7 @@ export default {
 			url: `${config.API_URL}/system/department`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -316,10 +298,7 @@ export default {
 			url: `${config.API_URL}/user/user`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id;
-				if (data.ids) {
-					id = data.ids.join(',');
-				}
+				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},

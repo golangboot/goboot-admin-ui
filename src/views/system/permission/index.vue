@@ -114,21 +114,20 @@
 						ids: this.selection.map(v => v.id)
 					}
 					var res = await this.$API.system.permission.delete.delete(reqData)
-					if (res.code == 200) {
-						this.selection.forEach(item => {
-							this.$refs.table.tableData.forEach((itemI, indexI) => {
-								if (item.id === itemI.id) {
-									this.$refs.table.tableData.splice(indexI, 1)
-								}
-							})
-						})
-						this.$message.success("操作成功")
-					} else {
+					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
-
 					// this.$refs.table.refresh()
+
+					this.selection.forEach(item => {
+						this.$refs.table.tableData.forEach((itemI, indexI) => {
+							if (item.id === itemI.id) {
+								this.$refs.table.tableData.splice(indexI, 1)
+							}
+						})
+					})
 					loading.close();
+					this.$message.success("操作成功")
 				}).catch(() => {
 
 				})

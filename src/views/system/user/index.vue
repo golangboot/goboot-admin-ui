@@ -140,7 +140,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.demo.post.post(reqData);
+				var res = await this.$API.system.user.delete.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);
@@ -153,8 +153,18 @@
 			async batch_del(){
 				this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
 					type: 'warning'
-				}).then(() => {
+				}).then(async () => {
 					const loading = this.$loading();
+
+					var reqData = {
+						ids: this.selection.map(v => v.id)
+					}
+					var res = await this.$API.system.user.delete.delete(reqData)
+					if (res.code != 200) {
+						this.$alert(res.message, "提示", {type: 'error'})
+						return
+					}
+
 					this.selection.forEach(item => {
 						this.$refs.table.tableData.forEach((itemI, indexI) => {
 							if (item.id === itemI.id) {

@@ -173,9 +173,7 @@
 					identityCard: "",
 					identityCardFront: "",
 					identityCardBack: "",
-					departmentIds: [],
-					roleIds: [],
-					groupIds: [],
+					status: 1,
 				},
 				rules: {
 					username: [
