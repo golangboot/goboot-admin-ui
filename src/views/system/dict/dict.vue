@@ -16,7 +16,7 @@
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
-			<el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+			<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
@@ -32,7 +32,7 @@
 					edit: '编辑字典'
 				},
 				visible: false,
-				isSaveing: false,
+				isSaving: false,
 				form: {
 					id:"",
 					name: "",
@@ -76,7 +76,7 @@
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						var res;
 						if (this.form.id) {
 							res = await this.$API.system.dict.update.put(this.form)
@@ -84,7 +84,7 @@
 							res = await this.$API.system.dict.add.post(this.form)
 							this.form.id = res.data.id
 						}
-						this.isSaveing = false;
+						this.isSaving = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;

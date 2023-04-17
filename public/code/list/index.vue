@@ -47,7 +47,7 @@
 		<save-dialog ref="saveDialog" :mode="saveMode"></save-dialog>
 		<template #footer>
 			<el-button @click="saveDialogVisible=false" >取 消</el-button>
-			<el-button v-if="saveMode!='show'" type="primary" @click="saveForm()" :loading="isSaveing">保 存</el-button>
+			<el-button v-if="saveMode!='show'" type="primary" @click="saveForm()" :loading="isSaving">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
@@ -74,7 +74,7 @@
 					edit: "编辑",
 					show: "查看"
 				},
-				isSaveing: false,
+				isSaving: false,
 			}
 		},
 		mounted(){
@@ -138,9 +138,9 @@
 			//提交
 			saveForm(){
 				this.$refs.saveDialog.submit(async (formData) => {
-					this.isSaveing = true;
+					this.isSaving = true;
 					var res = await this.$API.<%= api.save %>.post(formData);
-					this.isSaveing = false;
+					this.isSaving = false;
 					if(res.code == 200){
 						//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 						this.saveDialogVisible = false;

@@ -64,7 +64,7 @@
 				</el-form>
 			</el-main>
 			<el-footer>
-				<el-button type="primary" :loading="isSaveing" @click="submit">保存</el-button>
+				<el-button type="primary" :loading="isSaving" @click="submit">保存</el-button>
 				<el-button @click="visible=false">取消</el-button>
 			</el-footer>
 		</el-container>
@@ -120,7 +120,7 @@
 					filters: []
 				},
 				visible: false,
-				isSaveing: false,
+				isSaving: false,
 				selectionFilters: [],
 				filtersAddTemplate: {
 					text: '',
@@ -143,9 +143,9 @@
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						var res = await this.$API.demo.post.post(this.form);
-						this.isSaveing = false;
+						this.isSaving = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;

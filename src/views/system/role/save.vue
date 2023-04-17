@@ -22,7 +22,7 @@
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
-			<el-button v-if="mode!='show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
@@ -39,7 +39,7 @@
 					show: '查看'
 				},
 				visible: false,
-				isSaveing: false,
+				isSaving: false,
 				//表单数据
 				form: {
 					id:"",
@@ -78,7 +78,7 @@
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						var res;
 						if (this.form.id) {
 							res = await this.$API.system.role.update.put(this.form)
@@ -86,7 +86,7 @@
 							res = await this.$API.system.role.add.post(this.form)
 							this.form.id = res.data.id
 						}
-						this.isSaveing = false;
+						this.isSaving = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;

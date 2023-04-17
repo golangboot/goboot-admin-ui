@@ -1,48 +1,152 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="头像" prop="avatar">
-				<sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
-			</el-form-item>
-			<el-form-item label="登录账号" prop="username">
-				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="邮箱" prop="email">
-				<el-input v-model="form.email" placeholder="电子邮箱" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="手机号" prop="mobile">
-				<el-input v-model="form.mobile" placeholder="手机号" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="姓名" prop="realName">
-				<el-input v-model="form.realName" placeholder="请输入完整的真实姓名" clearable></el-input>
-			</el-form-item>
-			<template v-if="mode=='add'">
-				<el-form-item label="登录密码" prop="password">
-					<el-input type="password" v-model="form.password" clearable show-password></el-input>
-				</el-form-item>
-				<el-form-item label="确认密码" prop="password2">
-					<el-input type="password" v-model="form.password2" clearable show-password></el-input>
-				</el-form-item>
-			</template>
-			<el-form-item label="所属部门" prop="departmentIds">
-				<el-cascader v-model="form.departmentIds" :options="departments" :props="departmentsProps" clearable @change="handleChange" style="width: 100%;"></el-cascader>
-			</el-form-item>
-			<el-form-item label="所属角色" prop="roleIds">
-				<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
-					<el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
-				</el-select>
-			</el-form-item>
-			<el-form-item label="所属用户组" prop="groupIds">
-				<el-select v-model="form.groupIds" multiple filterable style="width: 100%">
-					<el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"/>
-				</el-select>
-			</el-form-item>
-		</el-form>
-		<template #footer>
-			<el-button @click="visible=false" >取 消</el-button>
-			<el-button v-if="mode!='show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
-		</template>
-	</el-dialog>
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="1000" destroy-on-close @closed="$emit('closed')">
+		<el-container v-loading="loading">
+			<el-main style="padding:0 20px 20px 20px">
+				<el-form ref="dialogForm" :model="form" :rules="rules" label-width="100px" label-position="top">
+					<el-tabs tab-position="top">
+						<el-tab-pane label="基础信息">
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="用户名" prop="username">
+										<el-input v-model="form.username" placeholder="用户名" clearable></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="密码" prop="password">
+										<el-input type="password" v-model="form.password" placeholder="留空则不修改密码" clearable show-password></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="邮箱" prop="email">
+										<el-input v-model="form.email" placeholder="电子邮箱" clearable></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="手机号" prop="mobile">
+										<el-input v-model="form.mobile" placeholder="手机号" clearable></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="昵称" prop="nickname">
+										<el-input v-model="form.nickname" placeholder="请输入昵称" clearable></el-input>
+									</el-form-item>
+									<el-form-item label="个性签名" prop="signature">
+										<el-input v-model="form.signature" clearable type="textarea"></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="头像" prop="avatar">
+										<sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-divider>系统</el-divider>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="状态" prop="status">
+										<el-radio-group v-model="form.status">
+											<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+										</el-radio-group>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="系统管理员" prop="isAdmin">
+										<el-switch v-model="form.isAdmin" :active-value="1" :inactive-value="0"></el-switch>
+									</el-form-item>
+								</el-col>
+							</el-row>
+						</el-tab-pane>
+						<el-tab-pane label="个人信息">
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="姓名" prop="realName">
+										<el-input v-model="form.realName" placeholder="请输入完整的真实姓名" clearable></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="性别" prop="gender">
+										<el-radio-group v-model="form.gender">
+											<el-radio v-for="(item, index) in genderOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+										</el-radio-group>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="生日" prop="birthday">
+										<el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="年龄" prop="age">
+										<el-input-number v-model="form.age" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="证件类型" prop="identityCardType">
+										<el-select v-model="form.identityCardType" filterable style="width: 100%">
+											<el-option v-for="(item, index) in identityCardTypeOptions" :key="index" :label="item.label" :value="item.value"></el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="证件号码" prop="identityCard">
+										<el-input v-model="form.identityCard" placeholder="请输入完整的证件号码" clearable></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="证件正面" prop="identityCardFront">
+										<sc-upload v-model="form.identityCardFront" title="请上传证件正面"></sc-upload>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="证件背面" prop="identityCardBack">
+										<sc-upload v-model="form.identityCardBack" title="请上传证件背面"></sc-upload>
+									</el-form-item>
+								</el-col>
+							</el-row>
+						</el-tab-pane>
+						<el-tab-pane label="账户信息">
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="余额" prop="balance">
+										<el-input-number v-model="form.balance" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="积分" prop="integral">
+										<el-input-number v-model="form.integral" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="虚拟币" prop="virtualCoin">
+										<el-input-number v-model="form.virtualCoin" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+								</el-col>
+							</el-row>
+						</el-tab-pane>
+					</el-tabs>
+				</el-form>
+			</el-main>
+			<el-footer>
+				<el-button type="primary" :loading="isSaving" @click="submit">保存</el-button>
+				<el-button @click="visible=false">取消</el-button>
+			</el-footer>
+		</el-container>
+
+	</el-drawer>
 </template>
 
 <script>
@@ -50,139 +154,69 @@
 		emits: ['success', 'closed'],
 		data() {
 			return {
+				loading: false,
 				mode: "add",
 				titleMap: {
-					add: '新增用户',
-					edit: '编辑用户',
-					show: '查看'
+					add: '新增',
+					edit: '编辑'
 				},
-				visible: false,
-				isSaveing: false,
-				selectedItems: [],
-				//表单数据
 				form: {
-					id:"",
+					id: null,
 					username: "",
 					email: "",
 					mobile: "",
+					nickname: "",
 					avatar: "",
 					realName: "",
-					departmentIds: "",
+					gender: 0,
+					identityCardType: 0,
+					identityCard: "",
+					identityCardFront: "",
+					identityCardBack: "",
+					departmentIds: [],
 					roleIds: [],
 					groupIds: [],
 				},
-				//验证规则
 				rules: {
-					/*avatar:[
-						{required: true, message: '请上传头像'}
-					],*/
 					username: [
-						{required: true, message: '请输入登录账号'}
+						{required: true, message: '请输入用户名'}
 					],
-					/*name: [
-						{required: true, message: '请输入真实姓名'}
-					],*/
-					password: [
-						{required: true, message: '请输入登录密码'},
-						{validator: (rule, value, callback) => {
-							if (this.form.password2 !== '') {
-								this.$refs.dialogForm.validateField('password2');
-							}
-							callback();
-						}}
-					],
-					password2: [
-						{required: true, message: '请再次输入密码'},
-						{validator: (rule, value, callback) => {
-							if (value !== this.form.password) {
-								callback(new Error('两次输入密码不一致!'));
-							}else{
-								callback();
-							}
-						}}
-					],
-					/*department: [
-						{required: true, message: '请选择所属部门'}
-					],*/
-					/*role: [
-						{required: true, message: '请选择所属角色', trigger: 'change'}
-					],*/
-					/*group: [
-						{required: true, message: '请选择所属用户组', trigger: 'change'}
-					],*/
 				},
-				//所需数据选项
-				groups: [],
-				groupsProps: {
-					value: "id",
-					multiple: true,
-					checkStrictly: true
-				},
-				roles: [],
-				rolesProps: {
-					value: "id",
-					multiple: true,
-					checkStrictly: true
-				},
-				departments: [],
-				departmentsProps: {
-					value: "id",
-					label: 'name',
-					multiple: true,
-					checkStrictly: true
-				}
+				visible: false,
+				isSaving: false,
+				genderOptions: [
+					{label: "保密", value: 0,},
+					{label: "男", value: 1,},
+					{label: "女", value: 2,},
+				],
+				statusOptions: [
+					{label: "正常", value: 1,},
+					{label: "禁用", value: 0,},
+				],
+				identityCardTypeOptions: [
+					{label: "身份证", value: 0,},
+					{label: "护照", value: 1,},
+					{label: "军官证（军人身份证）", value: 2,},
+					{label: "港澳通行证", value: 3,},
+					{label: "台湾居民来往大陆通行证", value: 4,},
+					{label: "营业执照", value: 10,},
+				],
 			}
 		},
 		mounted() {
-			this.getGroup()
-			this.getRole()
-			this.getDept()
 		},
 		methods: {
 			//显示
 			open(mode='add'){
 				this.mode = mode;
 				this.visible = true;
-				return this
-			},
-			//加载树数据
-			async getGroup(){
-				var res = await this.$API.user.userGroup.list.get();
-				this.groups = res.data.records;
-			},
-			async getRole(){
-				var res = await this.$API.system.role.list.get();
-				this.roles = res.data.records;
-			},
-			async getDept(){
-				var res = await this.$API.system.department.tree.get();
-				this.departments = res.data;
-			},
-			selectedNodes() {
-				const nodes = [];
-				this.selectedItems.forEach(item => {
-					let node = this.options.find(option => option.value === item[0]);
-					for (let i = 1; i < item.length; i++) {
-						node = node.children.find(child => child.value === item[i]);
-					}
-					if (node) {
-						nodes.push(node);
-					}
-				});
-				return nodes;
-			},
-			handleChange(value) {
-				if (value.length > 0) {
-					const lastItems = value.map(item => item[item.length - 1]);
-					console.log(lastItems);
-					this.form.departmentIds = lastItems;
-				}
+				return this;
 			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						var res;
 						if (this.form.id) {
 							res = await this.$API.system.user.update.put(this.form)
@@ -190,7 +224,7 @@
 							res = await this.$API.system.user.add.post(this.form)
 							this.form.id = res.data.id
 						}
-						this.isSaveing = false;
+						this.isSaving = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;
@@ -198,26 +232,22 @@
 						}else{
 							this.$alert(res.message, "提示", {type: 'error'})
 						}
-					}else{
-						return false;
 					}
 				})
 			},
 			//表单注入数据
 			setData(data){
-				this.form.id = data.id
-				this.form.username = data.username
-				this.form.email = data.email
-				this.form.mobile = data.mobile
-				this.form.avatar = data.avatar
-				this.form.name = data.name
-				this.form.groupIds = data.groupIds
-				this.form.roleIds = data.roleIds
-				this.form.departmentIds = data.departmentIds
-
-				//可以和上面一样单个注入，也可以像下面一样直接合并进去
-				//Object.assign(this.form, data)
-			}
+				Object.assign(this.form, data)
+				this.loading = true
+				const params = {
+					id: data.id
+				}
+				setTimeout(async ()=>{
+					var res = await this.$API.system.user.show.get(params)
+					this.loading = false
+					this.form = res.data
+				},400)
+			},
 		}
 	}
 </script>

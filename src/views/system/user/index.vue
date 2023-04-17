@@ -34,11 +34,25 @@
 								<el-avatar :src="scope.row.avatar" size="small"></el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column label="登录账号" prop="username" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
+						<el-table-column label="用户名" prop="username" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
 						<el-table-column label="邮箱" prop="email" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="姓名" prop="name" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="所属角色" prop="groupName" width="200" sortable='custom'></el-table-column>
-						<el-table-column label="加入时间" prop="date" width="170" sortable='custom'></el-table-column>
+						<el-table-column label="手机号" prop="mobile" width="150" sortable='custom'></el-table-column>
+						<el-table-column label="姓名" prop="realName" width="150" sortable='custom'></el-table-column>
+						<el-table-column label="性别" prop="gender" width="150" sortable='custom'>
+							<template #default="scope">
+								<el-tag v-if="scope.row.gender==1" type="primary">男</el-tag>
+								<el-tag v-else-if="scope.row.gender==2" type="warning">女</el-tag>
+								<el-tag v-else type="info">保密</el-tag>
+							</template>
+						</el-table-column>
+						<!--<el-table-column label="所属角色" prop="groupName" width="200" sortable='custom'></el-table-column>-->
+						<el-table-column label="状态" prop="status" width="150">
+							<template #default="scope">
+								<el-tag v-if="scope.row.status==1" type="success">正常</el-tag>
+								<el-tag v-if="scope.row.status==0" type="danger">禁用</el-tag>
+							</template>
+						</el-table-column>
+						<el-table-column label="创建时间" prop="createTime" width="170" sortable='custom'></el-table-column>
 						<el-table-column label="操作" fixed="right" align="right" width="160">
 							<template #default="scope">
 								<el-button-group>
@@ -87,7 +101,9 @@
 				apiObj: this.$API.system.user.list,
 				selection: [],
 				search: {
-					name: null
+					// "orders[0].column": "id",
+					// "orders[0].asc": false,
+					name: null,
 				}
 			}
 		},
@@ -185,7 +201,7 @@
 			//本地更新数据
 			handleSuccess(data, mode){
 				if(mode=='add'){
-					data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					this.$refs.table.tableData.unshift(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

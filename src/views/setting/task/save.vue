@@ -25,14 +25,14 @@
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
-			<el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+			<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
 
 <script>
 	import scCron from '@/components/scCron';
-	
+
 	export default {
 		components: {
 			scCron
@@ -64,7 +64,7 @@
 					]
 				},
 				visible: false,
-				isSaveing: false,
+				isSaving: false,
 				shortcuts: [
 					{
 						text: "每天8点和12点 (自定义追加)",
@@ -87,9 +87,9 @@
 			submit(){
 				this.$refs.dialogForm.validate((valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						setTimeout(()=>{
-							this.isSaveing = false;
+							this.isSaving = false;
 							this.visible = false;
 							this.$message.success("操作成功")
 							this.$emit('success', this.form, this.mode)

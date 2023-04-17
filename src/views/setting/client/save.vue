@@ -24,7 +24,7 @@
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
-			<el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+			<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
@@ -65,7 +65,7 @@
 					]
 				},
 				visible: false,
-				isSaveing: false
+				isSaving: false
 			}
 		},
 		methods: {
@@ -79,9 +79,9 @@
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
-						this.isSaveing = true;
+						this.isSaving = true;
 						var res = await this.$API.demo.post.post(this.form);
-						this.isSaveing = false;
+						this.isSaving = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;

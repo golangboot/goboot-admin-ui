@@ -22,7 +22,7 @@
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
-			<el-button v-if="mode!='show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
 </template>
@@ -39,7 +39,7 @@
 					show: '查看'
 				},
 				visible: false,
-				isSaveing: false,
+				isSaving: false,
 				//表单数据
 				form: {
 					id:"",
@@ -80,9 +80,9 @@
 				if(!valid){
 					return false
 				}
-				this.isSaveing = true;
+				this.isSaving = true;
 				var res = await this.$API.demo.post.post(this.form);
-				this.isSaveing = false;
+				this.isSaving = false;
 				if(res.code == 200){
 					if(this.mode=='add'){
 						this.form.id = res.data
