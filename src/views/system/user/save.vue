@@ -7,6 +7,12 @@
 			<el-form-item label="登录账号" prop="username">
 				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="邮箱" prop="email">
+				<el-input v-model="form.email" placeholder="电子邮箱" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="手机号" prop="mobile">
+				<el-input v-model="form.mobile" placeholder="手机号" clearable></el-input>
+			</el-form-item>
 			<el-form-item label="姓名" prop="realName">
 				<el-input v-model="form.realName" placeholder="请输入完整的真实姓名" clearable></el-input>
 			</el-form-item>
@@ -57,6 +63,8 @@
 				form: {
 					id:"",
 					username: "",
+					email: "",
+					mobile: "",
 					avatar: "",
 					realName: "",
 					departmentIds: "",
@@ -199,6 +207,8 @@
 			setData(data){
 				this.form.id = data.id
 				this.form.username = data.username
+				this.form.email = data.email
+				this.form.mobile = data.mobile
 				this.form.avatar = data.avatar
 				this.form.name = data.name
 				this.form.groupIds = data.groupIds
