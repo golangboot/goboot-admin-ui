@@ -2,6 +2,13 @@ import config from "@/config"
 import http from "@/utils/request"
 
 export default {
+	version: {
+		url: `${config.API_URL}/app`,
+		name: "版本信息",
+		get: async function(){
+			return await http.get(this.url);
+		}
+	},
 	department: {
 		tree: {
 			url: `${config.API_URL}/system/department/tree`,

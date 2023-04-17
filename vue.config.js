@@ -15,45 +15,9 @@ module.exports = defineConfig({
 		open: false, //运行后自动打开浏览器
 		port: process.env.VUE_APP_PORT, //挂载端口
 		proxy: {
-			//TODO: 开发调试中...
-			'/api/token': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/token': '/api/auth/login'
-				}
-			},
-			'/api/auth': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/auth': '/api/auth'
-				}
-			},
-			'/api/upload': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/upload': '/api/upload'
-				}
-			},
-			'/api/user': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/user': '/api/user'
-				}
-			},
-			'/api/system': {
-				target: 'http://localhost:8000',
-				ws: true,
-				pathRewrite: {
-					'^/api/system': '/api/system'
-				}
-			},
 			'/api': {
 				target: process.env.VUE_APP_API_BASEURL,
-				// changeOrigin: true, // 处理跨域
+				changeOrigin: true, // 处理跨域
 				ws: true,
 				pathRewrite: {
 					'^/api': '/'

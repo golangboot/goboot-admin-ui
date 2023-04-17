@@ -21,9 +21,14 @@
 			<el-form-item label="所属部门" prop="dept">
 				<el-cascader v-model="form.dept" :options="depts" :props="deptsProps" clearable style="width: 100%;"></el-cascader>
 			</el-form-item>
-			<el-form-item label="所属角色" prop="group">
+			<el-form-item label="所属角色" prop="role">
+				<el-select v-model="form.role" multiple filterable style="width: 100%">
+					<el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="所属用户组" prop="group">
 				<el-select v-model="form.group" multiple filterable style="width: 100%">
-					<el-option v-for="item in groups" :key="item.id" :label="item.label" :value="item.id"/>
+					<el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"/>
 				</el-select>
 			</el-form-item>
 		</el-form>
@@ -54,7 +59,8 @@
 					avatar: "",
 					name: "",
 					dept: "",
-					group: []
+					role: [],
+					group: [],
 				},
 				//验证规则
 				rules: {
@@ -86,12 +92,15 @@
 							}
 						}}
 					],
-					dept: [
+					/*dept: [
 						{required: true, message: '请选择所属部门'}
-					],
-					group: [
+					],*/
+					/*role: [
 						{required: true, message: '请选择所属角色', trigger: 'change'}
-					]
+					],*/
+					/*group: [
+						{required: true, message: '请选择所属用户组', trigger: 'change'}
+					],*/
 				},
 				//所需数据选项
 				groups: [],
@@ -100,15 +109,24 @@
 					multiple: true,
 					checkStrictly: true
 				},
+				roles: [],
+				rolesProps: {
+					value: "id",
+					multiple: true,
+					checkStrictly: true
+				},
 				depts: [],
 				deptsProps: {
 					value: "id",
+					label: 'name',
+					multiple: true,
 					checkStrictly: true
 				}
 			}
 		},
 		mounted() {
 			this.getGroup()
+			this.getRole()
 			this.getDept()
 		},
 		methods: {
@@ -121,10 +139,14 @@
 			//加载树数据
 			async getGroup(){
 				var res = await this.$API.system.role.list.get();
-				this.groups = res.data.rows;
+				this.groups = res.data.records;
+			},
+			async getRole(){
+				var res = await this.$API.system.role.list.get();
+				this.roles = res.data.records;
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.system.dept.tree.get();
 				this.depts = res.data;
 			},
 			//表单提交方法
@@ -153,6 +175,7 @@
 				this.form.avatar = data.avatar
 				this.form.name = data.name
 				this.form.group = data.group
+				this.form.role = data.role
 				this.form.dept = data.dept
 
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去

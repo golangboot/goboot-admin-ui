@@ -84,7 +84,7 @@
 					emitPath: false,
 					checkStrictly: true
 				},
-				apiObj: this.$API.system.user.list,
+				apiObj: this.$API.system.user.user.list,
 				selection: [],
 				search: {
 					name: null

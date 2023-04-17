@@ -80,8 +80,8 @@
 						{
 							required: true,
 							validator: (rule, value, callback)=>{
-								this.$API.demo.ver.get({value: value}).then(res => {
-									if(res.data != value){
+								this.$API.system.version.get({value: value}).then(res => {
+									if(res.data.version != value){
 										return callback(new Error('请输入GoUI最新版本号：'+res.data))
 									}
 									callback()

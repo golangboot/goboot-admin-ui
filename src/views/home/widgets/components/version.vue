@@ -3,7 +3,7 @@
 		<div style="height: 210px;text-align: center;">
 			<img src="img/ver.svg" style="height:140px"/>
 			<h2 style="margin-top: 15px;">GoUI {{$CONFIG.CORE_VER}}</h2>
-			<p style="margin-top: 5px;">最新版本 {{ver}}</p>
+			<p style="margin-top: 5px;">最新版本 {{ version }}</p>
 		</div>
 		<div style="margin-top: 20px;">
 			<el-button type="primary" plain round @click="golog">更新日志</el-button>
@@ -20,7 +20,7 @@
 		description: "当前项目版本信息",
 		data() {
 			return {
-				ver: 'loading...'
+				version: 'loading...'
 			}
 		},
 		mounted() {
@@ -28,8 +28,8 @@
 		},
 		methods: {
 			async getVer(){
-				const ver = await this.$API.demo.ver.get()
-				this.ver = ver.data
+				const res = await this.$API.system.version.get()
+				this.version = res.data.version
 			},
 			golog(){
 				window.open("https://github.com/golangboot/goui/releases")
