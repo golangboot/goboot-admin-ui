@@ -61,7 +61,7 @@ const DEFAULT_CONFIG = {
 		//小组件分布，com取值:views/home/components 文件名
 		copmsList: [
 			['welcome'],
-			['about', 'ver'],
+			['about', 'version'],
 			['time', 'progress']
 		]
 	},

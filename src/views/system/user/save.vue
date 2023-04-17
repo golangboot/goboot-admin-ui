@@ -7,8 +7,8 @@
 			<el-form-item label="登录账号" prop="username">
 				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="姓名" prop="name">
-				<el-input v-model="form.name" placeholder="请输入完整的真实姓名" clearable></el-input>
+			<el-form-item label="姓名" prop="realName">
+				<el-input v-model="form.realName" placeholder="请输入完整的真实姓名" clearable></el-input>
 			</el-form-item>
 			<template v-if="mode=='add'">
 				<el-form-item label="登录密码" prop="password">
@@ -18,16 +18,16 @@
 					<el-input type="password" v-model="form.password2" clearable show-password></el-input>
 				</el-form-item>
 			</template>
-			<el-form-item label="所属部门" prop="dept">
-				<el-cascader v-model="form.dept" :options="depts" :props="deptsProps" clearable style="width: 100%;"></el-cascader>
+			<el-form-item label="所属部门" prop="departmentIds">
+				<el-cascader v-model="form.departmentIds" :options="departments" :props="departmentsProps" clearable @change="handleChange" style="width: 100%;"></el-cascader>
 			</el-form-item>
-			<el-form-item label="所属角色" prop="role">
-				<el-select v-model="form.role" multiple filterable style="width: 100%">
+			<el-form-item label="所属角色" prop="roleIds">
+				<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
 					<el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="所属用户组" prop="group">
-				<el-select v-model="form.group" multiple filterable style="width: 100%">
+			<el-form-item label="所属用户组" prop="groupIds">
+				<el-select v-model="form.groupIds" multiple filterable style="width: 100%">
 					<el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"/>
 				</el-select>
 			</el-form-item>
@@ -52,27 +52,28 @@
 				},
 				visible: false,
 				isSaveing: false,
+				selectedItems: [],
 				//表单数据
 				form: {
 					id:"",
 					username: "",
 					avatar: "",
-					name: "",
-					dept: "",
-					role: [],
-					group: [],
+					realName: "",
+					departmentIds: "",
+					roleIds: [],
+					groupIds: [],
 				},
 				//验证规则
 				rules: {
-					avatar:[
+					/*avatar:[
 						{required: true, message: '请上传头像'}
-					],
+					],*/
 					username: [
 						{required: true, message: '请输入登录账号'}
 					],
-					name: [
+					/*name: [
 						{required: true, message: '请输入真实姓名'}
-					],
+					],*/
 					password: [
 						{required: true, message: '请输入登录密码'},
 						{validator: (rule, value, callback) => {
@@ -92,7 +93,7 @@
 							}
 						}}
 					],
-					/*dept: [
+					/*department: [
 						{required: true, message: '请选择所属部门'}
 					],*/
 					/*role: [
@@ -115,8 +116,8 @@
 					multiple: true,
 					checkStrictly: true
 				},
-				depts: [],
-				deptsProps: {
+				departments: [],
+				departmentsProps: {
 					value: "id",
 					label: 'name',
 					multiple: true,
@@ -138,7 +139,7 @@
 			},
 			//加载树数据
 			async getGroup(){
-				var res = await this.$API.system.role.list.get();
+				var res = await this.$API.user.userGroup.list.get();
 				this.groups = res.data.records;
 			},
 			async getRole(){
@@ -146,15 +147,41 @@
 				this.roles = res.data.records;
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.tree.get();
-				this.depts = res.data;
+				var res = await this.$API.system.department.tree.get();
+				this.departments = res.data;
+			},
+			selectedNodes() {
+				const nodes = [];
+				this.selectedItems.forEach(item => {
+					let node = this.options.find(option => option.value === item[0]);
+					for (let i = 1; i < item.length; i++) {
+						node = node.children.find(child => child.value === item[i]);
+					}
+					if (node) {
+						nodes.push(node);
+					}
+				});
+				return nodes;
+			},
+			handleChange(value) {
+				if (value.length > 0) {
+					const lastItems = value.map(item => item[item.length - 1]);
+					console.log(lastItems);
+					this.form.departmentIds = lastItems;
+				}
 			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
+						var res;
+						if (this.form.id) {
+							res = await this.$API.system.user.update.put(this.form)
+						} else {
+							res = await this.$API.system.user.add.post(this.form)
+							this.form.id = res.data.id
+						}
 						this.isSaveing = false;
 						if(res.code == 200){
 							this.$emit('success', this.form, this.mode)
@@ -174,9 +201,9 @@
 				this.form.username = data.username
 				this.form.avatar = data.avatar
 				this.form.name = data.name
-				this.form.group = data.group
-				this.form.role = data.role
-				this.form.dept = data.dept
+				this.form.groupIds = data.groupIds
+				this.form.roleIds = data.roleIds
+				this.form.departmentIds = data.departmentIds
 
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
 				//Object.assign(this.form, data)
