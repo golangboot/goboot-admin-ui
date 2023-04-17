@@ -9,4 +9,11 @@ export default {
 			return await http.post(this.url, data);
 		}
 	},
+	login: {
+		url: `${config.API_URL}/auth/login`,
+		name: "账号密码登录",
+		post: async function(data={}){
+			return await http.post(this.url, data);
+		}
+	},
 }

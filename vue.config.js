@@ -20,7 +20,7 @@ module.exports = defineConfig({
 				changeOrigin: true, // 处理跨域
 				ws: true,
 				pathRewrite: {
-					'^/api': '/'
+					'^/api': '/',
 				}
 			}
 		}

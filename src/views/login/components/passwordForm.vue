@@ -91,7 +91,7 @@
 				}
 				//获取token
 				try {
-					var user = await this.$API.auth.token.post(data)
+					var user = await this.$API.auth.login.post(data)
 				} catch (e) {
 					this.islogin = false
 					return false
