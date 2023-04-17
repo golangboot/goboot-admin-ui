@@ -19,6 +19,7 @@
 				<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
 				<el-table-column label="角色名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="编码" prop="code" width="150"></el-table-column>
+				<el-table-column label="标签" prop="label" width="100"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80"></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
@@ -94,6 +95,12 @@
 				this.dialog.save = true
 				this.$nextTick(() => {
 					this.$refs.saveDialog.open('show').setData(row)
+				})
+			},
+			table_permission(row){
+				this.dialog.permission = true
+				this.$nextTick(() => {
+					this.$refs.permissionDialog.open().setData(row)
 				})
 			},
 			//权限设置

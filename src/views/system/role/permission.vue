@@ -61,6 +61,13 @@
 			return {
 				visible: false,
 				isSaveing: false,
+				//表单数据
+				form: {
+					id:"",
+				},
+				//验证规则
+				rules: {
+				},
 				menu: {
 					list: [],
 					checked: [],
@@ -195,6 +202,18 @@
 						title: "关于项目"
 					}
 				]
+			},
+			//表单注入数据
+			setData(data){
+				// this.form.id = data.id
+				// this.form.name = data.name
+				// this.form.code = data.code
+				// this.form.sort = data.sort
+				// this.form.status = data.status
+				// this.form.description = data.description
+
+				//可以和上面一样单个注入，也可以像下面一样直接合并进去
+				Object.assign(this.form, data)
 			}
 		}
 	}
