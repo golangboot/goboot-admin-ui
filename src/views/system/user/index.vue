@@ -26,7 +26,7 @@
 					</div>
 				</el-header>
 				<el-main class="nopadding">
-					<scTable ref="table" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort remoteFilter>
+					<scTable ref="table" :apiObj="apiObj" :params="params" @selection-change="selectionChange" stripe remoteSort remoteFilter>
 						<el-table-column type="selection" width="50"></el-table-column>
 						<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
 						<el-table-column label="头像" width="80" column-key="filterAvatar" :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
@@ -99,6 +99,9 @@
 					checkStrictly: true
 				},
 				apiObj: this.$API.system.user.list,
+				params: {
+					// id: null,
+				},
 				selection: [],
 				search: {
 					// "orders[0].column": "id",
@@ -195,12 +198,13 @@
 			//树过滤
 			groupFilterNode(value, data){
 				if (!value) return true;
-				return data.label.indexOf(value) !== -1;
+				return data.name.indexOf(value) !== -1;
 			},
 			//树点击事件
 			groupClick(data){
-				var params = {
-					groupId: data.id
+				var params = {}
+				if (data.id){
+					params.departmentId = data.id
 				}
 				this.$refs.table.reload(params)
 			},
