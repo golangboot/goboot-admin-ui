@@ -108,7 +108,7 @@
 			//本地更新数据
 			handleSuccess(data, mode){
 				if(mode=='add'){
-					data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					this.$refs.table.tableData.unshift(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

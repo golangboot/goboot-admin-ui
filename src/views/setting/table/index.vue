@@ -26,14 +26,14 @@
 			</scTable>
 		</el-main>
 	</el-container>
-	
+
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
-	
+
 </template>
 
 <script>
 	import saveDialog from './save'
-	
+
 	export default {
 		name: 'tableSetting',
 		components: {
@@ -104,7 +104,7 @@
 			//本地更新数据
 			handleSuccess(data, mode){
 				if(mode=='add'){
-					data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					this.$refs.table.tableData.unshift(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

@@ -90,10 +90,11 @@
 							res = await this.$API.system.dept.update.put(this.form)
 						} else {
 							res = await this.$API.system.dept.add.post(this.form)
-							this.form.id = res.data.id
 						}
 						this.isSaving = false;
 						if(res.code == 200){
+							// this.form.id = res.data.id
+							this.form = res.data
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;
 							this.$message.success("操作成功")

@@ -146,7 +146,7 @@
 			//本地更新数据
 			handleSuccess(data, mode){
 				if(mode=='add'){
-					data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					this.list.push(data)
 				}else if(mode=='edit'){
 					this.list.filter(item => item.id===data.id ).forEach(item => {
@@ -170,6 +170,6 @@
 	.task-add:hover {color: #409EFF;}
 	.task-add i {font-size: 30px;}
 	.task-add p {font-size: 12px;margin-top: 20px;}
-	
+
 	.dark .task-item .bottom {border-color: var(--el-border-color-light);}
 </style>

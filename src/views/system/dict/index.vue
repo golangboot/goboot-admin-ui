@@ -387,10 +387,8 @@
 			},
 			//本地更新数据
 			handleDictSuccess(data, mode){
-				console.log('handleDictSuccess data', data)
-				console.log('handleDictSuccess mode', mode)
 				if(mode=='add'){
-					// data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					if(this.dictList.length > 0){
 						this.$refs.table.upData({
 							code: data.code
@@ -419,10 +417,8 @@
 			},
 			//本地更新数据
 			handleListSuccess(data, mode){
-				console.log('handleListSuccess data', data)
-				console.log('handleListSuccess mode', mode)
 				if(mode=='add'){
-					// data.id = new Date().getTime()
+					data.id = data.id ?? new Date().getTime()
 					this.$refs.table.tableData.push(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

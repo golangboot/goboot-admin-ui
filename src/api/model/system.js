@@ -49,7 +49,7 @@ export default {
 			url: `${config.API_URL}/system/department`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -94,7 +94,7 @@ export default {
 			url: `${config.API_URL}/system/menu`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -139,7 +139,7 @@ export default {
 			url: `${config.API_URL}/system/dict`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -177,7 +177,7 @@ export default {
 			url: `${config.API_URL}/system/role`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -215,7 +215,7 @@ export default {
 			url: `${config.API_URL}/system/permission`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -260,7 +260,7 @@ export default {
 			url: `${config.API_URL}/system/department`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -298,8 +298,30 @@ export default {
 			url: `${config.API_URL}/user/user`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+				console.log('id:', id);
 				return await http.delete(`${this.url}/${id}`, data);
+			}
+		},
+		assignGroups: {
+			url: `${config.API_URL}/user/user/assignGroups`,
+			name: "分配用户组",
+			post: async function(data){
+				return await http.post(`${this.url}`, data);
+			}
+		},
+		assignRoles: {
+			url: `${config.API_URL}/user/user/assignRoles`,
+			name: "分配角色",
+			post: async function(data){
+				return await http.post(`${this.url}`, data);
+			}
+		},
+		assignDepartments: {
+			url: `${config.API_URL}/user/user/assignDepartments`,
+			name: "分配部门",
+			post: async function(data){
+				return await http.post(`${this.url}`, data);
 			}
 		},
 	},

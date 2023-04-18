@@ -99,7 +99,7 @@ export default {
 					idSet.add(id);
 					id = Array.from(idSet).join(',');
 				}*/
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
@@ -137,7 +137,7 @@ export default {
 			url: `${config.API_URL}/user/userGroup`,
 			name: "删除",
 			delete: async function(data){
-				let id = data.id ? (data.ids ? [...new Set([...data.ids, data.id])].join(',') : data.id) : '';
+				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},

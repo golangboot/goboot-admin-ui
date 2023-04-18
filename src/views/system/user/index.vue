@@ -15,8 +15,10 @@
 					<div class="left-panel">
 						<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 						<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-						<el-button type="primary" plain :disabled="selection.length==0">分配角色</el-button>
-						<el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>
+						<el-button type="primary" plain :disabled="selection.length==0" @click="assignGroups">分配用户组</el-button>
+						<el-button type="primary" plain :disabled="selection.length==0" @click="assignRoles">分配角色</el-button>
+						<el-button type="primary" plain :disabled="selection.length==0" @click="assignDepartments">分配部门</el-button>
+						<!--<el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>-->
 					</div>
 					<div class="right-panel">
 						<div class="right-panel-search">
@@ -73,21 +75,25 @@
 	</el-container>
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
+	<assign-dialog v-if="dialog.assign" ref="assignDialog" @closed="dialog.assign=false"></assign-dialog>
 
 </template>
 
 <script>
 	import saveDialog from './save'
+	import assignDialog from './assign'
 
 	export default {
 		name: 'user',
 		components: {
-			saveDialog
+			saveDialog,
+			assignDialog,
 		},
 		data() {
 			return {
 				dialog: {
-					save: false
+					save: false,
+					assign: false,
 				},
 				showGrouploading: false,
 				groupFilterText: '',
@@ -207,6 +213,36 @@
 					params.departmentId = data.id
 				}
 				this.$refs.table.reload(params)
+			},
+			//分配用户组
+			assignGroups(){
+				this.dialog.assign = true
+				this.$nextTick(() => {
+					let data = {
+						userIds: this.selection.map(v => v.id)
+					}
+					this.$refs.assignDialog.open('group').setData(data)
+				})
+			},
+			//分配角色
+			assignRoles(){
+				this.dialog.assign = true
+				this.$nextTick(() => {
+					let data = {
+						userIds: this.selection.map(v => v.id)
+					}
+					this.$refs.assignDialog.open('role').setData(data)
+				})
+			},
+			//分配部门
+			assignDepartments(){
+				this.dialog.assign = true
+				this.$nextTick(() => {
+					let data = {
+						userIds: this.selection.map(v => v.id)
+					}
+					this.$refs.assignDialog.open('department').setData(data)
+				})
 			},
 			//搜索
 			upsearch(){
