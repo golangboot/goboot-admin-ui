@@ -2,7 +2,7 @@
 	<el-drawer :title="titleMap[mode]" v-model="visible" :size="1000" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
-				<el-form ref="dialogForm" :model="form" :rules="rules" label-width="100px" label-position="top">
+				<el-form ref="dialogForm" :model="form" :rules="rules" :disabled="mode=='show'" label-width="100px" label-position="top">
 					<el-tabs tab-position="top">
 						<el-tab-pane label="基础信息">
 							<el-row :gutter="20">
