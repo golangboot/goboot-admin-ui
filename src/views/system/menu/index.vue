@@ -32,7 +32,7 @@
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-					<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>
+					<!--<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>-->
 					<sc-file-import :apiObj="$API.system.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
 						<template #default="{open}">
 							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
@@ -110,24 +110,30 @@
 			<el-container>
 				<el-header>菜单编辑区</el-header>
 				<el-main class="nopadding" style="padding:20px;" ref="main">
-					<save ref="save" :menu="menuList"></save>
+					<edit ref="edit" :menu="menuList"></edit>
 				</el-main>
 			</el-container>
 		</el-aside>
 	</el-container>
+
+	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+
 </template>
 
 <script>
 	import scFileImport from '@/components/scFileImport'
 	import scFileExport from '@/components/scFileExport'
 
+	import saveDialog from './save'
+
 	let newMenuIndex = 1;
-	import save from './save'
+	import edit from './edit'
 
 	export default {
 		name: "settingMenu",
 		components: {
-			save,
+			saveDialog,
+			edit,
 			scFileImport,
 			scFileExport,
 		},
@@ -327,6 +333,14 @@
 			upsearch(){
 				this.$refs.table.upData(this.search)
 			},
+			//本地更新数据
+			handleSaveSuccess(data, mode){
+				if(mode=='add'){
+					this.$refs.table.refresh()
+				}else if(mode=='edit'){
+					this.$refs.table.refresh()
+				}
+			},
 			async syncMenu(){
 				var reqData = {}
 				var res = await this.$API.system.menu.sync.post(reqData);
@@ -347,7 +361,7 @@
 			//树点击
 			menuClick(data, node){
 				var pid = node.level==1?undefined:node.parent.data.id;
-				this.$refs.save.setData(data, pid)
+				this.$refs.edit.setData(data, pid)
 				this.$refs.main.$el.scrollTop = 0
 			},
 			//树过滤
@@ -358,7 +372,7 @@
 			},
 			//树拖拽
 			async nodeDrop(draggingNode, dropNode, dropType){
-				this.$refs.save.setData({})
+				this.$refs.edit.setData({})
 				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
 				// console.log('dropType:', dropType); // dropType: before | after | inner
 				// console.log('dropNode.data:', dropNode.data);
@@ -419,7 +433,7 @@
 				this.$refs.menu.append(newMenuData, node)
 				this.$refs.menu.setCurrentKey(newMenuData.id)
 				var pid = node ? node.data.id : ""
-				this.$refs.save.setData(newMenuData, pid)
+				this.$refs.edit.setData(newMenuData, pid)
 			},
 			//删除菜单
 			async delMenu(){
@@ -449,7 +463,7 @@
 					CheckedNodes.forEach(item => {
 						var node = this.$refs.menu.getNode(item)
 						if(node.isCurrent){
-							this.$refs.save.setData({})
+							this.$refs.edit.setData({})
 						}
 						this.$refs.menu.remove(item)
 					})
