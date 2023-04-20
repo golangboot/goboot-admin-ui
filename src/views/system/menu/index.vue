@@ -32,7 +32,7 @@
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-					<el-button type="primary" plain @click="syncMenu">同步系统内置菜单</el-button>
+					<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>
 					<sc-file-import :apiObj="$API.system.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
 						<template #default="{open}">
 							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
