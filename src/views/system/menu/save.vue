@@ -4,7 +4,7 @@
 			<el-empty description="请选择左侧菜单后操作" :image-size="100"></el-empty>
 		</el-col>
 		<template v-else>
-			<el-col :lg="12">
+			<el-col :lg="24">
 				<h2>{{form.meta.title || "新增菜单"}}</h2>
 				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
 					<el-form-item label="显示名称" prop="meta.title">
@@ -67,7 +67,7 @@
 				</el-form>
 
 			</el-col>
-			<el-col :lg="12" class="api-list">
+			<el-col :lg="12" class="api-list" style="display: none;">
 				<!--<h2>接口角色</h2>
 				<el-form-item label="所属角色" prop="group">
 					<el-select v-model="form.meta.role" multiple filterable style="width: 100%">

@@ -98,6 +98,13 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
+		sync: {
+			url: `${config.API_URL}/system/menu/sync`,
+			name: "同步",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
 	},
 	dict: {
 		tree: {
