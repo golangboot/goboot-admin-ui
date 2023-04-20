@@ -105,6 +105,20 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
+		export: {
+			url: `${config.API_URL}/system/menu/export`,
+			name: "导出附件",
+			get: async function(data, config={}){
+				return await http.get(this.url, data, config);
+			}
+		},
+		import: {
+			url: `${config.API_URL}/system/menu/import`,
+			name: "导入附件",
+			post: async function(data, config={}){
+				return await http.post(this.url, data, config);
+			}
+		},
 	},
 	dict: {
 		tree: {

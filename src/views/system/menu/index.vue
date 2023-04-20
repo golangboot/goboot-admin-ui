@@ -33,6 +33,41 @@
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
 					<el-button type="primary" plain @click="syncMenu">同步系统内置菜单</el-button>
+					<sc-file-import :apiObj="$API.system.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
+						<template #default="{open}">
+							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
+						</template>
+						<template #uploader>
+							<el-icon class="el-icon--upload"><sc-icon-file-excel /></el-icon>
+							<div class="el-upload__text">
+								将文件拖到此处或 <em>点击选择文件上传</em>
+							</div>
+						</template>
+						<template #form="{formData}">
+							<el-form-item label="覆盖已有数据">
+								<el-switch v-model="formData.coverage" />
+							</el-form-item>
+							<el-form-item label="跳过错误数据">
+								<el-switch v-model="formData.skipError" />
+							</el-form-item>
+						</template>
+					</sc-file-import>
+					<sc-file-export :apiObj="$API.system.menu.export" blob :fileName="'菜单列表_'+Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
+						<template #default="{open}">
+							<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
+						</template>
+						<template #form="{formData}">
+							<el-form-item label="导出条数">
+								<el-select v-model="formData.limit" placeholder="全部">
+									<el-option label="100条" value="100" />
+									<el-option label="500条" value="500" />
+									<el-option label="1000条" value="1000" />
+									<el-option label="5000条" value="5000" />
+									<el-option label="10000条" value="10000" />
+								</el-select>
+							</el-form-item>
+						</template>
+					</sc-file-export>
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
@@ -83,13 +118,18 @@
 </template>
 
 <script>
+	import scFileImport from '@/components/scFileImport'
+	import scFileExport from '@/components/scFileExport'
+
 	let newMenuIndex = 1;
 	import save from './save'
 
 	export default {
 		name: "settingMenu",
 		components: {
-			save
+			save,
+			scFileImport,
+			scFileExport,
 		},
 		data(){
 			return {
@@ -97,6 +137,89 @@
 					save: false,
 				},
 				apiObj: this.$API.system.menu.list,
+				column: [
+					{
+						label: "ID",
+						prop: "id"
+					},
+					{
+						label: "名称",
+						prop: "name"
+					},
+					{
+						label: "路径",
+						prop: "path"
+					},
+					{
+						label: "组件",
+						prop: "component"
+					},
+					{
+						label: "重定向地址",
+						prop: "redirect"
+					},
+					{
+						label: "显示名称",
+						prop: "title"
+					},
+					{
+						label: "是否隐藏菜单",
+						prop: "hidden"
+					},
+					{
+						label: "是否固定",
+						prop: "affix"
+					},
+					{
+						label: "显示图标",
+						prop: "icon"
+					},
+					{
+						label: "菜单类型",
+						prop: "type"
+					},
+					{
+						label: "是否隐藏面包屑",
+						prop: "hiddenBreadcrumb"
+					},
+					{
+						label: "左侧菜单的路由地址活动状态",
+						prop: "active"
+					},
+					{
+						label: "颜色值",
+						prop: "color"
+					},
+					{
+						label: "是否整页打开路由",
+						prop: "fullpage"
+					},
+					{
+						label: "角色",
+						prop: "role"
+					},
+					{
+						label: "标签",
+						prop: "tag"
+					},
+					{
+						label: "父类ID",
+						prop: "parentId"
+					},
+					{
+						label: "排序",
+						prop: "sort"
+					},
+					{
+						label: "状态",
+						prop: "status"
+					},
+					{
+						label: "元数据",
+						prop: "meta",
+						hide: true
+					}
+				],
 				selection: [],
 				search: {
 					keyword: null
