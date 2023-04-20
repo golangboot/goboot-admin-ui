@@ -54,8 +54,8 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
-									<el-form-item label="系统管理员" prop="isAdmin">
-										<el-switch v-model="form.isAdmin" :active-value="1" :inactive-value="0"></el-switch>
+									<el-form-item label="系统用户" prop="isSystem">
+										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
 								</el-col>
 							</el-row>
