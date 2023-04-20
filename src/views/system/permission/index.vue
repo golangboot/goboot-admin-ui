@@ -18,7 +18,7 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="权限名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="编码" prop="code" width="150"></el-table-column>
+				<el-table-column label="编码" prop="code" width="200"></el-table-column>
 				<el-table-column label="标签" prop="label" width="100"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
@@ -180,6 +180,16 @@
 					this.$refs.table.refresh()
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
+				}
+			},
+			async syncPermission(){
+				var reqData = {}
+				var res = await this.$API.system.permission.sync.post(reqData);
+				if(res.code == 200){
+					this.$refs.table.refresh()
+					this.$message.success("操作成功")
+				}else{
+					this.$alert(res.message, "提示", {type: 'error'})
 				}
 			}
 		}

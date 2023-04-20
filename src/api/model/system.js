@@ -181,6 +181,13 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
+		sync: {
+			url: `${config.API_URL}/system/role/sync`,
+			name: "同步",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
 	},
 	permission: {
 		list: {
@@ -217,6 +224,13 @@ export default {
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
+			}
+		},
+		sync: {
+			url: `${config.API_URL}/system/permission/sync`,
+			name: "同步",
+			post: async function(data){
+				return await http.post(this.url, data);
 			}
 		},
 	},
