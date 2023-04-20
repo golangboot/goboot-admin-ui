@@ -15,8 +15,9 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" hidePagination>
 				<el-table-column type="selection" width="50"></el-table-column>
+				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="部门名称" prop="name" width="250"></el-table-column>
-				<el-table-column label="排序" prop="sort" width="150"></el-table-column>
+				<el-table-column label="排序" prop="sort" width="150" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="150">
 					<template #default="scope">
 						<el-tag v-if="scope.row.status==1" type="success">启用</el-tag>

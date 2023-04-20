@@ -1,14 +1,20 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="330" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
-			<el-form-item label="编码" prop="code">
-				<el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
-			</el-form-item>
 			<el-form-item label="字典名称" prop="name">
 				<el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
 			</el-form-item>
+			<el-form-item label="字典编码" prop="code">
+				<el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
+			</el-form-item>
+			<el-form-item label="默认键值" prop="value">
+				<el-input v-model="form.value" clearable></el-input>
+			</el-form-item>
 			<el-form-item label="父路径" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
+			</el-form-item>
+			<el-form-item label="排序" prop="sort">
+				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
@@ -98,13 +104,13 @@
 			},
 			//表单注入数据
 			setData(data){
-				this.form.id = data.id
-				this.form.name = data.name
-				this.form.code = data.code
-				this.form.parentId = data.parentId
+				// this.form.id = data.id
+				// this.form.name = data.name
+				// this.form.code = data.code
+				// this.form.parentId = data.parentId
 
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
-				//Object.assign(this.form, data)
+				Object.assign(this.form, data)
 			}
 		}
 	}

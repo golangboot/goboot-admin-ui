@@ -16,11 +16,11 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
+				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="角色名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="编码" prop="code" width="150"></el-table-column>
 				<el-table-column label="标签" prop="label" width="100"></el-table-column>
-				<el-table-column label="排序" prop="sort" width="80"></el-table-column>
+				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>

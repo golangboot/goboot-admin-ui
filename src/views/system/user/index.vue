@@ -40,7 +40,7 @@
 						<el-table-column label="邮箱" prop="email" width="150" sortable='custom'></el-table-column>
 						<el-table-column label="手机号" prop="mobile" width="150" sortable='custom'></el-table-column>
 						<el-table-column label="姓名" prop="realName" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="性别" prop="gender" width="150" sortable='custom'>
+						<el-table-column label="性别" prop="gender" width="150" sortable>
 							<template #default="scope">
 								<el-tag v-if="scope.row.gender==1" type="primary">男</el-tag>
 								<el-tag v-else-if="scope.row.gender==2" type="warning">女</el-tag>

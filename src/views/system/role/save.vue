@@ -11,7 +11,7 @@
 				<el-input v-model="form.label" placeholder="请输入标签（用于分组显示）" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
