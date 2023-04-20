@@ -4,6 +4,7 @@
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
+				<el-button type="primary" plain @click="syncPermission">同步系统内置权限</el-button>
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -25,7 +26,7 @@
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
-				<el-table-column label="创建时间" prop="create_time" width="180"></el-table-column>
+				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
 				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
