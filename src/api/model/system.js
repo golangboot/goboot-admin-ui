@@ -247,6 +247,13 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
+		tree: {
+			url: `${config.API_URL}/system/permission/tree`,
+			name: "列表树",
+			get: async function(){
+				return await http.get(this.url);
+			}
+		},
 		sync: {
 			url: `${config.API_URL}/system/permission/sync`,
 			name: "同步",

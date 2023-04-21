@@ -1,12 +1,17 @@
 <template>
-	<el-dialog title="角色权限设置" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+	<el-dialog title="角色权限设置" v-model="visible" :width-invalid="'80%'" :height-invalid="'80%'" destroy-on-close @closed="$emit('closed')">
 		<el-tabs tab-position="top">
-			<el-tab-pane label="菜单权限">
+			<el-tab-pane label="权限">
+				<div class="treeMain">
+					<el-tree ref="permission" node-key="id" :data="permission.list" :props="permission.props" show-checkbox></el-tree>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="菜单">
 				<div class="treeMain">
 					<el-tree ref="menu" node-key="id" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
 				</div>
 			</el-tab-pane>
-			<el-tab-pane label="数据权限">
+			<el-tab-pane label="数据权限" disabled>
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="规则类型">
 						<el-select v-model="data.dataType" placeholder="请选择">
@@ -28,12 +33,12 @@
 					</el-form-item>
 				</el-form>
 			</el-tab-pane>
-			<el-tab-pane label="控制台模块">
+			<el-tab-pane label="控制台模块" disabled>
 				<div class="treeMain">
 					<el-tree ref="grid" node-key="key" :data="grid.list" :props="grid.props" :default-checked-keys="grid.checked" show-checkbox></el-tree>
 				</div>
 			</el-tab-pane>
-			<el-tab-pane label="控制台">
+			<el-tab-pane label="控制台视图" disabled>
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="控制台视图">
 						<el-select v-model="dashboard" placeholder="请选择">
@@ -67,6 +72,20 @@
 				},
 				//验证规则
 				rules: {
+				},
+				permission: {
+					list: [],
+					checked: [],
+					props: {
+						label: (data)=>{
+							return data.name
+						},
+						/*children: 'children',
+						isLeaf: (data) => {
+							// 是否为叶子节点(终端节点/没有子节点)
+							return !data.children || data.children.length === 0;
+						},*/
+					}
 				},
 				menu: {
 					list: [],
@@ -121,6 +140,7 @@
 			}
 		},
 		mounted() {
+			this.getPermission()
 			this.getMenu()
 			this.getDept()
 			this.getGrid()
@@ -131,6 +151,9 @@
 			},
 			submit(){
 				this.isSaving = true;
+
+				var permissionCheckedKeys = this.$refs.permission.getCheckedKeys().concat(this.$refs.permission.getHalfCheckedKeys())
+				console.log('permission:', permissionCheckedKeys)
 
 				//选中的和半选的合并后传值接口
 				var checkedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
@@ -148,6 +171,19 @@
 					this.$message.success("操作成功")
 					this.$emit('success')
 				},1000)
+			},
+			async getPermission(){
+				var res = await this.$API.system.permission.tree.get()
+				this.permission.list = res.data
+
+				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
+				this.permission.checked = ["104"]
+				this.$nextTick(() => {
+					let filterKeys = this.permission.checked.filter(key => {
+						return this.$refs.permission.getNode(key)?.isLeaf ?? true
+					})
+					this.$refs.permission.setCheckedKeys(filterKeys, true)
+				})
 			},
 			async getMenu(){
 				var res = await this.$API.system.menu.tree.get()
