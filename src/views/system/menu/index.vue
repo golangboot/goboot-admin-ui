@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="300px" v-loading="menuloading">
+		<el-aside width="20%" v-loading="menuloading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
@@ -25,6 +25,13 @@
 					<el-button type="primary" size="small" icon="el-icon-plus" @click="addMenu()"></el-button>
 					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="delMenu"></el-button>
 				</el-footer>
+			</el-container>
+		</el-aside>
+		<el-aside width="30%">
+			<el-container>
+				<el-main class="nopadding" style="padding:20px;" ref="main">
+					<edit ref="edit" :menu="menuList"></edit>
+				</el-main>
 			</el-container>
 		</el-aside>
 		<el-container>
@@ -106,14 +113,6 @@
 				</scTable>
 			</el-main>
 		</el-container>
-		<el-aside>
-			<el-container>
-				<el-header>菜单编辑区</el-header>
-				<el-main class="nopadding" style="padding:20px;" ref="main">
-					<edit ref="edit" :menu="menuList"></edit>
-				</el-main>
-			</el-container>
-		</el-aside>
 	</el-container>
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>

@@ -148,6 +148,7 @@
 		methods: {
 			open(){
 				this.visible = true;
+				return this;
 			},
 			submit(){
 				this.isSaving = true;
@@ -241,15 +242,20 @@
 			},
 			//表单注入数据
 			setData(data){
-				// this.form.id = data.id
-				// this.form.name = data.name
-				// this.form.code = data.code
-				// this.form.sort = data.sort
-				// this.form.status = data.status
-				// this.form.description = data.description
-
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
 				Object.assign(this.form, data)
+
+				if (data.id){
+					this.loading = true
+					const params = {
+						id: data.id
+					}
+					setTimeout(async ()=>{
+						var res = await this.$API.system.role.show.get(params)
+						this.loading = false
+						this.form = res.data
+					},100)
+				}
 			}
 		}
 	}

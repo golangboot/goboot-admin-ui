@@ -55,9 +55,6 @@
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="edit" :loading="loading">保 存</el-button>
-			</el-form-item>
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>

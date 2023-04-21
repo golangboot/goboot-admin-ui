@@ -44,15 +44,19 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-							<el-divider>系统</el-divider>
 							<el-row :gutter="20">
 								<el-col :span="12">
-									<el-form-item label="状态" prop="status">
+									<el-form-item label="用户状态" prop="status">
 										<el-radio-group v-model="form.status">
 											<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 										</el-radio-group>
 									</el-form-item>
 								</el-col>
+								<el-col :span="12">
+								</el-col>
+							</el-row>
+							<el-divider>系统</el-divider>
+							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="系统用户" prop="isSystem">
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
@@ -237,15 +241,18 @@
 			//表单注入数据
 			setData(data){
 				Object.assign(this.form, data)
-				this.loading = true
-				const params = {
-					id: data.id
+
+				if (data.id){
+					this.loading = true
+					const params = {
+						id: data.id
+					}
+					setTimeout(async ()=>{
+						var res = await this.$API.system.user.show.get(params)
+						this.loading = false
+						this.form = res.data
+					},100)
 				}
-				setTimeout(async ()=>{
-					var res = await this.$API.system.user.show.get(params)
-					this.loading = false
-					this.form = res.data
-				},400)
 			},
 		}
 	}

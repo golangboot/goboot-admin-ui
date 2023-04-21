@@ -76,15 +76,9 @@
 			}
 		},
 		mounted() {
-			if (this.mode == 'group'){
-				this.getGroup()
-			}
-			if (this.mode == 'role'){
-				this.getRole()
-			}
-			if (this.mode == 'department'){
-				this.getDepartment()
-			}
+			this.getGroup();
+			this.getRole();
+			this.getDepartment();
 		},
 		methods: {
 			//显示

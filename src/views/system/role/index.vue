@@ -108,7 +108,8 @@
 			permission(){
 				this.dialog.permission = true
 				this.$nextTick(() => {
-					this.$refs.permissionDialog.open()
+					let row = this.selection.at(0);
+					this.$refs.permissionDialog.open().setData(row)
 				})
 			},
 			//删除
