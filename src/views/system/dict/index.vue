@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="300px" v-loading="showDictloading">
+		<el-aside width="300px" v-loading="showDictLoading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="dictFilterText" clearable></el-input>
@@ -91,7 +91,7 @@
 					dict: false,
 					info: false
 				},
-				showDictloading: true,
+				showDictLoading: true,
 				dictList: [],
 				dictFilterText: '',
 				dictProps: {
@@ -115,7 +115,7 @@
 			//加载树数据
 			async getDict(){
 				var res = await this.$API.system.dict.tree.get();
-				this.showDictloading = false;
+				this.showDictLoading = false;
 				this.dictList = res.data;
 				//获取第一个节点,设置选中 & 加载明细列表
 				var firstNode = this.dictList[0];
@@ -194,7 +194,6 @@
 			dictClick(data){
 				this.$refs.table.reload({
 					parentId: data.id,
-					// code: data.code,
 				})
 			},
 			//删除树
@@ -202,7 +201,7 @@
 				this.$confirm(`确定删除 ${data.name} 项吗？`, '提示', {
 					type: 'warning'
 				}).then(async () => {
-					this.showDictloading = true;
+					this.showDictLoading = true;
 
 					var reqData = {
 						id: data.id
@@ -230,7 +229,7 @@
 						this.$message.warning(res.message)
 					}
 
-					this.showDictloading = false;
+					this.showDictLoading = false;
 
 				}).catch(() => {
 
