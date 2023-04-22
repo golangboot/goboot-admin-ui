@@ -341,7 +341,6 @@ export default {
 			name: "删除",
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
-				console.log('id:', id);
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},

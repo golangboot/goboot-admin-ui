@@ -162,7 +162,8 @@
 				mode: "add",
 				titleMap: {
 					add: '新增',
-					edit: '编辑'
+					edit: '编辑',
+					show: '查看',
 				},
 				form: {
 					id: null,

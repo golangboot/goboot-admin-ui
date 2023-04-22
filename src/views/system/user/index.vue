@@ -106,13 +106,14 @@
 				},
 				apiObj: this.$API.system.user.list,
 				params: {
-					// id: null,
 				},
 				selection: [],
 				search: {
 					// "orders[0].column": "id",
 					// "orders[0].asc": false,
-					name: null,
+					// name: "",
+					keyword: "", // 关键字
+					departmentId: null, // 部门id
 				}
 			}
 		},
@@ -208,11 +209,9 @@
 			},
 			//树点击事件
 			groupClick(data){
-				var params = {}
-				if (data.id){
-					params.departmentId = data.id
-				}
-				this.$refs.table.reload(params)
+				this.search.departmentId = data.id
+				// this.$refs.table.reload(this.search)
+				this.$refs.table.upData(this.search)
 			},
 			//分配用户组
 			assignGroups(){
