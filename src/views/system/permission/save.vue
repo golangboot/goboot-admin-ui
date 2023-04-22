@@ -52,9 +52,6 @@
 				},
 				//验证规则
 				rules: {
-					/*sort: [
-						{required: true, message: '请输入排序', trigger: 'change'}
-					],*/
 					name: [
 						{required: true, message: '请输入权限名称'}
 					],
@@ -100,15 +97,7 @@
 			},
 			//表单注入数据
 			setData(data){
-				this.form.id = data.id
-				this.form.name = data.name
-				this.form.code = data.code
-				this.form.sort = data.sort
-				this.form.status = data.status
-				this.form.description = data.description
-
-				//可以和上面一样单个注入，也可以像下面一样直接合并进去
-				//Object.assign(this.form, data)
+				Object.assign(this.form, data)
 			}
 		}
 	}

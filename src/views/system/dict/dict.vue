@@ -58,8 +58,8 @@
 				dictProps: {
 					value: "id",
 					label: "name",
+					checkStrictly: true,
 					emitPath: false,
-					checkStrictly: true
 				}
 			}
 		},

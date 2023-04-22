@@ -105,6 +105,14 @@
 		},
 		data(){
 			return {
+				mode: "add",
+				titleMap: {
+					add: '新增',
+					edit: '编辑',
+					show: '查看'
+				},
+				visible: false,
+				isSaving: false,
 				form: {
 					id: "",
 					parentId: "",
@@ -145,7 +153,8 @@
 				sysRolesProps: {
 					value: "id",
 					multiple: true,
-					checkStrictly: true
+					checkStrictly: true,
+					emitPath: false,
 				},
 				apiListAddTemplate: {
 					code: "",
@@ -170,6 +179,12 @@
 			async getSysRoles(){
 				var res = await this.$API.system.role.list.get();
 				this.sysRoles = res.data.rows;
+			},
+			//显示
+			open(mode='add'){
+				this.mode = mode;
+				this.visible = true;
+				return this
 			},
 			//简单化菜单
 			treeToMap(tree){

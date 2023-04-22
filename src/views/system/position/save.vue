@@ -1,14 +1,11 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="部门名称" prop="name">
+			<el-form-item label="职位名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="部门编码" prop="code">
+			<el-form-item label="职位编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="上级部门" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="顶级部门" clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
@@ -48,26 +45,18 @@
 					label: "",
 					sort: null,
 					status: 1,
-					remark: "",
-					parentId: null,
+					remark: ""
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入部门名称'}
+						{required: true, message: '请输入职位名称'}
 					],
-				},
-				departmentOptions: [],
-				departmentProps: {
-					value: 'id',
-					label: 'name',
-					checkStrictly: true,
-					emitPath: false,
-				},
+				}
 			}
 		},
 		mounted() {
-			this.getDepartment()
+
 		},
 		methods: {
 			//显示
@@ -76,10 +65,6 @@
 				this.visible = true;
 				return this
 			},
-			async getDepartment(){
-				var res = await this.$API.system.dept.tree.get();
-				this.departmentOptions = res.data
-			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
@@ -87,9 +72,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.department.update.put(this.form)
+							res = await this.$API.system.position.update.put(this.form)
 						} else {
-							res = await this.$API.system.department.add.post(this.form)
+							res = await this.$API.system.position.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -112,7 +97,7 @@
 						id: data.id
 					}
 					setTimeout(async ()=>{
-						var res = await this.$API.system.department.show.get(params)
+						var res = await this.$API.system.position.show.get(params)
 						this.loading = false
 						this.form = res.data
 					},100)

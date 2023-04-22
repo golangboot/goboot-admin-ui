@@ -222,13 +222,12 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.user.update.put(this.form)
+							res = await this.$API.user.user.update.put(this.form)
 						} else {
-							res = await this.$API.system.user.add.post(this.form)
+							res = await this.$API.user.user.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
-							// this.form.id = res.data.id
 							this.form = res.data
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;
@@ -242,14 +241,13 @@
 			//表单注入数据
 			setData(data){
 				Object.assign(this.form, data)
-
 				if (data.id){
 					this.loading = true
 					const params = {
 						id: data.id
 					}
 					setTimeout(async ()=>{
-						var res = await this.$API.system.user.show.get(params)
+						var res = await this.$API.user.user.show.get(params)
 						this.loading = false
 						this.form = res.data
 					},100)

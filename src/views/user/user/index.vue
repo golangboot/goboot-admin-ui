@@ -38,10 +38,9 @@
 					</template>
 				</el-table-column>
 				<!--<el-table-column label="所属角色" prop="groupName" width="200" sortable></el-table-column>-->
-				<el-table-column label="状态" prop="status" width="150">
+				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
-						<el-tag v-if="scope.row.status==1" type="success">正常</el-tag>
-						<el-tag v-if="scope.row.status==0" type="danger">禁用</el-tag>
+						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150" sortable></el-table-column>
@@ -66,7 +65,7 @@
 		</el-main>
 	</el-container>
 
-	<save-drawer v-if="drawer.save" ref="saveDrawer" @success="handleSuccess" @closed="drawer.save=false"></save-drawer>
+	<save-drawer v-if="drawer.save" ref="saveDrawer" @success="handleSaveSuccess" @closed="drawer.save=false"></save-drawer>
 
 </template>
 
@@ -115,7 +114,7 @@ export default {
 				var reqData = {
 					ids: this.selection.map(v => v.id)
 				}
-				var res = await this.$API.system.user.delete.delete(reqData)
+				var res = await this.$API.user.user.delete.delete(reqData)
 				if (res.code != 200) {
 					this.$alert(res.message, "提示", {type: 'error'})
 					return
@@ -151,7 +150,7 @@ export default {
 		//删除
 		async table_del(row, index) {
 			var reqData = {id: row.id}
-			var res = await this.$API.system.user.delete.delete(reqData);
+			var res = await this.$API.user.user.delete.delete(reqData);
 			if (res.code == 200) {
 				//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 				this.$refs.table.tableData.splice(index, 1);
@@ -164,12 +163,29 @@ export default {
 		selectionChange(selection) {
 			this.selection = selection;
 		},
+		//表格内开关
+		async changeSwitch(val, row){
+			//1.还原数据
+			row.status = row.status == '1'?'0':'1'
+			//2.执行加载
+			row.$switch_status = true;
+			//3.等待接口返回后改变值
+			var reqData = {id: row.id,status: val}
+			var res = await this.$API.user.user.update.put(reqData);
+			delete row.$switch_status;
+			if(res.code == 200){
+				row.status = val;
+				this.$message.success("操作成功")
+			}else{
+				this.$alert(res.message, "提示", {type: 'error'})
+			}
+		},
 		//搜索
 		upsearch() {
 			this.$refs.table.upData(this.search)
 		},
 		//本地更新数据
-		handleSuccess(data, mode) {
+		handleSaveSuccess(data, mode) {
 			if (mode == 'add') {
 				data.id = data.id ?? new Date().getTime()
 				this.$refs.table.tableData.unshift(data)
@@ -178,7 +194,7 @@ export default {
 					Object.assign(item, data)
 				})
 			}
-		}
+		},
 	},
 }
 </script>

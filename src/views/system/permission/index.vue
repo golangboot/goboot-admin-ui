@@ -62,7 +62,6 @@
 			return {
 				dialog: {
 					save: false,
-					permission: false
 				},
 				apiObj: this.$API.system.permission.list,
 				selection: [],

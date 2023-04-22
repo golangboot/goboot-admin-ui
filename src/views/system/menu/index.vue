@@ -359,6 +359,7 @@
 			},
 			//树点击
 			menuClick(data, node){
+				console.log(data);
 				var pid = node.level==1?undefined:node.parent.data.id;
 				this.$refs.edit.setData(data, pid)
 				this.$refs.main.$el.scrollTop = 0

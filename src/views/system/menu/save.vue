@@ -102,11 +102,27 @@
 					name: [
 						{required: true, message: '请输入菜单名称'}
 					],
-				}
+				},
+				menu: [],
+				menuOptions: [],
+				menuProps: {
+					value: 'id',
+					label: 'title',
+					checkStrictly: true,
+					emitPath: false,
+				},
+			}
+		},
+		watch: {
+			menu: {
+				handler(){
+					this.menuOptions = this.treeToMap(this.menu)
+				},
+				deep: true
 			}
 		},
 		mounted() {
-
+			this.getMenu();
 		},
 		methods: {
 			//显示
@@ -114,6 +130,25 @@
 				this.mode = mode;
 				this.visible = true;
 				return this
+			},
+			//加载树数据
+			async getMenu(){
+				var res = await this.$API.system.menu.tree.get();
+				this.menu = res.data;
+			},
+			//简单化菜单
+			treeToMap(tree){
+				const map = []
+				tree.forEach(item => {
+					var obj = {
+						id: item.id,
+						parentId: item.parentId,
+						title: item.meta.title,
+						children: item.children&&item.children.length>0 ? this.treeToMap(item.children) : null
+					}
+					map.push(obj)
+				})
+				return map
 			},
 			//表单提交方法
 			submit(){
