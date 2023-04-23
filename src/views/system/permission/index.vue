@@ -226,6 +226,8 @@
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
 				}
+				// 触发树更新
+				this.getTree()
 			},
 			async syncPermission(){
 				var reqData = {}

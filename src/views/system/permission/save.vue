@@ -7,6 +7,9 @@
 			<el-form-item label="权限编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="父类" prop="parentId">
+				<el-cascader v-model="form.parentId" :options="permissionOptions" :props="permissionProps" :show-all-levels="false" :emitPath="false" placeholder="请选择父类" clearable></el-cascader>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -55,11 +58,18 @@
 					code: [
 						{required: true, message: '请输入权限编码'}
 					]
-				}
+				},
+				permissionOptions: [],
+				permissionProps: {
+					value: 'id',
+					label: 'name',
+					checkStrictly: true,
+					emitPath: false,
+				},
 			}
 		},
 		mounted() {
-
+			this.getPermissionTree()
 		},
 		methods: {
 			//显示
@@ -67,6 +77,10 @@
 				this.mode = mode;
 				this.visible = true;
 				return this
+			},
+			async getPermissionTree(){
+				let res = await this.$API.system.permission.tree.get();
+				this.permissionOptions = res.data
 			},
 			//表单提交方法
 			submit(){

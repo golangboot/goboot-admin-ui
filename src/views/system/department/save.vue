@@ -67,7 +67,7 @@
 			}
 		},
 		mounted() {
-			this.getDepartment()
+			this.getDepartmentTree()
 		},
 		methods: {
 			//显示
@@ -76,8 +76,8 @@
 				this.visible = true;
 				return this
 			},
-			async getDepartment(){
-				var res = await this.$API.system.dept.tree.get();
+			async getDepartmentTree(){
+				var res = await this.$API.system.department.tree.get();
 				this.departmentOptions = res.data
 			},
 			//表单提交方法
@@ -104,18 +104,14 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
+			async setData(data){
 				Object.assign(this.form, data)
 				if (data.id){
 					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.system.department.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					let reqData = {id: data.id}
+					var res = await this.$API.system.department.show.get(reqData)
+					this.loading = false
+					this.form = res.data
 				}
 			}
 		}
