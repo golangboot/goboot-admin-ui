@@ -247,6 +247,34 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
+		getPermissionIdListByRoleId: {
+			url: `${config.API_URL}/system/role/getPermissionIdListByRoleId`,
+			name: "根据角色ID获取权限ID列表",
+			get: async function(data){
+				return await http.get(`${this.url}/${data.id}`, data);
+			}
+		},
+		assignPermission: {
+			url: `${config.API_URL}/system/role/assignPermission`,
+			name: "分配权限",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
+		getMenuIdListByRoleId: {
+			url: `${config.API_URL}/system/role/getMenuIdListByRoleId`,
+			name: "根据角色ID获取菜单ID列表",
+			get: async function(data){
+				return await http.get(`${this.url}/${data.id}`, data);
+			}
+		},
+		assignMenu: {
+			url: `${config.API_URL}/system/role/assignMenu`,
+			name: "分配菜单",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
 	},
 	permission: {
 		list: {

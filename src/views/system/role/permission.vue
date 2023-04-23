@@ -69,6 +69,8 @@
 				//表单数据
 				form: {
 					id:"",
+					permissionIds:[],
+					menuIds:[],
 				},
 				//验证规则
 				rules: {
@@ -150,54 +152,100 @@
 				this.visible = true;
 				return this;
 			},
-			submit(){
+			async submit(){
 				this.isSaving = true;
 
-				var permissionCheckedKeys = this.$refs.permission.getCheckedKeys().concat(this.$refs.permission.getHalfCheckedKeys())
+				let reqData = {
+					roleId: this.form.id,
+					permissionIds:[],
+					menuIds:[],
+				}
+
+				let permissionCheckedKeys = this.$refs.permission.getCheckedKeys()
+				// var permissionCheckedKeys = this.$refs.permission.getCheckedKeys().concat(this.$refs.permission.getHalfCheckedKeys())
 				console.log('permission:', permissionCheckedKeys)
+				reqData.permissionIds = permissionCheckedKeys
+				this.form.permissionIds = permissionCheckedKeys
 
 				//选中的和半选的合并后传值接口
-				var checkedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
-				console.log('menu:', checkedKeys)
+				let menuCheckedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
+				console.log('menu:', menuCheckedKeys)
+				reqData.menuIds = menuCheckedKeys
+				this.form.menuIds = menuCheckedKeys
 
-				var checkedKeys_dept = this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys())
-				console.log('dept:', checkedKeys_dept)
+				// var checkedKeys_dept = this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys())
+				// console.log('dept:', checkedKeys_dept)
 
-				console.log('data:', this.data)
-				console.log('dashboard:', this.dashboard)
+				// console.log('data:', this.data)
+				// console.log('dashboard:', this.dashboard)
 
-				setTimeout(()=>{
+				let resPermission = await this.$API.system.role.assignPermission.post(reqData)
+				let resMenu = await this.$API.system.role.assignMenu.post(reqData)
+
+				this.isSaving = false;
+
+				if(resPermission.code == 200 && resMenu.code == 200 ){
+					this.visible = false;
+					this.$emit('success', this.form, this.mode)
+					this.$message.success("操作成功")
+				}
+				if (resPermission.code != 200){
+					this.$alert(resPermission.message, "提示", {type: 'error'})
+				}
+				if (resMenu.code != 200){
+					this.$alert(resMenu.message, "提示", {type: 'error'})
+				}
+
+				/*setTimeout(()=>{
 					this.isSaving = false;
 					this.visible = false;
 					this.$message.success("操作成功")
 					this.$emit('success')
-				},1000)
+				},1000)*/
 			},
 			async getPermission(){
+				this.isSaving = true
+
 				var res = await this.$API.system.permission.tree.get()
 				this.permission.list = res.data
 
+				let reqData = {id: this.form.id}
+				let resPermission = await this.$API.system.role.getPermissionIdListByRoleId.get(reqData)
+				let permissionIds = resPermission.data
+				// console.log('permissionIds:', permissionIds)
+
 				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
-				this.permission.checked = ["104"]
+				this.permission.checked = permissionIds ?? [] // 已选id
 				this.$nextTick(() => {
 					let filterKeys = this.permission.checked.filter(key => {
 						return this.$refs.permission.getNode(key)?.isLeaf ?? true
 					})
 					this.$refs.permission.setCheckedKeys(filterKeys, true)
 				})
+
+				this.isSaving = false
 			},
 			async getMenu(){
+				this.isSaving = true
+
 				var res = await this.$API.system.menu.tree.get()
 				this.menu.list = res.data
 
+				let reqData = {id: this.form.id}
+				let resMenu = await this.$API.system.role.getMenuIdListByRoleId.get(reqData)
+				let menuIds = resMenu.data
+				// console.log('menuIds:', menuIds)
+
 				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
-				this.menu.checked = ["system", "user", "user.add", "user.edit", "user.del", "directive.edit", "other", "directive"]
+				this.menu.checked = menuIds ?? [] // 已选id
 				this.$nextTick(() => {
 					let filterKeys = this.menu.checked.filter(key => {
 						return this.$refs.menu.getNode(key)?.isLeaf ?? true
 					})
 					this.$refs.menu.setCheckedKeys(filterKeys, true)
 				})
+
+				this.isSaving = false
 			},
 			async getDept(){
 				var res = await this.$API.system.dept.tree.get();
@@ -241,20 +289,17 @@
 				]
 			},
 			//表单注入数据
-			setData(data){
+			async setData(data){
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
 				Object.assign(this.form, data)
 
 				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.system.role.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.system.role.show.get(reqData)
+					this.isSaving = false
+					this.form = res.data
+					// console.log('form:', this.form)
 				}
 			}
 		}
