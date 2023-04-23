@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="30%" v-loading="treeShowLoading">
+		<el-aside width="25%" v-loading="treeShowLoading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
@@ -12,7 +12,7 @@
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
-								<span class="code">{{ data.code }}</span>
+								<!--<span class="code">{{ data.code }}</span>-->
 								<span class="do" v-if="data.id">
 									<el-button-group>
 										<el-button icon="el-icon-plus" size="small" @click.stop="treeNodeAdd(node, data)"></el-button>
@@ -94,8 +94,7 @@
 					save: false,
 				},
 				apiObj: this.$API.system.department.list,
-				params: {
-				},
+				params: {},
 				selection: [],
 				search: {
 					keyword: null

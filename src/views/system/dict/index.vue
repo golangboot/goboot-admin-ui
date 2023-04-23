@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="300px" v-loading="showDictLoading">
+		<el-aside width="25%" v-loading="showDictLoading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="dictFilterText" clearable></el-input>
