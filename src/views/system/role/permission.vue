@@ -163,13 +163,13 @@
 
 				let permissionCheckedKeys = this.$refs.permission.getCheckedKeys()
 				// var permissionCheckedKeys = this.$refs.permission.getCheckedKeys().concat(this.$refs.permission.getHalfCheckedKeys())
-				console.log('permission:', permissionCheckedKeys)
+				// console.log('permission:', permissionCheckedKeys)
 				reqData.permissionIds = permissionCheckedKeys
 				this.form.permissionIds = permissionCheckedKeys
 
 				//选中的和半选的合并后传值接口
 				let menuCheckedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
-				console.log('menu:', menuCheckedKeys)
+				// console.log('menu:', menuCheckedKeys)
 				reqData.menuIds = menuCheckedKeys
 				this.form.menuIds = menuCheckedKeys
 
