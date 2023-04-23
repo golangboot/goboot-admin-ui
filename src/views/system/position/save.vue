@@ -7,6 +7,9 @@
 			<el-form-item label="职位编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="所属部门" prop="parentId">
+				<el-cascader v-model="form.parentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="请选择部门" clearable></el-cascader>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -52,11 +55,18 @@
 					name: [
 						{required: true, message: '请输入职位名称'}
 					],
-				}
+				},
+				departmentOptions: [],
+				departmentProps: {
+					value: 'id',
+					label: 'name',
+					checkStrictly: true,
+					emitPath: false,
+				},
 			}
 		},
 		mounted() {
-
+			this.getDepartment()
 		},
 		methods: {
 			//显示
@@ -64,6 +74,10 @@
 				this.mode = mode;
 				this.visible = true;
 				return this
+			},
+			async getDepartment(){
+				var res = await this.$API.system.dept.tree.get();
+				this.departmentOptions = res.data
 			},
 			//表单提交方法
 			submit(){

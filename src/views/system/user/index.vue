@@ -197,8 +197,8 @@
 				this.showGrouploading = true;
 				var res = await this.$API.system.dept.tree.get();
 				this.showGrouploading = false;
-				// var allNode ={id: '', label: '所有'}
-				var allNode ={id: '', name: '所有', label: '所有'}
+				// var allNode ={id: '', label: '全部'}
+				var allNode ={id: '', name: '全部', label: '全部'}
 				res.data.unshift(allNode);
 				this.group = res.data;
 			},
