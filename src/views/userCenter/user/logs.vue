@@ -1,6 +1,6 @@
 <template>
 	<el-card shadow="never" header="近7天操作记录">
-		<scTable ref="table" :apiObj="apiObj" :pageSize="10" row-key="id" @selection-change="selectionChange" stripe height="auto" paginationLayout="total, prev, pager, next" hideDo>
+		<scTable ref="table" :apiObj="apiObj" :params="params" :pageSize="10" row-key="id" @selection-change="selectionChange" stripe height="auto" paginationLayout="total, prev, pager, next" hideDo>
 			<!--<sc-table-column label="序号" type="index"></sc-table-column>-->
 			<el-table-column label="ID" prop="id" min-width="150" sortable='custom'></el-table-column>
 			<!-- <sc-table-column label="业务类型" prop="type" min-width="100"></sc-table-column> -->
@@ -52,6 +52,7 @@
 					save: false
 				},
 				apiObj: this.$API.user.userCenter.logRecord,
+				params: {},
 				selection: [],
 				data: [
 					{

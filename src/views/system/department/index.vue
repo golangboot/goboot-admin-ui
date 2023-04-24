@@ -113,7 +113,7 @@
 			}
 		},
 		mounted() {
-			this.getTree()
+			this.getTreeList()
 		},
 		methods: {
 			//添加
@@ -217,7 +217,7 @@
 				this.getTree()
 			},
 			//加载树数据
-			async getTree(){
+			async getTreeList(){
 				let res = await this.$API.system.department.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};

@@ -105,8 +105,7 @@
 					checkStrictly: true
 				},
 				apiObj: this.$API.system.user.list,
-				params: {
-				},
+				params: {},
 				selection: [],
 				search: {
 					// "orders[0].column": "id",

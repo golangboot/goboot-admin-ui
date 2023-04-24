@@ -45,7 +45,7 @@
 				</div>
 			</el-header>
 			<el-main class="nopadding">
-				<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
+				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="权限名称" prop="name" width="150"></el-table-column>

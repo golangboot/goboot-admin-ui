@@ -7,7 +7,7 @@
 			</div>
 		</el-header>
 		<el-main class="nopadding">
-			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
+			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="应用ID" prop="appId" width="150"></el-table-column>
 				<el-table-column label="应用名称" prop="appName" width="250"></el-table-column>
@@ -52,6 +52,7 @@
 					save: false
 				},
 				apiObj: this.$API.system.app.list,
+				params: {},
 				selection: []
 			}
 		},

@@ -19,7 +19,7 @@
 						<scEcharts height="100%" :option="logsChartOption"></scEcharts>
 					</el-header>
 					<el-main class="nopadding">
-						<scTable ref="table" :apiObj="apiObj" stripe highlightCurrentRow @row-click="rowClick">
+						<scTable ref="table" :apiObj="apiObj" :params="params" stripe highlightCurrentRow @row-click="rowClick">
 							<el-table-column label="级别" prop="level" width="60">
 								<template #default="scope">
 									<el-icon v-if="scope.row.level=='error'" style="color: #F56C6C;"><el-icon-circle-close-filled /></el-icon>
@@ -119,6 +119,7 @@
 				],
 				date: [],
 				apiObj: this.$API.system.log.list,
+				params: {},
 				search: {
 					keyword: ""
 				}
