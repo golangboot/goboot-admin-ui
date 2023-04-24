@@ -77,6 +77,13 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
+		tree: {
+			url: `${config.API_URL}/cms/articleCategory/tree`,
+			name: "树型列表",
+			get: async function(data){
+				return await http.get(this.url, data);
+			}
+		},
 	},
 	articleComment: {
 		list: {

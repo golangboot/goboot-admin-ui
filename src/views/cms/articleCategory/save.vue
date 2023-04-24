@@ -16,6 +16,9 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-form-item label="上级分类" prop="parentId">
+				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="false" :emitPath="false" placeholder="请选择分类" clearable></el-cascader>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -59,9 +62,17 @@
 						{required: true, message: '请输入文章分类名称'}
 					],
 				},
+				treeOptions: [],
+				treeProps: {
+					value: 'id',
+					label: 'name',
+					checkStrictly: true,
+					emitPath: false,
+				},
 			}
 		},
 		mounted() {
+			this.getTreeList()
 		},
 		methods: {
 			//显示
@@ -69,6 +80,10 @@
 				this.mode = mode;
 				this.visible = true;
 				return this
+			},
+			async getTreeList(){
+				var res = await this.$API.cms.articleCategory.tree.get();
+				this.treeOptions = res.data
 			},
 			//表单提交方法
 			submit(){

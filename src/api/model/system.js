@@ -12,7 +12,7 @@ export default {
 	department: {
 		tree: {
 			url: `${config.API_URL}/system/department/tree`,
-			name: "列表树",
+			name: "树型列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
@@ -95,7 +95,7 @@ export default {
 	menu: {
 		tree: {
 			url: `${config.API_URL}/system/menu/tree`,
-			name: "列表树",
+			name: "树型列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
@@ -161,7 +161,7 @@ export default {
 	dict: {
 		tree: {
 			url: `${config.API_URL}/system/dict/tree`,
-			name: "列表树",
+			name: "树型列表",
 			get: async function(){
 				return await http.get(this.url);
 			}
@@ -315,7 +315,7 @@ export default {
 		},
 		tree: {
 			url: `${config.API_URL}/system/permission/tree`,
-			name: "列表树",
+			name: "树型列表",
 			get: async function(){
 				return await http.get(this.url);
 			}
@@ -331,7 +331,7 @@ export default {
 	dept: {
 		tree: {
 			url: `${config.API_URL}/system/department/tree`,
-			name: "列表树",
+			name: "树型列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
