@@ -114,7 +114,7 @@
 			}
 		},
 		mounted() {
-			this.getTree()
+			this.getTreeList()
 		},
 		methods: {
 			//添加
@@ -227,7 +227,7 @@
 					this.$refs.table.refresh()
 				}
 				// 触发树更新
-				this.getTree()
+				this.getTreeList()
 			},
 			async syncPermission(){
 				var reqData = {}
@@ -236,13 +236,13 @@
 					this.$refs.table.refresh()
 					this.$message.success("操作成功")
 					// 触发树更新
-					this.getTree()
+					this.getTreeList()
 				}else{
 					this.$alert(res.message, "提示", {type: 'error'})
 				}
 			},
 			//加载树数据
-			async getTree(){
+			async getTreeList(){
 				let res = await this.$API.system.permission.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};

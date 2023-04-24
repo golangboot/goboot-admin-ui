@@ -214,7 +214,7 @@
 				}
 
 				// 触发树更新
-				this.getTree()
+				this.getTreeList()
 			},
 			//加载树数据
 			async getTreeList(){

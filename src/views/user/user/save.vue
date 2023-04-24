@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="1000" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'60%'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form ref="dialogForm" :model="form" :rules="rules" :disabled="mode=='show'" label-width="100px" label-position="top">
@@ -145,11 +145,10 @@
 				</el-form>
 			</el-main>
 			<el-footer>
-				<el-button type="primary" :loading="isSaving" @click="submit">保存</el-button>
+				<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit">保存</el-button>
 				<el-button @click="visible=false">取消</el-button>
 			</el-footer>
 		</el-container>
-
 	</el-drawer>
 </template>
 

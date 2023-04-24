@@ -1,36 +1,40 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="treeShowLoading">
+		<el-aside width="20%" v-loading="menuloading">
 			<el-container>
 				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
+					<el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" draggable
-							 :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox
-							 :filter-node-method="treeFilterNode" @node-click="treeNodeClick" @node-drop="treeNodeDrop">
+					<el-tree ref="menu" class="menu" node-key="id" :data="menuList" :props="menuProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop">
+
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
-								<span class="label">{{ node.label }}</span>
-								<!--<span class="code">{{ data.code }}</span>-->
-								<span class="do" v-if="data.id">
-									<el-button-group>
-										<el-button icon="el-icon-plus" size="small" @click.stop="treeNodeAdd(node, data)"></el-button>
-										<el-button icon="el-icon-edit" size="small" @click.stop="treeNodeEdit(node, data)"></el-button>
-										<el-button icon="el-icon-delete" size="small" @click.stop="treeNodeDel(node, data)"></el-button>
-									</el-button-group>
+								<span class="label">
+									{{ node.label }}
+								</span>
+								<span class="do">
+									<el-button icon="el-icon-plus" size="small" @click.stop="add(node, data)"></el-button>
 								</span>
 							</span>
 						</template>
+
 					</el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button type="primary" size="small" icon="el-icon-plus" @click="treeAdd"></el-button>
-					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="treeDel"></el-button>
+					<el-button type="primary" size="small" icon="el-icon-plus" @click="addMenu()"></el-button>
+					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="delMenu"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
-		<el-container class="is-vertical">
+		<el-aside width="30%">
+			<el-container>
+				<el-main class="nopadding" style="padding:20px;" ref="main">
+					<edit ref="edit" :menu="menuList"></edit>
+				</el-main>
+			</el-container>
+		</el-aside>
+		<el-container>
 			<el-header>
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
@@ -121,6 +125,7 @@
 
 	import saveDialog from './save'
 
+	let newMenuIndex = 1;
 	import edit from './edit'
 
 	export default {
@@ -225,21 +230,23 @@
 				search: {
 					keyword: null
 				},
-				treeShowLoading: true,
-				treeList: [],
-				treeFilterText: '',
-				treeProps: {
-					label: 'title'
+				menuloading: false,
+				menuList: [],
+				menuProps: {
+					label: (data)=>{
+						return data.meta.title
+					}
 				},
+				menuFilterText: ""
 			}
 		},
 		watch: {
-			treeFilterText(val) {
-				this.$refs.tree.filter(val);
+			menuFilterText(val){
+				this.$refs.menu.filter(val);
 			}
 		},
 		mounted() {
-			this.getTreeList()
+			this.getMenu();
 		},
 		methods: {
 			//添加
@@ -333,9 +340,6 @@
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
 				}
-
-				// 触发树更新
-				this.getTreeList()
 			},
 			async syncMenu(){
 				var reqData = {}
@@ -348,127 +352,124 @@
 				}
 			},
 			//加载树数据
-			async getTreeList(){
-				let res = await this.$API.system.menu.tree.get();
-				this.treeShowLoading = false;
-				const allNode = {id: '', name: '全部', label: '全部', title: '全部', disabled: true,};
-				res.data.unshift(allNode);
-				this.treeList = res.data;
+			async getMenu(){
+				this.menuloading = true
+				var res = await this.$API.system.menu.tree.get();
+				this.menuloading = false
+				this.menuList = res.data;
 			},
 			//树点击
-			treeNodeClick(data, node){
-				const pid = node.level == 1 ? undefined : node.parent.data.id;
-				console.log('pid', pid);
-				this.params.parentId = data.id
-				this.$refs.table.reload(this.params)
+			menuClick(data, node){
+				var pid = node.level==1?undefined:node.parent.data.id;
+				this.$refs.edit.setData(data, pid)
+				this.$refs.main.$el.scrollTop = 0
 			},
 			//树过滤
-			treeFilterNode(value, data){
+			menuFilterNode(value, data){
 				if (!value) return true;
-				var targetText = data.name + data.code + data.title;
+				var targetText = data.meta.title;
 				return targetText.indexOf(value) !== -1;
 			},
 			//树拖拽
-			async treeNodeDrop(draggingNode, dropNode, dropType) {
-				let { data } = draggingNode;
-				let parentId = dropType === 'inner' ? dropNode.data.id : dropNode.data.parentId || 0;
-				let sort = dropNode.data.sort ? (dropType === 'before' ? dropNode.data.sort - 1 : dropNode.data.sort + 1) : 0;
+			async nodeDrop(draggingNode, dropNode, dropType){
+				this.$refs.edit.setData({})
+				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
+				// console.log('dropType:', dropType); // dropType: before | after | inner
+				// console.log('dropNode.data:', dropNode.data);
+				// console.log('draggingNode.data:', draggingNode.data);
 
-				Object.assign(data, {
-					parentId: parentId,
-					sort: sort,
-				})
-
-				this.loading = true;
-
-				const res = data.id
-					? await this.$API.system.menu.update.put(data)
-					: await this.$API.system.menu.add.post(data);
-
-				if (res.code == 200) {
-					this.$message.success("保存成功");
+				// 父类id
+				var parentId = dropNode.data.parentId || 0;
+				if (dropType === 'inner'){
+					parentId = dropNode.data.id;
+				}
+				// 排序
+				var sort = dropNode.data.sort;
+				if (sort) {
+					sort = dropType === 'before' ? parseInt(sort) - 1 : parseInt(sort) + 1;
 				} else {
-					this.$message.warning(res.message);
+					sort = 1000
+				}
+				// console.log('parentId:', parentId);
+				// console.log('sort:', sort);
+				var data = draggingNode.data;
+				data.parentId = parentId;
+				data.sort = sort;
+
+				this.loading = true
+
+				var res
+				if (data.id) {
+					res = await this.$API.system.menu.update.put(data)
+				} else {
+					res = await this.$API.system.menu.add.post(data)
+				}
+				if (res.code == 200) {
+					this.$message.success("保存成功")
+				} else {
+					this.$message.warning(res.message)
 				}
 
-				this.loading = false;
+				this.loading = false
 			},
-			//树增加
-			treeAdd(){
-				this.add()
+			//增加
+			async addMenu(node, data){
+				var newMenuName = "未命名" + newMenuIndex++;
+				var newMenuData = {
+					parentId: data ? data.id : "",
+					name: newMenuName,
+					path: "",
+					component: "",
+					meta:{
+						title: newMenuName,
+						type: "menu"
+					}
+				}
+				this.menuloading = true
+				var res = await this.$API.system.menu.add.post(newMenuData)
+				this.menuloading = false
+				newMenuData.id = res.data.id || res.data
+
+				this.$refs.menu.append(newMenuData, node)
+				this.$refs.menu.setCurrentKey(newMenuData.id)
+				var pid = node ? node.data.id : ""
+				this.$refs.edit.setData(newMenuData, pid)
 			},
-			//树删除
-			async treeDel(){
-				var CheckedNodes = this.$refs.tree.getCheckedNodes()
-				if (CheckedNodes.length == 0) {
-					this.$message.warning("请选择需要删除的数据")
+			//删除菜单
+			async delMenu(){
+				var CheckedNodes = this.$refs.menu.getCheckedNodes()
+				if(CheckedNodes.length == 0){
+					this.$message.warning("请选择需要删除的项")
 					return false;
 				}
 
-				var confirm = await this.$confirm('确认删除已选择的数据吗？', '提示', {
+				var confirm = await this.$confirm('确认删除已选择的菜单吗？','提示', {
 					type: 'warning',
 					confirmButtonText: '删除',
 					confirmButtonClass: 'el-button--danger'
-				}).catch(() => {
-				})
-				if (confirm != 'confirm') {
+				}).catch(() => {})
+				if(confirm != 'confirm'){
 					return false
 				}
 
 				this.menuloading = true
-
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
 				var res = await this.$API.system.menu.delete.delete(reqData)
-
 				this.menuloading = false
 
-				if (res.code == 200) {
+				if(res.code == 200){
 					CheckedNodes.forEach(item => {
-						var node = this.$refs.tree.getNode(item)
-						if (node.isCurrent) {
-							// this.$refs.save.setData({})
+						var node = this.$refs.menu.getNode(item)
+						if(node.isCurrent){
+							this.$refs.edit.setData({})
 						}
-						this.$refs.tree.remove(item)
-						this.$refs.table.refresh()
+						this.$refs.menu.remove(item)
 					})
-				} else {
+				}else{
 					this.$message.warning(res.message)
 				}
-			},
-			treeNodeAdd(node, data){
-				let form = {
-					parentId: data.id,
-				}
-				this.dialog.save = true
-				this.$nextTick(() => {
-					this.$refs.saveDialog.open('add').setData(form)
-				})
-			},
-			treeNodeEdit(node, data){
-				let row = data
-				this.dialog.save = true
-				this.$nextTick(() => {
-					this.$refs.saveDialog.open('edit').setData(row)
-				})
-			},
-			async treeNodeDel(node, data){
-				this.$confirm(`确定删除 ${data.name??''} 吗？`, '提示', {
-					type: 'warning'
-				}).then(async () => {
-					let row = data
-					var reqData = {id: row.id}
-					var res = await this.$API.system.menu.delete.delete(reqData);
-					if(res.code == 200){
-						this.$refs.tree.remove(node)
-						this.$refs.table.refresh()
-						this.$message.success("删除成功")
-					}else{
-						this.$alert(res.message, "提示", {type: 'error'})
-					}
-				}).catch(() => {
-				})
 			},
 		}
 	}
