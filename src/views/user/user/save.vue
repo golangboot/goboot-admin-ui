@@ -55,14 +55,14 @@
 								<el-col :span="12">
 								</el-col>
 							</el-row>
-							<!-- <el-divider>系统</el-divider>
+							<el-divider>系统</el-divider>
 							<el-row :gutter="20">
 								<el-col :span="12">
-									<el-form-item label="系统用户" prop="isSystem">
+									<el-form-item label="员工账号" prop="isSystem">
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
 								</el-col>
-							</el-row> -->
+							</el-row>
 						</el-tab-pane>
 						<el-tab-pane label="个人信息">
 							<el-row :gutter="20">
