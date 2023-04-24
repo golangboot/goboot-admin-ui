@@ -235,6 +235,8 @@
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("操作成功")
+					// 触发树更新
+					this.getTree()
 				}else{
 					this.$alert(res.message, "提示", {type: 'error'})
 				}
