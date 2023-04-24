@@ -239,20 +239,16 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
+			async setData(data){
 				Object.assign(this.form, data)
 				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.user.user.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.user.user.show.get(reqData)
+					this.isSaving = false
+					this.form = res.data
 				}
-			},
+			}
 		}
 	}
 </script>

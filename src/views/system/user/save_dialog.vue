@@ -147,7 +147,7 @@
 			},
 			//加载树数据
 			async getGroup(){
-				var res = await this.$API.user.group.list.get();
+				var res = await this.$API.user.userGroup.list.get();
 				this.groups = res.data.records;
 			},
 			async getRole(){

@@ -299,7 +299,6 @@
 					let res = await this.$API.system.role.show.get(reqData)
 					this.isSaving = false
 					this.form = res.data
-					// console.log('form:', this.form)
 				}
 			}
 		}

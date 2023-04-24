@@ -16,8 +16,7 @@
 			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
-				<el-table-column label="用户组名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="编码" prop="code" width="200"></el-table-column>
+				<el-table-column label="标签名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
@@ -61,7 +60,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.user.userGroup.list,
+				apiObj: this.$API.user.userLabel.list,
 				selection: [],
 				search: {
 					keyword: null
@@ -93,7 +92,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.user.userGroup.delete.delete(reqData);
+				var res = await this.$API.user.userLabel.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -111,7 +110,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.user.userGroup.delete.delete(reqData)
+					var res = await this.$API.user.userLabel.delete.delete(reqData)
 					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -142,7 +141,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.user.userGroup.update.put(reqData);
+				var res = await this.$API.user.userLabel.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;

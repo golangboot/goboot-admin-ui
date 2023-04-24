@@ -18,7 +18,7 @@
 					 @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
-				<el-table-column label="头像" width="80" column-key="filterAvatar"
+				<el-table-column label="头像" prop="avatar" width="80" column-key="filterAvatar"
 								 :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
 					<template #default="scope">
 						<el-avatar :src="scope.row.avatar" size="small"></el-avatar>

@@ -1,15 +1,33 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="角色名称" prop="name">
+			<el-form-item label="等级名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="角色编码" prop="code">
-				<el-input v-model="form.code" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="标签" prop="label">
-				<el-input v-model="form.label" placeholder="请输入标签（用于分组显示）" clearable></el-input>
-			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="级别" prop="level">
+						<el-input-number v-model="form.level" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="解锁经验值" prop="exp">
+						<el-input-number v-model="form.exp" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="等级图标" prop="icon">
+						<sc-upload v-model="form.icon" title="请上传等级图标"></sc-upload>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="等级背景" prop="image">
+						<sc-upload v-model="form.image" title="请上传等级背景"></sc-upload>
+					</el-form-item>
+				</el-col>
+			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -52,20 +70,13 @@
 				},
 				//验证规则
 				rules: {
-					/*sort: [
-						{required: true, message: '请输入排序', trigger: 'change'}
-					],*/
 					name: [
-						{required: true, message: '请输入角色名称'}
+						{required: true, message: '请输入等级名称'}
 					],
-					code: [
-						{required: true, message: '请输入角色编码'}
-					]
-				}
+				},
 			}
 		},
 		mounted() {
-
 		},
 		methods: {
 			//显示
@@ -81,13 +92,12 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.role.update.put(this.form)
+							res = await this.$API.user.userLevel.update.put(this.form)
 						} else {
-							res = await this.$API.system.role.add.post(this.form)
+							res = await this.$API.user.userLevel.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
-							// this.form.id = res.data.id
 							this.form = res.data
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;
@@ -99,20 +109,14 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
-				//可以和上面一样单个注入，也可以像下面一样直接合并进去
+			async setData(data){
 				Object.assign(this.form, data)
-
 				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.system.role.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.user.userLevel.show.get(reqData)
+					this.isSaving = false
+					this.form = res.data
 				}
 			}
 		}

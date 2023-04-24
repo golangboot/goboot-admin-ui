@@ -11,7 +11,7 @@
 				<el-cascader v-model="form.parentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="顶级部门" clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
@@ -107,10 +107,10 @@
 			async setData(data){
 				Object.assign(this.form, data)
 				if (data.id){
-					this.loading = true
+					this.isSaving = true
 					let reqData = {id: data.id}
-					var res = await this.$API.system.department.show.get(reqData)
-					this.loading = false
+					let res = await this.$API.system.department.show.get(reqData)
+					this.isSaving = false
 					this.form = res.data
 				}
 			}

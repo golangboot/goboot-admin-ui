@@ -1,17 +1,14 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
 			<el-form-item label="用户组名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="用户组编码" prop="code">
+			<el-form-item label="编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="所属部门" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="请选择部门" clearable></el-cascader>
-			</el-form-item>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
@@ -56,17 +53,9 @@
 						{required: true, message: '请输入用户组名称'}
 					],
 				},
-				departmentOptions: [],
-				departmentProps: {
-					value: 'id',
-					label: 'name',
-					checkStrictly: true,
-					emitPath: false,
-				},
 			}
 		},
 		mounted() {
-			this.getDepartment()
 		},
 		methods: {
 			//显示
@@ -75,10 +64,6 @@
 				this.visible = true;
 				return this
 			},
-			async getDepartment(){
-				var res = await this.$API.system.dept.tree.get();
-				this.departmentOptions = res.data
-			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
@@ -86,9 +71,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.user.group.update.put(this.form)
+							res = await this.$API.user.userGroup.update.put(this.form)
 						} else {
-							res = await this.$API.user.group.add.post(this.form)
+							res = await this.$API.user.userGroup.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -103,18 +88,14 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
+			async setData(data){
 				Object.assign(this.form, data)
 				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.user.group.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.user.userGroup.show.get(reqData)
+					this.isSaving = false
+					this.form = res.data
 				}
 			}
 		}

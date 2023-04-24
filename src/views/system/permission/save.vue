@@ -11,7 +11,7 @@
 				<el-cascader v-model="form.parentId" :options="permissionOptions" :props="permissionProps" :show-all-levels="false" :emitPath="false" placeholder="请选择父类" clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" :min="1" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
