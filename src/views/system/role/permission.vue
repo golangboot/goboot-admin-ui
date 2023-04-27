@@ -11,7 +11,7 @@
 					<el-tree ref="menu" node-key="id" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
 				</div>
 			</el-tab-pane>
-			<el-tab-pane label="数据权限" disabled>
+			<el-tab-pane label="数据权限">
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="规则类型">
 						<el-select v-model="data.dataType" placeholder="请选择">

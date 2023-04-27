@@ -65,7 +65,7 @@
 						</el-col>
 						<el-col :lg="12" class="api-list">
 							<h2>Api接口权限</h2>
-							<!--<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
+							<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
 								<el-table-column prop="code" label="标识" width="150">
 									<template #default="scope">
 										<el-input v-model="scope.row.code" placeholder="请输入权限标识"></el-input>
@@ -76,15 +76,15 @@
 										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>
 									</template>
 								</el-table-column>
-							</sc-form-table>-->
-							<el-form-item label="权限标识" prop="permission">
+							</sc-form-table>
+							<!--<el-form-item label="权限标识" prop="permission">
 								<el-input v-model="form.permission" clearable placeholder=""></el-input>
 								<div class="el-form-item-msg">Api接口权限编码</div>
 							</el-form-item>
 							<el-form-item label="接口地址" prop="url">
 								<el-input v-model="form.url" clearable placeholder=""></el-input>
 								<div class="el-form-item-msg">Api接口地址</div>
-							</el-form-item>
+							</el-form-item>-->
 						</el-col>
 					</el-row>
 				</el-form>
@@ -162,7 +162,15 @@
 					this.menuOptions = this.treeToMap(this.menu)
 				},
 				deep: true
-			}
+			},
+			form: {
+				handler(){
+					if (!this.form.apiList){
+						this.form.apiList = [];
+					}
+				},
+				deep: true
+			},
 		},
 		mounted() {
 			this.getMenu();
