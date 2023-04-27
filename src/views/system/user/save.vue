@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="1000" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'60%'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form ref="dialogForm" :model="form" :rules="rules" :disabled="mode=='show'" label-width="100px" label-position="top">
@@ -55,14 +55,14 @@
 								<el-col :span="12">
 								</el-col>
 							</el-row>
-							<!-- <el-divider>系统</el-divider>
+							<el-divider>系统</el-divider>
 							<el-row :gutter="20">
 								<el-col :span="12">
-									<el-form-item label="系统用户" prop="isSystem">
+									<el-form-item label="员工账号" prop="isSystem">
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
 								</el-col>
-							</el-row> -->
+							</el-row>
 						</el-tab-pane>
 						<el-tab-pane label="个人信息">
 							<el-row :gutter="20">
@@ -145,117 +145,111 @@
 				</el-form>
 			</el-main>
 			<el-footer>
-				<el-button type="primary" :loading="isSaving" @click="submit">保存</el-button>
+				<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit">保存</el-button>
 				<el-button @click="visible=false">取消</el-button>
 			</el-footer>
 		</el-container>
-
 	</el-drawer>
 </template>
 
 <script>
-	export default {
-		emits: ['success', 'closed'],
-		data() {
-			return {
-				loading: false,
-				mode: "add",
-				titleMap: {
-					add: '新增',
-					edit: '编辑'
-				},
-				form: {
-					id: null,
-					username: "",
-					email: "",
-					mobile: "",
-					nickname: "",
-					avatar: "",
-					realName: "",
-					gender: 0,
-					identityCardType: 0,
-					identityCard: "",
-					identityCardFront: "",
-					identityCardBack: "",
-					status: 1,
-				},
-				rules: {
-					username: [
-						{required: true, message: '请输入用户名'}
-					],
-				},
-				visible: false,
-				isSaving: false,
-				genderOptions: [
-					{label: "保密", value: 0,},
-					{label: "男", value: 1,},
-					{label: "女", value: 2,},
-				],
-				statusOptions: [
-					{label: "正常", value: 1,},
-					{label: "禁用", value: 0,},
-				],
-				identityCardTypeOptions: [
-					{label: "身份证", value: 0,},
-					{label: "护照", value: 1,},
-					{label: "军官证（军人身份证）", value: 2,},
-					{label: "港澳通行证", value: 3,},
-					{label: "台湾居民来往大陆通行证", value: 4,},
-					{label: "营业执照", value: 10,},
-				],
-			}
-		},
-		mounted() {
-		},
-		methods: {
-			//显示
-			open(mode='add'){
-				this.mode = mode;
-				this.visible = true;
-				return this;
+export default {
+	emits: ['success', 'closed'],
+	data() {
+		return {
+			loading: false,
+			mode: "add",
+			titleMap: {
+				add: '新增',
+				edit: '编辑',
+				show: '查看',
 			},
-			//表单提交方法
-			submit(){
-				this.$refs.dialogForm.validate(async (valid) => {
-					if (valid) {
-						this.isSaving = true;
-						var res;
-						if (this.form.id) {
-							res = await this.$API.system.user.update.put(this.form)
-						} else {
-							res = await this.$API.system.user.add.post(this.form)
-						}
-						this.isSaving = false;
-						if(res.code == 200){
-							// this.form.id = res.data.id
-							this.form = res.data
-							this.$emit('success', this.form, this.mode)
-							this.visible = false;
-							this.$message.success("操作成功")
-						}else{
-							this.$alert(res.message, "提示", {type: 'error'})
-						}
-					}
-				})
+			form: {
+				id: null,
+				username: "",
+				email: "",
+				mobile: "",
+				nickname: "",
+				avatar: "",
+				realName: "",
+				gender: 0,
+				identityCardType: 0,
+				identityCard: "",
+				identityCardFront: "",
+				identityCardBack: "",
+				status: 1,
 			},
-			//表单注入数据
-			setData(data){
-				Object.assign(this.form, data)
-
-				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
+			rules: {
+				username: [
+					{required: true, message: '请输入用户名'}
+				],
+			},
+			visible: false,
+			isSaving: false,
+			genderOptions: [
+				{label: "保密", value: 0,},
+				{label: "男", value: 1,},
+				{label: "女", value: 2,},
+			],
+			statusOptions: [
+				{label: "正常", value: 1,},
+				{label: "禁用", value: 0,},
+			],
+			identityCardTypeOptions: [
+				{label: "身份证", value: 0,},
+				{label: "护照", value: 1,},
+				{label: "军官证（军人身份证）", value: 2,},
+				{label: "港澳通行证", value: 3,},
+				{label: "台湾居民来往大陆通行证", value: 4,},
+				{label: "营业执照", value: 10,},
+			],
+		}
+	},
+	mounted() {
+	},
+	methods: {
+		//显示
+		open(mode='add'){
+			this.mode = mode;
+			this.visible = true;
+			return this;
+		},
+		//表单提交方法
+		submit(){
+			this.$refs.dialogForm.validate(async (valid) => {
+				if (valid) {
+					this.isSaving = true;
+					var res;
+					if (this.form.id) {
+						res = await this.$API.user.user.update.put(this.form)
+					} else {
+						res = await this.$API.user.user.add.post(this.form)
 					}
-					setTimeout(async ()=>{
-						var res = await this.$API.system.user.show.get(params)
-						this.loading = false
+					this.isSaving = false;
+					if(res.code == 200){
 						this.form = res.data
-					},100)
+						this.$emit('success', this.form, this.mode)
+						this.visible = false;
+						this.$message.success("操作成功")
+					}else{
+						this.$alert(res.message, "提示", {type: 'error'})
+					}
 				}
-			},
+			})
+		},
+		//表单注入数据
+		async setData(data){
+			Object.assign(this.form, data)
+			if (data.id){
+				this.isSaving = true
+				let reqData = {id: data.id}
+				let res = await this.$API.user.user.show.get(reqData)
+				this.isSaving = false
+				this.form = res.data
+			}
 		}
 	}
+}
 </script>
 
 <style>

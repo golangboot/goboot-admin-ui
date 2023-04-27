@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="200px" v-loading="showGrouploading">
+		<el-aside width="25%" v-loading="showGrouploading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="groupFilterText" clearable></el-input>
@@ -15,9 +15,9 @@
 					<div class="left-panel">
 						<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 						<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-						<el-button type="primary" plain :disabled="selection.length!=1" @click="assignGroups">分配用户组</el-button>
-						<el-button type="primary" plain :disabled="selection.length!=1" @click="assignRoles">分配角色</el-button>
-						<el-button type="primary" plain :disabled="selection.length!=1" @click="assignDepartments">分配部门</el-button>
+						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignGroups">分配用户组</el-button> -->
+						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignRoles">分配角色</el-button> -->
+						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignDepartments">分配部门</el-button> -->
 						<!--<el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>-->
 					</div>
 					<div class="right-panel">
@@ -80,8 +80,9 @@
 </template>
 
 <script>
-	import saveDialog from './save'
+	// import saveDialog from './save'
 	import assignDialog from './assign'
+	import saveDialog from './../../user/user/save'
 
 	export default {
 		name: 'user',

@@ -44,6 +44,23 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
+							<el-divider>权限分配</el-divider>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="用户组" prop="groupIds">
+										<el-select v-model="form.groupIds" multiple filterable style="width: 100%">
+											<el-option v-for="item in groupOptions" :key="item.id" :label="item.name" :value="item.id"/>
+										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="角色" prop="roleIds">
+										<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
+											<el-option v-for="item in roleOptions" :key="item.id" :label="item.name" :value="item.id"/>
+										</el-select>
+									</el-form-item>
+								</el-col>
+							</el-row>
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="用户状态" prop="status">
@@ -52,11 +69,6 @@
 										</el-radio-group>
 									</el-form-item>
 								</el-col>
-								<el-col :span="12">
-								</el-col>
-							</el-row>
-							<el-divider>系统</el-divider>
-							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="员工账号" prop="isSystem">
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
@@ -117,24 +129,38 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="部门" prop="departmentId">
+										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="请选择部门" clearable></el-cascader>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="岗位" prop="positionId">
+										<el-select v-model="form.positionId" filterable style="width: 100%">
+											<el-option v-for="item in positionOptions" :key="item.id" :label="item.name" :value="item.id"/>
+										</el-select>
+									</el-form-item>
+								</el-col>
+							</el-row>
 						</el-tab-pane>
 						<el-tab-pane label="账户信息">
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="余额" prop="balance">
-										<el-input-number v-model="form.balance" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+										<el-input-number v-model="form.balance" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
 									<el-form-item label="积分" prop="integral">
-										<el-input-number v-model="form.integral" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+										<el-input-number v-model="form.integral" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 									</el-form-item>
 								</el-col>
 							</el-row>
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="虚拟币" prop="virtualCoin">
-										<el-input-number v-model="form.virtualCoin" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+										<el-input-number v-model="form.virtualCoin" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
@@ -203,9 +229,38 @@
 					{label: "台湾居民来往大陆通行证", value: 4,},
 					{label: "营业执照", value: 10,},
 				],
+				departmentOptions: [],
+				departmentProps: {
+					value: 'id',
+					label: 'name',
+					checkStrictly: true,
+					emitPath: false,
+				},
+				positionOptions: [],
+				positionProps: {
+					value: "id",
+					multiple: true,
+					checkStrictly: true
+				},
+				groupOptions: [],
+				groupProps: {
+					value: "id",
+					multiple: true,
+					checkStrictly: true
+				},
+				roleOptions: [],
+				roleProps: {
+					value: "id",
+					multiple: true,
+					checkStrictly: true
+				},
 			}
 		},
 		mounted() {
+			this.getDepartmentList()
+			this.getPositionList()
+			this.getGroupList()
+			this.getRoleList()
 		},
 		methods: {
 			//显示
@@ -214,12 +269,28 @@
 				this.visible = true;
 				return this;
 			},
+			async getDepartmentList(){
+				let res = await this.$API.system.department.tree.get();
+				this.departmentOptions = res.data
+			},
+			async getPositionList(){
+				let res = await this.$API.system.position.list.get();
+				this.positionOptions = res.data.records;
+			},
+			async getGroupList(){
+				let res = await this.$API.user.userGroup.list.get();
+				this.groupOptions = res.data.records;
+			},
+			async getRoleList(){
+				let res = await this.$API.system.role.list.get();
+				this.roleOptions = res.data.records;
+			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
 							res = await this.$API.user.user.update.put(this.form)
 						} else {
