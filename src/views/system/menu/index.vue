@@ -330,12 +330,11 @@
 			handleSaveSuccess(data, mode){
 				if(mode=='add'){
 					this.$refs.table.refresh()
+					// 触发树更新
+					this.getTreeList()
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
 				}
-
-				// 触发树更新
-				this.getTreeList()
 			},
 			async syncMenu(){
 				var reqData = {}
