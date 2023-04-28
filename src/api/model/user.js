@@ -103,6 +103,13 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
+		account: {
+			url: `${config.API_URL}/user/user/account`,
+			name: "账户",
+			post: async function(data){
+				return await http.post(this.url, data);
+			}
+		},
 	},
 	userGroup: {
 		list: {

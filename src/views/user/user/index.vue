@@ -3,8 +3,8 @@
 		<el-header>
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0"
-						   @click="batch_del"></el-button>
+				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
+				<el-button type="primary" plain :disabled="selection.length!=1" @click="accountManagement">账户管理</el-button>
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -66,21 +66,27 @@
 	</el-container>
 
 	<save-drawer v-if="drawer.save" ref="saveDrawer" @success="handleSaveSuccess" @closed="drawer.save=false"></save-drawer>
+	<account-dialog v-if="dialog.account" ref="accountDialog" @closed="dialog.account=false"></account-dialog>
 
 </template>
 
 <script>
 import saveDrawer from './save'
+import accountDialog from './account'
 
 export default {
 	name: 'user',
 	components: {
 		saveDrawer,
+		accountDialog,
 	},
 	data() {
 		return {
 			drawer: {
 				save: false,
+			},
+			dialog: {
+				account: false,
 			},
 			table: {
 				apiObj: this.$API.user.user.list,
@@ -195,6 +201,14 @@ export default {
 				})
 			}
 		},
+		// 账户管理
+		async accountManagement(){
+			this.dialog.account = true
+			this.$nextTick(() => {
+				let row = this.selection.at(0);
+				this.$refs.accountDialog.open().setData(row)
+			})
+		}
 	},
 }
 </script>

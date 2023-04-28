@@ -44,7 +44,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-							<el-divider>权限分配</el-divider>
+							<!-- <el-divider>权限分配</el-divider> -->
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="用户组" prop="groupIds">
