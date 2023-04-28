@@ -28,9 +28,10 @@
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
 				<el-table-column label="备注" prop="remark" min-width="150" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="120">
+				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
+							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
 							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 								<template #reference>
@@ -82,6 +83,13 @@
 				this.dialog.save = true
 				this.$nextTick(() => {
 					this.$refs.saveDialog.open('edit').setData(row)
+				})
+			},
+			//查看
+			table_show(row){
+				this.dialog.save = true
+				this.$nextTick(() => {
+					this.$refs.saveDialog.open('show').setData(row)
 				})
 			},
 			//删除

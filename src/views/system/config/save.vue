@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
 			<el-form-item label="配置名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
@@ -39,8 +39,9 @@
 			return {
 				mode: "add",
 				titleMap: {
-					add: '新增APP',
-					edit: '编辑APP'
+					add: '新增',
+					edit: '编辑',
+					show: '查看',
 				},
 				form: {
 					id:"",
