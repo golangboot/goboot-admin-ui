@@ -18,32 +18,19 @@
 				</template>
 			</sc-table-column>
 			<sc-table-column label="操作时间" prop="createTime" width="150"></sc-table-column>
-			<el-table-column label="操作" fixed="right" align="center" min-width="100">
-				<template #default="scope">
-					<el-button-group>
-						<!-- <el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button> -->
-						<!-- <el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button> -->
-						<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
-							<template #reference>
-								<el-button text type="primary" size="small">删除</el-button>
-							</template>
-						</el-popconfirm>
-					</el-button-group>
-				</template>
-			</el-table-column>
 		</scTable>
 
-		<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
+		<!--<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>-->
 
 	</el-card>
 </template>
 
 <script>
-	import saveDialog from "./../logRecord/save";
+	// import saveDialog from "./../logRecord/save";
 
 	export default {
 		components: {
-			saveDialog,
+			// saveDialog,
 		},
 		data() {
 			return {
@@ -71,17 +58,13 @@
 			}
 		},
 		mounted() {
-			// this.getData()
 		},
 		methods: {
-			async getData() {
-				this.apiObj = await this.$API.user.userCenter.getUserInfo.get();
-			},
 			//增加
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					this.$refs.saveDialog.open('add')
 				})
 			},
 			//编辑

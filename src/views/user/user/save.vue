@@ -239,7 +239,7 @@
 				positionOptions: [],
 				positionProps: {
 					value: "id",
-					multiple: true,
+					multiple: false,
 					checkStrictly: true
 				},
 				groupOptions: [],

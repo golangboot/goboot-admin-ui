@@ -60,7 +60,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.system.dept.tree,
+				apiObj: this.$API.system.department.tree,
 				params: {},
 				selection: [],
 				search: {
@@ -93,7 +93,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.system.dept.delete.delete(reqData);
+				var res = await this.$API.system.department.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")

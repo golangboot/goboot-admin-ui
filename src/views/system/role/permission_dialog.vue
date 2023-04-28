@@ -163,7 +163,7 @@
 				})
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.tree.get();
+				var res = await this.$API.system.department.tree.get();
 				this.data.list = res.data
 				this.data.checked = ["12", "2", "21", "22", "1"]
 				this.$nextTick(() => {

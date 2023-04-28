@@ -76,7 +76,7 @@
 				return this
 			},
 			async getDepartmentList(){
-				var res = await this.$API.system.dept.tree.get();
+				var res = await this.$API.system.department.tree.get();
 				this.departmentOptions = res.data
 			},
 			//表单提交方法

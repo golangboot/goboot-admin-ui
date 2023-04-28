@@ -77,7 +77,7 @@
 			},
 			//加载树数据
 			async getGroup(){
-				var res = await this.$API.system.dept.tree.get();
+				var res = await this.$API.system.department.tree.get();
 				this.groups = res.data;
 			},
 			//表单提交方法
@@ -87,9 +87,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.dept.update.put(this.form)
+							res = await this.$API.system.department.update.put(this.form)
 						} else {
-							res = await this.$API.system.dept.add.post(this.form)
+							res = await this.$API.system.department.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){

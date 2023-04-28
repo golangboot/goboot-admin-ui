@@ -398,7 +398,7 @@
 						this.listApiParams = {
 							code: data.code,
 						}
-						this.listApi = this.$API.dict.info;
+						this.listApi = this.$API.system.dict.list;
 					}
 					this.$refs.dict.append(data, data.parentId[0])
 					this.$refs.dict.setCurrentKey(data.id)

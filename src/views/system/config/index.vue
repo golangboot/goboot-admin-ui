@@ -5,19 +5,29 @@
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
 			</div>
+			<div class="right-panel">
+				<div class="right-panel-search">
+					<el-input v-model="search.keyword" placeholder="关键字" clearable></el-input>
+					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+				</div>
+			</div>
 		</el-header>
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="应用ID" prop="appId" width="150"></el-table-column>
-				<el-table-column label="应用名称" prop="appName" width="250"></el-table-column>
-				<el-table-column label="状态" width="50">
-					<template #default>
-						<el-icon style="color: #67C23A;"><el-icon-circle-check-filled /></el-icon>
+				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+				<el-table-column label="配置名称" prop="name" width="150"></el-table-column>
+				<el-table-column label="配置编码" prop="code" width="150"></el-table-column>
+				<el-table-column label="配置值" prop="value" width="150"></el-table-column>
+				<el-table-column label="配置类型" prop="type" width="150"></el-table-column>
+				<el-table-column label="配置选项" prop="options" width="150"></el-table-column>
+				<el-table-column label="状态" prop="status" width="80">
+					<template #default="scope">
+						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
-				<el-table-column label="秘钥" prop="secret" show-overflow-tooltip width="150"></el-table-column>
-				<el-table-column label="授权到期" prop="exp" width="150"></el-table-column>
+				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
+				<el-table-column label="备注" prop="remark" min-width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="120">
 					<template #default="scope">
 						<el-button-group>
@@ -42,7 +52,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: "logRecord",
+		name: "config",
 		components: {
 			saveDialog
 		},
@@ -51,9 +61,12 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.system.app.list,
+				apiObj: this.$API.system.config.list,
 				params: {},
-				selection: []
+				selection: [],
+				search: {
+					keyword: null
+				}
 			}
 		},
 		methods: {
@@ -61,7 +74,7 @@
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					this.$refs.saveDialog.open('add')
 				})
 			},
 			//编辑
@@ -74,7 +87,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.user.user.delete.delete(reqData);
+				var res = await this.$API.system.config.delete.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);
@@ -105,6 +118,27 @@
 			//表格选择后回调事件
 			selectionChange(selection){
 				this.selection = selection;
+			},
+			//搜索
+			upsearch(){
+				this.$refs.table.upData(this.search)
+			},
+			//表格内开关
+			async changeSwitch(val, row){
+				//1.还原数据
+				row.status = row.status == '1'?'0':'1'
+				//2.执行加载
+				row.$switch_status = true;
+				//3.等待接口返回后改变值
+				var reqData = {id: row.id,status: val}
+				var res = await this.$API.system.config.update.put(reqData);
+				delete row.$switch_status;
+				if(res.code == 200){
+					row.status = val;
+					this.$message.success("操作成功")
+				}else{
+					this.$alert(res.message, "提示", {type: 'error'})
+				}
 			},
 			//本地更新数据
 			handleSuccess(data, mode){
