@@ -71,7 +71,7 @@
 				isSaving: false,
 				typeOptions: [
 					{label: "字符串", value: "string",},
-					{label: "数字", value: "int",},
+					{label: "数字", value: "number",},
 					{label: "布尔", value: "boolean",},
 				],
 			}
