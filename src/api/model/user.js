@@ -103,8 +103,8 @@ export default {
 				return await http.delete(`${this.url}/${id}`, data);
 			}
 		},
-		account: {
-			url: `${config.API_URL}/user/user/account`,
+		changeAccount: {
+			url: `${config.API_URL}/user/user/changeAccount`,
 			name: "账户",
 			post: async function(data){
 				return await http.post(this.url, data);

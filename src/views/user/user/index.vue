@@ -29,6 +29,8 @@
 								 :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
 				<el-table-column label="邮箱" prop="email" width="150" sortable></el-table-column>
 				<el-table-column label="手机号" prop="mobile" width="150" sortable></el-table-column>
+				<el-table-column label="余额" prop="balance" width="150" sortable></el-table-column>
+				<el-table-column label="积分" prop="integral" width="150" sortable></el-table-column>
 				<el-table-column label="姓名" prop="realName" width="150" sortable></el-table-column>
 				<el-table-column label="性别" prop="gender" width="150" sortable>
 					<template #default="scope">
@@ -38,7 +40,7 @@
 					</template>
 				</el-table-column>
 				<!--<el-table-column label="所属角色" prop="groupName" width="200" sortable></el-table-column>-->
-				<el-table-column label="状态" prop="status" width="80">
+				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>

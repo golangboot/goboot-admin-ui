@@ -8,23 +8,26 @@
 				<el-input v-model="form.username" disabled placeholder="用户名" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="账户类型" prop="account">
-				<el-radio-group v-model="formParams.account">
-					<el-radio v-for="(item, index) in accountOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				<el-radio-group v-model="formParams.accountType">
+					<el-radio v-for="(item, index) in accountTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="操作类型" prop="type">
-				<el-radio-group v-model="formParams.type">
-					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+			<el-form-item label="操作类型" prop="changeType">
+				<el-radio-group v-model="formParams.changeType">
+					<el-radio v-for="(item, index) in changeTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="余额" prop="value" v-if="formParams.account == 1">
-				<el-input-number v-model="formParams.value" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+			<el-form-item label="余额" prop="number" v-if="formParams.accountType == 1">
+				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
-			<el-form-item label="积分" prop="value" v-if="formParams.account == 2">
-				<el-input-number v-model="formParams.value" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+			<el-form-item label="积分" prop="number" v-if="formParams.accountType == 2">
+				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
-			<el-form-item label="虚拟币" prop="value" v-if="formParams.account == 3">
-				<el-input-number v-model="formParams.value" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+			<el-form-item label="虚拟币" prop="number" v-if="formParams.accountType == 3">
+				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+			</el-form-item>
+			<el-form-item label="备注" prop="remark">
+				<el-input v-model="formParams.remark" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -58,22 +61,24 @@ export default {
 				virtualCoin: 0,
 			},
 			formParams: {
-				account: 1,
-				type: 1,
-				value: null,
+				userId: null,
+				accountType: 1,
+				changeType: 1,
+				number: null,
+				remark: null,
 			},
 			//验证规则
 			rules: {
-				value: [
-					{required: true, message: '请输入数值'}
+				number: [
+					{required: true, message: '请输入改变数值'}
 				],
 			},
-			accountOptions: [
+			accountTypeOptions: [
 				{label: "余额", value: 1, code: "balance",},
 				{label: "积分", value: 2, code: "integral",},
 				{label: "虚拟币", value: 3, code: "virtualCoin",},
 			],
-			typeOptions: [
+			changeTypeOptions: [
 				{label: "增加", value: 1,},
 				{label: "减少", value: 0,},
 			],
@@ -82,10 +87,10 @@ export default {
 	watch: {
 		formParams: {
 			handler(val){
-				for (let i = 0; i < this.accountOptions.length; i++) {
-					let accountOption = this.accountOptions[i]
-					if (val.account == accountOption.value) {
-						this.mode = accountOption.code;
+				for (let i = 0; i < this.accountTypeOptions.length; i++) {
+					let accountType = this.accountTypeOptions[i]
+					if (val.accountType == accountType.value) {
+						this.mode = accountType.code;
 					}
 				}
 			},
@@ -106,7 +111,7 @@ export default {
 			this.$refs.dialogForm.validate(async (valid) => {
 				if (valid) {
 					this.isSaving = true;
-					let res = await this.$API.user.user.account.post(this.formParams)
+					let res = await this.$API.user.user.changeAccount.post(this.formParams)
 					this.isSaving = false;
 					if(res.code == 200){
 						this.form = res.data
@@ -124,6 +129,9 @@ export default {
 		//表单注入数据
 		setData(data){
 			Object.assign(this.form, data)
+			if (data.id){
+				this.formParams.userId = data.id
+			}
 		}
 	}
 }
