@@ -231,7 +231,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.system.menu.show.get(reqData)
+					let res = await this.$API.system.menu.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

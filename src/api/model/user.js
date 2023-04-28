@@ -71,7 +71,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/user/user`,
 			name: "查看",
 			get: async function(data){

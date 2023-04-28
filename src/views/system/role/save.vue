@@ -99,20 +99,14 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
-				//可以和上面一样单个注入，也可以像下面一样直接合并进去
+			async setData(data){
 				Object.assign(this.form, data)
-
 				if (data.id){
-					this.loading = true
-					const params = {
-						id: data.id
-					}
-					setTimeout(async ()=>{
-						var res = await this.$API.system.role.show.get(params)
-						this.loading = false
-						this.form = res.data
-					},100)
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.system.role.detail.get(reqData)
+					this.isSaving = false
+					this.form = res.data
 				}
 			}
 		}

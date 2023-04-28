@@ -31,7 +31,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/department`,
 			name: "查看",
 			get: async function(data){
@@ -69,7 +69,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/position`,
 			name: "查看",
 			get: async function(data){
@@ -114,7 +114,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/menu`,
 			name: "查看",
 			get: async function(data){
@@ -180,7 +180,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/dict`,
 			name: "详情",
 			get: async function(data){
@@ -263,7 +263,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/role`,
 			name: "查看",
 			get: async function(data){
@@ -336,7 +336,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/system/permission`,
 			name: "查看",
 			get: async function(data){
@@ -388,7 +388,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/user/user`,
 			name: "查看",
 			get: async function(data){

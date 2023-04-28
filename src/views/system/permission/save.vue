@@ -107,8 +107,15 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
+			async setData(data){
 				Object.assign(this.form, data)
+				if (data.id){
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.system.permission.detail.get(reqData)
+					this.isSaving = false
+					this.form = res.data
+				}
 			}
 		}
 	}

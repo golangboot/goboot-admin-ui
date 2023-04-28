@@ -103,14 +103,15 @@
 				})
 			},
 			//表单注入数据
-			setData(data){
-				// this.form.id = data.id
-				// this.form.name = data.name
-				// this.form.code = data.code
-				// this.form.parentId = data.parentId
-
-				//可以和上面一样单个注入，也可以像下面一样直接合并进去
+			async setData(data){
 				Object.assign(this.form, data)
+				if (data.id){
+					this.isSaving = true
+					let reqData = {id: data.id}
+					let res = await this.$API.system.dict.detail.get(reqData)
+					this.isSaving = false
+					this.form = res.data
+				}
 			}
 		}
 	}
