@@ -18,7 +18,7 @@
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="配置名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="配置编码" prop="code" width="150"></el-table-column>
-				<el-table-column label="配置值" prop="value" width="150"></el-table-column>
+				<el-table-column label="配置值" prop="value" width="200"></el-table-column>
 				<el-table-column label="配置类型" prop="type" width="150"></el-table-column>
 				<el-table-column label="配置选项" prop="options" width="150"></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
