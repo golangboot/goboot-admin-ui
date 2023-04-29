@@ -36,7 +36,7 @@
 					<el-table-column label="品牌介绍" prop="description" width="200" show-overflow-tooltip></el-table-column>
 					<el-table-column label="品牌图片" prop="image" width="100">
 						<template #default="scope">
-							<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+							<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 						</template>
 					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

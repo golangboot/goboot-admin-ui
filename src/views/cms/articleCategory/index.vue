@@ -50,12 +50,12 @@
 					<el-table-column label="文章分类名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="分类图标" prop="icon" width="100">
 						<template #default="scope">
-							<el-avatar :src="scope.row.icon" shape="square" size="default"></el-avatar>
+							<el-avatar :src="scope.row.icon" v-if="scope.row.icon" shape="square" size="default"></el-avatar>
 						</template>
 					</el-table-column>
 					<el-table-column label="分类图片" prop="image" width="100">
 						<template #default="scope">
-							<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+							<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 						</template>
 					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

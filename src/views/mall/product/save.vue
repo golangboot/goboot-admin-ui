@@ -100,7 +100,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.mall.product.show.get(reqData)
+					let res = await this.$API.mall.product.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

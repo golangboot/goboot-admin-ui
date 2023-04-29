@@ -20,7 +20,7 @@
 				<el-table-column label="评论内容" prop="content" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="评论图片" prop="image" width="100">
 					<template #default="scope">
-						<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+						<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 					</template>
 				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
