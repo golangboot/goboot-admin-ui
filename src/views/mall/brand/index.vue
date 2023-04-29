@@ -32,13 +32,13 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="品牌名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="品牌编码" prop="code" width="150"></el-table-column>
-					<el-table-column label="品牌介绍" prop="description" width="200" show-overflow-tooltip></el-table-column>
 					<el-table-column label="品牌图片" prop="image" width="100">
 						<template #default="scope">
 							<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 						</template>
 					</el-table-column>
+					<el-table-column label="品牌编码" prop="code" width="100"></el-table-column>
+					<el-table-column label="品牌介绍" prop="description" width="150" show-overflow-tooltip></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80">
 						<template #default="scope">
