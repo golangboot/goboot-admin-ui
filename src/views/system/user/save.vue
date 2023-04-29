@@ -54,10 +54,24 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
+									<el-form-item label="标签" prop="labelIds">
+										<el-select v-model="form.labelIds" multiple filterable style="width: 100%">
+											<el-option v-for="item in labelOptions" :key="item.id" :label="item.name" :value="item.id"/>
+										</el-select>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
 									<el-form-item label="角色" prop="roleIds">
 										<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
 											<el-option v-for="item in roleOptions" :key="item.id" :label="item.name" :value="item.id"/>
 										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="员工账号" prop="isSystem">
+										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
 								</el-col>
 							</el-row>
@@ -67,11 +81,6 @@
 										<el-radio-group v-model="form.status">
 											<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 										</el-radio-group>
-									</el-form-item>
-								</el-col>
-								<el-col :span="12">
-									<el-form-item label="员工账号" prop="isSystem">
-										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
 								</el-col>
 							</el-row>
@@ -204,6 +213,9 @@ export default {
 				identityCardFront: "",
 				identityCardBack: "",
 				status: 1,
+				groupIds: [],
+				labelIds: [],
+				roleIds: [],
 			},
 			rules: {
 				username: [
@@ -248,6 +260,12 @@ export default {
 				multiple: true,
 				checkStrictly: true
 			},
+			labelOptions: [],
+			labelProps: {
+				value: "id",
+				multiple: true,
+				checkStrictly: true
+			},
 			roleOptions: [],
 			roleProps: {
 				value: "id",
@@ -260,6 +278,7 @@ export default {
 		this.getDepartmentList()
 		this.getPositionList()
 		this.getGroupList()
+		this.getLabelList()
 		this.getRoleList()
 	},
 	methods: {
@@ -280,6 +299,10 @@ export default {
 		async getGroupList(){
 			let res = await this.$API.user.userGroup.list.get();
 			this.groupOptions = res.data.records;
+		},
+		async getLabelList(){
+			let res = await this.$API.user.userLabel.list.get();
+			this.labelOptions = res.data.records;
 		},
 		async getRoleList(){
 			let res = await this.$API.system.role.list.get();
