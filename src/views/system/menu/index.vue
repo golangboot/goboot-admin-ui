@@ -333,10 +333,27 @@
 			handleSaveSuccess(data, mode){
 				if(mode=='add'){
 					this.$refs.table.refresh()
-					// 触发树更新
-					this.getTreeList()
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
+				}
+
+				this.handleTreeSuccess(data, mode)
+			},
+			// 触发树更新
+			handleTreeSuccess(data, mode){
+				if (mode == 'add') {
+					this.$refs.tree.append(data, data.parentId)
+					this.$refs.tree.setCurrentKey(data.id)
+				} else if (mode == 'edit') {
+					let editNode = this.$refs.tree.getNode(data.id);
+					// 判断是否移动
+					let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
+					if (editNodeParentId != data.parentId) {
+						let obj = editNode.data;
+						this.$refs.tree.remove(data.id)
+						this.$refs.tree.append(obj, data.parentId)
+					}
+					Object.assign(editNode.data, data)
 				}
 			},
 			async syncMenu(){

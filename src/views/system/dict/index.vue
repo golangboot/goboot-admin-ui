@@ -6,7 +6,7 @@
 					<el-input placeholder="输入关键字进行过滤" v-model="dictFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="dict" class="menu" node-key="id" :data="dictList" :props="dictProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="dictFilterNode" @node-click="dictClick" @node-drop="nodeDrop">
+					<el-tree ref="tree" class="menu" node-key="id" :data="dictList" :props="dictProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="dictFilterNode" @node-click="dictClick" @node-drop="nodeDrop">
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
@@ -107,7 +107,7 @@
 		},
 		watch: {
 			dictFilterText(val) {
-				this.$refs.dict.filter(val);
+				this.$refs.tree.filter(val);
 			}
 		},
 		mounted() {
@@ -124,7 +124,7 @@
 				var firstNode = this.dictList[0];
 				if(firstNode){
 					this.$nextTick(() => {
-						this.$refs.dict.setCurrentKey(firstNode.id)
+						this.$refs.tree.setCurrentKey(firstNode.id)
 					})
 					this.listApiParams = {
 						parentId: firstNode.id,
@@ -148,7 +148,7 @@
 			},
 			//批量删除选中字典
 			async delDict(){
-				var CheckedNodes = this.$refs.dict.getCheckedNodes()
+				var CheckedNodes = this.$refs.tree.getCheckedNodes()
 				if (CheckedNodes.length == 0) {
 					this.$message.warning("请选择需要删除的项")
 					return false;
@@ -173,11 +173,11 @@
 
 				if (res.code == 200) {
 					CheckedNodes.forEach(item => {
-						var node = this.$refs.dict.getNode(item)
+						var node = this.$refs.tree.getNode(item)
 						if (node.isCurrent) {
 							// this.$refs.save.setData({})
 						}
-						this.$refs.dict.remove(item)
+						this.$refs.tree.remove(item)
 					})
 				} else {
 					this.$message.warning(res.message)
@@ -187,7 +187,7 @@
 			dictEdit(data){
 				this.dialog.dict = true
 				this.$nextTick(() => {
-					var editNode = this.$refs.dict.getNode(data.id);
+					var editNode = this.$refs.tree.getNode(data.id);
 					var editNodeParentId =  editNode.level==1?undefined:editNode.parent.data.id
 					data.parentId = editNodeParentId
 					this.$refs.dictDialog.open('edit').setData(data)
@@ -212,12 +212,12 @@
 					var res = await this.$API.system.dict.delete.delete(reqData)
 					if (res.code == 200) {
 						//删除节点是否为高亮当前 是的话 设置第一个节点高亮
-						var dictCurrentKey = this.$refs.dict.getCurrentKey();
-						this.$refs.dict.remove(data.id)
+						var dictCurrentKey = this.$refs.tree.getCurrentKey();
+						this.$refs.tree.remove(data.id)
 						if (dictCurrentKey == data.id) {
 							var firstNode = this.dictList[0];
 							if (firstNode) {
-								this.$refs.dict.setCurrentKey(firstNode.id);
+								this.$refs.tree.setCurrentKey(firstNode.id);
 								this.$refs.table.upData({
 									code: firstNode.code
 								})
@@ -314,7 +314,7 @@
 			addInfo(){
 				this.dialog.list = true
 				this.$nextTick(() => {
-					var dictCurrentKey = this.$refs.dict.getCurrentKey();
+					var dictCurrentKey = this.$refs.tree.getCurrentKey();
 					console.log('dictCurrentKey', dictCurrentKey)
 					const data = {
 						// dict: dictCurrentKey,
@@ -422,17 +422,19 @@
 						}
 						this.listApi = this.$API.system.dict.list;
 					}
-					this.$refs.dict.append(data, data.parentId[0])
-					this.$refs.dict.setCurrentKey(data.id)
+					// this.$refs.tree.append(data, data.parentId[0])
+					this.$refs.tree.append(data, data.parentId)
+					this.$refs.tree.setCurrentKey(data.id)
 				}else if(mode=='edit'){
-					var editNode = this.$refs.dict.getNode(data.id);
+					let editNode = this.$refs.tree.getNode(data.id);
 					//判断是否移动？
-					var editNodeParentId =  editNode.level==1?undefined:editNode.parent.data.id
-					console.log('handleDictSuccess editNodeParentId', editNodeParentId)
+					let editNodeParentId =  editNode.level==1?undefined:editNode.parent.data.id
+					// console.log('handleDictSuccess editNodeParentId', editNodeParentId)
 					if(editNodeParentId != data.parentId){
-						var obj = editNode.data;
-						this.$refs.dict.remove(data.id)
-						this.$refs.dict.append(obj, data.parentId[0])
+						let obj = editNode.data;
+						this.$refs.tree.remove(data.id)
+						// this.$refs.tree.append(obj, data.parentId[0])
+						this.$refs.tree.append(obj, data.parentId)
 					}
 					Object.assign(editNode.data, data)
 				}

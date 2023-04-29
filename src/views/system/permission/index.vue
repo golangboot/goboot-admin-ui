@@ -222,16 +222,6 @@
 				filter(this.$refs.table.tableData)
 				return target
 			},
-			//本地更新数据
-			handleSaveSuccess(data, mode){
-				if(mode=='add'){
-					this.$refs.table.refresh()
-				}else if(mode=='edit'){
-					this.$refs.table.refresh()
-				}
-				// 触发树更新
-				this.getTreeList()
-			},
 			async syncPermission(){
 				var reqData = {}
 				var res = await this.$API.system.permission.sync.post(reqData);
@@ -242,6 +232,33 @@
 					this.getTreeList()
 				}else{
 					this.$alert(res.message, "提示", {type: 'error'})
+				}
+			},
+			//本地更新数据
+			handleSaveSuccess(data, mode){
+				if(mode=='add'){
+					this.$refs.table.refresh()
+				}else if(mode=='edit'){
+					this.$refs.table.refresh()
+				}
+
+				this.handleTreeSuccess(data, mode)
+			},
+			// 触发树更新
+			handleTreeSuccess(data, mode){
+				if (mode == 'add') {
+					this.$refs.tree.append(data, data.parentId)
+					this.$refs.tree.setCurrentKey(data.id)
+				} else if (mode == 'edit') {
+					let editNode = this.$refs.tree.getNode(data.id);
+					// 判断是否移动
+					let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
+					if (editNodeParentId != data.parentId) {
+						let obj = editNode.data;
+						this.$refs.tree.remove(data.id)
+						this.$refs.tree.append(obj, data.parentId)
+					}
+					Object.assign(editNode.data, data)
 				}
 			},
 			//加载树数据
