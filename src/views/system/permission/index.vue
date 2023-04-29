@@ -253,9 +253,7 @@
 				this.treeList = res.data;
 			},
 			//树点击
-			treeNodeClick(data, node){
-				const pid = node.level == 1 ? undefined : node.parent.data.id;
-				console.log('pid', pid);
+			treeNodeClick(data){
 				this.params.parentId = data.id
 				this.$refs.table.reload(this.params)
 			},
