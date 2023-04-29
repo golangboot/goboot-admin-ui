@@ -14,7 +14,7 @@
 				</el-footer>
 			</el-container>
 		</el-aside>
-		<el-container>
+		<el-container class="is-vertical">
 				<el-header>
 					<div class="left-panel">
 						<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
