@@ -24,9 +24,12 @@ export default {
 	},
 	//树拖拽
 	treeNodeDrop(draggingNode, dropNode, dropType, next) {
+		let defaultParentId = 0;
+		let defaultSort = 1000;
+
 		let { data } = draggingNode;
-		let parentId = dropType === 'inner' ? dropNode.data.id : dropNode.data.parentId || 0;
-		let sort = dropNode.data.sort ? (dropType === 'before' ? dropNode.data.sort - 1 : dropNode.data.sort + 1) : 0;
+		let parentId = dropType === 'inner' ? dropNode.data.id : dropNode.data.parentId || defaultParentId;
+		let sort = dropNode.data.sort ? (dropType === 'before' ? dropNode.data.sort - 1 : dropNode.data.sort + 1) : defaultSort;
 
 		Object.assign(data, {
 			parentId: parentId,
