@@ -120,6 +120,7 @@
 <script>
 	import scFileImport from '@/components/scFileImport'
 	import scFileExport from '@/components/scFileExport'
+	import treeUtils from '@/utils/tree'
 
 	import saveDialog from './save'
 
@@ -329,33 +330,6 @@
 			upsearch(){
 				this.$refs.table.upData(this.search)
 			},
-			//本地更新数据
-			handleSaveSuccess(data, mode){
-				if(mode=='add'){
-					this.$refs.table.refresh()
-				}else if(mode=='edit'){
-					this.$refs.table.refresh()
-				}
-
-				this.handleTreeSuccess(data, mode)
-			},
-			// 触发树更新
-			handleTreeSuccess(data, mode){
-				if (mode == 'add') {
-					this.$refs.tree.append(data, data.parentId)
-					this.$refs.tree.setCurrentKey(data.id)
-				} else if (mode == 'edit') {
-					let editNode = this.$refs.tree.getNode(data.id);
-					// 判断是否移动
-					let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
-					if (editNodeParentId != data.parentId) {
-						let obj = editNode.data;
-						this.$refs.tree.remove(data.id)
-						this.$refs.tree.append(obj, data.parentId)
-					}
-					Object.assign(editNode.data, data)
-				}
-			},
 			async syncMenu(){
 				var reqData = {}
 				var res = await this.$API.system.menu.sync.post(reqData);
@@ -365,6 +339,16 @@
 				}else{
 					this.$alert(res.message, "提示", {type: 'error'})
 				}
+			},
+			//本地更新数据
+			handleSaveSuccess(data, mode){
+				if(mode=='add'){
+					this.$refs.table.refresh()
+				}else if(mode=='edit'){
+					this.$refs.table.refresh()
+				}
+				// 触发树更新
+				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
 			//加载树数据
 			async getTreeList(){
@@ -393,28 +377,18 @@
 			},
 			//树拖拽
 			async treeNodeDrop(draggingNode, dropNode, dropType) {
-				let { data } = draggingNode;
-				let parentId = dropType === 'inner' ? dropNode.data.id : dropNode.data.parentId || 0;
-				let sort = dropNode.data.sort ? (dropType === 'before' ? dropNode.data.sort - 1 : dropNode.data.sort + 1) : 0;
-
-				Object.assign(data, {
-					parentId: parentId,
-					sort: sort,
+				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
+					this.loading = true;
+					let res = data.id
+						? await this.$API.system.menu.update.put(data)
+						: await this.$API.system.menu.add.post(data);
+					if (res.code == 200) {
+						this.$message.success("保存成功");
+					} else {
+						this.$message.warning(res.message);
+					}
+					this.loading = false;
 				})
-
-				this.loading = true;
-
-				const res = data.id
-					? await this.$API.system.menu.update.put(data)
-					: await this.$API.system.menu.add.post(data);
-
-				if (res.code == 200) {
-					this.$message.success("保存成功");
-				} else {
-					this.$message.warning(res.message);
-				}
-
-				this.loading = false;
 			},
 			//树增加
 			treeAdd(){
@@ -498,19 +472,7 @@
 				// 改变一个全局变量
 				this.treeStatus = !this.treeStatus;
 				// 改变每个节点的状态
-				this.changeTreeNodeStatus(this.$refs.tree.store.root);
-			},
-			// 改变节点的状态
-			changeTreeNodeStatus (node) {
-				node.expanded = this.treeStatus;
-				for (let i = 0; i < node.childNodes.length; i++) {
-					// 改变节点的自身expanded状态
-					node.childNodes[i].expanded = this.treeStatus;
-					// 看看他孩子的长度，有的话就调用自己往下找
-					if (node.childNodes[i].childNodes.length > 0) {
-						this.changeTreeNodeStatus(node.childNodes[i]);
-					}
-				}
+				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
 			},
 		}
 	}

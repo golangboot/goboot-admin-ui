@@ -87,6 +87,7 @@
 	// import saveDialog from './save'
 	import assignDialog from './assign'
 	import saveDialog from './../../user/user/save'
+	import treeUtils from '@/utils/tree'
 
 	export default {
 		name: 'user',
@@ -223,19 +224,7 @@
 				// 改变一个全局变量
 				this.treeStatus = !this.treeStatus;
 				// 改变每个节点的状态
-				this.changeTreeNodeStatus(this.$refs.tree.store.root);
-			},
-			// 改变节点的状态
-			changeTreeNodeStatus (node) {
-				node.expanded = this.treeStatus;
-				for (let i = 0; i < node.childNodes.length; i++) {
-					// 改变节点的自身expanded状态
-					node.childNodes[i].expanded = this.treeStatus;
-					// 看看他孩子的长度，有的话就调用自己往下找
-					if (node.childNodes[i].childNodes.length > 0) {
-						this.changeTreeNodeStatus(node.childNodes[i]);
-					}
-				}
+				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
 			},
 			//分配用户组
 			assignGroups(){

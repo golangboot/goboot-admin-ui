@@ -27,6 +27,8 @@
 				<el-footer style="height:51px;">
 					<el-button type="primary" size="small" icon="el-icon-plus" @click="treeAdd"></el-button>
 					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="treeDel"></el-button>
+					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
+					<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
@@ -90,6 +92,7 @@
 
 <script>
 	import saveDialog from './save'
+	import treeUtils from '@/utils/tree'
 
 	export default {
 		name: 'cmsArticleCategory',
@@ -108,6 +111,7 @@
 					keyword: null
 				},
 				treeShowLoading: true,
+				treeStatus: false,
 				treeList: [],
 				treeFilterText: '',
 				treeProps: {
@@ -220,25 +224,8 @@
 						Object.assign(item, data)
 					})
 				}
-
-				this.handleTreeSuccess(data, mode)
-			},
-			// 触发树更新
-			handleTreeSuccess(data, mode){
-				if (mode == 'add') {
-					this.$refs.tree.append(data, data.parentId)
-					this.$refs.tree.setCurrentKey(data.id)
-				} else if (mode == 'edit') {
-					let editNode = this.$refs.tree.getNode(data.id);
-					// 判断是否移动
-					let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
-					if (editNodeParentId != data.parentId) {
-						let obj = editNode.data;
-						this.$refs.tree.remove(data.id)
-						this.$refs.tree.append(obj, data.parentId)
-					}
-					Object.assign(editNode.data, data)
-				}
+				// 触发树更新
+				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
 			//加载树数据
 			async getTreeList(){
@@ -261,28 +248,18 @@
 			},
 			//树拖拽
 			async treeNodeDrop(draggingNode, dropNode, dropType) {
-				let { data } = draggingNode;
-				let parentId = dropType === 'inner' ? dropNode.data.id : dropNode.data.parentId || 0;
-				let sort = dropNode.data.sort ? (dropType === 'before' ? dropNode.data.sort - 1 : dropNode.data.sort + 1) : 0;
-
-				Object.assign(data, {
-					parentId: parentId,
-					sort: sort,
+				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
+					this.loading = true;
+					let res = data.id
+						? await this.$API.cms.articleCategory.update.put(data)
+						: await this.$API.cms.articleCategory.add.post(data);
+					if (res.code == 200) {
+						this.$message.success("保存成功");
+					} else {
+						this.$message.warning(res.message);
+					}
+					this.loading = false;
 				})
-
-				this.loading = true;
-
-				const res = data.id
-					? await this.$API.cms.articleCategory.update.put(data)
-					: await this.$API.cms.articleCategory.add.post(data);
-
-				if (res.code == 200) {
-					this.$message.success("保存成功");
-				} else {
-					this.$message.warning(res.message);
-				}
-
-				this.loading = false;
 			},
 			//树增加
 			treeAdd(){
@@ -360,6 +337,13 @@
 					}
 				}).catch(() => {
 				})
+			},
+			//树展开/收缩
+			shrinkTreeNode () {
+				// 改变一个全局变量
+				this.treeStatus = !this.treeStatus;
+				// 改变每个节点的状态
+				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
 			},
 		}
 	}

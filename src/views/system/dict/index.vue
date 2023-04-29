@@ -1,12 +1,12 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="showDictLoading">
+		<el-aside width="25%" v-loading="treeShowLoading">
 			<el-container>
 				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="dictFilterText" clearable></el-input>
+					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="dictList" :props="dictProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="dictFilterNode" @node-click="dictClick" @node-drop="nodeDrop">
+					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" draggable :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox :filter-node-method="dictFilterNode" @node-click="dictClick" @node-drop="nodeDrop">
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
@@ -80,6 +80,7 @@
 	import dictDialog from './dict'
 	import listDialog from './list'
 	import Sortable from 'sortablejs'
+	import treeUtils from '@/utils/tree'
 
 	export default {
 		name: 'dict',
@@ -93,11 +94,11 @@
 					dict: false,
 					info: false
 				},
-				showDictLoading: true,
+				treeShowLoading: true,
 				treeStatus: false,
-				dictList: [],
-				dictFilterText: '',
-				dictProps: {
+				treeList: [],
+				treeFilterText: '',
+				treeProps: {
 					label: 'name'
 				},
 				listApi: null,
@@ -106,7 +107,7 @@
 			}
 		},
 		watch: {
-			dictFilterText(val) {
+			treeFilterText(val) {
 				this.$refs.tree.filter(val);
 			}
 		},
@@ -118,10 +119,10 @@
 			//加载树数据
 			async getDict(){
 				var res = await this.$API.system.dict.tree.get();
-				this.showDictLoading = false;
-				this.dictList = res.data;
+				this.treeShowLoading = false;
+				this.treeList = res.data;
 				//获取第一个节点,设置选中 & 加载明细列表
-				var firstNode = this.dictList[0];
+				var firstNode = this.treeList[0];
 				if(firstNode){
 					this.$nextTick(() => {
 						this.$refs.tree.setCurrentKey(firstNode.id)
@@ -204,7 +205,7 @@
 				this.$confirm(`确定删除 ${data.name} 项吗？`, '提示', {
 					type: 'warning'
 				}).then(async () => {
-					this.showDictLoading = true;
+					this.treeShowLoading = true;
 
 					var reqData = {
 						id: data.id
@@ -215,7 +216,7 @@
 						var dictCurrentKey = this.$refs.tree.getCurrentKey();
 						this.$refs.tree.remove(data.id)
 						if (dictCurrentKey == data.id) {
-							var firstNode = this.dictList[0];
+							var firstNode = this.treeList[0];
 							if (firstNode) {
 								this.$refs.tree.setCurrentKey(firstNode.id);
 								this.$refs.table.upData({
@@ -232,7 +233,7 @@
 						this.$message.warning(res.message)
 					}
 
-					this.showDictLoading = false;
+					this.treeShowLoading = false;
 
 				}).catch(() => {
 
@@ -241,58 +242,25 @@
 			//树拖拽
 			async nodeDrop(draggingNode, dropNode, dropType){
 				// this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
-
-				// 父类id
-				var parentId = dropNode.data.parentId || 0;
-				if (dropType === 'inner'){
-					parentId = dropNode.data.id;
-				}
-				// 排序
-				var sort = dropNode.data.sort;
-				if (sort) {
-					sort = dropType === 'before' ? parseInt(sort) - 1 : parseInt(sort) + 1;
-				} else {
-					sort = 1000
-				}
-
-				var data = draggingNode.data;
-				data.parentId = parentId;
-				data.sort = sort;
-
-				this.loading = true
-
-				var res
-				if (data.id) {
-					res = await this.$API.system.dict.update.put(data)
-				} else {
-					res = await this.$API.system.dict.add.post(data)
-				}
-				if (res.code == 200) {
-					this.$message.success("保存成功")
-				} else {
-					this.$message.warning(res.message)
-				}
-
-				this.loading = false
+				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
+					this.loading = true
+					let res = data.id
+						? await this.$API.system.dict.update.put(data)
+						: await this.$API.system.dict.add.post(data)
+					if (res.code == 200) {
+						this.$message.success("保存成功")
+					} else {
+						this.$message.warning(res.message)
+					}
+					this.loading = false
+				})
 			},
 			//树展开/收缩
 			shrinkTreeNode () {
 				// 改变一个全局变量
 				this.treeStatus = !this.treeStatus;
 				// 改变每个节点的状态
-				this.changeTreeNodeStatus(this.$refs.tree.store.root);
-			},
-			// 改变节点的状态
-			changeTreeNodeStatus (node) {
-				node.expanded = this.treeStatus;
-				for (let i = 0; i < node.childNodes.length; i++) {
-					// 改变节点的自身expanded状态
-					node.childNodes[i].expanded = this.treeStatus;
-					// 看看他孩子的长度，有的话就调用自己往下找
-					if (node.childNodes[i].childNodes.length > 0) {
-						this.changeTreeNodeStatus(node.childNodes[i]);
-					}
-				}
+				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
 			},
 			//行拖拽
 			rowDrop(){
@@ -318,7 +286,7 @@
 					console.log('dictCurrentKey', dictCurrentKey)
 					const data = {
 						// dict: dictCurrentKey,
-						// dict: this.dictList,
+						// dict: this.treeList,
 						parentId: dictCurrentKey,
 					}
 					this.$refs.listDialog.open().setData(data)
@@ -412,7 +380,7 @@
 			handleDictSuccess(data, mode){
 				if(mode=='add'){
 					data.id = data.id ?? new Date().getTime()
-					if(this.dictList.length > 0){
+					if(this.treeList.length > 0){
 						this.$refs.table.upData({
 							code: data.code
 						})
