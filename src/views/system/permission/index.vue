@@ -27,6 +27,8 @@
 				<el-footer style="height:51px;">
 					<el-button type="primary" size="small" icon="el-icon-plus" @click="treeAdd"></el-button>
 					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="treeDel"></el-button>
+					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
+					<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
@@ -101,6 +103,7 @@
 					keyword: null
 				},
 				treeShowLoading: true,
+				treeStatus: false,
 				treeList: [],
 				treeFilterText: '',
 				treeProps: {
@@ -363,6 +366,25 @@
 					}
 				}).catch(() => {
 				})
+			},
+			//树展开/收缩
+			shrinkTreeNode () {
+				// 改变一个全局变量
+				this.treeStatus = !this.treeStatus;
+				// 改变每个节点的状态
+				this.changeTreeNodeStatus(this.$refs.tree.store.root);
+			},
+			// 改变节点的状态
+			changeTreeNodeStatus (node) {
+				node.expanded = this.treeStatus;
+				for (let i = 0; i < node.childNodes.length; i++) {
+					// 改变节点的自身expanded状态
+					node.childNodes[i].expanded = this.treeStatus;
+					// 看看他孩子的长度，有的话就调用自己往下找
+					if (node.childNodes[i].childNodes.length > 0) {
+						this.changeTreeNodeStatus(node.childNodes[i]);
+					}
+				}
 			},
 		}
 	}

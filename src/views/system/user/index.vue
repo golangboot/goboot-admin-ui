@@ -1,13 +1,17 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="showGrouploading">
+		<el-aside width="25%" v-loading="showGroupLoading">
 			<el-container>
 				<el-header>
 					<el-input placeholder="输入关键字进行过滤" v-model="groupFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="group" class="menu" node-key="id" :data="group" :props="groupProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
+					<el-tree ref="tree" class="menu" node-key="id" :data="group" :props="groupProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
 				</el-main>
+				<el-footer style="height:51px;">
+					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
+					<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
+				</el-footer>
 			</el-container>
 		</el-aside>
 		<el-container>
@@ -96,7 +100,8 @@
 					save: false,
 					assign: false,
 				},
-				showGrouploading: false,
+				showGroupLoading: false,
+				treeStatus: false,
 				groupFilterText: '',
 				group: [],
 				groupProps: {
@@ -119,7 +124,7 @@
 		},
 		watch: {
 			groupFilterText(val) {
-				this.$refs.group.filter(val);
+				this.$refs.tree.filter(val);
 			}
 		},
 		mounted() {
@@ -194,9 +199,9 @@
 			},
 			//加载树数据
 			async getGroup(){
-				this.showGrouploading = true;
+				this.showGroupLoading = true;
 				var res = await this.$API.system.department.tree.get();
-				this.showGrouploading = false;
+				this.showGroupLoading = false;
 				// var allNode ={id: '', label: '全部'}
 				var allNode ={id: '', name: '全部', label: '全部'}
 				res.data.unshift(allNode);
@@ -212,6 +217,25 @@
 				this.search.departmentId = data.id
 				// this.$refs.table.reload(this.search)
 				this.$refs.table.upData(this.search)
+			},
+			//树展开/收缩
+			shrinkTreeNode () {
+				// 改变一个全局变量
+				this.treeStatus = !this.treeStatus;
+				// 改变每个节点的状态
+				this.changeTreeNodeStatus(this.$refs.tree.store.root);
+			},
+			// 改变节点的状态
+			changeTreeNodeStatus (node) {
+				node.expanded = this.treeStatus;
+				for (let i = 0; i < node.childNodes.length; i++) {
+					// 改变节点的自身expanded状态
+					node.childNodes[i].expanded = this.treeStatus;
+					// 看看他孩子的长度，有的话就调用自己往下找
+					if (node.childNodes[i].childNodes.length > 0) {
+						this.changeTreeNodeStatus(node.childNodes[i]);
+					}
+				}
 			},
 			//分配用户组
 			assignGroups(){

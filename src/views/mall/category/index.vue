@@ -37,42 +37,6 @@
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-					<!--<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>-->
-					<sc-file-import :apiObj="$API.system.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
-						<template #default="{open}">
-							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
-						</template>
-						<template #uploader>
-							<el-icon class="el-icon--upload"><sc-icon-file-excel /></el-icon>
-							<div class="el-upload__text">
-								将文件拖到此处或 <em>点击选择文件上传</em>
-							</div>
-						</template>
-						<template #form="{formData}">
-							<el-form-item label="覆盖已有数据">
-								<el-switch v-model="formData.coverage" />
-							</el-form-item>
-							<el-form-item label="跳过错误数据">
-								<el-switch v-model="formData.skipError" />
-							</el-form-item>
-						</template>
-					</sc-file-import>
-					<sc-file-export :apiObj="$API.system.menu.export" blob :fileName="'菜单列表_'+Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
-						<template #default="{open}">
-							<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
-						</template>
-						<template #form="{formData}">
-							<el-form-item label="导出条数">
-								<el-select v-model="formData.limit" placeholder="全部">
-									<el-option label="100条" value="100" />
-									<el-option label="500条" value="500" />
-									<el-option label="1000条" value="1000" />
-									<el-option label="5000条" value="5000" />
-									<el-option label="10000条" value="10000" />
-								</el-select>
-							</el-form-item>
-						</template>
-					</sc-file-export>
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
@@ -84,9 +48,18 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="id" width="100" sortable></el-table-column>
-					<el-table-column label="名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="标题" prop="title" width="200"></el-table-column>
+					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+					<el-table-column label="分类名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="分类图标" prop="icon" width="100">
+						<template #default="scope">
+							<el-avatar :src="scope.row.icon" shape="square" size="default"></el-avatar>
+						</template>
+					</el-table-column>
+					<el-table-column label="分类图片" prop="image" width="100">
+						<template #default="scope">
+							<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+						</template>
+					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80">
 						<template #default="scope">
@@ -118,111 +91,20 @@
 </template>
 
 <script>
-	import scFileImport from '@/components/scFileImport'
-	import scFileExport from '@/components/scFileExport'
-
 	import saveDialog from './save'
 
-	import edit from './edit'
-
 	export default {
-		name: "settingMenu",
+		name: 'mallCategory',
 		components: {
 			saveDialog,
-			edit,
-			scFileImport,
-			scFileExport,
 		},
-		data(){
+		data() {
 			return {
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.system.menu.list,
+				apiObj: this.$API.mall.category.list,
 				params: {},
-				column: [
-					{
-						label: "ID",
-						prop: "id"
-					},
-					{
-						label: "名称",
-						prop: "name"
-					},
-					{
-						label: "路径",
-						prop: "path"
-					},
-					{
-						label: "组件",
-						prop: "component"
-					},
-					{
-						label: "重定向地址",
-						prop: "redirect"
-					},
-					{
-						label: "显示名称",
-						prop: "title"
-					},
-					{
-						label: "是否隐藏菜单",
-						prop: "hidden"
-					},
-					{
-						label: "是否固定",
-						prop: "affix"
-					},
-					{
-						label: "显示图标",
-						prop: "icon"
-					},
-					{
-						label: "菜单类型",
-						prop: "type"
-					},
-					{
-						label: "是否隐藏面包屑",
-						prop: "hiddenBreadcrumb"
-					},
-					{
-						label: "左侧菜单的路由地址活动状态",
-						prop: "active"
-					},
-					{
-						label: "颜色值",
-						prop: "color"
-					},
-					{
-						label: "是否整页打开路由",
-						prop: "fullpage"
-					},
-					{
-						label: "角色",
-						prop: "role"
-					},
-					{
-						label: "标签",
-						prop: "tag"
-					},
-					{
-						label: "父类ID",
-						prop: "parentId"
-					},
-					{
-						label: "排序",
-						prop: "sort"
-					},
-					{
-						label: "状态",
-						prop: "status"
-					},
-					{
-						label: "元数据",
-						prop: "meta",
-						hide: true
-					}
-				],
 				selection: [],
 				search: {
 					keyword: null
@@ -232,7 +114,7 @@
 				treeList: [],
 				treeFilterText: '',
 				treeProps: {
-					label: 'title'
+					label: 'name'
 				},
 			}
 		},
@@ -249,7 +131,7 @@
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('add')
+					this.$refs.saveDialog.open()
 				})
 			},
 			//编辑
@@ -269,7 +151,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.system.menu.delete.delete(reqData);
+				var res = await this.$API.mall.category.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -287,22 +169,21 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.system.menu.delete.delete(reqData)
-					if (res.code == 200) {
-						this.selection.forEach(item => {
-							this.$refs.table.tableData.forEach((itemI, indexI) => {
-								if (item.id === itemI.id) {
-									this.$refs.table.tableData.splice(indexI, 1)
-								}
-							})
-						})
-						this.$message.success("操作成功")
-					} else {
+					var res = await this.$API.mall.category.delete.delete(reqData)
+					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
-
 					// this.$refs.table.refresh()
+
+					this.selection.forEach(item => {
+						this.$refs.table.tableData.forEach((itemI, indexI) => {
+							if (item.id === itemI.id) {
+								this.$refs.table.tableData.splice(indexI, 1)
+							}
+						})
+					})
 					loading.close();
+					this.$message.success("操作成功")
 				}).catch(() => {
 
 				})
@@ -313,10 +194,13 @@
 			},
 			//表格内开关
 			async changeSwitch(val, row){
+				//1.还原数据
 				row.status = row.status == '1'?'0':'1'
+				//2.执行加载
 				row.$switch_status = true;
+				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.system.menu.update.put(reqData);
+				var res = await this.$API.mall.category.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -331,29 +215,23 @@
 			},
 			//本地更新数据
 			handleSaveSuccess(data, mode){
-				if(mode=='add'){
-					this.$refs.table.refresh()
-					// 触发树更新
-					this.getTreeList()
-				}else if(mode=='edit'){
-					this.$refs.table.refresh()
+				if (mode == 'add') {
+					data.id = data.id ?? new Date().getTime()
+					this.$refs.table.tableData.unshift(data)
+				} else if (mode == 'edit') {
+					this.$refs.table.tableData.filter(item => item.id === data.id).forEach(item => {
+						Object.assign(item, data)
+					})
 				}
-			},
-			async syncMenu(){
-				var reqData = {}
-				var res = await this.$API.system.menu.sync.post(reqData);
-				if(res.code == 200){
-					this.$refs.table.refresh()
-					this.$message.success("操作成功")
-				}else{
-					this.$alert(res.message, "提示", {type: 'error'})
-				}
+
+				// 触发树更新
+				this.getTreeList()
 			},
 			//加载树数据
 			async getTreeList(){
-				let res = await this.$API.system.menu.tree.get();
+				let res = await this.$API.mall.category.tree.get();
 				this.treeShowLoading = false;
-				const allNode = {id: '', name: '全部', label: '全部', title: '全部', disabled: true,};
+				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};
 				res.data.unshift(allNode);
 				this.treeList = res.data;
 			},
@@ -367,7 +245,7 @@
 			//树过滤
 			treeFilterNode(value, data){
 				if (!value) return true;
-				var targetText = data.name + data.code + data.title;
+				var targetText = data.name + data.code;
 				return targetText.indexOf(value) !== -1;
 			},
 			//树拖拽
@@ -384,8 +262,8 @@
 				this.loading = true;
 
 				const res = data.id
-					? await this.$API.system.menu.update.put(data)
-					: await this.$API.system.menu.add.post(data);
+					? await this.$API.mall.category.update.put(data)
+					: await this.$API.mall.category.add.post(data);
 
 				if (res.code == 200) {
 					this.$message.success("保存成功");
@@ -422,7 +300,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.system.menu.delete.delete(reqData)
+				var res = await this.$API.mall.category.delete.delete(reqData)
 
 				this.menuloading = false
 
@@ -461,7 +339,7 @@
 				}).then(async () => {
 					let row = data
 					var reqData = {id: row.id}
-					var res = await this.$API.system.menu.delete.delete(reqData);
+					var res = await this.$API.mall.category.delete.delete(reqData);
 					if(res.code == 200){
 						this.$refs.tree.remove(node)
 						this.$refs.table.refresh()
@@ -496,13 +374,10 @@
 </script>
 
 <style scoped>
-	.menu:deep(.el-tree-node__label) {display: flex;flex: 1;height:100%;}
-	.custom-tree-node {display: flex;flex: 1;align-items: center;justify-content: space-between;font-size: 14px;height:100%;padding-right:24px;}
-	.custom-tree-node .label {display: flex;align-items: center;;height: 100%;}
-	.custom-tree-node .label .el-tag {margin-left: 5px;}
-	.custom-tree-node .do {display: none;}
-	.custom-tree-node .do i {margin-left:5px;color: #999;}
-	.custom-tree-node .do i:hover {color: #333;}
-
-	.custom-tree-node:hover .do {display: inline-block;}
+.menu:deep(.el-tree-node__label) {display: flex;flex: 1;height:100%;}
+.custom-tree-node {display: flex;flex: 1;align-items: center;justify-content: space-between;font-size: 14px;padding-right: 24px;height:100%;}
+.custom-tree-node .code {font-size: 12px;color: #999;}
+.custom-tree-node .do {display: none;}
+.custom-tree-node:hover .code {display: none;}
+.custom-tree-node:hover .do {display: inline-block;}
 </style>

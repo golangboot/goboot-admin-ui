@@ -1,16 +1,22 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="标签名称" prop="name">
-				<el-input v-model="form.name" clearable></el-input>
+			<el-form-item label="商品标题" prop="title">
+				<el-input v-model="form.title" clearable></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="标签图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传标签图片"></sc-upload>
+					<el-form-item label="封面图片" prop="image">
+						<sc-upload v-model="form.image" title="请上传封面图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-form-item label="固定链接" prop="slug">
+				<el-input v-model="form.slug" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="商品内容" prop="content">
+				<el-input v-model="form.content" clearable type="textarea"></el-input>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -51,7 +57,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入文章标签名称'}
+						{required: true, message: '请输入商品名称'}
 					],
 				},
 			}
@@ -72,9 +78,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.cms.articleTag.update.put(this.form)
+							res = await this.$API.mall.product.update.put(this.form)
 						} else {
-							res = await this.$API.cms.articleTag.add.post(this.form)
+							res = await this.$API.mall.product.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -94,7 +100,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleTag.detail.get(reqData)
+					let res = await this.$API.mall.product.show.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

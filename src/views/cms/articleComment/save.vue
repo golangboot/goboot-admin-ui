@@ -97,7 +97,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleComment.show.get(reqData)
+					let res = await this.$API.cms.articleComment.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

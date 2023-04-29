@@ -56,7 +56,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'userGroup',
+		name: 'cmsArticleComment',
 		components: {
 			saveDialog,
 		},

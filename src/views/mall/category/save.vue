@@ -1,21 +1,27 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="标签名称" prop="name">
+			<el-form-item label="分类名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="标签图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传标签图片"></sc-upload>
+					<el-form-item label="分类图片" prop="image">
+						<sc-upload v-model="form.image" title="请上传分类图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-form-item label="上级分类" prop="parentId">
+				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="false" :emitPath="false" placeholder="请选择分类" clearable></el-cascader>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>
+			<el-form-item label="备注" prop="remark">
+				<el-input v-model="form.remark" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -51,12 +57,20 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入文章标签名称'}
+						{required: true, message: '请输入分类名称'}
 					],
+				},
+				treeOptions: [],
+				treeProps: {
+					value: 'id',
+					label: 'name',
+					checkStrictly: true,
+					emitPath: false,
 				},
 			}
 		},
 		mounted() {
+			this.getTreeList()
 		},
 		methods: {
 			//显示
@@ -65,6 +79,10 @@
 				this.visible = true;
 				return this
 			},
+			async getTreeList(){
+				var res = await this.$API.mall.category.tree.get();
+				this.treeOptions = res.data
+			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
@@ -72,9 +90,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.cms.articleTag.update.put(this.form)
+							res = await this.$API.mall.category.update.put(this.form)
 						} else {
-							res = await this.$API.cms.articleTag.add.post(this.form)
+							res = await this.$API.mall.category.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -94,7 +112,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleTag.detail.get(reqData)
+					let res = await this.$API.mall.category.show.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
