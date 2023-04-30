@@ -32,14 +32,14 @@ export default {
 	},
 	file: {
 		menu: {
-			url: `${config.API_URL}/file/menu`,
+			url: `${config.API_URL}/system/fileCategory/tree`,
 			name: "获取文件分类",
 			get: async function(){
 				return await http.get(this.url);
 			}
 		},
 		list: {
-			url: `${config.API_URL}/file/list`,
+			url: `${config.API_URL}/system/file`,
 			name: "获取文件列表",
 			get: async function(params){
 				return await http.get(this.url, params);

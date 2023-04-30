@@ -7,13 +7,17 @@ export default {
 	menuApiObj: API.common.file.menu,
 	listApiObj: API.common.file.list,
 	successCode: 200,
-	maxSize: 30,
-	max: 100,
+	maxSize: 1024,
+	max: 1000,
+	rowCol: 6,
+	pageSize: 12,
 	uploadParseData: function (res) {
 		return {
 			id: res.data.id,
 			fileName: res.data.name || res.data.fileName,
-			url: res.data.url || res.data.src
+			url: res.data.url || res.data.src,
+			type: res.data.type,
+			suffix: res.data.suffix,
 		}
 	},
 	listParseData: function (res) {
@@ -39,7 +43,9 @@ export default {
 	fileProps: {
 		key: 'id',
 		fileName: 'name', // fileName
-		url: 'url'
+		url: 'url',
+		type: 'type',
+		suffix: 'suffix',
 	},
 	files: {
 		doc: {
@@ -65,6 +71,18 @@ export default {
 		pptx: {
 			icon: 'sc-icon-file-ppt-2-fill',
 			color: '#F56C6C'
-		}
+		},
+		mp4: {
+			icon: 'el-icon-video-play',
+			color: '#409eff'
+		},
+		mp3: {
+			icon: 'el-icon-microphone',
+			color: '#67C23A'
+		},
+		unknown: {
+			icon: 'el-icon-document',
+			color: '#409eff'
+		},
 	}
 }

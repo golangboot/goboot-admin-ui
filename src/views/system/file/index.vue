@@ -3,18 +3,17 @@
 		<el-row :gutter="15">
 			<el-col :lg="18">
 				<el-card shadow="never">
-					<el-alert title="资源库选择器即将弃用,将不会维护更新,与1.7版本之后将移除此组件" type="error" style="margin-bottom:20px;"></el-alert>
-					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :max="99" @submit="submit">
+					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :max="1000" @submit="submit">
 						<template #do>
-							<el-button>自定义插槽</el-button>
+							<el-button>返回</el-button>
 						</template>
 					</sc-file-select>
 				</el-card>
 			</el-col>
 			<el-col :lg="6">
-				<el-card shadow="never" header="参数和方法">
-					<el-button type="primary" @click="multiple = !multiple">切换multiple</el-button>
-					<el-button type="primary" @click="hideUpload = !hideUpload">切换hideUpload</el-button>
+				<el-card shadow="never" header="操作">
+					<el-button type="primary" @click="multiple = !multiple">切换（单选/多选）</el-button>
+					<el-button type="primary" @click="hideUpload = !hideUpload">上传按钮（显示/隐藏）</el-button>
 				</el-card>
 			</el-col>
 		</el-row>
@@ -22,10 +21,10 @@
 </template>
 
 <script>
-	import scFileSelect from '@/components/scFileSelect'
+	import scFileSelect from '@/components/scFileSelectPlus'
 
 	export default {
-		name: 'fileselect',
+		name: 'systemFile',
 		components: {
 			scFileSelect
 		},
