@@ -84,7 +84,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.mall.brand.list,
+				apiObj: this.$API.store.brand.list,
 				params: {},
 				selection: [],
 				search: {
@@ -135,7 +135,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.mall.brand.delete.delete(reqData);
+				var res = await this.$API.store.brand.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -153,7 +153,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.mall.brand.delete.delete(reqData)
+					var res = await this.$API.store.brand.delete.delete(reqData)
 					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -184,7 +184,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.mall.brand.update.put(reqData);
+				var res = await this.$API.store.brand.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -211,7 +211,7 @@
 			//加载树数据
 			async getTreeList(){
 				this.treeShowLoading = true;
-				var res = await this.$API.mall.category.tree.get();
+				var res = await this.$API.store.category.tree.get();
 				this.treeShowLoading = false;
 				var allNode ={id: '', name: '全部', label: '全部'}
 				res.data.unshift(allNode);

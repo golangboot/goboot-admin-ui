@@ -80,7 +80,7 @@
 				return this
 			},
 			async getTreeList(){
-				var res = await this.$API.mall.category.tree.get();
+				var res = await this.$API.store.category.tree.get();
 				this.treeOptions = res.data
 			},
 			//表单提交方法
@@ -90,9 +90,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.mall.category.update.put(this.form)
+							res = await this.$API.store.category.update.put(this.form)
 						} else {
-							res = await this.$API.mall.category.add.post(this.form)
+							res = await this.$API.store.category.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -112,7 +112,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.mall.category.detail.get(reqData)
+					let res = await this.$API.store.category.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

@@ -99,7 +99,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.mall.category.list,
+				apiObj: this.$API.store.category.list,
 				params: {},
 				selection: [],
 				search: {
@@ -147,7 +147,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.mall.category.delete.delete(reqData);
+				var res = await this.$API.store.category.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -165,7 +165,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.mall.category.delete.delete(reqData)
+					var res = await this.$API.store.category.delete.delete(reqData)
 					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -196,7 +196,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.mall.category.update.put(reqData);
+				var res = await this.$API.store.category.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -224,7 +224,7 @@
 			},
 			//加载树数据
 			async getTreeList(){
-				let res = await this.$API.mall.category.tree.get();
+				let res = await this.$API.store.category.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};
 				res.data.unshift(allNode);
@@ -246,8 +246,8 @@
 				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
 					this.loading = true;
 					let res = data.id
-						? await this.$API.mall.category.update.put(data)
-						: await this.$API.mall.category.add.post(data);
+						? await this.$API.store.category.update.put(data)
+						: await this.$API.store.category.add.post(data);
 					if (res.code == 200) {
 						this.$message.success("保存成功");
 					} else {
@@ -283,7 +283,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.mall.category.delete.delete(reqData)
+				var res = await this.$API.store.category.delete.delete(reqData)
 
 				this.menuloading = false
 
@@ -322,7 +322,7 @@
 				}).then(async () => {
 					let row = data
 					var reqData = {id: row.id}
-					var res = await this.$API.mall.category.delete.delete(reqData);
+					var res = await this.$API.store.category.delete.delete(reqData);
 					if(res.code == 200){
 						this.$refs.tree.remove(node)
 						this.$refs.table.refresh()

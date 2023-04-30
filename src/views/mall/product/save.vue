@@ -78,9 +78,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.mall.product.update.put(this.form)
+							res = await this.$API.store.product.update.put(this.form)
 						} else {
-							res = await this.$API.mall.product.add.post(this.form)
+							res = await this.$API.store.product.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -100,7 +100,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.mall.product.detail.get(reqData)
+					let res = await this.$API.store.product.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

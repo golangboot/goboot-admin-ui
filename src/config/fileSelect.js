@@ -12,8 +12,8 @@ export default {
 	uploadParseData: function (res) {
 		return {
 			id: res.data.id,
-			fileName: res.data.fileName,
-			url: res.data.src
+			fileName: res.data.name || res.data.fileName,
+			url: res.data.url || res.data.src
 		}
 	},
 	listParseData: function (res) {
