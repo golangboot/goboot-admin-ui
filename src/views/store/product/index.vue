@@ -55,7 +55,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'cmsArticle',
+		name: 'storeProduct',
 		components: {
 			saveDialog,
 		},
