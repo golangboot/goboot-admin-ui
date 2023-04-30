@@ -130,7 +130,7 @@
 						已选择 <b>{{selection.length}}</b> / <b>{{max}}</b> 项
 					</div>
 					<slot name="do"></slot>
-					<el-button type="default" v-if="selection.length > 0" @click="openSelect()">预览</el-button>
+					<el-button type="default" :disabled="selection.length != 1" v-if="selection.length > 0" @click="openSelect()">预览</el-button>
 					<el-button type="danger" v-if="selection.length > 0" @click="deleteSelect()">删除选中</el-button>
 					<el-button type="default" v-if="selection.length > 0" @click="cancelSelect()">取消选中</el-button>
 					<el-button type="default" v-if="multiple" @click="allSelect()">全选</el-button>
