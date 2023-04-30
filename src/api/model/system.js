@@ -375,35 +375,35 @@ export default {
 	},
 	user: {
 		list: {
-			url: `${config.API_URL}/user/user`,
+			url: `${config.API_URL}/user`,
 			name: "列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		add: {
-			url: `${config.API_URL}/user/user`,
+			url: `${config.API_URL}/user`,
 			name: "添加",
 			post: async function(data){
 				return await http.post(this.url, data);
 			}
 		},
 		detail: {
-			url: `${config.API_URL}/user/user`,
+			url: `${config.API_URL}/user`,
 			name: "查看",
 			get: async function(data){
 				return await http.get(`${this.url}/${data.id}`, data);
 			}
 		},
 		update: {
-			url: `${config.API_URL}/user/user`,
+			url: `${config.API_URL}/user`,
 			name: "更新",
 			put: async function(data){
 				return await http.put(`${this.url}`, data);
 			}
 		},
 		delete: {
-			url: `${config.API_URL}/user/user`,
+			url: `${config.API_URL}/user`,
 			name: "删除",
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -411,21 +411,21 @@ export default {
 			}
 		},
 		assignGroups: {
-			url: `${config.API_URL}/user/user/assignGroups`,
+			url: `${config.API_URL}/user/assignGroups`,
 			name: "分配用户组",
 			post: async function(data){
 				return await http.post(`${this.url}`, data);
 			}
 		},
 		assignRoles: {
-			url: `${config.API_URL}/user/user/assignRoles`,
+			url: `${config.API_URL}/user/assignRoles`,
 			name: "分配角色",
 			post: async function(data){
 				return await http.post(`${this.url}`, data);
 			}
 		},
 		assignDepartments: {
-			url: `${config.API_URL}/user/user/assignDepartments`,
+			url: `${config.API_URL}/user/assignDepartments`,
 			name: "分配部门",
 			post: async function(data){
 				return await http.post(`${this.url}`, data);
@@ -450,35 +450,35 @@ export default {
 	},
 	file: {
 		list: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		add: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "添加",
 			post: async function(data){
 				return await http.post(this.url, data);
 			}
 		},
 		detail: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "查看",
 			get: async function(data){
 				return await http.get(`${this.url}/${data.id}`, data);
 			}
 		},
 		update: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "更新",
 			put: async function(data){
 				return await http.put(`${this.url}`, data);
 			}
 		},
 		delete: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "删除",
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -488,42 +488,42 @@ export default {
 	},
 	fileCategory: {
 		tree: {
-			url: `${config.API_URL}/system/fileCategory/tree`,
+			url: `${config.API_URL}/file/fileCategory/tree`,
 			name: "树型列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		list: {
-			url: `${config.API_URL}/system/fileCategory`,
+			url: `${config.API_URL}/file/fileCategory`,
 			name: "列表",
 			get: async function(data){
 				return await http.get(this.url, data);
 			}
 		},
 		add: {
-			url: `${config.API_URL}/system/fileCategory`,
+			url: `${config.API_URL}/file/fileCategory`,
 			name: "添加",
 			post: async function(data){
 				return await http.post(this.url, data);
 			}
 		},
 		detail: {
-			url: `${config.API_URL}/system/fileCategory`,
+			url: `${config.API_URL}/file/fileCategory`,
 			name: "查看",
 			get: async function(data){
 				return await http.get(`${this.url}/${data.id}`, data);
 			}
 		},
 		update: {
-			url: `${config.API_URL}/system/fileCategory`,
+			url: `${config.API_URL}/file/fileCategory`,
 			name: "更新",
 			put: async function(data){
 				return await http.put(`${this.url}`, data);
 			}
 		},
 		delete: {
-			url: `${config.API_URL}/system/fileCategory`,
+			url: `${config.API_URL}/file/fileCategory`,
 			name: "删除",
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';

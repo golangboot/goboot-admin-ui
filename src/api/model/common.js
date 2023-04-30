@@ -3,14 +3,15 @@ import http from "@/utils/request"
 
 export default {
 	upload: {
-		url: `${config.API_URL}/system/upload`,
+		url: `${config.API_URL}/file/upload`,
 		name: "文件上传",
 		post: async function(data, config={}){
 			return await http.post(this.url, data, config);
 		}
 	},
 	uploadFile: {
-		url: `${config.API_URL}/uploadFile`,
+		// url: `${config.API_URL}/uploadFile`,
+		url: `${config.API_URL}/file/upload`,
 		name: "附件上传",
 		post: async function(data, config={}){
 			return await http.post(this.url, data, config);
@@ -32,14 +33,14 @@ export default {
 	},
 	file: {
 		menu: {
-			url: `${config.API_URL}/system/fileCategory/tree`,
+			url: `${config.API_URL}/file/fileCategory/tree`,
 			name: "获取文件分类",
 			get: async function(){
 				return await http.get(this.url);
 			}
 		},
 		list: {
-			url: `${config.API_URL}/system/file`,
+			url: `${config.API_URL}/file`,
 			name: "获取文件列表",
 			get: async function(params){
 				return await http.get(this.url, params);

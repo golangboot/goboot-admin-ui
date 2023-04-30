@@ -14,10 +14,12 @@ export default {
 	uploadParseData: function (res) {
 		return {
 			id: res.data.id,
-			fileName: res.data.name || res.data.fileName,
+			fileName: res.data.filename || res.data.name || res.data.fileName,
 			url: res.data.url || res.data.src,
-			type: res.data.type,
-			suffix: res.data.suffix,
+			originalFilename: res.data.originalFilename,
+			contentType: res.data.contentType,
+			ext: res.data.ext,
+			platform: res.data.platform,
 		}
 	},
 	listParseData: function (res) {
@@ -42,10 +44,12 @@ export default {
 	},
 	fileProps: {
 		key: 'id',
-		fileName: 'name', // fileName
+		fileName: 'filename', // fileName
 		url: 'url',
-		type: 'type',
-		suffix: 'suffix',
+		originalFilename: 'originalFilename',
+		contentType: 'contentType',
+		ext: 'ext',
+		platform: 'platform',
 	},
 	files: {
 		doc: {

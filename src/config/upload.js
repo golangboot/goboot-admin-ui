@@ -10,9 +10,14 @@ export default {
 	parseData: function (res) {
 		return {
 			code: res.code,				//分析状态字段结构
-			fileName: res.data.name || res.data.fileName,//分析文件名称
+			msg: res.message || res.msg,			//分析描述字段结构
+			fileName: res.data.filename || res.data.name || res.data.fileName,//分析文件名称
+			originalFilename: res.data.originalFilename,
 			src: res.data.url || res.data.src,			//分析图片远程地址结构
-			msg: res.message || res.msg			//分析描述字段结构
+			id: res.data.id,
+			contentType: res.data.contentType,
+			ext: res.data.ext,
+			platform: res.data.platform,
 		}
 	},
 	apiObjFile: API.common.uploadFile,	//附件上传请求API对象

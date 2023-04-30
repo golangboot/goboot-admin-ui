@@ -97,10 +97,10 @@
 												<!--<i v-if="files[_getExt(item[fileProps.url])]" :class="files[_getExt(item[fileProps.url])].icon" :style="{color:files[_getExt(item[fileProps.url])].color}"></i>-->
 												<!--<i v-else class="sc-icon-file-list-fill" style="color: #999;"></i>-->
 												<!--<el-badge :value="item.type" class="item"></el-badge>-->
-												<el-tag type="info" style="margin-top: 10px;">{{ item.suffix || item.type }}</el-tag>
+												<el-tag type="info" style="margin-top: 10px;">{{ item.ext || item.contentType }}</el-tag>
 											</div>
 										</div>
-										<p :title="item[fileProps.fileName]" style="width:100%; overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{item[fileProps.fileName]}}</p>
+										<p :title="item[fileProps.originalFilename]" style="width:100%; overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{item[fileProps.originalFilename]}}</p>
 										<!--<el-checkbox v-model="item[fileProps.key]" :key="item[fileProps.key]" :label="item[fileProps.fileName]" :title="item[fileProps.fileName]" style="margin-top: 0px;width: 100%;"></el-checkbox>-->
 										<div class="item-button-group" style="text-align: center;">
 											<el-button-group>
