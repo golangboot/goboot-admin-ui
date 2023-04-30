@@ -76,7 +76,7 @@
 								</div>
 							</el-col>
 							<el-col :span="rowCol" v-for="(item) in fileList" :key="item[fileProps.key]">
-								<el-card shadow="hover" header="" class="item-background">
+								<el-card shadow="hover" header="" class="item-background" :body-style="{ padding: '10px' }">
 									<div class="sc-file-select__item" :class="{active: selection.includes(item[fileProps.url]) }">
 										<div class="sc-file-select__item__file" @click="select(item)">
 											<div class="sc-file-select__item__checkbox" v-if="multiple">
@@ -140,18 +140,18 @@
 		</el-container>
 	</el-container>
 
-	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+	<tree-save-dialog v-if="dialog.treeSave" ref="treeSaveDialog" @success="handleSaveSuccess" @closed="dialog.treeSave=false"></tree-save-dialog>
 
 </template>
 
 <script>
 	import config from "@/config/fileSelectPlus"
 	import treeUtils from '@/utils/tree'
-	import saveDialog from './save'
+	import treeSaveDialog from './treeSave'
 
 	export default {
 		components: {
-			saveDialog,
+			treeSaveDialog,
 		},
 		props: {
 			modelValue: null,
@@ -165,7 +165,8 @@
 		data() {
 			return {
 				dialog: {
-					save: false,
+					treeSave: false,
+					// save: false,
 				},
 				keyword: null,
 				pageSize: config.pageSize || 20,
@@ -483,9 +484,9 @@
 			},
 			//树增加
 			treeAdd(){
-				this.dialog.save = true
+				this.dialog.treeSave = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('add')
+					this.$refs.treeSaveDialog.open('add')
 				})
 			},
 			//树删除
@@ -532,16 +533,16 @@
 				let form = {
 					parentId: data.id,
 				}
-				this.dialog.save = true
+				this.dialog.treeSave = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('add').setData(form)
+					this.$refs.treeSaveDialog.open('add').setData(form)
 				})
 			},
 			treeNodeEdit(node, data){
 				let row = data
-				this.dialog.save = true
+				this.dialog.treeSave = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('edit').setData(row)
+					this.$refs.treeSaveDialog.open('edit').setData(row)
 				})
 			},
 			async treeNodeDel(node, data){
