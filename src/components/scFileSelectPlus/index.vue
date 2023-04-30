@@ -405,7 +405,7 @@
 				file.progress = Number((event.loaded / event.total * 100).toFixed(2))
 			},
 			uploadSuccess(res, file){
-				console.log('uploadSuccess res', res)
+				// console.log('uploadSuccess res', res)
 				if (res.code != 200){
 					this.$alert(res.message, "提示", {type: 'error'})
 					return
@@ -423,6 +423,8 @@
 				if(!this.multiple){
 					this.selection = response.url
 				}
+
+				this.getData()
 			},
 			uploadError(err){
 				this.$notify.error({
