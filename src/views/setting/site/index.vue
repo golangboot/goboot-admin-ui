@@ -11,9 +11,19 @@
 						<el-form-item label="网址" prop="url">
 							<el-input v-model="form['site.url']" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="网站LOGO" prop="logo" clearable>
-							<sc-upload v-model="form['site.logo']" title="请上网站LOGO"></sc-upload>
-						</el-form-item>
+						<el-row :gutter="20">
+							<el-col :span="12">
+								<el-form-item label="网站LOGO" prop="logo" clearable>
+									<sc-upload v-model="form['site.logo']" title="请上网站LOGO"></sc-upload>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="网站图标" prop="favicon" clearable>
+									<sc-upload v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
+									<div class="el-form-item-msg">浏览器标签上的网站小图标</div>
+								</el-form-item>
+							</el-col>
+						</el-row>
 						<el-form-item label="网站标题" prop="title" clearable>
 							<el-input v-model="form['site.title']"></el-input>
 							<div class="el-form-item-msg">首页显示，浏览器标签上的标题</div>
