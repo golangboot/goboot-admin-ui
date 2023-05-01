@@ -8,7 +8,7 @@
 				<el-main class="nopadding">
 					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" draggable
 							 :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox
-							 :filter-node-method="treeFilterNode" @node-click="treeNodeClick" @node-drop="treeNodeDrop">
+							 :filter-node-method="treeNodeFilter" @node-click="treeNodeClick" @node-drop="treeNodeDrop">
 						<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
@@ -259,7 +259,7 @@
 				this.$refs.table.reload(this.params)
 			},
 			//树过滤
-			treeFilterNode(value, data){
+			treeNodeFilter(value, data){
 				if (!value) return true;
 				var targetText = data.name + data.code;
 				return targetText.indexOf(value) !== -1;

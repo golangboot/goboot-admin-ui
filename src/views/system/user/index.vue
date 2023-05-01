@@ -1,12 +1,12 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="showGroupLoading">
+		<el-aside width="25%" v-loading="treeShowLoading">
 			<el-container>
 				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="groupFilterText" clearable></el-input>
+					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="group" :props="groupProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" @node-click="groupClick"></el-tree>
+					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" :current-node-key="'id'" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="treeNodeFilter" @node-click="treeNodeClick"></el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
 					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
@@ -101,11 +101,11 @@
 					save: false,
 					assign: false,
 				},
-				showGroupLoading: false,
+				treeShowLoading: false,
 				treeStatus: false,
-				groupFilterText: '',
-				group: [],
-				groupProps: {
+				treeFilterText: '',
+				treeList: [],
+				treeProps: {
 					value: "id",
 					label: "name",
 					emitPath: false,
@@ -124,12 +124,12 @@
 			}
 		},
 		watch: {
-			groupFilterText(val) {
+			treeFilterText(val) {
 				this.$refs.tree.filter(val);
 			}
 		},
 		mounted() {
-			this.getGroup()
+			this.getTreeList()
 		},
 		methods: {
 			//添加
@@ -199,22 +199,22 @@
 				this.selection = selection;
 			},
 			//加载树数据
-			async getGroup(){
-				this.showGroupLoading = true;
+			async getTreeList(){
+				this.treeShowLoading = true;
 				var res = await this.$API.system.department.tree.get();
-				this.showGroupLoading = false;
+				this.treeShowLoading = false;
 				// var allNode ={id: '', label: '全部'}
 				var allNode ={id: '', name: '全部', label: '全部'}
 				res.data.unshift(allNode);
-				this.group = res.data;
+				this.treeList = res.data;
 			},
 			//树过滤
-			groupFilterNode(value, data){
+			treeNodeFilter(value, data){
 				if (!value) return true;
 				return data.name.indexOf(value) !== -1;
 			},
 			//树点击事件
-			groupClick(data){
+			treeNodeClick(data){
 				this.search.departmentId = data.id
 				// this.$refs.table.reload(this.search)
 				this.$refs.table.upData(this.search)

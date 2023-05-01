@@ -4,9 +4,24 @@
 			<el-form-item label="职位名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="职位编码" prop="code">
-				<el-input v-model="form.code" clearable></el-input>
-			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="职位编码" prop="code">
+						<el-input v-model="form.code" clearable></el-input>
+					</el-form-item>
+					<el-form-item label="是否全局" prop="isGlobal">
+						<el-radio-group v-model="form.isGlobal">
+							<el-radio v-for="(item, index) in globalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+						</el-radio-group>
+						<div class="el-form-item-msg">是否关联全部部门</div>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="职位图片" prop="image">
+						<sc-upload v-model="form.image" title="请上传职位图片"></sc-upload>
+					</el-form-item>
+				</el-col>
+			</el-row>
 			<el-form-item label="所属部门" prop="departmentId">
 				<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="请选择部门" clearable></el-cascader>
 			</el-form-item>
@@ -46,6 +61,7 @@
 					name: "",
 					code: "",
 					label: "",
+					isGlobal: 0,
 					sort: null,
 					status: 1,
 					remark: ""
@@ -63,6 +79,10 @@
 					checkStrictly: true,
 					emitPath: false,
 				},
+				globalOptions: [
+					{label: "指定部门", value: 0,},
+					{label: "全部部门", value: 1,},
+				],
 			}
 		},
 		mounted() {
@@ -112,6 +132,7 @@
 					this.isSaving = false
 					this.form = res.data
 				}
+				// this.form.isGlobal = this.form.isGlobal || 0
 			}
 		}
 	}

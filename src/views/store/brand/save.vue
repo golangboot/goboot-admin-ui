@@ -137,7 +137,7 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-				this.form.isGlobal = this.form.isGlobal || 0
+				// this.form.isGlobal = this.form.isGlobal || 0
 			}
 		}
 	}

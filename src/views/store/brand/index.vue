@@ -6,7 +6,7 @@
 					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
 				</el-header>
 				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="treeFilterNode" @node-click="treeClick"></el-tree>
+					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="treeNodeFilter" @node-click="treeClick"></el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
 					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
@@ -218,7 +218,7 @@
 				this.treeList = res.data;
 			},
 			//树过滤
-			treeFilterNode(value, data){
+			treeNodeFilter(value, data){
 				if (!value) return true;
 				return data.name.indexOf(value) !== -1;
 			},

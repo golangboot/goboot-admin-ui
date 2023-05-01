@@ -141,7 +141,7 @@
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="部门" prop="departmentId">
-										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择部门" clearable></el-cascader>
+										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" @change="departmentChange" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择部门" clearable></el-cascader>
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
@@ -245,7 +245,7 @@
 				departmentProps: {
 					value: 'id',
 					label: 'name',
-					multiple: true,
+					// multiple: true,
 					checkStrictly: true,
 					emitPath: false,
 					expandTrigger: "hover",
@@ -295,8 +295,28 @@
 				this.departmentOptions = res.data
 			},
 			async getPositionList(){
-				let res = await this.$API.system.position.list.get();
+				let res = await this.$API.system.position.list.get({isGlobal: 1});
 				this.positionOptions = res.data.records;
+				// if (Object.keys(params).length > 0){}
+				let departmentId = this.form.departmentId;
+				if (departmentId){
+					let params = {
+						departmentId: departmentId,
+					}
+					let response = await this.$API.system.position.list.get(params);
+					let items = response.data.records;
+					items.forEach(item => {
+						let flag = false;
+						this.positionOptions.forEach(positionOption => {
+							if (item.id == positionOption.id){
+								flag = true;
+							}
+						})
+						if (flag != true){
+							this.positionOptions.push(item)
+						}
+					})
+				}
 			},
 			async getGroupList(){
 				let res = await this.$API.user.userGroup.list.get();
@@ -343,7 +363,12 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-			}
+			},
+			async departmentChange(value){
+				console.log('departmentChange:', value)
+				this.form.positionId = null
+				await this.getPositionList()
+			},
 		}
 	}
 </script>
