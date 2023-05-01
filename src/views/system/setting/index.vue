@@ -32,7 +32,7 @@
 
 <script>
 	export default {
-		name: 'setting',
+		name: 'systemSetting',
 		data() {
 			return {
 				visible: false,
@@ -49,7 +49,8 @@
 					"app.name": [
 						{required: true, message: '请输入系统名称'}
 					],
-				}
+				},
+				configGroup: 'app',
 			}
 		},
 		mounted() {
@@ -57,7 +58,7 @@
 		},
 		methods: {
 			async getData(){
-				let reqData = {group: "app"}
+				let reqData = {group: this.configGroup}
 				let res = await this.$API.system.setting.list.get(reqData);
 				if (res.data){
 					let items = res.data;
