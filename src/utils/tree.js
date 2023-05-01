@@ -6,15 +6,17 @@ export default {
 			tree.setCurrentKey(data.id)
 		} else if (mode == 'edit') {
 			let editNode = tree.getNode(data.id);
-			// 判断是否移动
-			// let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
-			let editNodeParentId = editNode.level == 1 ? 0 : editNode.parent.data.id
-			// console.log('editNodeParentId', editNodeParentId)
-			// console.log('data.parentId', data.parentId)
-			if (editNodeParentId != data.parentId) {
-				let obj = editNode.data;
-				tree.remove(data.id)
-				tree.append(obj, data.parentId)
+			if (editNode){
+				// 判断是否移动
+				// let editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
+				let editNodeParentId = editNode.level && editNode.level == 1 ? 0 : editNode.parent.data.id
+				// console.log('editNodeParentId', editNodeParentId)
+				// console.log('data.parentId', data.parentId)
+				if (editNodeParentId != data.parentId) {
+					let obj = editNode.data;
+					tree.remove(data.id)
+					tree.append(obj, data.parentId)
+				}
 			}
 			// console.log('data.children', data.children)
 			// console.log('editNode.data.children', editNode.data.children)

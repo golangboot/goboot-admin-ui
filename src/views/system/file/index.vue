@@ -5,7 +5,7 @@
 				<el-card shadow="never">
 					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :max="1000" @submit="submit">
 						<template #do>
-							<el-button>返回</el-button>
+							<el-button @click="refresh()">刷新</el-button>
 						</template>
 					</sc-file-select>
 				</el-card>
@@ -22,6 +22,7 @@
 
 <script>
 	import scFileSelect from '@/components/scFileSelectPlus'
+	import useTabs from '@/utils/useTabs'
 
 	export default {
 		name: 'systemFile',
@@ -44,7 +45,10 @@
 			submit(value){
 				console.log(value)
 				this.$message("返回值请查看F12控制台console.log()")
-			}
+			},
+			refresh(){
+				useTabs.refresh()
+			},
 		}
 	}
 </script>

@@ -104,9 +104,9 @@
 										<!--<el-checkbox v-model="item[fileProps.key]" :key="item[fileProps.key]" :label="item[fileProps.fileName]" :title="item[fileProps.fileName]" style="margin-top: 0px;width: 100%;"></el-checkbox>-->
 										<div class="item-button-group" style="text-align: center;">
 											<el-button-group>
-												<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
-												<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-												<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+												<el-button text type="primary" size="small" @click="table_show(item, item[fileProps.key])">查看</el-button>
+												<el-button text type="primary" size="small" @click="table_edit(item, item[fileProps.key])">编辑</el-button>
+												<el-popconfirm title="确定删除吗？" @confirm="table_del(item, item[fileProps.key])">
 													<template #reference>
 														<el-button text type="primary" size="small">删除</el-button>
 													</template>
@@ -130,7 +130,7 @@
 						已选择 <b>{{selection.length}}</b> / <b>{{max}}</b> 项
 					</div>
 					<slot name="do"></slot>
-					<el-button type="default" :disabled="selection.length != 1" v-if="selection.length > 0" @click="openSelect()">预览</el-button>
+					<!--<el-button type="default" :disabled="selection.length != 1" v-if="selection.length > 0" @click="openSelect()">预览</el-button>-->
 					<el-button type="danger" v-if="selection.length > 0" @click="deleteSelect()">删除选中</el-button>
 					<el-button type="default" v-if="selection.length > 0" @click="cancelSelect()">取消选中</el-button>
 					<el-button type="default" v-if="multiple" @click="allSelect()">全选</el-button>
@@ -140,7 +140,8 @@
 		</el-container>
 	</el-container>
 
-	<tree-save-dialog v-if="dialog.treeSave" ref="treeSaveDialog" @success="handleSaveSuccess" @closed="dialog.treeSave=false"></tree-save-dialog>
+	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+	<tree-save-dialog v-if="dialog.treeSave" ref="treeSaveDialog" @success="handleTreeSaveSuccess" @closed="dialog.treeSave=false"></tree-save-dialog>
 
 </template>
 
@@ -148,9 +149,11 @@
 	import config from "@/config/fileSelectPlus"
 	import treeUtils from '@/utils/tree'
 	import treeSaveDialog from './treeSave'
+	import saveDialog from './save'
 
 	export default {
 		components: {
+			saveDialog,
 			treeSaveDialog,
 		},
 		props: {
@@ -165,8 +168,8 @@
 		data() {
 			return {
 				dialog: {
+					save: false,
 					treeSave: false,
-					// save: false,
 				},
 				keyword: null,
 				pageSize: config.pageSize || 20,
@@ -211,6 +214,38 @@
 			this.getData()
 		},
 		methods: {
+			//添加
+			add(){
+				this.dialog.save = true
+				this.$nextTick(() => {
+					this.$refs.saveDialog.open('add')
+				})
+			},
+			//编辑
+			table_edit(row){
+				this.dialog.save = true
+				this.$nextTick(() => {
+					this.$refs.saveDialog.open('edit').setData(row)
+				})
+			},
+			//查看
+			table_show(row){
+				this.dialog.save = true
+				this.$nextTick(() => {
+					this.$refs.saveDialog.open('show').setData(row)
+				})
+			},
+			//删除
+			async table_del(row){
+				var reqData = {id: row.id}
+				var res = await this.$API.store.brand.delete.delete(reqData);
+				if(res.code == 200){
+					this.$refs.table.refresh()
+					this.$message.success("删除成功")
+				}else{
+					this.$alert(res.message, "提示", {type: 'error'})
+				}
+			},
 			//获取分类数据
 			async getMenu(){
 				this.menuLoading = true
@@ -443,7 +478,12 @@
 				return fileUrl.substring(fileUrl.lastIndexOf(".") + 1)
 			},
 			//本地更新数据
-			handleSaveSuccess(data, mode){
+			// handleSaveSuccess(data, mode){
+			handleSaveSuccess(){
+				this.getData()
+			},
+			//本地Tree更新数据
+			handleTreeSaveSuccess(data, mode){
 				// 触发树更新
 				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
