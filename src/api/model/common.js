@@ -2,21 +2,21 @@ import config from "@/config"
 import http from "@/utils/request"
 
 export default {
-	upload: {
+	/*upload: {
 		url: `${config.API_URL}/file/upload`,
 		name: "文件上传",
 		post: async function(data, config={}){
 			return await http.post(this.url, data, config);
 		}
-	},
-	uploadFile: {
+	},*/
+	/*uploadFile: {
 		// url: `${config.API_URL}/uploadFile`,
 		url: `${config.API_URL}/file/upload`,
 		name: "附件上传",
 		post: async function(data, config={}){
 			return await http.post(this.url, data, config);
 		}
-	},
+	},*/
 	exportFile: {
 		url: `${config.API_URL}/fileExport`,
 		name: "导出附件",
@@ -31,7 +31,7 @@ export default {
 			return await http.post(this.url, data, config);
 		}
 	},
-	file: {
+	/*file: {
 		menu: {
 			url: `${config.API_URL}/file/fileCategory/tree`,
 			name: "获取文件分类",
@@ -46,5 +46,5 @@ export default {
 				return await http.get(this.url, params);
 			}
 		}
-	}
+	},*/
 }
