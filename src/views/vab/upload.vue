@@ -74,7 +74,7 @@
 		name: 'upload',
 		data() {
 			return {
-				uploadApi: this.$API.common.upload,
+				uploadApi: this.$API.file.upload,
 				fileurlArr: [
 					{
 						name: '销售合同模板.xlsx',

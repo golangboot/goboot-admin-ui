@@ -3,9 +3,9 @@ import API from "@/api";
 //文件选择器配置
 
 export default {
-	apiObj: API.common.upload,
-	menuApiObj: API.common.file.menu,
-	listApiObj: API.common.file.list,
+	apiObj: API.file.upload,
+	menuApiObj: API.file.fileCategory.tree,
+	listApiObj: API.file.file.list,
 	successCode: 200,
 	maxSize: 1024,
 	max: 1000,

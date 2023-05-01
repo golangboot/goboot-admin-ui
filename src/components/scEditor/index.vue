@@ -95,7 +95,7 @@
 						return new Promise((resolve, reject) => {
 							const data = new FormData();
 							data.append("file", blobInfo.blob() ,blobInfo.filename());
-							API.common.upload.post(data).then((res) => {
+							API.file.upload.post(data).then((res) => {
 								resolve(res.data.src)
 							}).catch(() => {
 								reject("Image upload failed")

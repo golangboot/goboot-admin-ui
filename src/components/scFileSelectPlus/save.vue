@@ -11,7 +11,7 @@
 				<el-col :span="12">
 					<el-form-item label="文件URL" prop="url">
 						<el-input v-model="form.url" :rows="6" clearable type="textarea"></el-input>
-						<div class="el-form-item-msg">非必要不可修改</div>
+						<div class="el-form-item-msg">* 非必要请勿修改</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" v-if="form.contentType && form.contentType.indexOf('image') != -1">
@@ -205,7 +205,7 @@
 				return this
 			},
 			async getCategoryList(){
-				var res = await this.$API.system.fileCategory.tree.get();
+				var res = await this.$API.file.fileCategory.tree.get();
 				this.categoryOptions = res.data
 			},
 			//表单提交方法
@@ -215,9 +215,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.file.update.put(this.form)
+							res = await this.$API.file.file.update.put(this.form)
 						} else {
-							res = await this.$API.system.file.add.post(this.form)
+							res = await this.$API.file.file.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -237,7 +237,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.system.file.detail.get(reqData)
+					let res = await this.$API.file.file.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

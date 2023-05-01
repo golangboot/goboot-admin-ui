@@ -226,7 +226,7 @@
 				return this
 			},
 			async getCategoryList(){
-				var res = await this.$API.system.fileCategory.tree.get();
+				var res = await this.$API.file.fileCategory.tree.get();
 				this.categoryOptions = res.data
 			},
 			async getRemoteData(query){
@@ -257,9 +257,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.file.update.put(this.form)
+							res = await this.$API.file.file.update.put(this.form)
 						} else {
-							res = await this.$API.system.file.add.post(this.form)
+							res = await this.$API.file.file.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -279,7 +279,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.system.file.detail.get(reqData)
+					let res = await this.$API.file.file.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
