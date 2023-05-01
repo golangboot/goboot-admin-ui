@@ -153,6 +153,7 @@
 					label: 'title',
 					checkStrictly: true,
 					emitPath: false,
+					expandTrigger: "hover",
 				},
 			}
 		},

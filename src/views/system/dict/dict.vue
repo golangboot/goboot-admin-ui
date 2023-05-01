@@ -60,6 +60,7 @@
 					label: "name",
 					checkStrictly: true,
 					emitPath: false,
+					expandTrigger: "hover",
 				}
 			}
 		},

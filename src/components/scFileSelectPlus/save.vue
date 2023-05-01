@@ -161,7 +161,7 @@
 					// multiple: true,
 					checkStrictly: true,
 					emitPath: false,
-					// expandTrigger: "hover",
+					expandTrigger: "hover",
 				},
 				globalOptions: [
 					{label: "指定分类", value: 0,},

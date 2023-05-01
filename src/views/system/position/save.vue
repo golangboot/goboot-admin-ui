@@ -78,6 +78,7 @@
 					label: 'name',
 					checkStrictly: true,
 					emitPath: false,
+					expandTrigger: "hover",
 				},
 				globalOptions: [
 					{label: "指定部门", value: 0,},
