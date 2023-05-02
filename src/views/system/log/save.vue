@@ -20,8 +20,8 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="业务类型" prop="businessType">
-						<el-input v-model="form.businessType" clearable></el-input>
+					<el-form-item label="业务类型" prop="logBusinessType">
+						<el-input v-model="form.logBusinessType" clearable></el-input>
 					</el-form-item>
 				</el-col>
 			</el-row>
