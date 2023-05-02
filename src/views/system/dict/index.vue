@@ -120,6 +120,8 @@
 			async getDict(){
 				var res = await this.$API.system.dict.tree.get();
 				this.treeShowLoading = false;
+				const allNode = {id: '', name: '全部', label: '全部', title: '全部', disabled: true,};
+				res.data.unshift(allNode);
 				this.treeList = res.data;
 				//获取第一个节点,设置选中 & 加载明细列表
 				var firstNode = this.treeList[0];
