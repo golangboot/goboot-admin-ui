@@ -16,21 +16,24 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="用户名" prop="username" width="150"></el-table-column>
+				<el-table-column label="用户名" prop="username" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="用户ID" prop="userId" width="100"></el-table-column>
 				<el-table-column label="执行操作" prop="operation" width="200" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="操作时间" prop="createTime" width="180"></el-table-column>
 				<el-table-column label="业务类型" prop="businessType" width="100"></el-table-column>
-				<el-table-column label="请求网址(URL)" prop="url" width="150"></el-table-column>
+				<el-table-column label="请求网址(URL)" prop="url" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="请求方法" prop="method" width="100"></el-table-column>
 				<el-table-column label="执行时间(ms)" prop="time" width="100"></el-table-column>
-				<el-table-column label="IP" prop="ip" width="150"></el-table-column>
-				<el-table-column label="IP地址" prop="ipAddress" width="150"></el-table-column>
-				<el-table-column label="浏览器" prop="browser" width="100"></el-table-column>
-				<el-table-column label="功能模块" prop="module" width="100"></el-table-column>
+				<el-table-column label="IP" prop="ip" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="IP地址" prop="ipAddress" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="浏览器" prop="browser" width="100" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="引擎" prop="engine" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="平台" prop="platform" width="100" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="设备" prop="device" width="300" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="模块" prop="module" width="100" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="系统版本号" prop="sysVersion" width="100"></el-table-column>
-				<el-table-column label="请求类名称" prop="className" width="300" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="请求类方法名称" prop="classMethodName" width="150"></el-table-column>
+				<el-table-column label="请求类名称" prop="className" width="500" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="请求类方法名称" prop="classMethodName" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="备注" prop="remark" min-width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">

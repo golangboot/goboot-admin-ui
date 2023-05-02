@@ -43,11 +43,6 @@
 						<el-input-number v-model="form.time" clearable controls-position="right" style="width: 100%;"></el-input-number>
 					</el-form-item>
 				</el-col>
-				<el-col :span="12">
-					<el-form-item label="浏览器" prop="browser">
-						<el-input v-model="form.browser" clearable></el-input>
-					</el-form-item>
-				</el-col>
 			</el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
@@ -58,6 +53,30 @@
 				<el-col :span="12">
 					<el-form-item label="响应结果" prop="result">
 						<el-input v-model="form.result" clearable type="textarea" :rows="5"></el-input>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="浏览器" prop="browser">
+						<el-input v-model="form.browser" clearable></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="引擎" prop="engine">
+						<el-input v-model="form.engine" clearable></el-input>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="平台" prop="platform">
+						<el-input v-model="form.platform" clearable></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="设备" prop="device">
+						<el-input v-model="form.device" clearable></el-input>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -75,7 +94,7 @@
 			</el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="功能模块" prop="module">
+					<el-form-item label="模块" prop="module">
 						<el-input v-model="form.module" clearable></el-input>
 					</el-form-item>
 				</el-col>
