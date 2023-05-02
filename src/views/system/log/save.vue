@@ -20,8 +20,8 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="业务类型" prop="logBusinessType">
-						<el-input v-model="form.logBusinessType" clearable></el-input>
+					<el-form-item label="业务类型" prop="businessType">
+						<el-input v-model="form.businessType" clearable></el-input>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -140,16 +140,15 @@
 					name: "",
 					code: "",
 					label: "",
-					isGlobal: 0,
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
 				},
 				//验证规则
 				rules: {
-					name: [
+					/*name: [
 						{required: true, message: '请输入日志名称'}
-					],
+					],*/
 				},
 			}
 		},

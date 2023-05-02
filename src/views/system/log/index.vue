@@ -20,7 +20,7 @@
 				<el-table-column label="用户ID" prop="userId" width="100"></el-table-column>
 				<el-table-column label="执行操作" prop="operation" width="200" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="操作时间" prop="createTime" width="180"></el-table-column>
-				<el-table-column label="业务类型" prop="logBusinessType" width="100"></el-table-column>
+				<el-table-column label="业务类型" prop="businessType" width="100"></el-table-column>
 				<el-table-column label="请求网址(URL)" prop="url" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="请求方法" prop="method" width="100"></el-table-column>
 				<el-table-column label="执行时间(ms)" prop="time" width="100"></el-table-column>
