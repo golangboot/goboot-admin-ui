@@ -7,7 +7,7 @@
 			<el-form-item label="字典编码" prop="code">
 				<el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
 			</el-form-item>
-			<el-form-item label="默认键值" prop="value">
+			<el-form-item label="键值" prop="value">
 				<el-input v-model="form.value" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="父路径" prop="parentId">
@@ -35,7 +35,7 @@
 				mode: "add",
 				titleMap: {
 					add: '新增字典',
-					edit: '编辑字典'
+					edit: '编辑字典',
 				},
 				visible: false,
 				isSaving: false,
@@ -47,9 +47,9 @@
 					status: 0
 				},
 				rules: {
-					code: [
+					/*code: [
 						{required: true, message: '请输入编码'}
-					],
+					],*/
 					name: [
 						{required: true, message: '请输入字典名称'}
 					]

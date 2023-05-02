@@ -88,8 +88,8 @@
 		},
 		methods: {
 			//选项显示隐藏事件
-			visibleChange(ispoen){
-				if(ispoen && this.options.length==0 && (this.apiObj)){
+			visibleChange(isOpen){
+				if(isOpen && this.options.length==0 && (this.apiObj)){
 					this.getRemoteData()
 				}
 			},
@@ -131,6 +131,8 @@
 				if(Array.isArray(this.$attrs.modelValue) && this.$attrs.modelValue.length <= 0){
 					return false
 				}else if(this.$attrs.modelValue){
+					return true
+				}else if(typeof(this.$attrs.modelValue) != 'undefined'){
 					return true
 				}else{
 					return false

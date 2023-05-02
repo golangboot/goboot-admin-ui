@@ -94,9 +94,10 @@
 								</el-col>
 								<el-col :span="12">
 									<el-form-item label="性别" prop="gender">
-										<el-radio-group v-model="form.gender">
+										<sc-select v-model="form.gender" dict="user_gender" dictType="INTEGER" :defaultOptions="genderOptions" clearable filterable style="width: 100%;"></sc-select>
+										<!--<el-radio-group v-model="form.gender">
 											<el-radio v-for="(item, index) in genderOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-										</el-radio-group>
+										</el-radio-group>-->
 									</el-form-item>
 								</el-col>
 							</el-row>

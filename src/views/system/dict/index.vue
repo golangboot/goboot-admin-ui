@@ -13,7 +13,8 @@
 								<span class="code">{{ data.code }}</span>
 								<span class="do">
 									<el-button-group>
-										<el-button icon="el-icon-edit" size="small" @click.stop="dictEdit(data)"></el-button>
+										<el-button icon="el-icon-plus" size="small" @click.stop="dictAdd(node, data)"></el-button>
+										<el-button icon="el-icon-edit" size="small" @click.stop="dictEdit(node, data)"></el-button>
 										<el-button icon="el-icon-delete" size="small" @click.stop="dictDel(node, data)"></el-button>
 									</el-button-group>
 								</span>
@@ -186,8 +187,18 @@
 					this.$message.warning(res.message)
 				}
 			},
+			//添加树
+			dictAdd(node, data){
+				this.dialog.dict = true
+				this.$nextTick(() => {
+					let form = {
+						parentId: data.id,
+					}
+					this.$refs.dictDialog.open('add').setData(form)
+				})
+			},
 			//编辑树
-			dictEdit(data){
+			dictEdit(node, data){
 				this.dialog.dict = true
 				this.$nextTick(() => {
 					var editNode = this.$refs.tree.getNode(data.id);

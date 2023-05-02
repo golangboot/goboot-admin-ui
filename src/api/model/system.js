@@ -159,13 +159,6 @@ export default {
 		},
 	},
 	dict: {
-		tree: {
-			url: `${config.API_URL}/sys/dict/tree`,
-			name: "树型列表",
-			get: async function(){
-				return await http.get(this.url);
-			}
-		},
 		list: {
 			url: `${config.API_URL}/sys/dict`,
 			name: "列表",
@@ -200,6 +193,20 @@ export default {
 			delete: async function(data){
 				let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
 				return await http.delete(`${this.url}/${id}`, data);
+			}
+		},
+		tree: {
+			url: `${config.API_URL}/sys/dict/tree`,
+			name: "树型列表",
+			get: async function(){
+				return await http.get(this.url);
+			}
+		},
+		getChildren: {
+			url: `${config.API_URL}/sys/dict/getChildren`,
+			name: "获取子类",
+			get: async function(){
+				return await http.get(this.url);
 			}
 		},
 	},
