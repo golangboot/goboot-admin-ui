@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" :width="400" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
 			<el-form-item label="所属字典" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="false" clearable></el-cascader>
@@ -7,11 +7,16 @@
 			<el-form-item label="字典项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="编码" prop="code">
+			<el-form-item label="编码" prop="code" v-if="form.parentId <= 0">
 				<el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
 			</el-form-item>
-			<el-form-item label="键值" prop="value">
+			<el-form-item label="键值" prop="value" v-if="form.parentId > 0">
 				<el-input v-model="form.value" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="类型" prop="type" v-if="form.parentId > 0">
+				<el-select v-model="form.type">
+					<el-option v-for="(item, index) in dictTypeList" :key="index" :label="item" :value="item"></el-option>
+				</el-select>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -34,8 +39,9 @@
 			return {
 				mode: "add",
 				titleMap: {
-					add: '新增项',
-					edit: '编辑项'
+					add: '新增字典',
+					edit: '编辑字典',
+					show: '查看字典',
 				},
 				visible: false,
 				isSaving: false,
@@ -47,15 +53,15 @@
 					status: 1
 				},
 				rules: {
-					parentId: [
+					/*parentId: [
 						{required: true, message: '请选择所属字典'}
-					],
+					],*/
 					name: [
 						{required: true, message: '请输入项名称'}
 					],
-					value: [
+					/*value: [
 						{required: true, message: '请输入键值'}
-					]
+					],*/
 				},
 				dict: [],
 				dictProps: {
@@ -63,15 +69,17 @@
 					label: "name",
 					checkStrictly: true,
 					emitPath: false,
-				}
+					expandTrigger: "hover",
+				},
+				dictTypeList: [],
 			}
 		},
 		mounted() {
-			console.log('> this.params:', this.params)
 			if(this.params){
 				this.form.parentId = this.params.parentId
 			}
 			this.getDict()
+			this.getDictTypeList()
 		},
 		methods: {
 			//显示
@@ -84,6 +92,11 @@
 			async getDict(){
 				var res = await this.$API.system.dict.tree.get();
 				this.dict = res.data;
+			},
+			//获取字典类型列表
+			async getDictTypeList(){
+				var res = await this.$API.system.dict.getDictType.get();
+				this.dictTypeList = res.data;
 			},
 			//表单提交方法
 			submit(){

@@ -36,7 +36,7 @@
 				titleMap: {
 					add: '新增',
 					edit: '编辑',
-					show: '查看'
+					show: '查看',
 				},
 				visible: false,
 				isSaving: false,

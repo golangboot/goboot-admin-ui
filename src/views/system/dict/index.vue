@@ -54,9 +54,10 @@
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" align="right" width="120">
+					<el-table-column label="操作" fixed="right" align="right" width="170">
 						<template #default="scope">
 							<el-button-group>
+								<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
 								<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 									<template #reference>
@@ -296,7 +297,6 @@
 				this.dialog.list = true
 				this.$nextTick(() => {
 					var dictCurrentKey = this.$refs.tree.getCurrentKey();
-					console.log('dictCurrentKey', dictCurrentKey)
 					const data = {
 						// dict: dictCurrentKey,
 						// dict: this.treeList,
@@ -310,6 +310,13 @@
 				this.dialog.list = true
 				this.$nextTick(() => {
 					this.$refs.listDialog.open('edit').setData(row)
+				})
+			},
+			//查看
+			table_show(row){
+				this.dialog.list = true
+				this.$nextTick(() => {
+					this.$refs.listDialog.open('show').setData(row)
 				})
 			},
 			//删除明细

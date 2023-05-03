@@ -209,6 +209,13 @@ export default {
 				return await http.get(this.url);
 			}
 		},
+		getDictType: {
+			url: `${config.API_URL}/sys/dict/getDictType`,
+			name: "获取字典类型",
+			get: async function(){
+				return await http.get(this.url);
+			}
+		},
 	},
 	config: {
 		tree: {
