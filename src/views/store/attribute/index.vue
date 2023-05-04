@@ -4,17 +4,17 @@
 			<el-container>
 				<el-header>
 					<div class="left-panel">
-						商品规格
+						商品规格列表
 					</div>
 					<div class="right-panel">
 						<div class="right-panel-search">
-							<el-input v-model="list.search.keyword" placeholder="关键字" clearable></el-input>
-							<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+							<el-input v-model="list.search.keyword" placeholder="关键字" clearable @keyup.enter="parentUpSearch"></el-input>
+							<el-button type="primary" icon="el-icon-search" @click="parentUpSearch" ></el-button>
 						</div>
 					</div>
 				</el-header>
 				<el-main class="nopadding">
-					<scTable ref="table" :apiObj="list.apiObj" :params="list.params" row-key="id" stripe highlightCurrentRow @row-click="rowClick">
+					<scTable ref="parentTable" :apiObj="list.apiObj" :params="list.params" row-key="id" stripe highlightCurrentRow @row-click="parentRowClick">
 						<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 						<el-table-column label="商品规格名称" prop="name" min-width="120"></el-table-column>
 						<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
@@ -39,10 +39,11 @@
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
+					<el-button @click="refreshPage()">刷新</el-button>
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
-						<el-input v-model="search.keyword" placeholder="关键字" clearable></el-input>
+						<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upsearch"></el-input>
 						<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 					</div>
 				</div>
@@ -83,6 +84,7 @@
 
 <script>
 	import saveDialog from './save'
+	import useTabs from "@/utils/useTabs";
 
 	export default {
 		name: 'storeAttribute',
@@ -211,10 +213,18 @@
 					})
 				}
 			},
-			rowClick(row){
+			parentRowClick(row){
 				this.search.productSpecId = row.id
 				this.$refs.table.upData(this.search)
-			}
+			},
+			//搜索
+			parentUpSearch(){
+				this.$refs.parentTable.upData(this.list.search)
+			},
+			// 刷新页面
+			refreshPage(){
+				useTabs.refresh()
+			},
 		}
 	}
 </script>

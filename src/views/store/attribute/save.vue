@@ -4,8 +4,14 @@
 			<el-form-item label="商品属性名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="所属分类" prop="categoryIds">
-				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择所属分类" filterable clearable></el-cascader>
+			<el-form-item label="商品规格" prop="productSpecId">
+				<sc-select-plus v-model="form.productSpecId"
+								:apiObj="productSpecSelect.apiObj"
+								:params="productSpecSelect.params"
+								:props="productSpecSelect.props"
+								:parseDataField="productSpecSelect.parseDataField"
+								clearable filterable style="width: 100%;">
+				</sc-select-plus>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -22,8 +28,13 @@
 </template>
 
 <script>
+	import scSelectPlus from '@/components/scSelectPlus'
+
 	export default {
 		emits: ['success', 'closed'],
+		components: {
+			scSelectPlus,
+		},
 		data() {
 			return {
 				mode: "add",
@@ -50,6 +61,9 @@
 					name: [
 						{required: true, message: '请输入商品属性名称'}
 					],
+					productSpecId: [
+						{required: true, message: '请选择商品规格'}
+					],
 				},
 				categoryOptions: [],
 				categoryProps: {
@@ -64,6 +78,16 @@
 					{label: "指定分类", value: 0,},
 					{label: "全部分类", value: 1,},
 				],
+				productSpecSelect: {
+					// api接口
+					apiObj: this.$API.store.productSpec.list,
+					// 搜索参数(搜索关键词为空时生效)
+					params: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+				},
 			}
 		},
 		mounted() {

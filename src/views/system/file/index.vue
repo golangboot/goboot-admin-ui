@@ -5,7 +5,7 @@
 				<el-card shadow="never">
 					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :max="1000" @submit="submit">
 						<template #do>
-							<el-button @click="refresh()">刷新</el-button>
+							<el-button @click="refreshPage()">刷新</el-button>
 						</template>
 					</sc-file-select>
 				</el-card>
@@ -46,7 +46,7 @@
 				console.log(value)
 				this.$message("返回值请查看F12控制台console.log()")
 			},
-			refresh(){
+			refreshPage(){
 				useTabs.refresh()
 			},
 		}
