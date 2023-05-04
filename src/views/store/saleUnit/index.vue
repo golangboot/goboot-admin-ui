@@ -32,14 +32,14 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="销售单位名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="是否全局" prop="isGlobal" width="100">
+					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 						<template #default="scope">
 							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>
 							<el-tag v-if="scope.row.isGlobal==0" type="warning">否</el-tag>
 						</template>
 					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-					<el-table-column label="状态" prop="status" width="80">
+					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
@@ -74,7 +74,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'storeProductSpec',
+		name: 'storeSaleUnit',
 		components: {
 			saveDialog,
 		},
@@ -212,7 +212,7 @@
 				this.treeShowLoading = true;
 				var res = await this.$API.store.category.tree.get();
 				this.treeShowLoading = false;
-				var allNode ={id: '', name: '全部', label: '全部'}
+				var allNode ={id: '', name: '全部商品分类', label: '全部商品分类'}
 				res.data.unshift(allNode);
 				this.treeList = res.data;
 			},

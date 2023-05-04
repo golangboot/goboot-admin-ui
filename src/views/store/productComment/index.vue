@@ -18,7 +18,7 @@
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="评价内容" prop="content" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-				<el-table-column label="状态" prop="status" width="80">
+				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
@@ -50,7 +50,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'cmsArticleComment',
+		name: 'storeProductComment',
 		components: {
 			saveDialog,
 		},

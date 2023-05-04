@@ -62,7 +62,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-					<el-table-column label="状态" prop="status" width="80">
+					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
