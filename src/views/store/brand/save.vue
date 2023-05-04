@@ -7,14 +7,14 @@
 			<el-form-item label="品牌介绍" prop="description">
 				<el-input v-model="form.description" clearable type="textarea"></el-input>
 			</el-form-item>
+			<el-form-item label="品牌编码" prop="code">
+				<el-input v-model="form.code" clearable></el-input>
+			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="品牌编码" prop="code">
-						<el-input v-model="form.code" clearable></el-input>
-					</el-form-item>
 					<el-form-item label="是否全局" prop="isGlobal">
 						<el-radio-group v-model="form.isGlobal">
-							<el-radio v-for="(item, index) in globalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 						</el-radio-group>
 						<div class="el-form-item-msg">是否关联全部分类</div>
 					</el-form-item>
@@ -84,7 +84,7 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
-				globalOptions: [
+				isGlobalOptions: [
 					{label: "指定分类", value: 0,},
 					{label: "全部分类", value: 1,},
 				],

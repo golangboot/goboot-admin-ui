@@ -39,6 +39,12 @@
 					</el-table-column>
 					<el-table-column label="品牌编码" prop="code" width="100"></el-table-column>
 					<el-table-column label="品牌介绍" prop="description" width="150" show-overflow-tooltip></el-table-column>
+					<el-table-column label="是否全局" prop="isGlobal" width="100">
+						<template #default="scope">
+							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>
+							<el-tag v-if="scope.row.isGlobal==0" type="warning">否</el-tag>
+						</template>
+					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80">
 						<template #default="scope">

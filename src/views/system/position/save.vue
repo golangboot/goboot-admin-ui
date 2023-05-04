@@ -11,7 +11,7 @@
 					</el-form-item>
 					<el-form-item label="是否全局" prop="isGlobal">
 						<el-radio-group v-model="form.isGlobal">
-							<el-radio v-for="(item, index) in globalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 						</el-radio-group>
 						<div class="el-form-item-msg">是否关联全部部门</div>
 					</el-form-item>
@@ -23,7 +23,7 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="所属部门" prop="departmentId">
-				<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="false" :emitPath="false" placeholder="请选择部门" clearable></el-cascader>
+				<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" :show-all-levels="true" :emitPath="false" placeholder="请选择部门" style="width:100%" filterable clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -80,7 +80,7 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
-				globalOptions: [
+				isGlobalOptions: [
 					{label: "指定部门", value: 0,},
 					{label: "全部部门", value: 1,},
 				],

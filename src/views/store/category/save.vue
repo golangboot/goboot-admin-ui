@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
 			<el-form-item label="分类名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
@@ -12,8 +12,20 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="上级分类" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="false" :emitPath="false" placeholder="请选择分类" clearable></el-cascader>
+				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="true" :emitPath="false" style="width:100%" placeholder="请选择分类" clearable filterable></el-cascader>
 			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="自定义规格属性" prop="isCustomSpec">
+						<el-radio-group v-model="form.isCustomSpec">
+							<el-radio v-for="(item, index) in isCustomSpecOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+						</el-radio-group>
+						<div class="el-form-item-msg">是否允许自定义规格属性</div>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+				</el-col>
+			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -52,7 +64,8 @@
 					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
+					isCustomSpec: 0,
 				},
 				//验证规则
 				rules: {
@@ -68,6 +81,10 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
+				isCustomSpecOptions: [
+					{label: "不允许", value: 0,},
+					{label: "允许", value: 1,},
+				],
 			}
 		},
 		mounted() {

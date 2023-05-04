@@ -142,7 +142,7 @@
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="部门" prop="departmentId">
-										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" @change="departmentChange" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择部门" clearable></el-cascader>
+										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" @change="departmentChange" :show-all-levels="true" :emitPath="false" size="large" style="width:100%" placeholder="请选择部门" filterable clearable></el-cascader>
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
