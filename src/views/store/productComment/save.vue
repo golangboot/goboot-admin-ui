@@ -4,13 +4,6 @@
 			<el-form-item label="评论内容" prop="content">
 				<el-input v-model="form.content" clearable type="textarea"></el-input>
 			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="评论图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传文章评论图片"></sc-upload>
-					</el-form-item>
-				</el-col>
-			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -51,7 +44,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入文章评论名称'}
+						{required: true, message: '请输入商品评价名称'}
 					],
 				},
 			}
@@ -72,9 +65,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.cms.articleComment.update.put(this.form)
+							res = await this.$API.store.productComment.update.put(this.form)
 						} else {
-							res = await this.$API.cms.articleComment.add.post(this.form)
+							res = await this.$API.store.productComment.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -94,7 +87,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleComment.detail.get(reqData)
+					let res = await this.$API.store.productComment.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

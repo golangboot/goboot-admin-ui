@@ -17,11 +17,6 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="评论内容" prop="content" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="评论图片" prop="image" width="100">
-					<template #default="scope">
-						<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
-					</template>
-				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
@@ -64,7 +59,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.cms.articleComment.list,
+				apiObj: this.$API.store.productComment.list,
 				params: {},
 				selection: [],
 				search: {
@@ -97,7 +92,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.cms.articleComment.delete.delete(reqData);
+				var res = await this.$API.store.productComment.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -115,7 +110,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.cms.articleComment.delete.delete(reqData)
+					var res = await this.$API.store.productComment.delete.delete(reqData)
 					if (res.code != 200) {
 						this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -146,7 +141,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.cms.articleComment.update.put(reqData);
+				var res = await this.$API.store.productComment.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;

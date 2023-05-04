@@ -1,21 +1,20 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="评论内容" prop="content">
-				<el-input v-model="form.content" clearable type="textarea"></el-input>
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="110px" label-position="left">
+			<el-form-item label="销售单位名称" prop="name">
+				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="评论图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传文章评论图片"></sc-upload>
-					</el-form-item>
-				</el-col>
-			</el-row>
+			<el-form-item label="所属分类" prop="categoryIds">
+				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择所属分类" filterable clearable></el-cascader>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>
+			<el-form-item label="备注" prop="remark">
+				<el-input v-model="form.remark" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -45,18 +44,33 @@
 					code: "",
 					label: "",
 					sort: null,
+					isGlobal: 0,
 					status: 1,
 					remark: ""
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入文章评论名称'}
+						{required: true, message: '请输入销售单位名称'}
 					],
 				},
+				categoryOptions: [],
+				categoryProps: {
+					value: 'id',
+					label: 'name',
+					multiple: true,
+					checkStrictly: true,
+					emitPath: false,
+					expandTrigger: "hover",
+				},
+				globalOptions: [
+					{label: "指定分类", value: 0,},
+					{label: "全部分类", value: 1,},
+				],
 			}
 		},
 		mounted() {
+			this.getCategoryList()
 		},
 		methods: {
 			//显示
@@ -65,6 +79,10 @@
 				this.visible = true;
 				return this
 			},
+			async getCategoryList(){
+				var res = await this.$API.store.category.tree.get();
+				this.categoryOptions = res.data
+			},
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
@@ -72,9 +90,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.cms.articleComment.update.put(this.form)
+							res = await this.$API.store.saleUnit.update.put(this.form)
 						} else {
-							res = await this.$API.cms.articleComment.add.post(this.form)
+							res = await this.$API.store.saleUnit.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -83,7 +101,7 @@
 							this.visible = false;
 							this.$message.success("操作成功")
 						}else{
-							this.$alert(res.message, "提示", {type: 'error'})
+							await this.$alert(res.message, "提示", {type: 'error'})
 						}
 					}
 				})
@@ -94,10 +112,11 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleComment.detail.get(reqData)
+					let res = await this.$API.store.saleUnit.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
+				// this.form.isGlobal = this.form.isGlobal || 0
 			}
 		}
 	}
