@@ -1,7 +1,7 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
-			<el-form-item label="评论内容" prop="content">
+			<el-form-item label="评价内容" prop="content">
 				<el-input v-model="form.content" clearable type="textarea"></el-input>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
