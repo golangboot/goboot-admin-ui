@@ -2,6 +2,7 @@
 	<el-container>
 		<el-header>
 			<div class="left-panel">
+				<!--<el-button type="primary" icon="el-icon-plus" @click="addPage">添加商品</el-button>-->
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
 			</div>
@@ -73,6 +74,13 @@
 			}
 		},
 		methods: {
+			//页面新增
+			addPage(){
+				this.$router.push({
+					path: '/store/product/detail',
+					// path: '/template/list/crud/detail',
+				})
+			},
 			//添加
 			add(){
 				this.dialog.save = true
