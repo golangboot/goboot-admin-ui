@@ -162,7 +162,7 @@
 					this.$refs.table.tableData.splice(index, 1);
 					this.$message.success("删除成功")
 				}else{
-					this.$alert(res.message, "提示", {type: 'error'})
+					await this.$alert(res.message, "提示", {type: 'error'})
 				}
 			},
 			//批量删除
@@ -177,7 +177,7 @@
 					}
 					var res = await this.$API.system.user.delete.delete(reqData)
 					if (res.code != 200) {
-						this.$alert(res.message, "提示", {type: 'error'})
+						await this.$alert(res.message, "提示", {type: 'error'})
 						return
 					}
 

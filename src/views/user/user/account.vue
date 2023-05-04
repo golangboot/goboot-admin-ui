@@ -119,7 +119,7 @@ export default {
 						this.visible = false;
 						this.$message.success("操作成功")
 					}else{
-						this.$alert(res.message, "提示", {type: 'error'})
+						await this.$alert(res.message, "提示", {type: 'error'})
 					}
 				}else{
 					return false;

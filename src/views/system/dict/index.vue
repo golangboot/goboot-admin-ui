@@ -327,7 +327,7 @@
 					this.$refs.table.tableData.splice(index, 1);
 					this.$message.success("删除成功")
 				}else{
-					this.$alert(res.message, "提示", {type: 'error'})
+					await this.$alert(res.message, "提示", {type: 'error'})
 				}
 			},
 			//批量删除
@@ -352,7 +352,7 @@
 						})
 						this.$message.success("操作成功")
 					} else {
-						this.$alert(res.message, "提示", {type: 'error'})
+						await this.$alert(res.message, "提示", {type: 'error'})
 					}
 
 					loading.close();
@@ -371,7 +371,7 @@
 						this.listDialogVisible = false;
 						this.$message.success("操作成功")
 					}else{
-						this.$alert(res.message, "提示", {type: 'error'})
+						await this.$alert(res.message, "提示", {type: 'error'})
 					}
 				})
 			},
