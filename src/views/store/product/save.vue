@@ -1,34 +1,35 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
-			<el-form-item label="商品标题" prop="title">
-				<el-input v-model="form.title" clearable></el-input>
-			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="封面图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传封面图片"></sc-upload>
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" destroy-on-close @closed="$emit('closed')">
+		<el-container v-loading="loading">
+			<el-main style="padding:0 20px 20px 20px">
+				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
+					<el-form-item label="商品标题" prop="title">
+						<el-input v-model="form.title" clearable></el-input>
 					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="固定链接" prop="slug">
-				<el-input v-model="form.slug" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="商品内容" prop="content">
-				<el-input v-model="form.content" clearable type="textarea"></el-input>
-			</el-form-item>
-			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
-			</el-form-item>
-			<el-form-item label="是否有效" prop="status">
-				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
-			</el-form-item>
-		</el-form>
-		<template #footer>
-			<el-button @click="visible=false" >取 消</el-button>
-			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
-		</template>
-	</el-dialog>
+					<el-row :gutter="20">
+						<el-col :span="12">
+							<el-form-item label="封面图片" prop="image">
+								<sc-upload v-model="form.image" title="请上传封面图片"></sc-upload>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-form-item label="商品内容" prop="content">
+						<el-input v-model="form.content" clearable type="textarea"></el-input>
+					</el-form-item>
+					<el-form-item label="排序" prop="sort">
+						<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+					</el-form-item>
+					<el-form-item label="是否有效" prop="status">
+						<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+					</el-form-item>
+				</el-form>
+			</el-main>
+			<el-footer>
+				<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit">保存</el-button>
+				<el-button @click="visible=false">取消</el-button>
+			</el-footer>
+		</el-container>
+	</el-drawer>
 </template>
 
 <script>
@@ -36,6 +37,7 @@
 		emits: ['success', 'closed'],
 		data() {
 			return {
+				loading: false,
 				mode: "add",
 				titleMap: {
 					add: '新增',
@@ -96,6 +98,7 @@
 			},
 			//表单注入数据
 			async setData(data){
+				this.loading = true
 				Object.assign(this.form, data)
 				if (data.id){
 					this.isSaving = true
@@ -104,6 +107,7 @@
 					this.isSaving = false
 					this.form = res.data
 				}
+				this.loading = false
 			}
 		}
 	}

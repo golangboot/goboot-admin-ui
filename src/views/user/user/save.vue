@@ -356,6 +356,7 @@
 			},
 			//表单注入数据
 			async setData(data){
+				this.loading = true
 				Object.assign(this.form, data)
 				if (data.id){
 					this.isSaving = true
@@ -364,6 +365,7 @@
 					this.isSaving = false
 					this.form = res.data
 				}
+				this.loading = false
 			},
 			async departmentChange(value){
 				console.log('departmentChange:', value)
