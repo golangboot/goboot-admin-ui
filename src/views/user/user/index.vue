@@ -67,27 +67,25 @@
 		</el-main>
 	</el-container>
 
-	<save-drawer v-if="drawer.save" ref="saveDrawer" @success="handleSaveSuccess" @closed="drawer.save=false"></save-drawer>
+	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
 	<account-dialog v-if="dialog.account" ref="accountDialog" @closed="dialog.account=false"></account-dialog>
 
 </template>
 
 <script>
-import saveDrawer from './save'
+import saveDialog from './save'
 import accountDialog from './account'
 
 export default {
 	name: 'user',
 	components: {
-		saveDrawer,
+		saveDialog,
 		accountDialog,
 	},
 	data() {
 		return {
-			drawer: {
-				save: false,
-			},
 			dialog: {
+				save: false,
 				account: false,
 			},
 			table: {
@@ -107,9 +105,9 @@ export default {
 	methods: {
 		//添加
 		add() {
-			this.drawer.save = true
+			this.dialog.save = true
 			this.$nextTick(() => {
-				this.$refs.saveDrawer.open()
+				this.$refs.saveDialog.open()
 			})
 		},
 		//批量删除
@@ -143,16 +141,16 @@ export default {
 		},
 		//编辑
 		table_edit(row) {
-			this.drawer.save = true
+			this.dialog.save = true
 			this.$nextTick(() => {
-				this.$refs.saveDrawer.open('edit').setData(row)
+				this.$refs.saveDialog.open('edit').setData(row)
 			})
 		},
 		//查看
 		table_show(row) {
-			this.drawer.save = true
+			this.dialog.save = true
 			this.$nextTick(() => {
-				this.$refs.saveDrawer.open('show').setData(row)
+				this.$refs.saveDialog.open('show').setData(row)
 			})
 		},
 		//删除
