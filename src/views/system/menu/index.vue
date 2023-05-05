@@ -85,7 +85,7 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="100" sortable></el-table-column>
-					<el-table-column label="名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="名称" prop="name" width="200"></el-table-column>
 					<el-table-column label="标题" prop="title" width="200"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80">
@@ -347,6 +347,8 @@
 				}else if(mode=='edit'){
 					this.$refs.table.refresh()
 				}
+				//重获获取用户菜单
+				this.$store.commit("getUserMenus")
 				// 触发树更新
 				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
