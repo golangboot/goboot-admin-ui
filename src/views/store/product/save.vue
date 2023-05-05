@@ -24,7 +24,40 @@
 					</el-form-item>
 					<el-row :gutter="20">
 						<el-col :span="24">
-							<sku-form />
+							<div>
+								<SkuForm
+									ref="skuForm"
+									:source-attribute="sourceAttribute"
+									:structure="structure"
+									:attribute="attribute"
+									:sku="sku"
+								>
+									<template #score="slotProps">
+										<div>
+											<el-rate v-model="slotProps.row.score" />
+										</div>
+									</template>
+									<template #image="slotProps">
+										<div class="image-upload-container">
+											<el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
+											<el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
+												<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
+											</el-upload>
+											<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
+										</div>
+									</template>
+								</SkuForm>
+								<el-row type="flex" :gutter="20">
+									<el-col>
+										<el-divider content-position="left">attribute 数据</el-divider>
+										<pre><code>{{ attribute }}</code></pre>
+									</el-col>
+									<el-col>
+										<el-divider content-position="left">sku 数据</el-divider>
+										<pre><code>{{ sku }}</code></pre>
+									</el-col>
+								</el-row>
+							</div>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -71,6 +104,42 @@
 						{required: true, message: '请输入商品名称'}
 					],
 				},
+				sourceAttribute: [
+					{
+						name: '颜色',
+						item: ['黑', '金', '白']
+					},
+					{
+						name: '内存',
+						item: ['16G', '32G']
+					}
+				],
+				structure: [
+					{
+						name: 'price',
+						type: 'input',
+						label: '现价'
+					},
+					{
+						name: 'stock',
+						type: 'input',
+						label: '库存'
+					},
+					{
+						name: 'score',
+						type: 'slot',
+						defaultValue: 0,
+						label: '评分'
+					},
+					{
+						name: 'image',
+						type: 'slot',
+						label: '图片',
+						required: true
+					}
+				],
+				attribute: [],
+				sku: [],
 			}
 		},
 		mounted() {
