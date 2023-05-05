@@ -62,6 +62,15 @@ cd scui
 # 安装依赖
 npm i
 
+# 安装依赖(pnpm)
+npm i -g pnpm
+pnpm install
+
+# 安装依赖(yarn)
+npm i -g yarn
+yarn install
+yarn install --force
+
 # 启动项目(开发模式)
 npm run serve
 ```
