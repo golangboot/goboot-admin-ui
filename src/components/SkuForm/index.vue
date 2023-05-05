@@ -37,7 +37,14 @@
 				<el-table :data="form.skuData" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttribute 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
 					<el-table-column v-if="emitAttribute.length > 0" type="index" width="50" align="center" :resizable="false" />
-					<el-table-column v-for="(attr, index) in emitAttribute" :key="`attribute-${index}`" :label="attr.name" :prop="attr.name" width="120" align="center" :resizable="false" sortable />
+					<el-table-column v-for="(attr, index) in emitAttribute" :key="`attribute-${index}`" :label="attr.name" :prop="attr.name" width="120" align="center" :resizable="false" sortable>
+						<!-- 自定义表格内部展示 -->
+						<!--<template #default="scope">
+							<el-form-item>
+								<el-input v-model="emitAttribute[index].item[scope.$index]" :data-num="emitAttribute.length" :placeholder="`请输入${JSON.stringify(emitAttribute[index].item[scope.$index])}`" size="small" />
+							</el-form-item>
+						</template>-->
+					</el-table-column>
 					<el-table-column v-for="(item, index) in structure" :key="`structure-${index}`" :label="item.label" :prop="item.name" align="center" :resizable="false" min-width="120px">
 						<!-- 自定义表头 -->
 						<template #header>
@@ -193,11 +200,13 @@ export default {
 		emitAttribute() {
 			let attribute = []
 			this.myAttribute.forEach(v1 => {
+				// console.log('v1', v1)
 				const obj = {
 					name: v1.name,
 					item: []
 				}
 				v1.item.forEach(v2 => {
+					// console.log('v2', v2)
 					if (v2.checked) {
 						obj.item.push(v2.name)
 					}
@@ -206,6 +215,8 @@ export default {
 					attribute.push(obj)
 				}
 			})
+			// console.log('myAttribute', this.myAttribute)
+			// console.log('attribute', attribute)
 			return attribute
 		}
 	},
@@ -231,6 +242,7 @@ export default {
 							}
 						})
 						this.form.skuData.push(obj)
+						console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
 				})
@@ -245,10 +257,12 @@ export default {
 						// 更新父组件
 						const arr = []
 						newValue.forEach(v1 => {
+							// console.log('structure v1', v1)
 							const obj = {
 								sku: v1.sku
 							}
 							this.structure.forEach(v2 => {
+								// console.log('structure v2', v2)
 								if (!(v2.type == 'slot' && v2.skuProperty == false)) {
 									obj[v2.name] = v1[v2.name] || (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
 								}
@@ -445,7 +459,7 @@ export default {
 
 <style lang="scss" scoped>
 .sku-container {
-	::v-deep .el-card {
+	:deep(.el-card) {
 		margin: 10px 0;
 		.el-card__header {
 			line-height: initial;
@@ -487,10 +501,10 @@ export default {
 	}
 	.sku-list {
 		line-height: initial;
-		::v-deep .el-input__inner {
+		:deep(.el-input__inner) {
 			text-align: center;
 		}
-		::v-deep .el-table__append-wrapper {
+		:deep(.el-table__append-wrapper) {
 			overflow: initial;
 			.el-table {
 				overflow: initial;
@@ -499,7 +513,7 @@ export default {
 				}
 			}
 		}
-		::v-deep .el-form-item {
+		:deep(.el-form-item) {
 			margin-bottom: 0;
 			.el-form-item__content {
 				line-height: initial;
