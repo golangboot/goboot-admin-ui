@@ -9,10 +9,10 @@
 		<el-descriptions title="基础信息"></el-descriptions>
 		<el-form :model="ruleForm" :inline="false"   ref="ruleForm" label-width="100px" class="demo-ruleForm">
 			<el-form-item label="封面图:">
-				<sc-upload-image-plus :limit="1"  :key="timer"  :filelist="ruleForm.image"  @getfile="fileList"></sc-upload-image-plus>
+				<upload-image :limit="1"  :key="timer"  :filelist="ruleForm.image"  @getfile="fileList"></upload-image>
 			</el-form-item>
 			<el-form-item label="轮播图:">
-				<sc-upload-image-plus :limit="5"  :key="timer" :filelist="ruleForm.sliderImage"  @getfile="fileListArr"></sc-upload-image-plus>
+				<upload-image :limit="5"  :key="timer" :filelist="ruleForm.sliderImage"  @getfile="fileListArr"></upload-image>
 			</el-form-item>
 			<el-form-item label="商品分类:" >
 				<el-cascader ref="myCascader"  style="width:360px" @change="getpositionName" v-model="ruleForm.cateId" :options="options" placeholder="请选择分类" :props="{ emitPath:false,checkStrictly: true,value:'id',label:'name'}"  class="ml-4"></el-cascader>
@@ -155,18 +155,19 @@
 </template>
 
 <script>
-import scUploadImagePlus from "@/components/scUploadImagePlus";
+import UploadImage from "@/components/UploadImage";
+
 export default {
-	components:{
-		scUploadImagePlus,
+	components: {
+		UploadImage,
 	},
-	data(){
-		return{
+	data() {
+		return {
 			ruleForm: {
-				cateId:'',
-				cateName:'',
-				image:[],
-				sliderImage:[],
+				cateId: '',
+				cateName: '',
+				image: [],
+				sliderImage: [],
 				storeName: '',
 				storeInfo: '',
 				description: '',
@@ -174,7 +175,7 @@ export default {
 				ficti: '',
 				sort: '',
 				specType: false,
-				integralType:false,
+				integralType: false,
 			},
 			dynamicTags: ['标签一', '标签二'],  //关键词
 			inputVisible: false,
@@ -182,9 +183,7 @@ export default {
 			tableColumnList: {
 				tableHeaderList: [],
 				tableBodyList: [
-					{
-
-					}
+					{}
 				]
 				// inventory: ''
 			},
@@ -196,17 +195,17 @@ export default {
 					inputValue: ''
 				}
 			],
-			options:[],   //商品类列表
-			id:"",   //无则添加有则编辑
-			timer:'',  //刷新子组件
-			title:"",
+			options: [],   //商品类列表
+			id: "",   //无则添加有则编辑
+			timer: '',  //刷新子组件
+			title: "",
 		}
 	},
-	mounted(){
-		this.title="添加商品"
-		if(this.$route.query.id){
-			this.id=this.$route.query.id;
-			this.title="商品信息"
+	mounted() {
+		this.title = "添加商品"
+		if (this.$route.query.id) {
+			this.id = this.$route.query.id;
+			this.title = "商品信息"
 			this.getdetails();
 		}
 		this.getoptions();
@@ -230,7 +229,9 @@ export default {
 	watch: {
 		// 监听规格数据
 		calculateAttribute(newVal) {
-			if(!this.ruleForm.specType){return;}
+			if (!this.ruleForm.specType) {
+				return;
+			}
 			this.attribute(newVal);
 
 			let cloneNewVal = JSON.parse(JSON.stringify(newVal))
@@ -276,28 +277,28 @@ export default {
 			})
 			this.tableColumnList.tableHeaderList = tableObj.tableHeaderList // 表头
 		},
-		'ruleForm.specType':{
-			deep:true,
-			handler:function(newV,oldV){
+		'ruleForm.specType': {
+			deep: true,
+			handler: function (newV, oldV) {
 				console.log('oldV:', oldV)
-				if(!newV){
-					this.tableColumnList= this.$options.data().tableColumnList;
-					this.items=this.$options.data().items;
+				if (!newV) {
+					this.tableColumnList = this.$options.data().tableColumnList;
+					this.items = this.$options.data().items;
 				}
 			}
 		}
 	},
 	methods: {
-		getpositionName(){
+		getpositionName() {
 			const info = this.$refs.myCascader.getCheckedNodes()[0];
-			this.ruleForm.cateName=info.label;
+			this.ruleForm.cateName = info.label;
 		},
-		getoptions(){	//获取商品分类列表
+		getoptions() {	//获取商品分类列表
 			const that = this;
 			this.$api.categorylist({}).then(function (response) {
-				if(response.code==0){
-					that.options=that.removeEmptyChildren(response.data);
-				}else{
+				if (response.code == 0) {
+					that.options = that.removeEmptyChildren(response.data);
+				} else {
 					that.$message({
 						message: response.message,
 						center: true,
@@ -306,8 +307,8 @@ export default {
 				}
 			})
 		},
-		removeEmptyChildren (node) {   //杀生
-			var that=this;
+		removeEmptyChildren(node) {   //杀生
+			var that = this;
 			node.forEach(item => {
 				if ('children' in item && item.children.length === 0) {
 					delete item.children
@@ -317,10 +318,10 @@ export default {
 			})
 			return node;
 		},
-		attribute(newVal){
-			var that=this;
-			this.$api.goodssku(that.items).then(res=>{
-				if(res.code==0){
+		attribute(newVal) {
+			var that = this;
+			this.$api.goodssku(that.items).then(res => {
+				if (res.code == 0) {
 					// console.log("属性",res);
 					let cloneNewVal = JSON.parse(JSON.stringify(newVal))
 					let attrName = [] //规格名数组
@@ -354,24 +355,26 @@ export default {
 						}
 					})
 					this.tableColumnList.tableHeaderList = tableObj.tableHeaderList // 表头
-				}else{
+				} else {
 					this.$message({
 						message: res.message,
 						center: true,
 					});
 				}
-			}).catch(err=>{console.log("网络错误",err)})
+			}).catch(err => {
+				console.log("网络错误", err)
+			})
 		},
 		//上传的图片列表
-		fileList(list){
-			console.log("封面图片：",list)
-			this.ruleForm.image=list;
+		fileList(list) {
+			console.log("封面图片：", list)
+			this.ruleForm.image = list;
 		},
-		fileListArr(list){
-			console.log("轮播图片：",list)
-			this.ruleForm.sliderImage=list;
+		fileListArr(list) {
+			console.log("轮播图片：", list)
+			this.ruleForm.sliderImage = list;
 		},
-		goBack(){
+		goBack() {
 			this.$router.go(-1);
 		},
 		//关键词操作
@@ -395,86 +398,92 @@ export default {
 			this.inputValue = '';
 		},
 		//获取详情
-		getdetails(){
-			var that=this;
-			this.$api.goodsDetails({id:that.id}).then(res=>{
-				if(res.code==0){
-					console.log("商品：",res);
-					that.ruleForm=res.data;
-					that.ruleForm.image=res.data.image.split(",");
-					that.ruleForm.sliderImage=res.data.sliderImage.split(",");
-					that.dynamicTags=res.data.keyword.split(",");
-					that.items=res.data.items.map(item=>{
-						item.inputValue="";
-						item.inputVisible=false;
+		getdetails() {
+			var that = this;
+			this.$api.goodsDetails({id: that.id}).then(res => {
+				if (res.code == 0) {
+					console.log("商品：", res);
+					that.ruleForm = res.data;
+					that.ruleForm.image = res.data.image.split(",");
+					that.ruleForm.sliderImage = res.data.sliderImage.split(",");
+					that.dynamicTags = res.data.keyword.split(",");
+					that.items = res.data.items.map(item => {
+						item.inputValue = "";
+						item.inputVisible = false;
 						return item;
 					})
-					setTimeout(()=>{
-						let tablearr=[];
-						for(var i=0; i<res.data.attrs.length;i++){
-							tablearr.push(Object.assign(that.tableColumnList.tableBodyList[i],res.data.attrs[i]));
+					setTimeout(() => {
+						let tablearr = [];
+						for (var i = 0; i < res.data.attrs.length; i++) {
+							tablearr.push(Object.assign(that.tableColumnList.tableBodyList[i], res.data.attrs[i]));
 						}
-						that.tableColumnList.tableBodyList=tablearr;
-					},500)
+						that.tableColumnList.tableBodyList = tablearr;
+					}, 500)
 
 					that.timer = new Date().getTime();
-				}else{
+				} else {
 					this.$message({
 						message: res.message,
 						center: true,
 					});
 				}
-			}).catch(err=>{console.log("网络错误",err)})
+			}).catch(err => {
+				console.log("网络错误", err)
+			})
 		},
-		submit(){
-			var that=this;
+		submit() {
+			var that = this;
 			var obj;
-			if(this.id){  //编辑
-				obj=JSON.parse(JSON.stringify(that.ruleForm));
-				obj.id=that.id;
-				obj.items=that.items;
-				obj.attrs=that.tableColumnList.tableBodyList;
-				obj.keyword=that.dynamicTags.toString();
-				obj.image=obj.image.toString();
-				obj.sliderImage=obj.sliderImage.toString();
-				this.$api.goodsedit(obj).then(res=>{
-					if(res.code==0){
+			if (this.id) {  //编辑
+				obj = JSON.parse(JSON.stringify(that.ruleForm));
+				obj.id = that.id;
+				obj.items = that.items;
+				obj.attrs = that.tableColumnList.tableBodyList;
+				obj.keyword = that.dynamicTags.toString();
+				obj.image = obj.image.toString();
+				obj.sliderImage = obj.sliderImage.toString();
+				this.$api.goodsedit(obj).then(res => {
+					if (res.code == 0) {
 						this.$message({
-							type:"success",
+							type: "success",
 							message: res.message,
 							center: true,
 						});
-						that.$router.push({path:'/product/goods'})
-					}else{
+						that.$router.push({path: '/product/goods'})
+					} else {
 						this.$message({
 							message: res.message,
 							center: true,
 						});
 					}
-				}).catch(err=>{console.log("网络错误",err)})
-			}else{
-				obj=JSON.parse(JSON.stringify(that.ruleForm));
+				}).catch(err => {
+					console.log("网络错误", err)
+				})
+			} else {
+				obj = JSON.parse(JSON.stringify(that.ruleForm));
 
-				obj.items=that.items;
-				obj.attrs=that.tableColumnList.tableBodyList;
-				obj.keyword=that.dynamicTags.toString();
-				obj.image=obj.image.toString();
-				obj.sliderImage=obj.sliderImage.toString();
-				this.$api.goodsadd(obj).then(res=>{
-					if(res.code==0){
+				obj.items = that.items;
+				obj.attrs = that.tableColumnList.tableBodyList;
+				obj.keyword = that.dynamicTags.toString();
+				obj.image = obj.image.toString();
+				obj.sliderImage = obj.sliderImage.toString();
+				this.$api.goodsadd(obj).then(res => {
+					if (res.code == 0) {
 						this.$message({
-							type:"success",
+							type: "success",
 							message: res.message,
 							center: true,
 						});
-						that.$router.push({path:'/product/goods'})
-					}else{
+						that.$router.push({path: '/product/goods'})
+					} else {
 						this.$message({
 							message: res.message,
 							center: true,
 						});
 					}
-				}).catch(err=>{console.log("网络错误",err)})
+				}).catch(err => {
+					console.log("网络错误", err)
+				})
 			}
 		},
 		/*****规格*****/

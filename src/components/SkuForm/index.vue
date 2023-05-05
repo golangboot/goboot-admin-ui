@@ -1,10 +1,12 @@
 <template>
-	<div class="sc-upload-image-plus"></div>
+	<div class="sku-form">
+		SkuForm
+	</div>
 </template>
 
 <script>
 export default {
-	name: "scUploadImagePlus"
+	name: "SkuForm"
 }
 </script>
 

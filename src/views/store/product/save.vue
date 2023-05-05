@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" :close-on-click-modal="false" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
@@ -22,6 +22,11 @@
 					<el-form-item label="是否有效" prop="status">
 						<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 					</el-form-item>
+					<el-row :gutter="20">
+						<el-col :span="24">
+							<sku-form />
+						</el-col>
+					</el-row>
 				</el-form>
 			</el-main>
 			<el-footer>
@@ -33,8 +38,12 @@
 </template>
 
 <script>
+	import SkuForm from "@/components/SkuForm";
 	export default {
 		emits: ['success', 'closed'],
+		components:{
+			SkuForm,
+		},
 		data() {
 			return {
 				loading: false,
