@@ -25,7 +25,7 @@
 				</el-col>
 		</el-form-item>
 		<el-form-item>
-			<el-button type="primary" style="width: 100%;" :loading="islogin" round @click="login" @keyup.enter="login">{{ $t('login.signIn') }}</el-button>
+			<el-button type="primary" style="width: 100%;" :loading="isLogin" round @click="login" @keyup.enter="login">{{ $t('login.signIn') }}</el-button>
 		</el-form-item>
 		<div class="login-reg">
 			{{$t('login.noAccount')}} <router-link to="/user_register">{{$t('login.createAccount')}}</router-link>
@@ -51,7 +51,7 @@
 						{required: true, message: this.$t('login.PWError'), trigger: 'blur'}
 					]
 				},
-				islogin: false,
+				isLogin: false,
 			}
 		},
 		watch:{
@@ -83,7 +83,7 @@
 				var validate = await this.$refs.loginForm.validate().catch(()=>{})
 				if(!validate){ return false }
 
-				this.islogin = true
+				this.isLogin = true
 				var data = {
 					username: this.form.user,
 					// password: this.$TOOL.crypto.MD5(this.form.password)
@@ -93,7 +93,7 @@
 				try {
 					var user = await this.$API.auth.login.post(data)
 				} catch (e) {
-					this.islogin = false
+					this.isLogin = false
 					return false
 				}
 				if(user.code == 200){
@@ -102,7 +102,7 @@
 					})
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.USER_INFO, user.data.userInfo || user.data.userinfo)
 				}else{
-					this.islogin = false
+					this.isLogin = false
 					this.$message.warning(user.message)
 					return false
 				}
@@ -115,7 +115,7 @@
 				}
 				if(menu.code == 200){
 					if(menu.data.menu.length==0){
-						this.islogin = false
+						this.isLogin = false
 						this.$alert("当前用户无任何菜单权限，请联系系统管理员", "无权限访问", {
 							type: 'error',
 							center: true
@@ -126,7 +126,7 @@
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.PERMISSIONS, menu.data.permissions)
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.DASHBOARD_GRID, menu.data.dashboardGrid)
 				}else{
-					this.islogin = false
+					this.isLogin = false
 					this.$message.warning(menu.message)
 					return false
 				}
@@ -135,7 +135,7 @@
 					path: '/'
 				})
 				this.$message.success(this.$t('login.loginSuccess'))
-				this.islogin = false
+				this.isLogin = false
 			},
 		}
 	}
