@@ -27,7 +27,7 @@
 							<span>{{ label }}&nbsp;</span>
 							<span>
 						<el-tooltip>
-							<template #content>属性录入方式为从列表选择时，请在可选值列表中添加可选值</template>
+							<template #content>属性录入方式为从列表选择时，请在可选值列表中添加可选值。手工录入则表示需要用户自行填写</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -77,7 +77,7 @@
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>销售属性表示为SKU属性</template>
+									<template #content>销售属性表示为SKU属性（影响商品价格）</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
