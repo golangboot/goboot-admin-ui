@@ -18,13 +18,13 @@
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item label="余额" prop="number" v-if="formParams.accountType == 1">
-				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="formParams.number" placeholder="请输入改变余额" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="积分" prop="number" v-if="formParams.accountType == 2">
-				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="formParams.number" placeholder="请输入改变积分" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="虚拟币" prop="number" v-if="formParams.accountType == 3">
-				<el-input-number v-model="formParams.number" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="formParams.number" placeholder="请输入改变虚拟币" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="formParams.remark" clearable type="textarea"></el-input>
