@@ -9,7 +9,7 @@
 					<span>{{ label }}&nbsp;</span>
 					<span>
 						<el-tooltip>
-							<template #content>属性选择类型为唯一或文本时，属性录入方式需要设置为手工录入</template>
+							<template #content>属性选择类型为唯一或文本时，属性值录入方式需要设置为手工录入</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -20,12 +20,12 @@
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="属性录入方式" prop="inputType">
+					<el-form-item label="属性值录入方式" prop="inputType">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>
 							<span>
 						<el-tooltip>
-							<template #content>属性录入方式为[从列表中选取]时，请在可选值列表中添加可选值。手工录入则表示需要用户填写</template>
+							<template #content>属性值录入方式为[从列表中选取]时，请在可选值列表中添加可选值。手工录入则表示需要填写</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -41,7 +41,7 @@
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>是否可以不用填写或选择</template>
+									<template #content>属性值是否可以留空或不选择</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
@@ -53,18 +53,18 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="可选值列表" prop="inputListFormat" v-if="form.inputType == 1">
+			<el-form-item label="属性值可选值列表" prop="inputListFormat" v-if="form.inputType == 1">
 				<template #label="{ label }">
 					<span>{{ label }}&nbsp;</span>
 					<span>
 						<el-tooltip>
-							<template #content>可选值列表, 多个可选值使用Enter确认键换行</template>
+							<template #content>属性值可选值列表, 多个属性值可选值使用Enter确认键换行</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
 				</template>
 				<el-input ref="inputListFormat" v-model="inputListFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="1000" :show-word-limit="true" type="textarea"></el-input>
-				<div class="el-form-item-msg">多个可选值使用Enter确认键换行</div>
+				<div class="el-form-item-msg">多个属性值可选值使用Enter确认键换行</div>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
@@ -90,7 +90,7 @@
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>是否支持用户手动新增属性</template>
+									<template #content>是否支持手动新增属性值</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
