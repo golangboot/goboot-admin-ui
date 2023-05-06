@@ -126,7 +126,11 @@
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					let form = {}
+					if (this.search.productSpecId){
+						form.productSpecId = this.search.productSpecId
+					}
+					this.$refs.saveDialog.open('add').setData(form)
 				})
 			},
 			//编辑

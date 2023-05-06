@@ -81,9 +81,9 @@
 					name: [
 						{required: true, message: '请输入商品属性名称'}
 					],
-					productSpecId: [
+					/*productSpecId: [
 						{required: true, message: '请选择商品规格'}
-					],
+					],*/
 				},
 				categoryOptions: [],
 				categoryProps: {

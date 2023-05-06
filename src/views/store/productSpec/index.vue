@@ -114,7 +114,12 @@
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					let form = {}
+					if (this.search.categoryId){
+						form.categoryIds = []
+						form.categoryIds.push(this.search.categoryId)
+					}
+					this.$refs.saveDialog.open('add').setData(form)
 				})
 			},
 			//编辑
