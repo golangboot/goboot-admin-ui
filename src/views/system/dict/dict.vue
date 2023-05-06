@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
+		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="right">
 			<el-form-item label="字典名称" prop="name">
 				<el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
 			</el-form-item>

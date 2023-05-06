@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
 			<el-alert title="请注意：当选择留空时进行提交数据，该操作会删除选中用户已分配的对应数据！" type="warning" show-icon style="margin-bottom: 15px;"/>
 			<template v-if="mode == 'group'">
 				<el-form-item label="所属用户组" prop="groupIds">

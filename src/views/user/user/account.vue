@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="formParams" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="left">
+		<el-form :model="formParams" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
 			<el-form-item label="用户ID" prop="id">
 				<el-input v-model="form.id" disabled placeholder="用户ID" clearable></el-input>
 			</el-form-item>

@@ -7,7 +7,7 @@
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="数据权限">
-				<el-form label-width="100px" label-position="left">
+				<el-form label-width="100px" label-position="right">
 					<el-form-item label="规则类型">
 						<el-select v-model="data.dataType" placeholder="请选择">
 							<el-option label="全部可见" value="1"></el-option>
@@ -34,7 +34,7 @@
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="控制台">
-				<el-form label-width="100px" label-position="left">
+				<el-form label-width="100px" label-position="right">
 					<el-form-item label="控制台视图">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>

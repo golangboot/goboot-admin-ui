@@ -1,9 +1,112 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="150px" label-position="right">
 			<el-form-item label="商品属性名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
+
+			<el-form-item label="属性选择类型" prop="selectType">
+				<template #label="{ label }">
+					<span>{{ label }}&nbsp;</span>
+					<span>
+						<el-tooltip>
+							<template #content>属性选择类型为唯一或文本时，属性录入方式需要设置为手工录入</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-radio-group v-model="form.selectType">
+					<el-radio v-for="(item, index) in selectTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
+
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="属性录入方式" prop="inputType">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+						<el-tooltip>
+							<template #content>属性录入方式为从列表选择时，请在可选值列表中添加可选值</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+						</template>
+						<el-radio-group v-model="form.inputType">
+							<el-radio v-for="(item, index) in inputTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="是否支持添加属性" prop="canAddAttribute">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否支持用户手动新增属性</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.canAddAttribute">
+							<el-radio :key="0" :label="0">不支持</el-radio>
+							<el-radio :key="1" :label="1">支持</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
+			<el-form-item label="可选值列表" prop="inputList">
+				<template #label="{ label }">
+					<span>{{ label }}&nbsp;</span>
+					<span>
+						<el-tooltip>
+							<template #content>可选值列表, 多个可选值使用Enter确认键换行</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-input v-model="form.inputList" :rows="5" clearable type="textarea"></el-input>
+				<div class="el-form-item-msg">多个可选值使用Enter确认键换行</div>
+			</el-form-item>
+
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="是否销售属性" prop="isSaleAttribute">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>销售属性表示为SKU属性</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.isSaleAttribute">
+							<el-radio :key="0" :label="0">否</el-radio>
+							<el-radio :key="1" :label="1">是</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="是否必填" prop="optionType">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否可以不用填写</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.optionType">
+							<el-radio :key="0" :label="0">否</el-radio>
+							<el-radio :key="1" :label="1">是</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
@@ -17,7 +120,8 @@
 							</span>
 						</template>
 						<el-radio-group v-model="form.isGlobal">
-							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+							<el-radio :key="0" :label="0">否</el-radio>
+							<el-radio :key="1" :label="1">是</el-radio>
 						</el-radio-group>
 					</el-form-item>
 				</el-col>
@@ -94,6 +198,17 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
+				selectTypeOptions: [
+					{label: "唯一", value: 0,},
+					{label: "单选", value: 1,},
+					{label: "多选", value: 2,},
+					{label: "文本", value: 3,},
+					{label: "布尔值", value: 4,},
+				],
+				inputTypeOptions: [
+					{label: "手工录入", value: 0,},
+					{label: "从列表选择", value: 1,},
+				],
 				isGlobalOptions: [
 					{label: "指定", value: 0,},
 					{label: "全部", value: 1,},

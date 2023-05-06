@@ -2,7 +2,7 @@
 	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'60%'" :close-on-click-modal="false" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
-				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="left">
+				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
 					<el-form-item label="商品标题" prop="title">
 						<el-input v-model="form.title" clearable></el-input>
 					</el-form-item>

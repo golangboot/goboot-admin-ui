@@ -6,7 +6,7 @@
 		<template v-else>
 			<el-col :lg="24">
 				<h2>{{form.meta.title || "新增菜单"}}</h2>
-				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
+				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="right">
 					<el-form-item label="显示名称" prop="meta.title">
 						<el-input v-model="form.meta.title" clearable placeholder="菜单显示名字"></el-input>
 					</el-form-item>
