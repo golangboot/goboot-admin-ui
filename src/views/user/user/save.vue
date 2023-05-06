@@ -125,6 +125,20 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="部门" prop="departmentId">
+										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" @change="departmentChange" :show-all-levels="true" :emitPath="false" style="width:100%" placeholder="请选择部门" filterable clearable></el-cascader>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+									<el-form-item label="岗位" prop="positionId">
+										<el-select v-model="form.positionId" filterable style="width: 100%">
+											<el-option v-for="item in positionOptions" :key="item.id" :label="item.name" :value="item.id"/>
+										</el-select>
+									</el-form-item>
+								</el-col>
+							</el-row>
 						</el-tab-pane>
 						<el-tab-pane label="账户信息">
 							<el-row :gutter="20">
@@ -175,34 +189,6 @@
 											</el-tooltip>
 										</template>
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
-									</el-form-item>
-								</el-col>
-							</el-row>
-							<el-row :gutter="20">
-								<el-col :span="12">
-									<el-form-item label="部门" prop="departmentId">
-										<template #label="{ label }">
-											<span>{{ label }}&nbsp;</span>
-											<el-tooltip>
-												<template #content>如果您未拥有[用户分配部门]管理权限，则此处修改无效</template>
-												<el-icon style="vertical-align: middle;"><el-icon-info-filled /></el-icon>
-											</el-tooltip>
-										</template>
-										<el-cascader v-model="form.departmentId" :options="departmentOptions" :props="departmentProps" @change="departmentChange" :show-all-levels="true" :emitPath="false" style="width:100%" placeholder="请选择部门" filterable clearable></el-cascader>
-									</el-form-item>
-								</el-col>
-								<el-col :span="12">
-									<el-form-item label="岗位" prop="positionId">
-										<template #label="{ label }">
-											<span>{{ label }}&nbsp;</span>
-											<el-tooltip>
-												<template #content>如果您未拥有[用户分配岗位]管理权限，则此处修改无效</template>
-												<el-icon style="vertical-align: middle;"><el-icon-info-filled /></el-icon>
-											</el-tooltip>
-										</template>
-										<el-select v-model="form.positionId" filterable style="width: 100%">
-											<el-option v-for="item in positionOptions" :key="item.id" :label="item.name" :value="item.id"/>
-										</el-select>
 									</el-form-item>
 								</el-col>
 							</el-row>
