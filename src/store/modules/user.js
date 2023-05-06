@@ -39,8 +39,13 @@ export default {
 					expires: autologin ? 24 * 60 * 60 : 0
 				})
 			}
-			if (data.userInfo || data.userinfo){
-				tool.data.set(config.DATA_CODE.USER_INFO, data.userInfo || data.userinfo)
+			if (data.userInfo){
+				state.userInfo = data.userInfo
+				tool.data.set(config.DATA_CODE.USER_INFO, data.userInfo)
+			}
+			if (data.userinfo){
+				state.userInfo = data.userinfo
+				tool.data.set(config.DATA_CODE.USER_INFO, data.userinfo)
 			}
 		},
 		//获取菜单
@@ -64,6 +69,11 @@ export default {
 		getToken() {
 			let token = tool.cookie.get(config.DATA_CODE.TOKEN);
 			return token;
+		}
+	},
+	actions: {
+		login({ commit }, data, autologin = false) {
+			commit('login', data, autologin);
 		}
 	}
 }
