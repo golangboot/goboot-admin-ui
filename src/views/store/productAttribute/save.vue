@@ -173,12 +173,15 @@
 				form: {
 					id:"",
 					name: "",
-					code: "",
-					label: "",
 					sort: null,
 					isGlobal: 0,
 					status: 1,
-					remark: ""
+					selectType: 0,
+					inputType: 0,
+					canAddAttribute: 0,
+					inputList: "",
+					isSaleAttribute: 0,
+					optionType: 0,
 				},
 				//验证规则
 				rules: {
