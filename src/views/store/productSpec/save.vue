@@ -17,7 +17,7 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="所属分类" prop="categoryIds">
-				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" size="large" style="width:100%" placeholder="请选择所属分类" filterable clearable></el-cascader>
+				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" style="width:100%" placeholder="请选择所属分类" filterable clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
