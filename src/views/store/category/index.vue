@@ -55,12 +55,6 @@
 							<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 						</template>
 					</el-table-column>
-					<el-table-column label="自定义规格属性" prop="isCustomSpec" width="120">
-						<template #default="scope">
-							<el-tag v-if="scope.row.isCustomSpec==1" type="success">允许</el-tag>
-							<el-tag v-if="scope.row.isCustomSpec==0" type="warning">不允许</el-tag>
-						</template>
-					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">

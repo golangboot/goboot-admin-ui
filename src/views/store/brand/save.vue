@@ -13,10 +13,18 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否关联全部分类</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
 						<el-radio-group v-model="form.isGlobal">
 							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 						</el-radio-group>
-						<div class="el-form-item-msg">是否关联全部分类</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
@@ -25,8 +33,8 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="所属分类" prop="categoryIds">
-				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" style="width:100%" placeholder="请选择所属分类" filterable clearable></el-cascader>
+			<el-form-item label="所属商品分类" prop="categoryIds">
+				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" style="width:100%" placeholder="请选择所属商品分类" filterable clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -85,8 +93,8 @@
 					expandTrigger: "hover",
 				},
 				isGlobalOptions: [
-					{label: "指定分类", value: 0,},
-					{label: "全部分类", value: 1,},
+					{label: "指定", value: 0,},
+					{label: "全部", value: 1,},
 				],
 			}
 		},

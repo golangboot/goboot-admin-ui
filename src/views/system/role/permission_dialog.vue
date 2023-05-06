@@ -36,13 +36,21 @@
 			<el-tab-pane label="控制台">
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="控制台视图">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>用于控制角色登录后控制台的视图</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
 						<el-select v-model="dashboard" placeholder="请选择">
 							<el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label" :value="item.value">
 								<span style="float: left">{{ item.label }}</span>
 								<span style="float: right; color: #8492a6; font-size: 12px">{{ item.views }}</span>
 							</el-option>
 						</el-select>
-						<div class="el-form-item-msg">用于控制角色登录后控制台的视图</div>
 					</el-form-item>
 				</el-form>
 			</el-tab-pane>

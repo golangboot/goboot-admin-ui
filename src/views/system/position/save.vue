@@ -10,10 +10,18 @@
 						<el-input v-model="form.code" clearable></el-input>
 					</el-form-item>
 					<el-form-item label="是否全局" prop="isGlobal">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否关联全部部门</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
 						<el-radio-group v-model="form.isGlobal">
 							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 						</el-radio-group>
-						<div class="el-form-item-msg">是否关联全部部门</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
@@ -81,8 +89,8 @@
 					expandTrigger: "hover",
 				},
 				isGlobalOptions: [
-					{label: "指定部门", value: 0,},
-					{label: "全部部门", value: 1,},
+					{label: "指定", value: 0,},
+					{label: "全部", value: 1,},
 				],
 			}
 		},

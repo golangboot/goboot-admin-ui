@@ -4,6 +4,26 @@
 			<el-form-item label="商品属性名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="是否全局" prop="isGlobal">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否关联全部商品规格</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.isGlobal">
+							<el-radio v-for="(item, index) in isGlobalOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+				</el-col>
+			</el-row>
 			<el-form-item label="商品规格" prop="productSpecId">
 				<sc-select-plus v-model="form.productSpecId"
 								:apiObj="productSpecSelect.apiObj"
@@ -75,8 +95,8 @@
 					expandTrigger: "hover",
 				},
 				isGlobalOptions: [
-					{label: "指定分类", value: 0,},
-					{label: "全部分类", value: 1,},
+					{label: "指定", value: 0,},
+					{label: "全部", value: 1,},
 				],
 				productSpecSelect: {
 					// api接口

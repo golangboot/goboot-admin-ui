@@ -169,10 +169,12 @@
 									<el-form-item label="角色" prop="roleIds">
 										<template #label="{ label }">
 											<span>{{ label }}&nbsp;</span>
-											<el-tooltip>
-												<template #content>如果您未拥有[用户分配角色]管理权限，则此处修改无效</template>
-												<el-icon style="vertical-align: middle;"><el-icon-info-filled /></el-icon>
-											</el-tooltip>
+											<span>
+												<el-tooltip>
+													<template #content>如果您未拥有[用户分配角色]管理权限，则此处修改无效</template>
+													<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-info-filled /></el-icon>
+												</el-tooltip>
+											</span>
 										</template>
 										<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
 											<el-option v-for="item in roleOptions" :key="item.id" :label="item.name" :value="item.id"/>
@@ -183,10 +185,12 @@
 									<el-form-item label="员工帐号" prop="isSystem">
 										<template #label="{ label }">
 											<span>{{ label }}&nbsp;</span>
-											<el-tooltip>
-												<template #content>如果给用户分配了角色，则此处需要修改为员工帐号</template>
-												<el-icon style="vertical-align: middle;"><el-icon-question-filled /></el-icon>
-											</el-tooltip>
+											<span>
+												<el-tooltip>
+													<template #content>如果给用户分配了角色，则此处需要修改为员工帐号，否则相关敏感权限会拦截非员工账号</template>
+													<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+												</el-tooltip>
+											</span>
 										</template>
 										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
 									</el-form-item>
@@ -312,13 +316,14 @@
 				this.departmentOptions = res.data
 			},
 			async getPositionList(){
-				let res = await this.$API.system.position.list.get({isGlobal: 1});
+				let res = await this.$API.system.position.list.get({isGlobal: 1, size: 100});
 				this.positionOptions = res.data.records;
 				// if (Object.keys(params).length > 0){}
 				let departmentId = this.form.departmentId;
 				if (departmentId){
 					let params = {
 						departmentId: departmentId,
+						size: 100,
 					}
 					let response = await this.$API.system.position.list.get(params);
 					let items = response.data.records;

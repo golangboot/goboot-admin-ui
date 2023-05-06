@@ -15,8 +15,16 @@
 							<el-input v-model="form['app.author']"></el-input>
 						</el-form-item>
 						<el-form-item label="调试模式" prop="debug">
+							<template #label="{ label }">
+								<span>{{ label }}&nbsp;</span>
+								<span>
+									<el-tooltip>
+										<template #content>系统调试模式</template>
+										<el-icon style="vertical-align: middle;"><el-icon-question-filled /></el-icon>
+									</el-tooltip>
+								</span>
+							</template>
 							<el-switch v-model="form['app.debug']" :active-value="'true'" :inactive-value="'false'"></el-switch>
-							<div class="el-form-item-msg">系统调试模式</div>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>

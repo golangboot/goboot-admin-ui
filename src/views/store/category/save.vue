@@ -14,18 +14,6 @@
 			<el-form-item label="上级分类" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="true" :emitPath="false" style="width:100%" placeholder="请选择分类" clearable filterable></el-cascader>
 			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="自定义规格属性" prop="isCustomSpec">
-						<el-radio-group v-model="form.isCustomSpec">
-							<el-radio v-for="(item, index) in isCustomSpecOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-						</el-radio-group>
-						<div class="el-form-item-msg">是否允许自定义规格属性</div>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12">
-				</el-col>
-			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -81,10 +69,6 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
-				isCustomSpecOptions: [
-					{label: "不允许", value: 0,},
-					{label: "允许", value: 1,},
-				],
 			}
 		},
 		mounted() {
