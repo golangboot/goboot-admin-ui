@@ -53,6 +53,40 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="商品属性名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="属性选择类型" prop="selectType" width="120" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.selectType==0" type="primary">唯一</el-tag>
+							<el-tag v-if="scope.row.selectType==1" type="info">单选</el-tag>
+							<el-tag v-if="scope.row.selectType==2" type="warning">多选</el-tag>
+							<el-tag v-if="scope.row.selectType==3" type="info">文本</el-tag>
+							<el-tag v-if="scope.row.selectType==4" type="danger">布尔值</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="属性录入方式" prop="inputType" width="120" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.inputType==1" type="success">从列表中选取</el-tag>
+							<el-tag v-if="scope.row.inputType==0" type="warning">手工录入</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="可选值列表" prop="inputList" width="200" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="销售属性" prop="isSaleAttribute" width="100" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.isSaleAttribute==1" type="success">是</el-tag>
+							<el-tag v-if="scope.row.isSaleAttribute==0" type="warning">否</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="支持新增属性" prop="canAddAttribute" width="120" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.canAddAttribute==1" type="success">支持</el-tag>
+							<el-tag v-if="scope.row.canAddAttribute==0" type="warning">不支持</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="是否必填/必选" prop="optionType" width="150" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.optionType==1" type="success">是</el-tag>
+							<el-tag v-if="scope.row.optionType==0" type="warning">否</el-tag>
+						</template>
+					</el-table-column>
 					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 						<template #default="scope">
 							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>

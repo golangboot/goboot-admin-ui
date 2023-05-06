@@ -4,7 +4,6 @@
 			<el-form-item label="商品属性名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-
 			<el-form-item label="属性选择类型" prop="selectType">
 				<template #label="{ label }">
 					<span>{{ label }}&nbsp;</span>
@@ -19,7 +18,6 @@
 					<el-radio v-for="(item, index) in selectTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
-
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="属性录入方式" prop="inputType">
@@ -27,7 +25,7 @@
 							<span>{{ label }}&nbsp;</span>
 							<span>
 						<el-tooltip>
-							<template #content>属性录入方式为从列表选择时，请在可选值列表中添加可选值。手工录入则表示需要用户自行填写</template>
+							<template #content>属性录入方式为[从列表中选取]时，请在可选值列表中添加可选值。手工录入则表示需要用户填写</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -38,7 +36,56 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="是否支持添加属性" prop="canAddAttribute">
+					<el-form-item label="是否必填/必选" prop="optionType">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否可以不用填写或选择</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.optionType">
+							<el-radio :key="0" :label="0">否</el-radio>
+							<el-radio :key="1" :label="1">是</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-form-item label="可选值列表" prop="inputListFormat" v-if="form.inputType == 1">
+				<template #label="{ label }">
+					<span>{{ label }}&nbsp;</span>
+					<span>
+						<el-tooltip>
+							<template #content>可选值列表, 多个可选值使用Enter确认键换行</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-input ref="inputListFormat" v-model="inputListFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="1000" :show-word-limit="true" type="textarea"></el-input>
+				<div class="el-form-item-msg">多个可选值使用Enter确认键换行</div>
+			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="销售属性" prop="isSaleAttribute">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>是否销售属性：销售属性为SKU属性（影响商品价格）</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.isSaleAttribute">
+							<el-radio :key="0" :label="0">否</el-radio>
+							<el-radio :key="1" :label="1">是</el-radio>
+						</el-radio-group>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="支持新增属性" prop="canAddAttribute">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>
 							<span>
@@ -55,58 +102,43 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-
-			<el-form-item label="可选值列表" prop="inputList">
-				<template #label="{ label }">
-					<span>{{ label }}&nbsp;</span>
-					<span>
-						<el-tooltip>
-							<template #content>可选值列表, 多个可选值使用Enter确认键换行</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
-						</el-tooltip>
-					</span>
-				</template>
-				<el-input v-model="form.inputList" :rows="5" clearable type="textarea"></el-input>
-				<div class="el-form-item-msg">多个可选值使用Enter确认键换行</div>
-			</el-form-item>
-
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="是否销售属性" prop="isSaleAttribute">
+					<el-form-item label="筛选样式" prop="filterType">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>销售属性表示为SKU属性（影响商品价格）</template>
+									<template #content>预留字段</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
-						<el-radio-group v-model="form.isSaleAttribute">
-							<el-radio :key="0" :label="0">否</el-radio>
-							<el-radio :key="1" :label="1">是</el-radio>
+						<el-radio-group v-model="form.filterType">
+							<el-radio :key="0" :label="0">普通</el-radio>
+							<el-radio :key="1" :label="1">颜色</el-radio>
 						</el-radio-group>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="是否必填" prop="optionType">
+					<el-form-item label="搜索类型" prop="searchType">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>是否可以不用填写</template>
+									<template #content>预留字段</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
-						<el-radio-group v-model="form.optionType">
-							<el-radio :key="0" :label="0">否</el-radio>
-							<el-radio :key="1" :label="1">是</el-radio>
+						<el-radio-group v-model="form.searchType">
+							<el-radio :key="0" :label="0">不需要进行检索</el-radio>
+							<el-radio :key="1" :label="1">关键字检索</el-radio>
+							<el-radio :key="2" :label="2">范围检索</el-radio>
 						</el-radio-group>
 					</el-form-item>
 				</el-col>
 			</el-row>
-
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
@@ -210,7 +242,7 @@
 				],
 				inputTypeOptions: [
 					{label: "手工录入", value: 0,},
-					{label: "从列表选择", value: 1,},
+					{label: "从列表中选取", value: 1,},
 				],
 				isGlobalOptions: [
 					{label: "指定", value: 0,},
@@ -226,6 +258,16 @@
 						keyword: 'keyword',
 					},
 				},
+				inputListFormat: "",
+			}
+		},
+		watch: {
+			inputListFormat(val) {
+				val = val.replace(/\n/g, ',')
+				this.form.inputList = val
+				/*this.$nextTick(() => {
+					this.$refs.inputListFormat.resizeTextarea();
+				});*/
 			}
 		},
 		mounted() {
@@ -276,6 +318,9 @@
 					this.form = res.data
 				}
 				// this.form.isGlobal = this.form.isGlobal || 0
+				if (this.form.inputList){
+					this.inputListFormat = this.form.inputList.replace(/,/g, '\n')
+				}
 			}
 		}
 	}
