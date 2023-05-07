@@ -18,14 +18,15 @@
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="等级名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="级别" prop="level" width="100"></el-table-column>
+				<el-table-column label="解锁经验值" prop="exp" width="100"></el-table-column>
 				<el-table-column label="等级图标" prop="icon" width="100">
 					<template #default="scope">
-						<el-avatar :src="scope.row.icon" shape="square" size="default"></el-avatar>
+						<el-avatar :src="scope.row.icon" v-if="scope.row.icon" shape="square" size="default"></el-avatar>
 					</template>
 				</el-table-column>
 				<el-table-column label="等级背景" prop="image" width="100">
 					<template #default="scope">
-						<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+						<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
 					</template>
 				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

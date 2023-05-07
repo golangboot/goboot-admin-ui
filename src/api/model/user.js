@@ -126,7 +126,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/user/userGroup`,
 			name: "查看",
 			get: async function(data){
@@ -164,7 +164,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/user/userLevel`,
 			name: "查看",
 			get: async function(data){
@@ -202,7 +202,7 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
-		show: {
+		detail: {
 			url: `${config.API_URL}/user/userLabel`,
 			name: "查看",
 			get: async function(data){
