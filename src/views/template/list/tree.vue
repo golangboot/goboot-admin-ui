@@ -19,7 +19,7 @@
 				<div class="right-panel">
 					<div class="right-panel-search">
 						<el-input v-model="search.keyword" placeholder="关键词" clearable></el-input>
-						<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+						<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
 					</div>
 				</div>
 			</el-header>
@@ -117,7 +117,7 @@
 				this.$refs.table.reload(params)
 			},
 			//搜索
-			upsearch(){
+			upSearch(){
 				this.$refs.table.upData(this.search)
 			},
 		}

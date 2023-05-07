@@ -8,7 +8,7 @@
 			<div class="right-panel">
 				<div class="right-panel-search">
 					<el-input v-model="search.keyword" placeholder="部门名称" clearable></el-input>
-					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+					<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
 				</div>
 			</div>
 		</el-header>
@@ -136,7 +136,7 @@
 				this.selection = selection;
 			},
 			//搜索
-			upsearch(){
+			upSearch(){
 
 			},
 			//根据ID获取树结构

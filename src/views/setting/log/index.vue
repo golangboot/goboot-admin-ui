@@ -126,7 +126,7 @@
 			}
 		},
 		methods: {
-			upsearch(){
+			upSearch(){
 
 			},
 			rowClick(row){

@@ -15,7 +15,9 @@
 			<div class="left-panel">
 				<!--<el-button type="primary" icon="el-icon-plus" @click="addPage">添加商品</el-button>-->
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length == 0" @click="batch_del"></el-button>
+				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length == 0"
+					@click="batch_del"></el-button>
+				<el-button @click="refreshPage()">刷新</el-button>
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -27,19 +29,18 @@
 						</el-form-item>
 						<el-form-item label="商品品牌：" prop="brandId">
 							<sc-select-plus v-model="search.brandId" :apiObj="brandSelect.apiObj"
-								:params="brandSelect.params" :props="brandSelect.props"
-								clearable filterable>
+								:params="brandSelect.params" :props="brandSelect.props" clearable filterable>
 							</sc-select-plus>
 						</el-form-item>
 						<el-form-item label="商品搜索：" prop="keyword">
-							<el-input v-model="search.keyword" placeholder="请输入关键字/商品名称/ID" clearable />
+							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
 						</el-form-item>
 						<el-form-item>
-							<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+							<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
 						</el-form-item>
 					</el-form>
-					<!-- <el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upsearch"></el-input> -->
-					<!-- <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button> -->
+					<!-- <el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input> -->
+					<!-- <el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button> -->
 				</div>
 			</div>
 		</el-header>
@@ -56,15 +57,18 @@
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
-						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
+						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)"
+							:loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
-							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+							<el-button text type="primary" size="small"
+								@click="table_show(scope.row, scope.$index)">查看</el-button>
+							<el-button text type="primary" size="small"
+								@click="table_edit(scope.row, scope.$index)">编辑</el-button>
 							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 								<template #reference>
 									<el-button text type="primary" size="small">删除</el-button>
@@ -78,13 +82,15 @@
 		</el-main>
 	</el-container>
 
-	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save = false"></save-dialog>
+	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess"
+		@closed="dialog.save = false"></save-dialog>
 </template>
 
 <script>
 import saveDialog from './save'
 import scSelectFilter from '@/components/scSelectFilter'
 import scSelectPlus from '@/components/scSelectPlus'
+import useTabs from "@/utils/useTabs";
 
 export default {
 	name: 'storeProduct',
@@ -290,7 +296,7 @@ export default {
 			}
 		},
 		//搜索
-		upsearch() {
+		upSearch() {
 			this.$refs.table.upData(this.search)
 		},
 		//本地更新数据
@@ -303,6 +309,10 @@ export default {
 					Object.assign(item, data)
 				})
 			}
+		},
+		// 刷新页面
+		refreshPage() {
+			useTabs.refresh()
 		},
 		//标签切换
 		tabChange(name) {

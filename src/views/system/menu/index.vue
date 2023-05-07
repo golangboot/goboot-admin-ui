@@ -76,8 +76,8 @@
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
-						<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upsearch"></el-input>
-						<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+						<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input>
+						<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
 					</div>
 				</div>
 			</el-header>
@@ -327,7 +327,7 @@
 				}
 			},
 			//搜索
-			upsearch(){
+			upSearch(){
 				this.$refs.table.upData(this.search)
 			},
 			async syncMenu(){
