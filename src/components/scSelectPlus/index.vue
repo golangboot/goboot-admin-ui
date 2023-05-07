@@ -41,8 +41,10 @@
 		props: {
 			// api接口
 			apiObj: { type: Object, default: () => {} },
-			// 搜索参数(搜索关键词为空时生效)
+			// 参数(搜索关键字为空时生效)
 			params: { type: Object, default: () => ({}) },
+			// 搜索参数(搜索关键字不为空时生效)
+			search: { type: Object, default: () => ({}) },
 			// 属性字段
 			props: {
 				type: Object, default: () => {
@@ -100,6 +102,7 @@
 				// console.log('query',query)
 				if (query){
 					reqData[this.props.keyword] = query
+					Object.assign(reqData, this.search)
 				}else {
 					reqData = this.params
 				}

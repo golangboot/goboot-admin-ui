@@ -165,7 +165,6 @@
 								:apiObj="productSpecSelect.apiObj"
 								:params="productSpecSelect.params"
 								:props="productSpecSelect.props"
-								:parseDataField="productSpecSelect.parseDataField"
 								clearable filterable style="width: 100%;">
 				</sc-select-plus>
 			</el-form-item>
