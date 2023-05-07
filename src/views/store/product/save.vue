@@ -3,8 +3,8 @@
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
-					<el-form-item label="商品标题" prop="title">
-						<el-input v-model="form.title" clearable></el-input>
+					<el-form-item label="商品名称" prop="name">
+						<el-input v-model="form.name" clearable></el-input>
 					</el-form-item>
 					<el-row :gutter="20">
 						<el-col :span="12">
@@ -92,11 +92,9 @@
 				form: {
 					id:"",
 					name: "",
-					code: "",
-					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
 				},
 				//验证规则
 				rules: {

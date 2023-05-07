@@ -53,7 +53,7 @@
 						<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
 					</template>
 				</el-table-column>
-				<el-table-column label="商品标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="商品名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
