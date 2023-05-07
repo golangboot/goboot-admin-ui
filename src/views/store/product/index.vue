@@ -48,12 +48,12 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
-				<el-table-column label="商品标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="封面图片" prop="image" width="100">
+				<el-table-column label="商品图片" prop="image" width="100">
 					<template #default="scope">
 						<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
 					</template>
 				</el-table-column>
+				<el-table-column label="商品标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">

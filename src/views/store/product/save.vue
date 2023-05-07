@@ -8,8 +8,8 @@
 					</el-form-item>
 					<el-row :gutter="20">
 						<el-col :span="12">
-							<el-form-item label="封面图片" prop="image">
-								<sc-upload v-model="form.image" title="请上传封面图片"></sc-upload>
+							<el-form-item label="商品图片" prop="image">
+								<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
 							</el-form-item>
 						</el-col>
 					</el-row>
