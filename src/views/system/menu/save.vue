@@ -266,6 +266,7 @@
 			},
 			table_select(row, index){
 				console.log('table_select:', row,index)
+				this.$message("请手动输入参数, 弹框快捷选择接口功能开发中...")
 			},
 		}
 	}
