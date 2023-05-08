@@ -10,7 +10,7 @@ export default {
 		//Token令牌
 		token: token,
 		//是否已经登录
-		hasLogin: Boolean(Object.keys(token).length),
+		hasLogin: token && Boolean(Object.keys(token).length),
 	},
 	mutations: {
 		//登录
@@ -39,11 +39,11 @@ export default {
 					expires: autologin ? 24 * 60 * 60 : 0
 				})
 			}
-			if (data.userInfo){
+			if (data.userInfo) {
 				state.userInfo = data.userInfo
 				tool.data.set(config.DATA_CODE.USER_INFO, data.userInfo)
 			}
-			if (data.userinfo){
+			if (data.userinfo) {
 				state.userInfo = data.userinfo
 				tool.data.set(config.DATA_CODE.USER_INFO, data.userinfo)
 			}

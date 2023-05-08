@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'60%'" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
@@ -66,14 +66,29 @@
 						<el-col :lg="12" class="api-list">
 							<h2>Api接口权限</h2>
 							<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
-								<el-table-column prop="code" label="标识" width="150">
+								<el-table-column prop="url" label="请求接口">
+									<template #default="scope">
+										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>
+									</template>
+								</el-table-column>
+								<el-table-column prop="method" label="请求方法" width="150">
+									<template #default="scope">
+										<el-select v-model="scope.row.method" placeholder="">
+											<el-option v-for="item in methodOptions" :key="item.id" :label="item.label" :value="item.value"/>
+										</el-select>
+										<!-- <el-input v-model="scope.row.method" placeholder="请输入请求方法"></el-input> -->
+									</template>
+								</el-table-column>
+								<el-table-column prop="code" label="权限标识">
 									<template #default="scope">
 										<el-input v-model="scope.row.code" placeholder="请输入权限标识"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column prop="url" label="Api url">
+								<el-table-column label="操作" fixed="right" align="center" width="80">
 									<template #default="scope">
-										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>
+										<el-button-group>
+											<el-button text type="primary" size="small" @click="table_select(scope.row, scope.$index)">选择接口</el-button>
+										</el-button-group>
 									</template>
 								</el-table-column>
 							</sc-form-table>
@@ -144,7 +159,8 @@
 				},
 				apiListAddTemplate: {
 					code: "",
-					url: ""
+					url: "",
+					method: "",
 				},
 				menu: [],
 				menuOptions: [],
@@ -155,6 +171,17 @@
 					emitPath: false,
 					expandTrigger: "hover",
 				},
+				methodOptions: [
+					{label: "无", value: "",},
+					{label: "GET", value: "GET",},
+					{label: "POST", value: "POST",},
+					{label: "PUT", value: "PUT",},
+					{label: "DELETE", value: "DELETE",},
+					{label: "HEAD", value: "HEAD",},
+					{label: "PATCH", value: "PATCH",},
+					{label: "OPTIONS", value: "OPTIONS",},
+					{label: "TRACE", value: "TRACE",},
+				],
 			}
 		},
 		watch: {
@@ -236,7 +263,10 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-			}
+			},
+			table_select(row, index){
+				console.log('table_select:', row,index)
+			},
 		}
 	}
 </script>
