@@ -50,8 +50,10 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
-					<el-table-column label="权限名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="编码" prop="code" width="200"></el-table-column>
+					<el-table-column label="权限名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="编码" prop="code" width="200" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="请求接口" prop="url" width="200" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="请求方法" prop="method" width="100"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80">
 						<template #default="scope">

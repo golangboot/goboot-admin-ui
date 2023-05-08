@@ -7,6 +7,12 @@
 			<el-form-item label="权限编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="请求接口" prop="url">
+				<el-input v-model="form.url" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="请求方法" prop="method">
+				<el-input v-model="form.method" clearable></el-input>
+			</el-form-item>
 			<el-form-item label="父类" prop="parentId">
 				<el-cascader v-model="form.parentId" :options="permissionOptions" :props="permissionProps" :show-all-levels="true" :emitPath="false" placeholder="请选择父类" style="width:100%" filterable clearable></el-cascader>
 			</el-form-item>
