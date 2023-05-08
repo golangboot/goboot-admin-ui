@@ -3,7 +3,7 @@ import http from "@/utils/request"
 
 export default {
 	version: {
-		url: `${config.API_URL}/app`,
+		url: `${config.API_URL}/common/app`,
 		name: "版本信息",
 		get: async function(){
 			return await http.get(this.url);
