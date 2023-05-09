@@ -291,7 +291,7 @@
 				})
 			},
 			selectRouteSubmit(data){
-				console.log('selectRouteSubmit:', data)
+				// console.log('selectRouteSubmit:', data)
 				let index = data.index;
 				// let row = data.row;
 				delete data.index

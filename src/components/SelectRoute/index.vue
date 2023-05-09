@@ -22,12 +22,34 @@
 				</div>
 			</div>
 		</div>
+
+		<el-dialog :title="'请确认API接口'" v-model="visible" destroy-on-close>
+			<el-form :model="form" ref="dialogForm" label-width="100px" label-position="right">
+				<el-form-item label="接口地址" prop="url">
+					<el-select v-model="form.url" filterable style="width: 100%">
+						<el-option v-for="(item, index) in selectData.patterns" :key="index" :label="item" :value="item"/>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="请求方式" prop="method" v-if="selectData.methods && selectData.methods.length > 0">
+					<el-radio-group v-model="form.method">
+						<el-radio v-for="(item, index) in selectData.methods" :key="index" :label="item">{{ item }}</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="权限标识" prop="code">
+					<el-input v-model="form.code" clearable placeholder="请输入权限标识"></el-input>
+				</el-form-item>
+			</el-form>
+			<template #footer>
+				<el-button @click="visible=false" >取 消</el-button>
+				<el-button type="primary" :loading="isSaving" @click="submit()">确 定</el-button>
+			</template>
+		</el-dialog>
+
 		<template #footer>
 			<el-button @click="dialogVisible=false" >取 消</el-button>
 			<!-- <el-button type="primary" :loading="isSaving" @click="submit()">确 定</el-button> -->
 		</template>
 	</el-dialog>
-
 </template>
 
 <script>
@@ -38,6 +60,7 @@ export default {
 		return {
 			dialogVisible: false,
 			isSaving: false,
+			visible: false,
 			//表单数据
 			form: {
 				url: "",
@@ -52,8 +75,22 @@ export default {
 			},
 			data: [],
 			filterData: [],
-			searchText: ""
+			searchText: "",
+			selectData: {},
 		}
+	},
+	watch: {
+		form: {
+			handler(){
+				// 处理标识
+				if (this.form.url){
+					const regex = /\/|{|}/g;
+					const regexTrim = /^:|:$/g;
+					this.form.code = this.form.url.replace(regex, ":").replace(regexTrim, "")
+				}
+			},
+			deep: true
+		},
 	},
 	mounted() {
 		this.getData()
@@ -75,15 +112,16 @@ export default {
 			}
 
 			// 处理标识
-			if (this.form.url){
+			/*if (this.form.url){
 				const regex = /\/|{|}/g;
 				const regexTrim = /^:|:$/g;
 				this.form.code = this.form.url.replace(regex, ":").replace(regexTrim, "")
-			}
+			}*/
 
 			this.$emit('submit', this.form);
 			this.$nextTick(() => {
 				this.dialogVisible = false
+				this.visible = false
 				this.clear()
 			});
 		},
@@ -101,28 +139,27 @@ export default {
 			this.isSaving = false
 		},
 		select(data) {
-			console.log('select:', data)
-
-			if (data.patterns && data.patterns.length > 1){
-				this.selectData()
-				return
-			}
-			if (data.methods && data.methods.length > 1){
-				this.selectData()
-				return
-			}
-
+			// console.log('select:', data)
 			this.form.url = data.patterns[0] || ''
 			this.form.method = data.methods[0] || ''
 			this.form.code = data.patterns[0] || ''
-
+			if (data.patterns && data.patterns.length > 1){
+				this.selectDataDialog(data)
+				return
+			}
+			if (data.methods && data.methods.length > 1){
+				this.selectDataDialog(data)
+				return
+			}
 			this.submit()
 		},
-		selectData(data){
-			console.log('selectData:', data)
-			this.$message("请选择数据...")
-
-			// this.submit()
+		selectDataDialog(data){
+			// console.log('selectDataDialog:', data)
+			// this.$message("请选择数据...")
+			this.selectData = data
+			this.$nextTick(() => {
+				this.visible = true
+			});
 		},
 		clear(){
 			this.searchText = ""
@@ -217,7 +254,7 @@ export default {
 }
 
 .select-route-item div {
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 	white-space: normal;
 	word-break: break-all;
 }
