@@ -22,17 +22,18 @@
 			<div class="right-panel">
 				<div class="right-panel-search">
 					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
-						<el-form-item label="商品分类：" prop="categoryId">
+						<el-form-item label="分类：" prop="categoryId">
 							<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps"
 								:show-all-levels="true" :emitPath="false" placeholder="请选择商品分类" clearable
 								filterable></el-cascader>
 						</el-form-item>
-						<el-form-item label="商品品牌：" prop="brandId">
+						<el-form-item label="品牌：" prop="brandId">
 							<sc-select-plus v-model="search.brandId" :apiObj="brandSelect.apiObj"
-								:params="brandSelect.params" :props="brandSelect.props" clearable filterable>
+								:params="brandSelect.params" :props="brandSelect.props" clearable
+								filterable style="width: 160px;">
 							</sc-select-plus>
 						</el-form-item>
-						<el-form-item label="商品搜索：" prop="keyword">
+						<el-form-item label="搜索：" prop="keyword">
 							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
 						</el-form-item>
 						<el-form-item>
@@ -48,9 +49,11 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
-				<el-table-column label="商品图片" prop="image" width="100">
+				<el-table-column label="商品图片" prop="image" width="80">
 					<template #default="scope">
-						<el-avatar :src="scope.row.image" shape="square" size="default"></el-avatar>
+						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+							<el-image class="image" :src="scope.row.image" v-if="scope.row.image" fit="cover" :preview-src-list="[scope.row.image]" hide-on-click-modal preview-teleported></el-image>
+						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="商品名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>

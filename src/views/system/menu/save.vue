@@ -80,11 +80,20 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="code" label="权限标识">
+									<template #header="{ label }">
+										<span>{{ label }}&nbsp;</span>
+										<span>
+											<el-tooltip>
+												<template #content>属性选择类型为唯一或文本时，属性值录入方式需要设置为手工录入</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
 									<template #default="scope">
 										<el-input v-model="scope.row.code" placeholder="请输入权限标识"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column label="操作" fixed="right" align="center" width="80">
+								<el-table-column label="操作" fixed="right" align="center" width="100">
 									<template #default="scope">
 										<el-button-group>
 											<el-button text type="primary" size="small" @click="table_select(scope.row, scope.$index)">选择接口</el-button>

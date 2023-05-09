@@ -34,6 +34,10 @@
 		</el-aside>
 		<el-container class="is-vertical">
 			<el-header>
+				<el-alert title="Permission权限属于上个世纪的产物了，已经不再推荐使用了，权限需求请进入菜单管理[Api接口权限]，当前系统集成只是为了兼容特殊需求。" type="warning" show-icon />
+			</el-header>
+
+			<el-header>
 				<div class="left-panel">
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
