@@ -462,6 +462,15 @@ export default {
 			}
 		},
 	},
+	route: {
+		list: {
+			url: `${config.API_URL}/sys/route/list`,
+			name: "列表",
+			get: async function(params){
+				return await http.get(this.url, params);
+			}
+		},
+	},
 	log: {
 		list: {
 			url: `${config.API_URL}/sys/log`,

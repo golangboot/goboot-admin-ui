@@ -71,12 +71,12 @@
 										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column prop="method" label="请求方法" width="150">
+								<el-table-column prop="method" label="请求方式" width="150">
 									<template #default="scope">
 										<el-select v-model="scope.row.method" placeholder="">
 											<el-option v-for="item in methodOptions" :key="item.id" :label="item.label" :value="item.value"/>
 										</el-select>
-										<!-- <el-input v-model="scope.row.method" placeholder="请输入请求方法"></el-input> -->
+										<!-- <el-input v-model="scope.row.method" placeholder="请输入请求方式"></el-input> -->
 									</template>
 								</el-table-column>
 								<el-table-column prop="code" label="权限标识">
