@@ -68,6 +68,12 @@ export default {
 			// this.form.method = "GET"
 			// this.form.code = "api:sys:test"
 
+			let str = this.form.url
+			if (typeof str !== "undefined" && str !== null && typeof str.trim === "function" && str.trim() === "") {
+				// console.log("str is empty");
+				this.$alert("URL为空，请选择正确的API接口", "提示", {type: 'error'})
+			}
+
 			// 处理标识
 			if (this.form.url){
 				const regex = /\/|{|}/g;
