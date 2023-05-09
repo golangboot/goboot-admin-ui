@@ -80,11 +80,11 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="code" label="权限标识">
-									<template #header="{ label }">
-										<span>{{ label }}&nbsp;</span>
+									<template #header="{ column }">
+										<span>{{ column.label }}&nbsp;</span>
 										<span>
 											<el-tooltip>
-												<template #content>属性选择类型为唯一或文本时，属性值录入方式需要设置为手工录入</template>
+												<template #content>权限标识留空, 则表示该接口无需授权</template>
 												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
@@ -118,15 +118,20 @@
 				<el-button @click="visible=false">取 消</el-button>
 			</el-footer>
 		</el-container>
+
+		<select-route ref="selectRoute" @submit="selectRouteSubmit"></select-route>
 	</el-drawer>
 </template>
 
 <script>
 	import scIconSelect from '@/components/scIconSelect'
+	import SelectRoute from '@/components/SelectRoute'
+
 	export default {
 		emits: ['success', 'closed'],
 		components: {
 			scIconSelect,
+			SelectRoute,
 		},
 		data() {
 			return {
@@ -138,6 +143,7 @@
 				},
 				visible: false,
 				isSaving: false,
+				loading: false,
 				//表单数据
 				form: {
 					id: "",
@@ -274,8 +280,18 @@
 				}
 			},
 			table_select(row, index){
-				console.log('table_select:', row,index)
-				this.$message("请手动输入参数, 弹框快捷选择接口功能开发中...")
+				// console.log('table_select:', row,index)
+				// this.$message("请手动输入参数, 弹框快捷选择接口功能开发中...")
+				this.$nextTick(() => {
+					let data = {
+						row: row,
+						index: index,
+					}
+					this.$refs.selectRoute.open().setData(data)
+				})
+			},
+			selectRouteSubmit(data){
+				console.log('selectRouteSubmit:', data)
 			},
 		}
 	}
