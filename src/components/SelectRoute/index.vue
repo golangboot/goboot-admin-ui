@@ -37,6 +37,9 @@ export default {
 			return this
 		},
 		submit(){
+			this.form.url = "/api/sys/test"
+			this.form.method = "GET"
+			this.form.code = "api:sys:test"
 			this.$emit('submit', this.form);
 			this.dialogVisible = false
 		},

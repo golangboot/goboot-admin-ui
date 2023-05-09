@@ -292,6 +292,11 @@
 			},
 			selectRouteSubmit(data){
 				console.log('selectRouteSubmit:', data)
+				let index = data.index;
+				// let row = data.row;
+				delete data.index
+				delete data.row
+				this.form.apiList[index] = data
 			},
 		}
 	}
