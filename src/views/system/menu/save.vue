@@ -71,7 +71,7 @@
 										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column prop="method" label="请求方式" width="150">
+								<el-table-column prop="method" label="请求方式" width="135">
 									<template #default="scope">
 										<el-select v-model="scope.row.method" placeholder="">
 											<el-option v-for="item in methodOptions" :key="item.id" :label="item.label" :value="item.value"/>
@@ -96,7 +96,7 @@
 								<el-table-column label="操作" fixed="right" align="center" width="100">
 									<template #default="scope">
 										<el-button-group>
-											<el-button text type="primary" size="small" @click="table_select(scope.row, scope.$index)">选择接口</el-button>
+											<el-button text type="primary" size="small" @click="table_select(scope.row, scope.$index)">快捷选择</el-button>
 										</el-button-group>
 									</template>
 								</el-table-column>

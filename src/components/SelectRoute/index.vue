@@ -64,11 +64,22 @@ export default {
 			return this
 		},
 		submit(){
-			this.form.url = "/api/sys/test"
-			this.form.method = "GET"
-			this.form.code = "api:sys:test"
+			// this.form.url = "/api/sys/test"
+			// this.form.method = "GET"
+			// this.form.code = "api:sys:test"
+
+			// 处理标识
+			if (this.form.url){
+				const regex = /\/|{|}/g;
+				const regexTrim = /^:|:$/g;
+				this.form.code = this.form.url.replace(regex, ":").replace(regexTrim, "")
+			}
+
 			this.$emit('submit', this.form);
-			this.dialogVisible = false
+			this.$nextTick(() => {
+				this.dialogVisible = false
+				this.clear()
+			});
 		},
 		setData(data){
 			Object.assign(this.form, data)
@@ -85,10 +96,27 @@ export default {
 		},
 		select(data) {
 			console.log('select:', data)
-			// this.$emit('selectRule', data);
-			// this.$nextTick((e) => {
-			// 	this.ruleModal = false;
-			// });
+
+			if (data.patterns && data.patterns.length > 1){
+				this.selectData()
+				return
+			}
+			if (data.methods && data.methods.length > 1){
+				this.selectData()
+				return
+			}
+
+			this.form.url = data.patterns[0] || ''
+			this.form.method = data.methods[0] || ''
+			this.form.code = data.patterns[0] || ''
+
+			this.submit()
+		},
+		selectData(data){
+			console.log('selectData:', data)
+			this.$message("请选择数据...")
+
+			// this.submit()
 		},
 		clear(){
 			this.searchText = ""
