@@ -17,9 +17,11 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="评论内容" prop="content" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="评论图片" prop="image" width="100">
+				<el-table-column label="图片" prop="image" width="100">
 					<template #default="scope">
-						<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
+						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+							<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
+						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

@@ -17,6 +17,9 @@
 			<el-form-item label="文章内容" prop="content">
 				<el-input v-model="form.content" clearable type="textarea"></el-input>
 			</el-form-item>
+			<el-form-item label="用户" prop="userId">
+				<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -32,8 +35,13 @@
 </template>
 
 <script>
+	import SelectRemote from "@/components/SelectRemote";
+
 	export default {
 		emits: ['success', 'closed'],
+		components:{
+			SelectRemote,
+		},
 		data() {
 			return {
 				mode: "add",
@@ -59,6 +67,33 @@
 					name: [
 						{required: true, message: '请输入文章名称'}
 					],
+				},
+				userSelect: {
+					// api接口
+					apiObj: this.$API.user.user.list,
+					// 参数(搜索关键字为空时生效)
+					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+					// 解析数据
+					parseData: function (res) {
+						return {
+							data: res.data.records || res.data,
+							msg: res.message,
+							code: res.code
+						}
+					},
+					// 解析数据字段
+					parseDataField: function (item) {
+						return {
+							label: item.username || item.nickname || item.mobile || item.email,
+							value: item.id,
+						}
+					},
 				},
 			}
 		},

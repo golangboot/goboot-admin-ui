@@ -1,13 +1,13 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="评论内容" prop="content">
-				<el-input v-model="form.content" clearable type="textarea"></el-input>
+			<el-form-item label="订单名称" prop="name">
+				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="评论图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传文章评论图片"></sc-upload>
+					<el-form-item label="LOGO" prop="image">
+						<sc-upload v-model="form.image" title="请上传LOGO"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -19,6 +19,9 @@
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>
+			<el-form-item label="备注" prop="remark">
+				<el-input v-model="form.remark" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -59,7 +62,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入文章评论名称'}
+						{required: true, message: '请输入订单名称'}
 					],
 				},
 				userSelect: {
@@ -107,9 +110,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.cms.articleComment.update.put(this.form)
+							res = await this.$API.store.order.update.put(this.form)
 						} else {
-							res = await this.$API.cms.articleComment.add.post(this.form)
+							res = await this.$API.store.order.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -129,7 +132,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.articleComment.detail.get(reqData)
+					let res = await this.$API.store.order.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

@@ -164,8 +164,10 @@
 				userSelect: {
 					// api接口
 					apiObj: this.$API.user.user.list,
-					// 搜索参数(搜索关键词为空时生效)
+					// 参数(搜索关键字为空时生效)
 					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
 					// 属性字段
 					props: {
 						keyword: 'keyword',

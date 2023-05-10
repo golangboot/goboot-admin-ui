@@ -50,14 +50,18 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="文章分类名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="分类图标" prop="icon" width="100">
+					<el-table-column label="图标" prop="icon" width="100">
 						<template #default="scope">
-							<el-avatar :src="scope.row.icon" v-if="scope.row.icon" shape="square" size="default"></el-avatar>
+							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+								<el-image class="image" :src="scope.row.icon" :preview-src-list="[scope.row.icon]" v-if="scope.row.icon" fit="cover" hide-on-click-modal preview-teleported></el-image>
+							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="分类图片" prop="image" width="100">
+					<el-table-column label="图片" prop="image" width="100">
 						<template #default="scope">
-							<el-avatar :src="scope.row.image" v-if="scope.row.image" shape="square" size="default"></el-avatar>
+							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+								<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
+							</div>
 						</template>
 					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
