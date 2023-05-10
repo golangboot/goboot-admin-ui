@@ -66,9 +66,9 @@
 											<SkuForm
 												ref="skuForm"
 												:source-attribute="sourceAttribute"
-												:structure="structure"
-												:attribute="attribute"
-												:sku="sku"
+												:structure="structures"
+												:attribute="attributes"
+												:sku="skus"
 											>
 												<template #score="slotProps">
 													<div>
@@ -87,12 +87,12 @@
 											</SkuForm>
 											<el-row type="flex" :gutter="20">
 												<el-col>
-													<el-divider content-position="left">attribute 数据</el-divider>
-													<pre><code>{{ attribute }}</code></pre>
+													<el-divider content-position="left">attributes 数据</el-divider>
+													<pre><code>{{ attributes }}</code></pre>
 												</el-col>
 												<el-col>
-													<el-divider content-position="left">sku 数据</el-divider>
-													<pre><code>{{ sku }}</code></pre>
+													<el-divider content-position="left">skus 数据</el-divider>
+													<pre><code>{{ skus }}</code></pre>
 												</el-col>
 											</el-row>
 										</div>
@@ -218,7 +218,7 @@
 						item: ['16G', '32G']
 					}
 				],
-				structure: [
+				structures: [
 					{
 						name: 'price',
 						type: 'input',
@@ -242,8 +242,8 @@
 						required: true
 					}
 				],
-				attribute: [],
-				sku: [],
+				attributes: [],
+				skus: [],
 			}
 		},
 		watch: {
