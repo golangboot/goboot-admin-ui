@@ -7,9 +7,6 @@
 			<el-form-item label="角色编码" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="标签" prop="label">
-				<el-input v-model="form.label" placeholder="请输入标签（用于分组显示）" clearable></el-input>
-			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
