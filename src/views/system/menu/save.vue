@@ -119,19 +119,19 @@
 			</el-footer>
 		</el-container>
 
-		<select-route ref="selectRoute" @submit="selectRouteSubmit"></select-route>
+		<api-route-select ref="selectRoute" @submit="selectRouteSubmit"></api-route-select>
 	</el-drawer>
 </template>
 
 <script>
 	import scIconSelect from '@/components/scIconSelect'
-	import SelectRoute from '@/components/SelectRoute'
+	import ApiRouteSelect from '@/components/ApiRouteSelect'
 
 	export default {
 		emits: ['success', 'closed'],
 		components: {
 			scIconSelect,
-			SelectRoute,
+			ApiRouteSelect,
 		},
 		data() {
 			return {

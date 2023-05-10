@@ -35,18 +35,18 @@
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 
-		<select-route ref="selectRoute" @submit="selectRouteSubmit"></select-route>
+		<api-route-select ref="selectRoute" @submit="selectRouteSubmit"></api-route-select>
 
 	</el-dialog>
 </template>
 
 <script>
-	import SelectRoute from '@/components/SelectRoute'
+	import ApiRouteSelect from '@/components/ApiRouteSelect'
 
 	export default {
 		emits: ['success', 'closed'],
 		components: {
-			SelectRoute,
+			ApiRouteSelect,
 		},
 		data() {
 			return {

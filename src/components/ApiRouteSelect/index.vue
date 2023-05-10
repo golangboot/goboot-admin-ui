@@ -54,7 +54,7 @@
 
 <script>
 export default {
-	name: "SelectRoute",
+	name: "ApiRouteSelect",
 	emits: ['success', 'closed'],
 	data() {
 		return {
