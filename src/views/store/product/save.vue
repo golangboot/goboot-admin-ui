@@ -10,9 +10,19 @@
 								<el-form-item label="商品分类" prop="categoryId">
 									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
 								</el-form-item>
-								<el-form-item label="商品品牌" prop="brandId">
-									<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable style="width:100%"></select-remote>
-								</el-form-item>
+
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="商品品牌" prop="brandId">
+											<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable style="width:100%"></select-remote>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+										<el-form-item label="销售单位" prop="saleUnitId">
+											<select-remote v-model="form.saleUnitId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable style="width:100%"></select-remote>
+										</el-form-item>
+									</el-col>
+								</el-row>
 
 								<el-form-item label="商品名称" prop="name">
 									<el-input v-model="form.name" clearable></el-input>
@@ -173,6 +183,18 @@
 						keyword: 'keyword',
 					},
 				},
+				saleUnitSelect: {
+					// api接口
+					apiObj: this.$API.store.saleUnit.list,
+					// 参数(搜索关键字为空时生效)
+					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+				},
 				sourceAttribute: [
 					{
 						name: '颜色',
@@ -214,9 +236,13 @@
 		watch: {
 			form: {
 				handler(){
-					// 处理标识
+					// 处理品牌搜索条件
 					if (this.form.categoryId){
 						this.brandSelect.search.categoryId = this.form.categoryId
+					}
+					// 处理销售单位搜索条件
+					if (this.form.categoryId){
+						this.saleUnitSelect.search.categoryId = this.form.categoryId
 					}
 				},
 				deep: true
