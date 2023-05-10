@@ -4,7 +4,7 @@
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-				<el-button type="primary" plain :disabled="selection.length!=1" @click="permission">权限设置</el-button>
+				<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="permission">权限设置</el-button> -->
 				<el-button type="primary" plain @click="syncRole">同步系统内置角色</el-button>
 			</div>
 			<div class="right-panel">
@@ -28,9 +28,10 @@
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
 				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="170">
+				<el-table-column label="操作" fixed="right" align="right" width="250">
 					<template #default="scope">
 						<el-button-group>
+							<el-button text type="primary" size="small" @click="table_permission(scope.row, scope.$index)">权限设置</el-button>
 							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
 							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
 							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
