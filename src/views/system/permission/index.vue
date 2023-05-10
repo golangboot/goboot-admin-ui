@@ -34,7 +34,7 @@
 		</el-aside>
 		<el-container class="is-vertical">
 			<el-header>
-				<el-alert title="Permission权限属于上个世纪的产物了，已经不再推荐使用了，权限需求请进入菜单管理[Api接口权限]，当前系统集成只是为了兼容特殊需求。" type="warning" show-icon />
+				<!-- <el-alert title="Permission权限属于上个世纪的产物了，已经不再推荐使用了，权限需求请进入菜单管理[Api接口权限]，当前系统集成只是为了兼容特殊需求。" type="warning" show-icon /> -->
 			</el-header>
 
 			<el-header>
@@ -55,7 +55,7 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="权限名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="编码" prop="code" width="200" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="权限标识" prop="code" width="200" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="请求接口" prop="url" width="200" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="请求方法" prop="method" width="100"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

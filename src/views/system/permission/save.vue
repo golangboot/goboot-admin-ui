@@ -4,11 +4,15 @@
 			<el-form-item label="权限名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="权限编码" prop="code">
+			<el-form-item label="权限标识" prop="code">
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="请求接口" prop="url">
-				<el-input v-model="form.url" clearable></el-input>
+				<el-input v-model="form.url" clearable>
+					<template #append>
+						<el-button type="primary" icon="el-icon-menu" @click="select"></el-button>
+					</template>
+				</el-input>
 			</el-form-item>
 			<el-form-item label="请求方法" prop="method">
 				<el-input v-model="form.method" clearable></el-input>
@@ -30,12 +34,20 @@
 			<el-button @click="visible=false" >取 消</el-button>
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
+
+		<select-route ref="selectRoute" @submit="selectRouteSubmit"></select-route>
+
 	</el-dialog>
 </template>
 
 <script>
+	import SelectRoute from '@/components/SelectRoute'
+
 	export default {
 		emits: ['success', 'closed'],
+		components: {
+			SelectRoute,
+		},
 		data() {
 			return {
 				mode: "add",
@@ -54,7 +66,7 @@
 					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
 				},
 				//验证规则
 				rules: {
@@ -62,8 +74,8 @@
 						{required: true, message: '请输入权限名称'}
 					],
 					code: [
-						{required: true, message: '请输入权限编码'}
-					]
+						{required: true, message: '请输入权限标识'}
+					],
 				},
 				permissionOptions: [],
 				permissionProps: {
@@ -123,7 +135,17 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-			}
+			},
+			select(){
+				this.$nextTick(() => {
+					let data = {}
+					this.$refs.selectRoute.open().setData(data)
+				})
+			},
+			selectRouteSubmit(data){
+				// console.log('selectRouteSubmit:', data)
+				Object.assign(this.form, data)
+			},
 		}
 	}
 </script>

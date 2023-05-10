@@ -93,10 +93,10 @@
 										<el-input v-model="scope.row.code" placeholder="请输入权限标识"></el-input>
 									</template>
 								</el-table-column>
-								<el-table-column label="操作" fixed="right" align="center" width="100">
+								<el-table-column label="操作" fixed="right" align="center" width="80">
 									<template #default="scope">
 										<el-button-group>
-											<el-button text type="primary" size="small" @click="table_select(scope.row, scope.$index)">快捷选择</el-button>
+											<el-button type="primary" icon="el-icon-menu" size="small" @click="table_select(scope.row, scope.$index)"></el-button>
 										</el-button-group>
 									</template>
 								</el-table-column>

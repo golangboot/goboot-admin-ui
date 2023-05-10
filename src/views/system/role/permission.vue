@@ -1,14 +1,14 @@
 <template>
 	<el-dialog title="角色权限设置" v-model="visible" :width-invalid="'80%'" :height-invalid="'80%'" destroy-on-close @closed="$emit('closed')">
 		<el-tabs tab-position="top">
-			<el-tab-pane label="权限">
-				<div class="treeMain">
-					<el-tree ref="permission" node-key="id" :data="permission.list" :props="permission.props" show-checkbox></el-tree>
-				</div>
-			</el-tab-pane>
 			<el-tab-pane label="菜单">
 				<div class="treeMain">
 					<el-tree ref="menu" node-key="id" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="权限">
+				<div class="treeMain">
+					<el-tree ref="permission" node-key="id" :data="permission.list" :props="permission.props" show-checkbox></el-tree>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="数据权限">

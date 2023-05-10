@@ -84,9 +84,7 @@ export default {
 			handler(){
 				// 处理标识
 				if (this.form.url){
-					const regex = /\/|{|}/g;
-					const regexTrim = /^:|:$/g;
-					this.form.code = this.form.url.replace(regex, ":").replace(regexTrim, "")
+					this.form.code = this.handleCode(this.form.url)
 				}
 			},
 			deep: true
@@ -112,11 +110,9 @@ export default {
 			}
 
 			// 处理标识
-			/*if (this.form.url){
-				const regex = /\/|{|}/g;
-				const regexTrim = /^:|:$/g;
-				this.form.code = this.form.url.replace(regex, ":").replace(regexTrim, "")
-			}*/
+			if (this.form.url){
+				this.form.code = this.handleCode(this.form.url)
+			}
 
 			this.$emit('submit', this.form);
 			this.$nextTick(() => {
@@ -127,6 +123,16 @@ export default {
 		},
 		setData(data){
 			Object.assign(this.form, data)
+		},
+		//处理CODE标识
+		handleCode(url) {
+			if (url) {
+				// const regex = /\/|{|}/g;
+				const regex = /\/|{|}|\.|-/g;
+				const regexTrim = /^:|:$/g;
+				return url.replace(regex, ":").replace(regexTrim, "")
+			}
+			return url
 		},
 		//获取列表数据
 		async getData(){
