@@ -17,6 +17,7 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 				<el-table-column label="文章标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="文章简介" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="封面图片" prop="image" width="100">
 					<template #default="scope">
 						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">

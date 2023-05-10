@@ -1,8 +1,11 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="商家名称" prop="name">
+			<el-form-item label="店铺名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="店铺描述" prop="description">
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
@@ -11,6 +14,16 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-form-item label="店铺类型" prop="type">
+				<el-radio-group v-model="form.type">
+					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
+			<el-form-item label="自营店铺" prop="isSelf">
+				<el-radio-group v-model="form.isSelf">
+					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
 			<el-form-item label="用户" prop="userId">
 				<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
 			</el-form-item>
@@ -57,12 +70,13 @@
 					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
+					isSelf: 0,
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入商家名称'}
+						{required: true, message: '请输入店铺名称'}
 					],
 				},
 				userSelect: {
@@ -92,6 +106,14 @@
 						}
 					},
 				},
+				typeOptions: [
+					{label: "普通店铺", value: 0,},
+					{label: "旗舰店", value: 1,},
+				],
+				isSelfOptions: [
+					{label: "否", value: 0,},
+					{label: "是", value: 1,},
+				],
 			}
 		},
 		mounted() {

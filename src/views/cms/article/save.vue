@@ -4,6 +4,9 @@
 			<el-form-item label="文章标题" prop="title">
 				<el-input v-model="form.title" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="文章简介" prop="description">
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="封面图片" prop="image">
