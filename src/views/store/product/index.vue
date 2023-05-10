@@ -1,8 +1,8 @@
 <template>
 	<el-container>
 		<el-header class="header-tabs">
-			<el-tabs type="card" v-model="groupId" @tab-change="tabChange">
-				<el-tab-pane label="全部商品" name="0"></el-tab-pane>
+			<el-tabs type="card" v-model="search.groupId" @tab-change="tabChange">
+				<el-tab-pane label="全部商品" name=""></el-tab-pane>
 				<el-tab-pane label="自营商品" name="1"></el-tab-pane>
 				<el-tab-pane label="第三方商品" name="2"></el-tab-pane>
 				<el-tab-pane label="回收站商品" name="3"></el-tab-pane>
@@ -117,8 +117,8 @@ export default {
 				categoryId: null,
 				brandId: null,
 				merchantId: null,
+				groupId: "",
 			},
-			groupId: "0",
 			filterData: [
 				{
 					title: "商品类型",
