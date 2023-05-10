@@ -238,7 +238,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.file.file.delete.delete(reqData);
+				var res = await this.$API.file.fileDetail.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -353,7 +353,7 @@
 						// ids: this.selection.map(v => v.id),
 						ids: ids,
 					}
-					let res = await this.$API.file.file.delete.delete(reqData)
+					let res = await this.$API.file.fileDetail.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 					}
