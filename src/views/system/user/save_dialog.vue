@@ -129,7 +129,8 @@
 					value: "id",
 					label: 'name',
 					multiple: true,
-					checkStrictly: true
+					checkStrictly: true,
+					expandTrigger: "hover",
 				},
 			}
 		},

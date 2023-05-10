@@ -61,7 +61,8 @@
 					value: "id",
 					label: 'name',
 					emitPath: false,
-					checkStrictly: true
+					checkStrictly: true,
+					expandTrigger: "hover",
 				}
 			}
 		},

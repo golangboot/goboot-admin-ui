@@ -3,63 +3,96 @@
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
-					<el-form-item label="商品名称" prop="name">
-						<el-input v-model="form.name" clearable></el-input>
-					</el-form-item>
-					<el-row :gutter="20">
-						<el-col :span="12">
-							<el-form-item label="商品图片" prop="image">
-								<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-form-item label="商品内容" prop="content">
-						<el-input v-model="form.content" clearable type="textarea"></el-input>
-					</el-form-item>
-					<el-form-item label="排序" prop="sort">
-						<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
-					</el-form-item>
-					<el-form-item label="是否有效" prop="status">
-						<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
-					</el-form-item>
-					<el-row :gutter="20">
-						<el-col :span="24">
-							<div>
-								<SkuForm
-									ref="skuForm"
-									:source-attribute="sourceAttribute"
-									:structure="structure"
-									:attribute="attribute"
-									:sku="sku"
-								>
-									<template #score="slotProps">
-										<div>
-											<el-rate v-model="slotProps.row.score" />
-										</div>
-									</template>
-									<template #image="slotProps">
-										<div class="image-upload-container">
-											<el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
-											<el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
-												<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
-											</el-upload>
-											<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
-										</div>
-									</template>
-								</SkuForm>
-								<el-row type="flex" :gutter="20">
-									<el-col>
-										<el-divider content-position="left">attribute 数据</el-divider>
-										<pre><code>{{ attribute }}</code></pre>
-									</el-col>
-									<el-col>
-										<el-divider content-position="left">sku 数据</el-divider>
-										<pre><code>{{ sku }}</code></pre>
+					<el-card shadow="never">
+						<el-tabs tab-position="top">
+							<el-tab-pane label="基础信息">
+
+								<el-form-item label="商品分类" prop="categoryId">
+									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
+								</el-form-item>
+
+								<el-form-item label="商品名称" prop="name">
+									<el-input v-model="form.name" clearable></el-input>
+								</el-form-item>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="商品图片" prop="image">
+											<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
+										</el-form-item>
 									</el-col>
 								</el-row>
-							</div>
-						</el-col>
-					</el-row>
+
+								<el-form-item label="排序" prop="sort">
+									<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+								</el-form-item>
+
+								<el-form-item label="商品状态" prop="status">
+									<el-radio-group v-model="form.status">
+										<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-tab-pane>
+
+							<el-tab-pane label="规格库存">
+								<el-row :gutter="20">
+									<el-col :span="24">
+										<div>
+											<SkuForm
+												ref="skuForm"
+												:source-attribute="sourceAttribute"
+												:structure="structure"
+												:attribute="attribute"
+												:sku="sku"
+											>
+												<template #score="slotProps">
+													<div>
+														<el-rate v-model="slotProps.row.score" />
+													</div>
+												</template>
+												<template #image="slotProps">
+													<div class="image-upload-container">
+														<el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
+														<el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
+															<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
+														</el-upload>
+														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
+													</div>
+												</template>
+											</SkuForm>
+											<el-row type="flex" :gutter="20">
+												<el-col>
+													<el-divider content-position="left">attribute 数据</el-divider>
+													<pre><code>{{ attribute }}</code></pre>
+												</el-col>
+												<el-col>
+													<el-divider content-position="left">sku 数据</el-divider>
+													<pre><code>{{ sku }}</code></pre>
+												</el-col>
+											</el-row>
+										</div>
+									</el-col>
+								</el-row>
+							</el-tab-pane>
+
+							<el-tab-pane label="商品详情">
+								<el-form-item label="商品内容" prop="content">
+									<el-input v-model="form.content" clearable type="textarea"></el-input>
+								</el-form-item>
+							</el-tab-pane>
+
+							<el-tab-pane label="物流设置">
+
+							</el-tab-pane>
+
+							<el-tab-pane label="营销设置">
+
+							</el-tab-pane>
+
+							<el-tab-pane label="其他设置">
+
+							</el-tab-pane>
+						</el-tabs>
+					</el-card>
 				</el-form>
 			</el-main>
 			<el-footer>
@@ -101,7 +134,23 @@
 					name: [
 						{required: true, message: '请输入商品名称'}
 					],
+					categoryId: [
+						{ required: true, message: '请选择商品分类', trigger: 'change'}
+					],
 				},
+				treeOptions: [],
+				treeProps: {
+					value: 'id',
+					label: 'name',
+					// checkStrictly: true,
+					checkStrictly: false, // 只能选择叶子节点(最后一级分类)
+					emitPath: false,
+					expandTrigger: "hover",
+				},
+				statusOptions: [
+					{label: "上架", value: 1,},
+					{label: "下架", value: 0,},
+				],
 				sourceAttribute: [
 					{
 						name: '颜色',
@@ -141,6 +190,7 @@
 			}
 		},
 		mounted() {
+			this.getTreeList()
 		},
 		methods: {
 			//显示
@@ -184,7 +234,11 @@
 					this.form = res.data
 				}
 				this.loading = false
-			}
+			},
+			async getTreeList() {
+				let res = await this.$API.store.category.tree.get();
+				this.treeOptions = res.data
+			},
 		}
 	}
 </script>

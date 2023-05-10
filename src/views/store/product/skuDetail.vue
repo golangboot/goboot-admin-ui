@@ -15,7 +15,7 @@
 				<upload-image :limit="5"  :key="timer" :filelist="ruleForm.sliderImage"  @getfile="fileListArr"></upload-image>
 			</el-form-item>
 			<el-form-item label="商品分类:" >
-				<el-cascader ref="myCascader"  style="width:360px" @change="getpositionName" v-model="ruleForm.cateId" :options="options" placeholder="请选择分类" :props="{ emitPath:false,checkStrictly: true,value:'id',label:'name'}"  class="ml-4"></el-cascader>
+				<el-cascader ref="myCascader" style="width:360px" @change="getpositionName" v-model="ruleForm.cateId" :options="options" placeholder="请选择分类" :props="{ emitPath:false,checkStrictly: true,value:'id',label:'name'}"  class="ml-4"></el-cascader>
 			</el-form-item>
 			<el-form-item label="商品名称:" >
 				<el-input v-model="ruleForm.storeName"></el-input>

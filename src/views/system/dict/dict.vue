@@ -16,7 +16,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="父路径" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="true" :emitPath="false" style="width:100%" filterable clearable></el-cascader>
+				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="true" style="width:100%" filterable clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>

@@ -12,7 +12,7 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="上级分类" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="true" :emitPath="false" style="width:100%" placeholder="请选择分类" clearable filterable></el-cascader>
+				<el-cascader v-model="form.parentId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择分类" clearable filterable></el-cascader>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>

@@ -23,9 +23,7 @@
 				<div class="right-panel-search">
 					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
 						<el-form-item label="分类：" prop="categoryId">
-							<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps"
-								:show-all-levels="true" :emitPath="false" placeholder="请选择商品分类" clearable
-								filterable></el-cascader>
+							<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" placeholder="请选择商品分类" clearable filterable></el-cascader>
 						</el-form-item>
 						<el-form-item label="品牌：" prop="brandId">
 							<sc-select-plus v-model="search.brandId" :apiObj="brandSelect.apiObj"
@@ -127,20 +125,12 @@ export default {
 							value: ""
 						},
 						{
-							label: "普通商品",
+							label: "实物商品",
 							value: "0"
 						},
 						{
 							label: "虚拟商品",
 							value: "1"
-						},
-						{
-							label: "卡密网盘",
-							value: "2"
-						},
-						{
-							label: "优惠券",
-							value: "3"
 						},
 					]
 				},
@@ -332,7 +322,7 @@ export default {
 			this.$refs.table.upData(this.search)
 		},
 		async getTreeList() {
-			var res = await this.$API.store.category.tree.get();
+			let res = await this.$API.store.category.tree.get();
 			this.treeOptions = res.data
 		},
 	}

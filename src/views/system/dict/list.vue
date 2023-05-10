@@ -2,7 +2,7 @@
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
 			<el-form-item label="所属字典" prop="parentId">
-				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="true" :emitPath="false" style="width:100%" filterable clearable></el-cascader>
+				<el-cascader v-model="form.parentId" :options="dict" :props="dictProps" :show-all-levels="true" style="width:100%" filterable clearable></el-cascader>
 			</el-form-item>
 			<el-form-item label="字典项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>

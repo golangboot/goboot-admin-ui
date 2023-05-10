@@ -18,7 +18,7 @@
 			</template>
 			<template v-if="mode == 'department'">
 				<el-form-item label="所属部门" prop="departmentIds">
-					<el-cascader v-model="form.departmentIds" :options="departments" :props="departmentsProps" clearable @change="handleChange" style="width: 100%;"></el-cascader>
+					<el-cascader v-model="form.departmentIds" :options="departments" :props="departmentsProps" :show-all-levels="true" filterable clearable @change="handleChange" style="width: 100%;"></el-cascader>
 				</el-form-item>
 			</template>
 		</el-form>

@@ -137,7 +137,9 @@
 				menuProps: {
 					value: 'id',
 					label: 'title',
-					checkStrictly: true
+					checkStrictly: true,
+					emitPath: false,
+					expandTrigger: "hover",
 				},
 				predefineColors: [
 					'#ff4500',
