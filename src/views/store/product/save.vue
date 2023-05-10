@@ -8,6 +8,15 @@
 							<el-tab-pane label="基础信息">
 
 								<el-form-item label="商品分类" prop="categoryId">
+									<template #label="{ label }">
+										<span>{{ label }}&nbsp;</span>
+										<span>
+											<el-tooltip>
+												<template #content>请先选择商品分类后，再编辑商品信息</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
 									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
 								</el-form-item>
 
@@ -106,6 +115,10 @@
 							</el-tab-pane>
 
 							<el-tab-pane label="其他设置">
+
+							</el-tab-pane>
+
+							<el-tab-pane label="平台操作">
 
 							</el-tab-pane>
 						</el-tabs>
@@ -238,10 +251,12 @@
 				handler(){
 					// 处理品牌搜索条件
 					if (this.form.categoryId){
+						this.brandSelect.params.categoryId = this.form.categoryId
 						this.brandSelect.search.categoryId = this.form.categoryId
 					}
 					// 处理销售单位搜索条件
 					if (this.form.categoryId){
+						this.saleUnitSelect.params.categoryId = this.form.categoryId
 						this.saleUnitSelect.search.categoryId = this.form.categoryId
 					}
 				},
