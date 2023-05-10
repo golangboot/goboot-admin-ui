@@ -36,8 +36,8 @@
 								<el-form-item label="商品名称" prop="name">
 									<el-input v-model="form.name" clearable></el-input>
 								</el-form-item>
-								<el-form-item label="商品描述" prop="remark">
-									<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+								<el-form-item label="商品描述" prop="description">
+									<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 								</el-form-item>
 
 								<el-row :gutter="20">
@@ -119,7 +119,33 @@
 							</el-tab-pane>
 
 							<el-tab-pane label="平台操作">
-
+								<el-form-item label="商家" prop="merchantId">
+									<select-remote v-model="form.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :search="merchantSelect.search" :props="merchantSelect.props" clearable filterable style="width:100%"></select-remote>
+								</el-form-item>
+								<el-form-item label="审核状态" prop="auditStatus">
+									<el-radio-group v-model="form.auditStatus">
+										<el-radio v-for="(item, index) in auditStatusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+								<el-form-item label="备注" prop="remark">
+									<template #label="{ label }">
+										<span>{{ label }}&nbsp;</span>
+										<span>
+											<el-tooltip>
+												<template #content>商品备注信息，一般填写：审核驳回、商品下架等原因</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
+									<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+								</el-form-item>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="虚拟销量" prop="virtualSaleCount">
+											<el-input-number v-model="form.virtualSaleCount" controls-position="right" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+								</el-row>
 							</el-tab-pane>
 						</el-tabs>
 					</el-card>
@@ -161,6 +187,7 @@
 					sort: null,
 					status: 1,
 					remark: "",
+					auditStatus: 1,
 				},
 				//验证规则
 				rules: {
@@ -174,6 +201,11 @@
 				statusOptions: [
 					{label: "上架", value: 1,},
 					{label: "下架", value: 0,},
+				],
+				auditStatusOptions: [
+					{label: "待审核", value: 0},
+					{label: "审核通过", value: 1},
+					{label: "审核驳回", value: 2},
 				],
 				treeOptions: [],
 				treeProps: {
@@ -199,6 +231,18 @@
 				saleUnitSelect: {
 					// api接口
 					apiObj: this.$API.store.saleUnit.list,
+					// 参数(搜索关键字为空时生效)
+					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+				},
+				merchantSelect: {
+					// api接口
+					apiObj: this.$API.store.merchant.list,
 					// 参数(搜索关键字为空时生效)
 					params: {},
 					// 搜索参数(搜索关键字不为空时生效)
