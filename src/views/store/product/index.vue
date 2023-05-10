@@ -11,6 +11,19 @@
 		<el-header style="height: auto;">
 			<sc-select-filter :data="filterData" :label-width="80" @on-change="filterChange"></sc-select-filter>
 		</el-header>
+		<el-header style="height: auto;">
+			<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
+				<el-form-item label="分类：" prop="categoryId">
+					<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" placeholder="请选择商品分类" clearable filterable></el-cascader>
+				</el-form-item>
+				<el-form-item label="品牌：" prop="brandId">
+					<select-remote v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></select-remote>
+				</el-form-item>
+				<el-form-item label="商家：" prop="merchantId">
+					<select-remote v-model="search.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :props="merchantSelect.props" clearable filterable style="width: 160px;"></select-remote>
+				</el-form-item>
+			</el-form>
+		</el-header>
 		<el-header>
 			<div class="left-panel">
 				<!--<el-button type="primary" icon="el-icon-plus" @click="addPage">添加商品</el-button>-->
@@ -22,13 +35,7 @@
 			<div class="right-panel">
 				<div class="right-panel-search">
 					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
-						<el-form-item label="分类：" prop="categoryId">
-							<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" placeholder="请选择商品分类" clearable filterable></el-cascader>
-						</el-form-item>
-						<el-form-item label="品牌：" prop="brandId">
-							<select-remote v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></select-remote>
-						</el-form-item>
-						<el-form-item label="搜索：" prop="keyword">
+						<el-form-item label="商品搜索：" prop="keyword">
 							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
 						</el-form-item>
 						<el-form-item>
@@ -109,6 +116,7 @@ export default {
 				keyword: null,
 				categoryId: null,
 				brandId: null,
+				merchantId: null,
 			},
 			groupId: "0",
 			filterData: [
@@ -183,6 +191,16 @@ export default {
 			brandSelect: {
 				// api接口
 				apiObj: this.$API.store.brand.list,
+				// 搜索参数(搜索关键词为空时生效)
+				params: {},
+				// 属性字段
+				props: {
+					keyword: 'keyword',
+				},
+			},
+			merchantSelect: {
+				// api接口
+				apiObj: this.$API.store.merchant.list,
 				// 搜索参数(搜索关键词为空时生效)
 				params: {},
 				// 属性字段
