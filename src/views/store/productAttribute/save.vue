@@ -161,12 +161,7 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="商品规格" prop="productSpecId">
-				<sc-select-plus v-model="form.productSpecId"
-								:apiObj="productSpecSelect.apiObj"
-								:params="productSpecSelect.params"
-								:props="productSpecSelect.props"
-								clearable filterable style="width: 100%;">
-				</sc-select-plus>
+				<select-remote v-model="form.productSpecId" :apiObj="productSpecSelect.apiObj" :params="productSpecSelect.params" :props="productSpecSelect.props" clearable filterable style="width: 100%;"></select-remote>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -183,12 +178,12 @@
 </template>
 
 <script>
-	import scSelectPlus from '@/components/scSelectPlus'
+	import SelectRemote from '@/components/SelectRemote'
 
 	export default {
 		emits: ['success', 'closed'],
 		components: {
-			scSelectPlus,
+			SelectRemote,
 		},
 		data() {
 			return {

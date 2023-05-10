@@ -87,13 +87,7 @@
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="用户ID" prop="userId">
-						<sc-select-plus v-model="form.userId"
-										:apiObj="userSelect.apiObj"
-										:params="userSelect.params"
-										:props="userSelect.props"
-										:parseDataField="userSelect.parseDataField"
-										clearable filterable style="width: 100%;">
-						</sc-select-plus>
+						<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -119,13 +113,13 @@
 
 <script>
 	import scVideo from '@/components/scVideo'
-	import scSelectPlus from '@/components/scSelectPlus'
+	import SelectRemote from '@/components/SelectRemote'
 
 	export default {
 		emits: ['success', 'closed'],
 		components: {
 			scVideo,
-			scSelectPlus,
+			SelectRemote,
 		},
 		data() {
 			return {

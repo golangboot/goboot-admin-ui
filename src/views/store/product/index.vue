@@ -26,7 +26,7 @@
 							<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" placeholder="请选择商品分类" clearable filterable></el-cascader>
 						</el-form-item>
 						<el-form-item label="品牌：" prop="brandId">
-							<sc-select-plus v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></sc-select-plus>
+							<select-remote v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></select-remote>
 						</el-form-item>
 						<el-form-item label="搜索：" prop="keyword">
 							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
@@ -87,7 +87,7 @@
 <script>
 import saveDialog from './save'
 import scSelectFilter from '@/components/scSelectFilter'
-import scSelectPlus from '@/components/scSelectPlus'
+import SelectRemote from '@/components/SelectRemote'
 import useTabs from "@/utils/useTabs";
 
 export default {
@@ -95,7 +95,7 @@ export default {
 	components: {
 		saveDialog,
 		scSelectFilter,
-		scSelectPlus,
+		SelectRemote,
 	},
 	data() {
 		return {

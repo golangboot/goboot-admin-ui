@@ -38,6 +38,7 @@
 
 <script>
 	export default {
+		name: "SelectRemote",
 		props: {
 			// api接口
 			apiObj: { type: Object, default: () => {} },

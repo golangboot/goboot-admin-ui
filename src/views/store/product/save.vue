@@ -10,8 +10,8 @@
 								<el-form-item label="商品分类" prop="categoryId">
 									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
 								</el-form-item>
-								<el-form-item label="商品品牌：" prop="brandId">
-									<sc-select-plus v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></sc-select-plus>
+								<el-form-item label="商品品牌" prop="brandId">
+									<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable style="width:100%"></select-remote>
 								</el-form-item>
 
 								<el-form-item label="商品名称" prop="name">
@@ -112,13 +112,13 @@
 
 <script>
 	import SkuForm from "@/components/SkuForm";
-	import scSelectPlus from "@/components/scSelectPlus";
+	import SelectRemote from "@/components/SelectRemote";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
 			SkuForm,
-			scSelectPlus,
+			SelectRemote,
 		},
 		data() {
 			return {
@@ -164,8 +164,10 @@
 				brandSelect: {
 					// api接口
 					apiObj: this.$API.store.brand.list,
-					// 搜索参数(搜索关键词为空时生效)
+					// 参数(搜索关键字为空时生效)
 					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
 					// 属性字段
 					props: {
 						keyword: 'keyword',
