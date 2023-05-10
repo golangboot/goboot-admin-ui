@@ -115,7 +115,7 @@ export default {
 				{
 					title: "商品类型",
 					key: "type",
-					multiple: true,
+					// multiple: true,
 					options: [
 						{
 							label: "全部",
