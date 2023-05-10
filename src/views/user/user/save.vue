@@ -182,18 +182,6 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
-									<el-form-item label="员工帐号" prop="isSystem">
-										<template #label="{ label }">
-											<span>{{ label }}&nbsp;</span>
-											<span>
-												<el-tooltip>
-													<template #content>如果给用户分配了角色，则此处需要修改为员工帐号，否则相关敏感权限会拦截非员工账号</template>
-													<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
-												</el-tooltip>
-											</span>
-										</template>
-										<el-switch v-model="form.isSystem" :active-value="1" :inactive-value="0"></el-switch>
-									</el-form-item>
 								</el-col>
 							</el-row>
 						</el-tab-pane>

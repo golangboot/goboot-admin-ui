@@ -18,13 +18,13 @@
 			</el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="等级图标" prop="icon">
-						<sc-upload v-model="form.icon" title="请上传等级图标"></sc-upload>
+					<el-form-item label="图标" prop="icon">
+						<sc-upload v-model="form.icon" title="请上传图标"></sc-upload>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="等级背景" prop="image">
-						<sc-upload v-model="form.image" title="请上传等级背景"></sc-upload>
+					<el-form-item label="背景图片" prop="image">
+						<sc-upload v-model="form.image" title="请上传背景图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
