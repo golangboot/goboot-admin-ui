@@ -110,6 +110,13 @@ export default {
 				return await http.post(this.url, data);
 			}
 		},
+		assignRoles: {
+			url: `${config.API_URL}/user/assignRoles`,
+			name: "分配角色",
+			post: async function(data){
+				return await http.post(`${this.url}`, data);
+			}
+		},
 	},
 	userGroup: {
 		list: {

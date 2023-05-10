@@ -372,6 +372,10 @@
 						}else{
 							await this.$alert(res.message, "提示", {type: 'error'})
 						}
+						// 分配角色
+						if (this.form.roleIds && this.form.roleIds.length > 0){
+							await this.assignRoles()
+						}
 					}
 				})
 			},
@@ -392,6 +396,20 @@
 				console.log('departmentChange:', value)
 				this.form.positionId = null
 				await this.getPositionList()
+			},
+			async assignRoles(){
+				this.isSaving = true;
+				let res = await this.$API.user.user.assignRoles.post(this.form)
+				this.isSaving = false;
+				if(res.code == 200){
+					this.form = res.data
+					this.$emit('success', this.form, this.mode)
+					this.visible = false;
+					// this.$message.success("操作成功")
+					this.$message.success("角色分配成功")
+				}else{
+					await this.$alert(res.message, "提示", {type: 'error'})
+				}
 			},
 		}
 	}
