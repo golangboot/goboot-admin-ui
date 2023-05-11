@@ -72,7 +72,7 @@
 						<el-table :data="[{}]" :show-header="false">
 							<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">批量设置</el-table-column>
 							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
-								<el-input v-if="item.type == 'input' && item.batch != false" v-model="batch[item.name]" :placeholder="`填写一个${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+								<el-input v-if="item.type == 'input' && item.batch != false" v-model="batch[item.name]" :placeholder="`填写${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
 							</el-table-column>
 						</el-table>
 					</template>
