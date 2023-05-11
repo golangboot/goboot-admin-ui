@@ -40,11 +40,11 @@
 					<el-table-column v-if="emitAttributes.length > 0" label="ID" type="index" width="50" align="center" :resizable="false" />
 					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" sortable>
 						<!-- 自定义表格内部展示 -->
-						<template #default="scope">
+						<!--<template #default="scope">
 							<el-form-item>
-								<el-input v-model="scope.row.label" disabled :placeholder="`${JSON.stringify(scope.row)}`" size="default" />
+								<el-input v-model="scope.row[scope.column.property]" disabled :data-attr="`${JSON.stringify(scope.column)}`" :placeholder="`${JSON.stringify(scope.row)}`" size="default" />
 							</el-form-item>
-						</template>
+						</template>-->
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`" :label="item.label" :prop="item.name" align="center" :resizable="false" min-width="120px">
 						<!-- 自定义表头 -->
@@ -244,7 +244,7 @@ export default {
 			this.sourceAttributes.forEach(v1 => {
 				// console.log('v1', v1)
 				const obj = {
-					name: v1.name,
+					// name: v1.name,
 					label: v1.label,
 					value: v1.value,
 					children: []
@@ -253,7 +253,7 @@ export default {
 					// console.log('v2', v2)
 					if (v2.checked) {
 						const obj2 = {
-							name: v2.name,
+							// name: v2.name,
 							label: v2.label,
 							value: v2.value,
 						}
@@ -265,7 +265,7 @@ export default {
 				}
 			})
 			// console.log('sourceAttributes', this.sourceAttributes)
-			console.log('emitAttributes', attributes)
+			// console.log('emitAttributes', attributes)
 			return attributes
 		}
 	},
@@ -279,7 +279,7 @@ export default {
 				}
 				// 解决通过 $emit 更新后无法拿到 attribute 最新数据的问题
 				this.$nextTick(() => {
-					console.log('this.attributes.length', this.attributes.length)
+					// console.log('this.attributes.length', this.attributes.length)
 					if (this.attributes.length !== 0) {
 						this.combinationAttributes()
 					} else {
@@ -384,7 +384,7 @@ export default {
 				this.sourceAttributes = sourceAttributes
 				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 sourceAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
-					console.log('this.skus',this.skus)
+					// console.log('this.skus',this.skus)
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
 							if (skuItem.sku === skuDataItem.sku) {
@@ -404,8 +404,8 @@ export default {
 			if (index === 0) {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
 					const obj = {
-						sku: this.attributes[0].children[i],
-						[this.attributes[0].name || 'label']: this.attributes[0].children[i].label,
+						sku: this.attributes[0].children[i].label,
+						[this.attributes[0].label]: this.attributes[0].children[i].label,
 					}
 					this.structures.forEach(v => {
 						if (!(v.type == 'slot' && v.skuProperty == false)) {
@@ -419,8 +419,10 @@ export default {
 				for (let i = 0; i < dataTemp.length; i++) {
 					for (let j = 0; j < this.attributes[index].children.length; j++) {
 						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
-						temp[temp.length - 1][this.attributes[index].name] = this.attributes[index].children[j].label
-						temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j]].join(this.separator)
+						temp[temp.length - 1][this.attributes[index].label] = this.attributes[index].children[j].label
+						temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j].label].join(this.separator)
+						// console.log('this.attributes[index].children[j]:', this.attributes[index].children[j])
+						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
 					}
 				}
 				dataTemp = temp
