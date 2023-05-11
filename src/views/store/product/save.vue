@@ -63,11 +63,8 @@
 								<el-row :gutter="20">
 									<el-col :span="24">
 										<div>
-											<SkuForm
-												ref="skuForm"
-												:params="skuParams"
-											>
-												<template #score="slotProps">
+											<SkuForm ref="skuForm" :params="skuParams">
+												<!--<template #score="slotProps">
 													<div>
 														<el-rate v-model="slotProps.row.score" />
 													</div>
@@ -80,7 +77,7 @@
 														</el-upload>
 														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
 													</div>
-												</template>
+												</template>-->
 											</SkuForm>
 											<el-row type="flex" :gutter="20">
 												<el-col>
@@ -280,7 +277,7 @@
 							canAddAttribute: false,
 						},
 					],
-					tableStructures: [
+					structures: [
 						{
 							name: 'price',
 							type: 'input',
@@ -291,7 +288,7 @@
 							type: 'input',
 							label: '库存'
 						},
-						{
+						/*{
 							name: 'score',
 							type: 'slot',
 							defaultValue: 0,
@@ -302,7 +299,7 @@
 							type: 'slot',
 							label: '图片',
 							required: true
-						}
+						},*/
 					],
 					attributes: [],
 					skus: [],
