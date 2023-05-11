@@ -40,11 +40,11 @@
 					<el-table-column v-if="emitAttributes.length > 0" label="ID" type="index" width="50" align="center" :resizable="false" />
 					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" sortable>
 						<!-- 自定义表格内部展示 -->
-						<!--<template #default="scope">
+						<template #default="scope">
 							<el-form-item>
-								<el-input v-model="emitAttributes[index].children[scope.$index]" :data-num="emitAttributes.length" :placeholder="`请输入${JSON.stringify(emitAttributes[index].children[scope.$index])}`" size="default" />
+								<el-input v-model="scope.row.sku.label" disabled :placeholder="`${JSON.stringify(scope.row)}`" size="default" />
 							</el-form-item>
-						</template>-->
+						</template>
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`" :label="item.label" :prop="item.name" align="center" :resizable="false" min-width="120px">
 						<!-- 自定义表头 -->
@@ -238,12 +238,13 @@ export default {
 				return item.type == 'input' && item.batch != false
 			})
 		},
-		// 将 sourceAttributes 数据还原会 attribute 数据的结构，用于更新 attribute
+		// 将 sourceAttributes 数据还原会 attributes 数据的结构，用于更新 attribute
 		emitAttributes() {
 			let attributes = []
 			this.sourceAttributes.forEach(v1 => {
 				// console.log('v1', v1)
 				const obj = {
+					// name: v1.name,
 					label: v1.label,
 					value: v1.value,
 					children: []
@@ -252,6 +253,7 @@ export default {
 					// console.log('v2', v2)
 					if (v2.checked) {
 						const obj2 = {
+							// name: v2.name,
 							label: v2.label,
 							value: v2.value,
 						}
@@ -263,7 +265,7 @@ export default {
 				}
 			})
 			// console.log('sourceAttributes', this.sourceAttributes)
-			// console.log('attribute', attribute)
+			console.log('emitAttributes', attributes)
 			return attributes
 		}
 	},
@@ -271,11 +273,13 @@ export default {
 		sourceAttributes: {
 			handler() {
 				if (!this.isInit) {
+					this.attributes = this.emitAttributes || []
 					// 更新父组件
 					this.$emit('update:attributes', this.emitAttributes)
 				}
 				// 解决通过 $emit 更新后无法拿到 attribute 最新数据的问题
 				this.$nextTick(() => {
+					console.log('this.attributes.length', this.attributes.length)
 					if (this.attributes.length !== 0) {
 						this.combinationAttributes()
 					} else {
@@ -302,7 +306,7 @@ export default {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
 						// 更新父组件
-						const arr = []
+						let arr = []
 						newValue.forEach(v1 => {
 							// console.log('structure v1', v1)
 							const obj = {
@@ -316,6 +320,7 @@ export default {
 							})
 							arr.push(obj)
 						})
+						this.skus = this.arr || []
 						this.$emit('update:skus', arr)
 					}
 				}
@@ -376,6 +381,7 @@ export default {
 				this.sourceAttributes = sourceAttributes
 				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 sourceAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
+					console.log('this.skus',this.skus)
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
 							if (skuItem.sku === skuDataItem.sku) {
@@ -391,6 +397,7 @@ export default {
 		},
 		// 根据 attributes 进行排列组合，生成 skuData 数据
 		combinationAttributes(index = 0, dataTemp = []) {
+			console.log('combinationAttributes => this.attributes', this.attributes)
 			if (index === 0) {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
 					const obj = {
