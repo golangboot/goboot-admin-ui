@@ -35,7 +35,7 @@
 		</div>
 		<div class="sku-list">
 			<el-form ref="form" :model="form" status-icon inline-message>
-				<el-table :data="form.skuData" stripe border highlight-current-row>
+				<el-table :data="form.skuData" :span-method="mergeSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
 					<el-table-column v-if="emitAttributes.length > 0" label="ID" type="index" width="50" align="center" :resizable="false" />
 					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" sortable>
@@ -68,11 +68,19 @@
 						</template>
 					</el-table-column>
 					<!-- 批量设置，当 sku 数超过 2 个时出现 -->
-					<template v-if="isBatch && form.skuData.length > 2" #append>
+					<template v-if="isBatch && form.skuData.length > 1" #append>
 						<el-table :data="[{}]" :show-header="false">
-							<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">批量设置</el-table-column>
-							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
-								<el-input v-if="item.type == 'input' && item.batch != false" v-model="batch[item.name]" :placeholder="`填写${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+							<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">
+								<template #default="scope">
+									<el-button :key="`${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
+								</template>
+							</el-table-column>
+							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px" max-width="120px">
+								<template #default="scope">
+									<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row.sku}`">
+										<el-input v-model="batch[item.name]" :placeholder="`填写${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+									</el-form-item>
+								</template>
 							</el-table-column>
 						</el-table>
 					</template>
@@ -206,6 +214,9 @@ export default {
 				skuData: []
 			},
 			batch: {},
+			mergeTableObj: {},
+			// mergeTableArr: ['time', 'grade', 'name', 'subjects', 'score'],
+			mergeTableArr: [],
 		}
 	},
 	computed: {
@@ -266,6 +277,7 @@ export default {
 			})
 			// console.log('sourceAttributes', this.sourceAttributes)
 			// console.log('emitAttributes', attributes)
+			this.handleMergeTable()
 			return attributes
 		}
 	},
@@ -479,6 +491,15 @@ export default {
 				}
 			}
 		},
+		onBatchSets() {
+			// console.log('this.structures:', this.structures)
+			// console.log('this.batch:', this.batch)
+			if (this.batch && Object.keys(this.batch) > 0) {
+				Object.keys(this.batch).forEach(type => {
+					this.onBatchSet(type)
+				})
+			}
+		},
 		onBatchSet(type) {
 			if (this.batch[type] != '') {
 				this.form.skuData.forEach(v => {
@@ -522,7 +543,63 @@ export default {
 		},
 		clearValidate() {
 			this.$refs['form'].clearValidate()
-		}
+		},
+		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
+		// eslint-disable-next-line
+		mergeSpanMethod({ row, column, rowIndex, columnIndex }) {
+			if (!this.mergeTableArr || this.mergeTableArr.length <= 0) {
+				return
+			}
+			// 判断列的属性
+			if(this.mergeTableArr.indexOf(column.property) !== -1) {
+				// 判断其值是不是为0
+				if(this.mergeTableObj[column.property] && this.mergeTableObj[column.property][rowIndex]) {
+					return [this.mergeTableObj[column.property][rowIndex], 1]
+				} else {
+					// 如果为0则为需要合并的行
+					return [0, 0];
+				}
+			}
+		},
+		getTableSpanArr(data) {
+			// eslint-disable-next-line
+			this.mergeTableArr.forEach((key, index1) => {
+				let count = 0; // 用来记录需要合并行的起始位置
+				this.mergeTableObj[key] = []; // 记录每一列的合并信息
+				data.forEach((item, index) => {
+					// index == 0表示数据为第一行，直接 push 一个 1
+					if(index === 0) {
+						this.mergeTableObj[key].push(1);
+					} else {
+						// 判断当前行是否与上一行其值相等 如果相等 在 count 记录的位置其值 +1 表示当前行需要合并 并push 一个 0 作为占位
+						if(item[key] === data[index - 1][key]) {
+							this.mergeTableObj[key][count] += 1;
+							this.mergeTableObj[key].push(0);
+						} else {
+							// 如果当前行和上一行其值不相等
+							count = index; // 记录当前位置
+							this.mergeTableObj[key].push(1); // 重新push 一个 1
+						}
+					}
+				})
+			})
+		},
+		handleMergeTable(){
+			let tableData = this.form.skuData
+			// console.log('tableData:', tableData)
+			// console.log('attributes', this.attributes)
+			// this.$nextTick(() => {})
+			if (this.attributes && this.attributes.length > 0){
+				let mergeTableArr = [];
+				this.attributes.forEach(attr => {
+					mergeTableArr.push(attr.label)
+				})
+				if (mergeTableArr.length > 0) {
+					this.mergeTableArr = mergeTableArr
+					this.getTableSpanArr(tableData);
+				}
+			}
+		},
 	},
 }
 </script>
