@@ -75,10 +75,10 @@
 									<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
 								</template>
 							</el-table-column>
-							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false">
+							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 								<template #default="scope">
 									<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row.sku}`">
-										<el-input v-model="batch[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+										<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
 									</el-form-item>
 								</template>
 							</el-table-column>
@@ -213,7 +213,7 @@ export default {
 			form: {
 				skuData: []
 			},
-			batch: {},
+			batchData: {},
 			mergeTableObj: {},
 			// mergeTableArr: ['time', 'grade', 'name', 'subjects', 'score'],
 			mergeTableArr: [],
@@ -493,19 +493,20 @@ export default {
 		},
 		onBatchSets() {
 			// console.log('this.structures:', this.structures)
-			// console.log('this.batch:', this.batch)
-			if (this.batch && Object.keys(this.batch) > 0) {
-				Object.keys(this.batch).forEach(type => {
+			// console.log('this.batchData:', this.batchData)
+			// console.log('Object.keys(this.batchData):', Object.keys(this.batchData).length)
+			if (this.batchData && Object.keys(this.batchData).length > 0) {
+				Object.keys(this.batchData).forEach(type => {
 					this.onBatchSet(type)
 				})
 			}
 		},
 		onBatchSet(type) {
-			if (this.batch[type] != '') {
+			if (this.batchData[type] != '') {
 				this.form.skuData.forEach(v => {
-					v[type] = this.batch[type]
+					v[type] = this.batchData[type]
 				})
-				this.batch[type] = ''
+				this.batchData[type] = ''
 				// 批量设置完成后，触发一次当前列的验证
 				this.validateFieldByColumns([type], () => {})
 			}
