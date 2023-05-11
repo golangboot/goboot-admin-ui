@@ -42,7 +42,7 @@
 						<!-- 自定义表格内部展示 -->
 						<template #default="scope">
 							<el-form-item>
-								<el-input v-model="scope.row.sku.label" disabled :placeholder="`${JSON.stringify(scope.row)}`" size="default" />
+								<el-input v-model="scope.row.label" disabled :placeholder="`${JSON.stringify(scope.row)}`" size="default" />
 							</el-form-item>
 						</template>
 					</el-table-column>
@@ -244,7 +244,7 @@ export default {
 			this.sourceAttributes.forEach(v1 => {
 				// console.log('v1', v1)
 				const obj = {
-					// name: v1.name,
+					name: v1.name,
 					label: v1.label,
 					value: v1.value,
 					children: []
@@ -253,7 +253,7 @@ export default {
 					// console.log('v2', v2)
 					if (v2.checked) {
 						const obj2 = {
-							// name: v2.name,
+							name: v2.name,
 							label: v2.label,
 							value: v2.value,
 						}
@@ -340,6 +340,7 @@ export default {
 				// 根据 sourceAttribute 复原 sourceAttributes 的结构
 				this.sourceAttributes.forEach(v => {
 					const temp = {
+						name: v.name,
 						label: v.label,
 						value: v.value,
 						canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
@@ -348,6 +349,7 @@ export default {
 					}
 					v.children.forEach(item2 => {
 						temp.children.push({
+							name: item2.name,
 							label: item2.label,
 							value: item2.value,
 							checked: false
@@ -369,6 +371,7 @@ export default {
 									})
 								) {
 									myAttr.children.push({
+										name: attrVal2.name,
 										label: attrVal2.label,
 										value: attrVal2.value,
 										checked: true
@@ -402,7 +405,7 @@ export default {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
 					const obj = {
 						sku: this.attributes[0].children[i],
-						[this.attributes[0].name]: this.attributes[0].children[i]
+						[this.attributes[0].name || 'label']: this.attributes[0].children[i].label,
 					}
 					this.structures.forEach(v => {
 						if (!(v.type == 'slot' && v.skuProperty == false)) {
@@ -416,7 +419,7 @@ export default {
 				for (let i = 0; i < dataTemp.length; i++) {
 					for (let j = 0; j < this.attributes[index].children.length; j++) {
 						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
-						temp[temp.length - 1][this.attributes[index].name] = this.attributes[index].children[j]
+						temp[temp.length - 1][this.attributes[index].name] = this.attributes[index].children[j].label
 						temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j]].join(this.separator)
 					}
 				}
