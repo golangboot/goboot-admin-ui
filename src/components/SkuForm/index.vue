@@ -1,9 +1,8 @@
 <template>
 	<div class="sku-container">
-		<div class="sku-header"></div>
 		<div v-if="!disabled" class="sku-check">
 			<div v-if="theme == 1 || theme == 3" :class="'theme-' + theme">
-				<el-card v-for="(item, index) in sourceAttributes" :key="index" class="item" shadow="never">
+				<el-card v-for="(item, index) in myAttributes" :key="index" class="item" shadow="never">
 					<template v-slot:header>
 						<div>{{ item.label }}</div>
 					</template>
@@ -15,7 +14,7 @@
 					</el-input>
 				</el-card>
 			</div>
-			<el-table v-else :data="sourceAttributes" :show-header="false" class="theme-2">
+			<el-table v-else :data="myAttributes" :show-header="false" class="theme-2">
 				<el-table-column prop="label" width="120" :resizable="false" />
 				<el-table-column>
 					<template #default="scope">
@@ -59,10 +58,10 @@
 						<!-- 自定义表格内部展示 -->
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
-							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row.sku}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
+							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<el-input v-model="scope.row[item.name]" :placeholder="`请输入${item.label}`" size="default" />
 							</el-form-item>
-							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row.sku}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
+							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 							</el-form-item>
 						</template>
@@ -77,7 +76,7 @@
 							</el-table-column>
 							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 								<template #default="scope">
-									<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row.sku}`">
+									<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row[skuProps.sku]}`">
 										<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
 									</el-form-item>
 								</template>
@@ -87,7 +86,6 @@
 				</el-table>
 			</el-form>
 		</div>
-		<div class="sku-footer"></div>
 	</div>
 </template>
 
@@ -95,60 +93,112 @@
 export default {
 	name: "SkuForm",
 	props: {
-		params: {
-			type: Object, default: () => {
-				return {
-					sourceAttributes: {
-						type: Array,
-						// default: () => [],
-						default: () => [
-							{
-								label: '颜色', value: 1,
-								children: [
-									{label: '黑色', value: 1, checked: false},
-									{label: '白色', value: 2, checked: false},
-									{label: '银色', value: 3, checked: false},
-									{label: '金色', value: 4, checked: false},
-								],
-								canAddAttribute: true,
-							},
-							{
-								label: '内存', value: 2,
-								children: [
-									{label: '128G', value: 11, checked: false},
-									{label: '512G', value: 12, checked: false},
-								],
-								canAddAttribute: true,
-							},
-							{
-								label: '运营商', value: 3,
-								children: [
-									{label: '全网通', value: 21, checked: false},
-									{label: '电信', value: 22, checked: false},
-									{label: '移动', value: 23, checked: false},
-									{label: '联通', value: 24, checked: false},
-								],
-								canAddAttribute: false,
-							},
-						],
-					},
-					attributes: {
-						type: Array,
-						default: () => []
-					},
-					skus: {
-						type: Array,
-						default: () => []
-					},
-					structures: {
-						type: Array,
-						default: () => [
-							{ name: 'price', type: 'input', label: '价格' },
-							{ name: 'stock', type: 'input', label: '库存' },
-						]
-					},
-				}
-			}
+		/**
+		 * 原始规格数据
+		 * sourceAttribute: [
+		 *   { name: '颜色', item: ['黑', '金', '白'] },
+		 *   { name: '内存', item: ['16G', '32G'] },
+		 *   { name: '运营商', item: ['电信', '移动', '联通'] }
+		 * ]
+		 */
+		/**
+		 * 新 原始规格数据
+		 * sourceAttribute: [
+		 * 	{
+		 * 		label: '颜色', value: 1,
+		 * 		children: [
+		 * 			{label: '黑色', value: 1, checked: false},
+		 * 			{label: '白色', value: 2, checked: false},
+		 * 			{label: '银色', value: 3, checked: false},
+		 * 			{label: '金色', value: 4, checked: false},
+		 * 		],
+		 * 		canAddAttribute: true,
+		 * 	},
+		 * 	{
+		 * 		label: '内存', value: 2,
+		 * 		children: [
+		 * 			{label: '128G', value: 11, checked: false},
+		 * 			{label: '512G', value: 12, checked: false},
+		 * 		],
+		 * 		canAddAttribute: true,
+		 * 	},
+		 * 	{
+		 * 		label: '运营商', value: 3,
+		 * 		children: [
+		 * 			{label: '全网通', value: 21, checked: false},
+		 * 			{label: '电信', value: 22, checked: false},
+		 * 			{label: '移动', value: 23, checked: false},
+		 * 			{label: '联通', value: 24, checked: false},
+		 * 		],
+		 * 		canAddAttribute: false,
+		 * 	},
+		 * ]
+		 */
+		sourceAttributes: {
+			type: Array,
+			default: () => []
+		},
+		/**
+		 * 已使用的规格数据，用于复原数据，支持.sync修饰符
+		 * attribute: [
+		 *   { name: '颜色', item: ['黑'] },
+		 *   { name: '运营商', item: ['电信', '移动', '联通'] }
+		 * ]
+		 */
+		/**
+		 * 新 已使用的规格数据，用于复原数据，支持.sync修饰符
+		 * attribute: [
+		 * 	{
+		 * 		label: '颜色', value: 1,
+		 * 		children: [
+		 * 			{label: '黑色', value: 1, checked: false},
+		 * 		],
+		 * 		canAddAttribute: true,
+		 * 	},
+		 * 	{
+		 * 		label: '内存', value: 2,
+		 * 		children: [
+		 * 			{label: '128G', value: 11, checked: false},
+		 * 			{label: '512G', value: 12, checked: false},
+		 * 		],
+		 * 		canAddAttribute: true,
+		 * 	},
+		 * 	{
+		 * 		label: '运营商', value: 3,
+		 * 		children: [
+		 * 			{label: '全网通', value: 21, checked: false},
+		 * 			{label: '电信', value: 22, checked: false},
+		 * 			{label: '移动', value: 23, checked: false},
+		 * 		],
+		 * 		canAddAttribute: false,
+		 * 	},
+		 * ]
+		 */
+		attributes: {
+			type: Array,
+			default: () => []
+		},
+		/**
+		 * 用于复原sku数据，支持.sync修饰符
+		 * skus: [
+		 *   { sku: '黑;电信', price: 1, stock: 1 },
+		 *   { sku: '黑;移动', price: 2, stock: 2 },
+		 *   { sku: '黑;联通', price: 3, stock: 3 }
+		 * ]
+		 */
+		skus: {
+			type: Array,
+			default: () => []
+		},
+		/**
+		 * 表格结构，注意name字段，用于输出sku数据
+		 */
+		structures: {
+			type: Array,
+			default: () => [
+				{ name: 'price', type: 'input', label: '价格' },
+				{ name: 'stock', type: 'input', label: '库存' },
+			]
 		},
 		// sku 字段分隔符
 		separator: {
@@ -175,47 +225,25 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		//sku属性字段
+		skuProps: {
+			type: Object, default: () => {
+				return {
+					sku: 'sku',
+					skuList: 'skuList',
+				}
+			}
+		},
 	},
 	data() {
 		return {
-			loading: false,
-			/**
-			 * 原始规格数据
-			 * sourceAttribute: [
-			 *   { name: '颜色', item: ['黑', '金', '白'] },
-			 *   { name: '内存', item: ['16G', '32G'] },
-			 *   { name: '运营商', item: ['电信', '移动', '联通'] }
-			 * ]
-			 */
-			sourceAttributes: this.params.sourceAttributes,
-			/**
-			 * 已使用的规格数据，用于复原数据，支持.sync修饰符
-			 * attribute: [
-			 *   { name: '颜色', item: ['黑'] },
-			 *   { name: '运营商', item: ['电信', '移动', '联通'] }
-			 * ]
-			 */
-			attributes: this.params.attributes,
-			/**
-			 * 用于复原sku数据，支持.sync修饰符
-			 * sku: [
-			 *   { sku: '黑;电信', price: 1, stock: 1 },
-			 *   { sku: '黑;移动', price: 2, stock: 2 },
-			 *   { sku: '黑;联通', price: 3, stock: 3 }
-			 * ]
-			 */
-			skus: this.params.skus,
-			/**
-			 * 表格结构，注意name字段，用于输出sku数据
-			 */
-			structures: this.params.structures,
 			isInit: false,
+			myAttributes: [],
 			form: {
 				skuData: []
 			},
 			batchData: {},
 			mergeTableObj: {},
-			// mergeTableArr: ['time', 'grade', 'name', 'subjects', 'score'],
 			mergeTableArr: [],
 		}
 	},
@@ -249,10 +277,10 @@ export default {
 				return item.type == 'input' && item.batch != false
 			})
 		},
-		// 将 sourceAttributes 数据还原会 attributes 数据的结构，用于更新 attribute
+		// 将 myAttributes 数据还原会 attributes 数据的结构，用于更新 attribute
 		emitAttributes() {
 			let attributes = []
-			this.sourceAttributes.forEach(v1 => {
+			this.myAttributes.forEach(v1 => {
 				// console.log('v1', v1)
 				const obj = {
 					// name: v1.name,
@@ -275,19 +303,19 @@ export default {
 					attributes.push(obj)
 				}
 			})
-			// console.log('sourceAttributes', this.sourceAttributes)
-			// console.log('emitAttributes', attributes)
-			this.handleMergeTable()
+			// console.log('myAttributes', this.myAttributes)
+			// console.log('attributes', attributes)
+			this.handleMergeTable() // 合并表单
 			return attributes
 		}
 	},
 	watch: {
-		sourceAttributes: {
+		myAttributes: {
 			handler() {
 				if (!this.isInit) {
-					this.attributes = this.emitAttributes || []
+					// this.attributes = this.emitAttributes || []
 					// 更新父组件
-					this.$emit('update:attributes', this.emitAttributes)
+					this.$emit('update:attributes', this.emitAttributes || [])
 				}
 				// 解决通过 $emit 更新后无法拿到 attribute 最新数据的问题
 				this.$nextTick(() => {
@@ -297,7 +325,7 @@ export default {
 					} else {
 						this.form.skuData = []
 						const obj = {
-							sku: this.emptySku
+							[this.skuProps.sku]: this.emptySku
 						}
 						this.structures.forEach(v => {
 							if (!(v.type == 'slot' && v.skuProperty == false)) {
@@ -314,15 +342,18 @@ export default {
 		},
 		'form.skuData': {
 			handler(newValue, oldValue) {
-				if (!this.isInit || (newValue.length == 1 && newValue[0].sku == this.emptySku)) {
+				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
 						// 更新父组件
 						let arr = []
 						newValue.forEach(v1 => {
 							// console.log('structure v1', v1)
-							const obj = {
-								sku: v1.sku
+							let obj = {
+								[this.skuProps.sku]: v1[this.skuProps.sku],
+							}
+							if (v1[this.skuProps.skuList]){
+								obj[this.skuProps.skuList] = v1[this.skuProps.skuList]
 							}
 							this.structures.forEach(v2 => {
 								// console.log('structure v2', v2)
@@ -332,8 +363,8 @@ export default {
 							})
 							arr.push(obj)
 						})
-						this.skus = this.arr || []
-						this.$emit('update:skus', arr)
+						// this.skus = arr
+						this.$emit('update:skus', arr || [])
 					}
 				}
 			},
@@ -347,12 +378,12 @@ export default {
 		init() {
 			this.$nextTick(() => {
 				this.isInit = true
-				// 初始化 sourceAttributes
-				let sourceAttributes = []
-				// 根据 sourceAttribute 复原 sourceAttributes 的结构
+				// 初始化 myAttributes
+				let myAttributes = []
+				// 根据 sourceAttribute 复原 myAttributes 的结构
 				this.sourceAttributes.forEach(v => {
 					const temp = {
-						name: v.name,
+						// name: v.name,
 						label: v.label,
 						value: v.value,
 						canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
@@ -361,31 +392,31 @@ export default {
 					}
 					v.children.forEach(item2 => {
 						temp.children.push({
-							name: item2.name,
+							// name: item2.name,
 							label: item2.label,
 							value: item2.value,
 							checked: false
 						})
 					})
-					sourceAttributes.push(temp)
+					myAttributes.push(temp)
 				})
-				// 根据 attribute 更新 sourceAttributes
+				// 根据 attribute 更新 myAttributes
 				this.attributes.forEach(attrVal => {
-					sourceAttributes.forEach(myAttr => {
-						if (attrVal.label === myAttr.label) {
-							attrVal.children.forEach(attrVal2 => {
+					myAttributes.forEach(myAttrVal => {
+						if (attrVal.label === myAttrVal.label) {
+							attrVal.children.forEach(attrName => {
 								if (
-									!myAttr.children.some(myAttrItem => {
-										if (attrVal2.label === myAttrItem.label) {
+									!myAttrVal.children.some(myAttrItem => {
+										if (attrName.label === myAttrItem.label) {
 											myAttrItem.checked = true
 										}
-										return attrVal2.label === myAttrItem.label
+										return attrName.label === myAttrItem.label
 									})
 								) {
-									myAttr.children.push({
-										name: attrVal2.name,
-										label: attrVal2.label,
-										value: attrVal2.value,
+									myAttrVal.children.push({
+										// name: attrName.name,
+										label: attrName.label,
+										value: attrName.value,
 										checked: true
 									})
 								}
@@ -393,13 +424,13 @@ export default {
 						}
 					})
 				})
-				this.sourceAttributes = sourceAttributes
-				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 sourceAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
+				this.myAttributes = myAttributes
+				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 myAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
 					// console.log('this.skus',this.skus)
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
-							if (skuItem.sku === skuDataItem.sku) {
+							if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
 								this.structures.forEach(structureItem => {
 									skuDataItem[structureItem.name] = skuItem[structureItem.name]
 								})
@@ -415,10 +446,12 @@ export default {
 			// console.log('combinationAttributes => this.attributes', this.attributes)
 			if (index === 0) {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
-					const obj = {
-						sku: this.attributes[0].children[i].label,
+					let obj = {
+						[this.skuProps.sku]: this.attributes[0].children[i].label,
+						[this.skuProps.skuList]: [],
 						[this.attributes[0].label]: this.attributes[0].children[i].label,
 					}
+					obj[this.skuProps.skuList].push(this.attributes[0].children[i])
 					this.structures.forEach(v => {
 						if (!(v.type == 'slot' && v.skuProperty == false)) {
 							obj[v.name] = typeof v.defaultValue != 'undefined' ? v.defaultValue : ''
@@ -427,14 +460,20 @@ export default {
 					dataTemp.push(obj)
 				}
 			} else {
-				const temp = []
+				let temp = []
 				for (let i = 0; i < dataTemp.length; i++) {
 					for (let j = 0; j < this.attributes[index].children.length; j++) {
 						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
-						temp[temp.length - 1][this.attributes[index].label] = this.attributes[index].children[j].label
-						temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j].label].join(this.separator)
+						let obj = temp[temp.length - 1]
+						// temp[temp.length - 1][this.attributes[index].label] = this.attributes[index].children[j].label
+						// temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j].label].join(this.separator)
 						// console.log('this.attributes[index].children[j]:', this.attributes[index].children[j])
 						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
+						obj[this.skuProps.sku] = [obj[this.skuProps.sku], this.attributes[index].children[j].label].join(this.separator)
+						obj[this.skuProps.skuList].push(this.attributes[index].children[j])
+						obj[this.attributes[index].label] = this.attributes[index].children[j].label
+						// console.log('obj:', obj)
+						temp[temp.length - 1] = obj
 					}
 				}
 				dataTemp = temp
@@ -446,7 +485,7 @@ export default {
 					// 将原有的 sku 数据和新的 sku 数据比较，相同的 sku 则把原有的 sku 数据覆盖到新的 sku 数据里
 					for (let i = 0; i < this.form.skuData.length; i++) {
 						for (let j = 0; j < dataTemp.length; j++) {
-							if (this.form.skuData[i].sku === dataTemp[j].sku) {
+							if (this.form.skuData[i][this.skuProps.sku] === dataTemp[j][this.skuProps.sku]) {
 								dataTemp[j] = this.form.skuData[i]
 							}
 						}
@@ -457,26 +496,27 @@ export default {
 		},
 		// 新增一个规格
 		onAddAttribute(index) {
-			console.log('onAddAttribute.index:', index)
-			if (!this.sourceAttributes[index].addAttribute){
+			// console.log('onAddAttribute.index:', index)
+			if (!this.myAttributes[index].addAttribute){
 				this.$message({
 					type: 'warning',
 					message: '规格名称不能为空'
 				})
 				return
 			}
-			this.sourceAttributes[index].addAttribute = this.sourceAttributes[index].addAttribute.trim()
-			if (this.sourceAttributes[index].addAttribute !== '') {
-				if (!this.sourceAttributes[index].addAttribute.includes(this.separator)) {
-					const flag = this.sourceAttributes[index].children.some(item => {
-						return item.label === this.sourceAttributes[index].addAttribute
+			this.myAttributes[index].addAttribute = this.myAttributes[index].addAttribute.trim()
+			if (this.myAttributes[index].addAttribute !== '') {
+				if (!this.myAttributes[index].addAttribute.includes(this.separator)) {
+					const flag = this.myAttributes[index].children.some(item => {
+						return item.label === this.myAttributes[index].addAttribute
 					})
 					if (!flag) {
-						this.sourceAttributes[index].children.push({
-							label: this.sourceAttributes[index].addAttribute,
+						this.myAttributes[index].children.push({
+							label: this.myAttributes[index].addAttribute,
+							// value: "",
 							checked: true
 						})
-						this.sourceAttributes[index].addAttribute = ''
+						this.myAttributes[index].addAttribute = ''
 					} else {
 						this.$message({
 							type: 'warning',
@@ -617,7 +657,6 @@ export default {
 			padding: 10px 20px 20px;
 		}
 	}
-	.sku-header {}
 	.sku-check {
 		.theme-1 {
 			display: flex;

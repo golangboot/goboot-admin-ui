@@ -63,7 +63,13 @@
 								<el-row :gutter="20">
 									<el-col :span="24">
 										<div>
-											<SkuForm ref="skuForm" :params="skuParams">
+											<SkuForm ref="skuForm"
+													 v-model:sourceAttributes="sourceAttributes"
+													 v-model:structures="structures"
+													 v-model:attributes="attributes"
+													 v-model:skus="skus"
+													 :skuProps="skuProps"
+											>
 												<!--<template #score="slotProps">
 													<div>
 														<el-rate v-model="slotProps.row.score" />
@@ -246,63 +252,70 @@
 						keyword: 'keyword',
 					},
 				},
-				skuParams: {
-					sourceAttributes: [
-						{
-							label: '颜色', value: 1,
-							children: [
-								{label: '黑色', value: 1, checked: false},
-								{label: '白色', value: 2, checked: false},
-								{label: '银色', value: 3, checked: false},
-								{label: '金色', value: 4, checked: false},
-							],
-							canAddAttribute: true,
-						},
-						{
-							label: '内存', value: 2,
-							children: [
-								{label: '128G', value: 11, checked: false},
-								{label: '512G', value: 12, checked: false},
-							],
-							canAddAttribute: true,
-						},
-						{
-							label: '运营商', value: 3,
-							children: [
-								{label: '全网通', value: 21, checked: false},
-								{label: '电信', value: 22, checked: false},
-								{label: '移动', value: 23, checked: false},
-								{label: '联通', value: 24, checked: false},
-							],
-							canAddAttribute: false,
-						},
-					],
-					structures: [
-						{
-							name: 'price',
-							type: 'input',
-							label: '现价'
-						},
-						{
-							name: 'stock',
-							type: 'input',
-							label: '库存'
-						},
-						/*{
-							name: 'score',
-							type: 'slot',
-							defaultValue: 0,
-							label: '评分'
-						},
-						{
-							name: 'image',
-							type: 'slot',
-							label: '图片',
-							required: true
-						},*/
-					],
-					attributes: [],
-					skus: [],
+				//原始规格数据
+				sourceAttributes: [
+					{
+						label: '颜色', value: 1,
+						children: [
+							{label: '黑色', value: 1, checked: false},
+							{label: '白色', value: 2, checked: false},
+							{label: '银色', value: 3, checked: false},
+							{label: '金色', value: 4, checked: false},
+						],
+						canAddAttribute: true,
+					},
+					{
+						label: '内存', value: 2,
+						children: [
+							{label: '128G', value: 11, checked: false},
+							{label: '512G', value: 12, checked: false},
+						],
+						canAddAttribute: true,
+					},
+					{
+						label: '运营商', value: 3,
+						children: [
+							{label: '全网通', value: 21, checked: false},
+							{label: '电信', value: 22, checked: false},
+							{label: '移动', value: 23, checked: false},
+							{label: '联通', value: 24, checked: false},
+						],
+						canAddAttribute: false,
+					},
+				],
+				//已使用的规格数据
+				attributes: [],
+				//用于复原sku数据
+				skus: [],
+				//表格结构
+				structures: [
+					{
+						name: 'price',
+						type: 'input',
+						label: '现价'
+					},
+					{
+						name: 'stock',
+						type: 'input',
+						label: '库存'
+					},
+					/*{
+						name: 'score',
+						type: 'slot',
+						defaultValue: 0,
+						label: '评分'
+					},
+					{
+						name: 'image',
+						type: 'slot',
+						label: '图片',
+						required: true
+					},*/
+				],
+				//sku属性字段
+				skuProps: {
+					sku: 'sku',
+					skuList: 'skuList',
 				},
 			}
 		},
@@ -377,5 +390,5 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>
