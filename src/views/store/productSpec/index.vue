@@ -32,6 +32,7 @@
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="商品规格名称" prop="name" min-width="120"></el-table-column>
+					<el-table-column label="描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 						<template #default="scope">
 							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>
@@ -45,7 +46,6 @@
 						</template>
 					</el-table-column>
 					<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
-					<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="170">
 						<template #default="scope">
 							<el-button-group>

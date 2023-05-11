@@ -4,6 +4,9 @@
 			<el-form-item label="商品规格名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="描述" prop="description">
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
@@ -33,9 +36,6 @@
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
-			<el-form-item label="备注" prop="remark">
-				<el-input v-model="form.remark" clearable type="textarea"></el-input>
-			</el-form-item>
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
@@ -61,12 +61,10 @@
 				form: {
 					id:"",
 					name: "",
-					code: "",
-					label: "",
+					description: "",
 					sort: null,
-					isGlobal: 0,
 					status: 1,
-					remark: ""
+					isGlobal: 0,
 				},
 				//验证规则
 				rules: {

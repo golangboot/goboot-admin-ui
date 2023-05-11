@@ -5,9 +5,18 @@
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="品牌介绍" prop="description">
-				<el-input v-model="form.description" clearable type="textarea"></el-input>
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-form-item label="品牌编码" prop="code">
+				<template #label="{ label }">
+					<span>{{ label }}&nbsp;</span>
+					<span>
+						<el-tooltip>
+							<template #content>请填写品牌英文首字母</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
 				<el-input v-model="form.code" clearable></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
