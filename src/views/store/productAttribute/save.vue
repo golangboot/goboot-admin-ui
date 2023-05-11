@@ -102,31 +102,12 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="筛选样式" prop="filterType">
+			<el-form-item label="搜索类型" prop="searchType">
 						<template #label="{ label }">
 							<span>{{ label }}&nbsp;</span>
 							<span>
 								<el-tooltip>
-									<template #content>预留字段</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-radio-group v-model="form.filterType">
-							<el-radio :key="0" :label="0">普通</el-radio>
-							<el-radio :key="1" :label="1">颜色</el-radio>
-						</el-radio-group>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12">
-					<el-form-item label="搜索类型" prop="searchType">
-						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
-							<span>
-								<el-tooltip>
-									<template #content>预留字段</template>
+									<template #content>默认选择不需要检索即可</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
@@ -137,8 +118,6 @@
 							<el-radio :key="2" :label="2">范围检索</el-radio>
 						</el-radio-group>
 					</el-form-item>
-				</el-col>
-			</el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
@@ -158,6 +137,21 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
+					<el-form-item label="筛选样式" prop="filterType">
+						<template #label="{ label }">
+							<span>{{ label }}&nbsp;</span>
+							<span>
+								<el-tooltip>
+									<template #content>预留字段</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+						</template>
+						<el-radio-group v-model="form.filterType">
+							<el-radio :key="0" :label="0">普通</el-radio>
+							<el-radio :key="1" :label="1">颜色</el-radio>
+						</el-radio-group>
+					</el-form-item>
 				</el-col>
 			</el-row>
 			<el-form-item label="商品规格" prop="productSpecId">
