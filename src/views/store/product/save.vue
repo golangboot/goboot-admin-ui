@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'60%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'70%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">

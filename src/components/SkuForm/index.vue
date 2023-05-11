@@ -69,23 +69,23 @@
 							</el-form-item>
 						</template>
 					</el-table-column>
-					<!-- 批量设置，当 sku 数超过 2 个时出现 -->
-					<template v-if="isBatch && form.skuData.length > 1" #append>
-						<el-table :data="[{}]" :show-header="false">
-							<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">
-								<template #default="scope">
-									<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
-								</template>
-							</el-table-column>
-							<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
-								<template #default="scope">
-									<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row[skuProps.sku]}`">
-										<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
-									</el-form-item>
-								</template>
-							</el-table-column>
-						</el-table>
-					</template>
+					<!-- 批量设置，当 sku 数超过 1 个时出现 -->
+					<!-- <template v-if="isBatch && form.skuData.length > 1" #append></template> -->
+				</el-table>
+
+				<el-table :data="[{}]" :show-header="false" v-if="isBatch && form.skuData.length > 1" stripe border highlight-current-row>
+					<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">
+						<template #default="scope">
+							<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
+						</template>
+					</el-table-column>
+					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
+						<template #default="scope">
+							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row[skuProps.sku]}`">
+								<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+							</el-form-item>
+						</template>
+					</el-table-column>
 				</el-table>
 			</el-form>
 		</div>
