@@ -74,25 +74,25 @@
 													<div>
 														<el-rate v-model="slotProps.row.score" />
 													</div>
-												</template>
+												</template>-->
 												<template #image="slotProps">
-													<div class="image-upload-container">
+													<div class="image-upload-container" style="margin: 0 auto;">
 														<el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
 														<el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
 															<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
 														</el-upload>
 														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
 													</div>
-												</template>-->
+												</template>
 											</SkuForm>
 											<el-row type="flex" :gutter="20">
 												<el-col>
-													<el-divider content-position="left">attributes 数据</el-divider>
-													<pre><code>{{ attributes }}</code></pre>
-												</el-col>
-												<el-col>
 													<el-divider content-position="left">skus 数据</el-divider>
 													<pre><code>{{ skus }}</code></pre>
+												</el-col>
+												<el-col>
+													<el-divider content-position="left">attributes 数据</el-divider>
+													<pre><code>{{ attributes }}</code></pre>
 												</el-col>
 											</el-row>
 										</div>
@@ -292,25 +292,27 @@
 					{
 						name: 'price',
 						type: 'input',
-						label: '现价'
+						label: '现价',
+						required: true,
 					},
 					{
 						name: 'stock',
 						type: 'input',
-						label: '库存'
+						label: '库存',
+						required: true,
 					},
 					/*{
 						name: 'score',
 						type: 'slot',
 						defaultValue: 0,
 						label: '评分'
-					},
+					},*/
 					{
 						name: 'image',
 						type: 'slot',
 						label: '图片',
-						required: true
-					},*/
+						required: false,
+					},
 				],
 				//sku属性字段
 				skuProps: {

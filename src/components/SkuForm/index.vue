@@ -36,7 +36,7 @@
 			<el-form ref="form" :model="form" status-icon inline-message>
 				<el-table :data="form.skuData" :span-method="mergeSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
-					<el-table-column v-if="emitAttributes.length > 0" label="ID" type="index" width="50" align="center" :resizable="false" />
+					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" />
 					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" sortable>
 						<!-- 自定义表格内部展示 -->
 						<!--<template #default="scope">
@@ -196,8 +196,8 @@ export default {
 		structures: {
 			type: Array,
 			default: () => [
-				{ name: 'price', type: 'input', label: '价格' },
-				{ name: 'stock', type: 'input', label: '库存' },
+				{ name: 'price', type: 'input', label: '价格', required: true, },
+				{ name: 'stock', type: 'input', label: '库存', required: true, },
 			]
 		},
 		// sku 字段分隔符
