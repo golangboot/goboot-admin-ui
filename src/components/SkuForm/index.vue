@@ -1,4 +1,7 @@
 <template>
+	<!-- 组件说明: vue3-sku-form -->
+	<!-- 开发文档: https://hooray.github.io/vue-sku-form/guide/ -->
+	<!-- 参考代码: https://github.com/hooray/vue-sku-form.git -->
 	<div class="sku-container">
 		<div v-if="!disabled" class="sku-check">
 			<div v-if="theme == 1 || theme == 3" :class="'theme-' + theme">
