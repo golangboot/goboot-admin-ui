@@ -65,10 +65,7 @@
 										<div>
 											<SkuForm
 												ref="skuForm"
-												:source-attribute="sourceAttribute"
-												:structure="structures"
-												:attribute="attributes"
-												:sku="skus"
+												:params="skuParams"
 											>
 												<template #score="slotProps">
 													<div>
@@ -252,42 +249,64 @@
 						keyword: 'keyword',
 					},
 				},
-				sourceAttribute: [
-					{
-						name: '颜色',
-						item: ['黑', '金', '白']
-					},
-					{
-						name: '内存',
-						item: ['16G', '32G']
-					}
-				],
-				structures: [
-					{
-						name: 'price',
-						type: 'input',
-						label: '现价'
-					},
-					{
-						name: 'stock',
-						type: 'input',
-						label: '库存'
-					},
-					{
-						name: 'score',
-						type: 'slot',
-						defaultValue: 0,
-						label: '评分'
-					},
-					{
-						name: 'image',
-						type: 'slot',
-						label: '图片',
-						required: true
-					}
-				],
-				attributes: [],
-				skus: [],
+				skuParams: {
+					sourceAttributes: [
+						{
+							label: '颜色', value: 1,
+							children: [
+								{label: '黑色', value: 1, checked: false},
+								{label: '白色', value: 2, checked: false},
+								{label: '银色', value: 3, checked: false},
+								{label: '金色', value: 4, checked: false},
+							],
+							canAddAttribute: true,
+						},
+						{
+							label: '内存', value: 2,
+							children: [
+								{label: '128G', value: 11, checked: false},
+								{label: '512G', value: 12, checked: false},
+							],
+							canAddAttribute: true,
+						},
+						{
+							label: '运营商', value: 3,
+							children: [
+								{label: '全网通', value: 21, checked: false},
+								{label: '电信', value: 22, checked: false},
+								{label: '移动', value: 23, checked: false},
+								{label: '联通', value: 24, checked: false},
+							],
+							canAddAttribute: false,
+						},
+					],
+					tableStructures: [
+						{
+							name: 'price',
+							type: 'input',
+							label: '现价'
+						},
+						{
+							name: 'stock',
+							type: 'input',
+							label: '库存'
+						},
+						{
+							name: 'score',
+							type: 'slot',
+							defaultValue: 0,
+							label: '评分'
+						},
+						{
+							name: 'image',
+							type: 'slot',
+							label: '图片',
+							required: true
+						}
+					],
+					attributes: [],
+					skus: [],
+				},
 			}
 		},
 		watch: {
