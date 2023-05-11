@@ -400,7 +400,7 @@ export default {
 		},
 		// 根据 attributes 进行排列组合，生成 skuData 数据
 		combinationAttributes(index = 0, dataTemp = []) {
-			console.log('combinationAttributes => this.attributes', this.attributes)
+			// console.log('combinationAttributes => this.attributes', this.attributes)
 			if (index === 0) {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
 					const obj = {
