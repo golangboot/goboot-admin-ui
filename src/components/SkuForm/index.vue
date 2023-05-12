@@ -74,11 +74,11 @@
 						<!-- 自定义表格内部展示 -->
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
-							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
-								<el-input v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item.label}`" size="default" clearable />
-							</el-form-item>
-							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-slot-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
-								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
+							<el-form-item :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
+								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item.label}`" size="default" clearable />
+								<template v-else-if="item.type == 'slot'">
+									<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
+								</template>
 							</el-form-item>
 						</template>
 					</el-table-column>
@@ -359,7 +359,7 @@ export default {
 					}
 					this.clearValidate()
 					if (this.attributes.length > 0) {
-						console.log('触发合并表单:', 'myAttributes')
+						// console.log('触发合并表单:', 'myAttributes')
 						// this.triggerMergeTable() // 合并表单
 					}
 				})
@@ -398,7 +398,7 @@ export default {
 							})
 							skus.push(obj)
 						})
-						console.log('触发合并表单:', 'form.skuData')
+						// console.log('触发合并表单:', 'form.skuData')
 						// this.triggerMergeTable() // 合并表单
 						// console.log('skus:', skus)
 						// this.skus = skus

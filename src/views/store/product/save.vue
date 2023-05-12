@@ -90,7 +90,7 @@
 												</template>
 												<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
-														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center; max-width: 40px; height: 40px;">
+														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center; max-width: 40px; height: 40px;overflow: hidden;">
 															<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
 														</div>
 														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="slotProps.row.image = ''" />
