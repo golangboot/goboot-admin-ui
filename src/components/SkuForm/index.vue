@@ -10,11 +10,11 @@
 						<div>{{ item.label }}</div>
 					</template>
 					<div v-if="item.children && item.children.length > 0">
-						<el-checkbox v-for="(item2, index2) in item.children" :key="index2" v-model="item2.checked" :label="item2.label" size="default" />
+						<el-checkbox v-for="(item2, index2) in item.children" :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2.label" size="default" />
 					</div>
 					<div class="attr-button-group">
 						<div class="add-attr">
-							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="default" placeholder="请输入规格名称" clearable @keyup.enter="onAddAttribute(index)">
+							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格名称" clearable @keyup.enter="onAddAttribute(index)">
 								<template v-slot:append>
 									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttribute(index)">添加</el-button>
 								</template>
@@ -77,7 +77,7 @@
 							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<el-input v-model="scope.row[item.name]" :placeholder="`${item.label}`" size="default" clearable />
 							</el-form-item>
-							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}-${scope.$index}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
+							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-slot-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 							</el-form-item>
 						</template>
@@ -106,8 +106,6 @@
 </template>
 
 <script>
-import {getRowspanMethod} from '@/utils/tableSpanMethod'
-
 export default {
 	name: "SkuForm",
 	props: {
@@ -121,7 +119,7 @@ export default {
 		 */
 		/**
 		 * 新 原始规格数据
-		 * sourceAttribute: [
+		 * sourceAttributes: [
 		 * 	{
 		 * 		label: '颜色', value: 1,
 		 * 		children: [
@@ -166,7 +164,7 @@ export default {
 		 */
 		/**
 		 * 新 已使用的规格数据，用于复原数据，支持.sync修饰符
-		 * attribute: [
+		 * attributes: [
 		 * 	{
 		 * 		label: '颜色', value: 1,
 		 * 		children: [
@@ -262,13 +260,8 @@ export default {
 				skuData: []
 			},
 			batchData: {},
-			mergeTableObj: {},
-			mergeTableArr: [],
-			// 存放所有的表头 一定要与tableData一致
-			// colFields: [ "School", "Grade", "Class", "Name", "Chinese", "Math", "English", ],
-			colFields: [],
-			spanArr: [], //存储合并单元格的开始位置
-			tableData: [],
+			tableRowSpanArray: [],
+			tableRowSpanNumObject: {},
 		}
 	},
 	computed: {
@@ -327,18 +320,18 @@ export default {
 					attributes.push(obj)
 				}
 			})
-			// console.log('myAttributes', this.myAttributes)
 			// console.log('attributes', attributes)
-
-			// this.handleMergeTable() // 合并表单
-			// console.log('触发合并表单:', 'emitAttributes')
-
 			return attributes
 		}
 	},
 	watch: {
 		myAttributes: {
-			handler() {
+			// eslint-disable-next-line
+			handler(newValue, oldValue) {
+				// console.log('myAttributes.newValue:', newValue)
+				// console.log('myAttributes.oldValue:', oldValue)
+				// console.log('myAttributes.newValue.length:', newValue.length)
+				// console.log('myAttributes.oldValue.length:', oldValue.length)
 				if (!this.isInit) {
 					// this.attributes = this.emitAttributes || []
 					// 更新父组件
@@ -363,8 +356,10 @@ export default {
 						// console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
-					// this.handleMergeTable() // 合并表单
-					// console.log('触发合并表单:', 'myAttributes')
+					/*if (this.attributes.length > 0) {
+						// console.log('触发合并表单:', 'myAttributes')
+						// this.triggerMergeTable() // 合并表单
+					}*/
 				})
 			},
 			deep: true
@@ -380,7 +375,7 @@ export default {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
 						// 更新父组件
-						let arr = []
+						let skus = []
 						newValue.forEach(v1 => {
 							// console.log('structure v1', v1)
 							let obj = {
@@ -399,29 +394,37 @@ export default {
 									obj[v2.name] = (typeof v1[v2.name] != 'undefined') ? v1[v2.name] : (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
 								}
 							})
-							arr.push(obj)
+							skus.push(obj)
 						})
-						// console.log('skus:', arr)
-						// this.skus = arr
-						this.$emit('update:skus', arr || [])
+						// console.log('触发合并表单:', 'form.skuData')
+						// this.triggerMergeTable() // 合并表单
+						// console.log('skus:', skus)
+						// this.skus = skus
+						this.$emit('update:skus', skus || [])
 					}
 				}
-
-				// this.handleMergeTable() // 合并表单
-				// console.log('触发合并表单:', 'form.skuData')
 			},
 			deep: true
 		},
-		/*skus: {
+		skus: {
 			// eslint-disable-next-line
 			handler(newValue, oldValue) {
 				// console.log('skus.newValue:', newValue)
 				// console.log('skus.oldValue:', oldValue)
-				// this.handleMergeTable() // 合并表单
-				// console.log('触发合并表单:', 'skus')
+				// console.log('skus.newValue.length:', newValue.length)
+				// console.log('skus.oldValue.length:', oldValue.length)
+				if (newValue && newValue.length > 0 && newValue.length !== oldValue.length) {
+					const flag = newValue.some(item => {
+						return item.sku && item.sku !== '' && item.sku.length > 0;
+					})
+					if (flag) {
+						// console.log('触发合并表单:', 'skus')
+						this.triggerMergeTable() // 合并表单
+					}
+				}
 			},
 			deep: true
-		},*/
+		},
 	},
 	mounted() {
 		!this.async && this.init()
@@ -668,115 +671,47 @@ export default {
 		clearValidate() {
 			this.$refs['form'].clearValidate()
 		},
-		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
-		// eslint-disable-next-line
-		objectSpanMethodOld({ row, column, rowIndex, columnIndex }) {
-			if (!this.mergeTableArr || this.mergeTableArr.length <= 0) {
-				return
-			}
-			// console.log('mergeTableArr:', this.mergeTableArr)
-			// console.log('mergeTableObj:', this.mergeTableObj)
-			// 判断列的属性
-			if(this.mergeTableArr.indexOf(column.property) !== -1) {
-				// 判断其值是不是为0
-				if(this.mergeTableObj[column.property] && this.mergeTableObj[column.property][rowIndex]) {
-					return [this.mergeTableObj[column.property][rowIndex], 1]
-				} else {
-					// 如果为0则为需要合并的行
-					return [0, 0];
-				}
-			}
-		},
-		getTableSpanArr(data) {
-			this.mergeTableObj = {}
-			// eslint-disable-next-line
-			this.mergeTableArr.forEach((key, index1) => {
-				let count = 0; // 用来记录需要合并行的起始位置
-				this.mergeTableObj[key] = []; // 记录每一列的合并信息
-				data.forEach((item, index) => {
-					// index == 0表示数据为第一行，直接 push 一个 1
-					if(index === 0) {
-						this.mergeTableObj[key].push(1);
-					} else {
-						// 判断当前行是否与上一行其值相等 如果相等 在 count 记录的位置其值 +1 表示当前行需要合并 并push 一个 0 作为占位
-						if((typeof item[key] != 'undefined' && typeof data[index - 1] != 'undefined' ) && item[key] === data[index - 1][key]) {
-							this.mergeTableObj[key][count] += 1;
-							this.mergeTableObj[key].push(0);
-						} else {
-							// 如果当前行和上一行其值不相等
-							count = index; // 记录当前位置
-							this.mergeTableObj[key].push(1); // 重新push 一个 1
-						}
-					}
-				})
-			})
-		},
-		handleMergeTable(){
+		// 触发表格合并(数据获取)
+		triggerMergeTable(){
 			// this.$refs.table.doLayout()
 			// console.log('tableData:', tableData)
 			// console.log('attributes', this.attributes)
 			// this.$nextTick(() => {})
 			let tableData = this.form.skuData
-			let mergeTableArr = [];
-			if (this.attributes && this.attributes.length > 0){
-				this.attributes.forEach(attr => {
-					mergeTableArr.push(attr.label)
-				})
-				if (mergeTableArr.length > 0) {
-					this.mergeTableArr = mergeTableArr
-					this.getTableSpanArr(tableData);
-				}
-			}
-		},
-		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
-		// eslint-disable-next-line
-		objectSpanMethodBack({row, column, rowIndex, columnIndex}) {
-			// console.log('column:', column)
-			let tableData = this.form.skuData
-			let mergeTableArr = [];
+			let tableRowSpanArray = [];
 			if (this.attributes && this.attributes.length > 0) {
 				this.attributes.forEach(attr => {
-					mergeTableArr.push(attr.label)
+					tableRowSpanArray.push(attr.label)
 				})
 			}
-			// console.log('mergeTableArr:', mergeTableArr)
-			const spanMethod = getRowspanMethod(tableData, mergeTableArr || [])
-			// console.log('spanMethod:', spanMethod)
-			return spanMethod({row, column, rowIndex, columnIndex})
+			this.tableRowSpanArray = tableRowSpanArray
+			this.tableRowSpanNumObject = this.getRowSpanData(tableData, tableRowSpanArray)
 		},
-		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
+		// 默认接受四个值 { row-当前行的值, column-当前列的值, rowIndex-行的下标, columnIndex-列的下标 }
 		// eslint-disable-next-line
 		objectSpanMethod({row, column, rowIndex, columnIndex}) {
-			let tableData = this.form.skuData
-			let rowspanArray = [];
-			if (this.attributes && this.attributes.length > 0) {
-				this.attributes.forEach(attr => {
-					rowspanArray.push(attr.label)
-				})
-			}
-			let rowspanNumObject = this.getRowSpanData(tableData, rowspanArray || [])
-			return this.spanMethod(rowspanArray, rowspanNumObject, {row, column, rowIndex, columnIndex})
+			return this.spanMethod(this.tableRowSpanArray, this.tableRowSpanNumObject, {row, column, rowIndex, columnIndex})
 		},
 		/**
 		 * 合并相同数据，导出合并列所需的方法(只适合el-table)
-		 * @param {Object} tableData
-		 * @param {Object} rowspanArray
+		 * @param {Object} tableData 表格数据
+		 * @param {Object} rowSpanArray ['颜色', '内存', '运营商']
 		 */
-		getRowSpanData(tableData, rowspanArray) {
+		getRowSpanData(tableData, rowSpanArray) {
 			/**
 			 * 要合并列的数据
 			 */
-			const rowspanNumObject = {};
-			//初始化 rowspanNumObject
-			rowspanArray.map(item => {
-				rowspanNumObject[item] = new Array(tableData.length).fill(1, 0, 1).fill(0, 1);
-				rowspanNumObject[`${item}-index`] = 0;
+			const rowSpanNumObject = {};
+			//初始化 rowSpanNumObject
+			rowSpanArray.map(item => {
+				rowSpanNumObject[item] = new Array(tableData.length).fill(1, 0, 1).fill(0, 1);
+				rowSpanNumObject[`${item}-index`] = 0;
 			});
 			//计算相关的合并信息
 			let idx = 0
 			for (let i in tableData) {
-				rowspanArray.map(key => {
-					const index = rowspanNumObject[`${key}-index`];
+				rowSpanArray.map(key => {
+					const index = rowSpanNumObject[`${key}-index`];
 					let lastRowIndex = 1
 					if (!tableData[i - lastRowIndex] && i - idx > lastRowIndex) {
 						for (lastRowIndex = 1; lastRowIndex <= (i - idx); lastRowIndex++) {
@@ -786,20 +721,20 @@ export default {
 						}
 					}
 					if ((tableData[i] && tableData[i - lastRowIndex]) && tableData[i][key] === tableData[i - lastRowIndex][key]) {
-						rowspanNumObject[key][index]++;
+						rowSpanNumObject[key][index]++;
 					} else {
-						rowspanNumObject[`${key}-index`] = idx;
-						rowspanNumObject[key][idx] = 1;
+						rowSpanNumObject[`${key}-index`] = idx;
+						rowSpanNumObject[key][idx] = 1;
 					}
 				});
 				idx++
 			}
-			return rowspanNumObject
+			return rowSpanNumObject
 		},
 		/**
 		 * 合并方法
-		 * @param rowspanArray 要合并列的数据
-		 * @param rowspanNumObject 要合并列的数据
+		 * @param rowSpanArray 要合并列的数据
+		 * @param rowSpanNumObject 要合并列的数据
 		 * @param row
 		 * @param column
 		 * @param rowIndex
@@ -807,9 +742,9 @@ export default {
 		 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
 		 */
 		// eslint-disable-next-line
-		spanMethod(rowspanArray, rowspanNumObject, {row, column, rowIndex, columnIndex}) {
-			if (typeof column != 'undefined' && rowspanArray.includes(column['property'])) {
-				const rowspan = rowspanNumObject[column['property']][rowIndex];
+		spanMethod(rowSpanArray, rowSpanNumObject, {row, column, rowIndex, columnIndex}) {
+			if (typeof column != 'undefined' && rowSpanArray.includes(column['property'])) {
+				const rowspan = rowSpanNumObject[column['property']][rowIndex];
 				if (rowspan > 0) {
 					return {rowspan: rowspan, colspan: 1}
 				}
