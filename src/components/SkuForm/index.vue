@@ -50,10 +50,10 @@
 		</div>
 		<div class="sku-list">
 			<el-form ref="form" :model="form" status-icon inline-message>
-				<el-table :data="form.skuData" :span-method="mergeSpanMethod" stripe border highlight-current-row>
+				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
-					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" />
-					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" sortable>
+					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" fixed />
+					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" fixed sortable>
 						<!-- 自定义表格内部展示 -->
 						<!--<template #default="scope">
 							<el-form-item>
@@ -293,7 +293,7 @@ export default {
 				return item.type == 'input' && item.batch != false
 			})
 		},
-		// 将 myAttributes 数据还原会 attributes 数据的结构，用于更新 attribute
+		// 将 myAttributes 数据还原回 attributes 数据的结构，用于更新 attribute
 		emitAttributes() {
 			let attributes = []
 			this.myAttributes.forEach(v1 => {
@@ -321,7 +321,10 @@ export default {
 			})
 			// console.log('myAttributes', this.myAttributes)
 			// console.log('attributes', attributes)
-			this.handleMergeTable() // 合并表单
+
+			// this.handleMergeTable() // 合并表单
+			// console.log('触发合并表单:', 'emitAttributes')
+
 			return attributes
 		}
 	},
@@ -352,6 +355,8 @@ export default {
 						// console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
+					this.handleMergeTable() // 合并表单
+					console.log('触发合并表单:', 'myAttributes')
 				})
 			},
 			deep: true
@@ -360,6 +365,9 @@ export default {
 			handler(newValue, oldValue) {
 				// console.log('form.skuData.newValue:', newValue)
 				// console.log('form.skuData.oldValue:', oldValue)
+				// console.log('form.skuData.newValue.length:', Object.keys(newValue).length)
+				// console.log('form.skuData.oldValue.length:', Object.keys(oldValue).length)
+
 				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
@@ -390,9 +398,19 @@ export default {
 						this.$emit('update:skus', arr || [])
 					}
 				}
+
+				// this.handleMergeTable() // 合并表单
+				// console.log('触发合并表单:', 'form.skuData')
 			},
 			deep: true
-		}
+		},
+		/*skus: {
+			handler(newValue, oldValue) {
+				// console.log('skus.newValue:', newValue)
+				// console.log('skus.oldValue:', oldValue)
+			},
+			deep: true
+		},*/
 	},
 	mounted() {
 		!this.async && this.init()
@@ -525,8 +543,12 @@ export default {
 					// 将原有的 sku 数据和新的 sku 数据比较，相同的 sku 则把原有的 sku 数据覆盖到新的 sku 数据里
 					for (let i = 0; i < this.form.skuData.length; i++) {
 						for (let j = 0; j < dataTemp.length; j++) {
-							if (this.form.skuData[i][this.skuProps.sku] === dataTemp[j][this.skuProps.sku]) {
-								dataTemp[j] = this.form.skuData[i]
+							if (typeof this.form.skuData[i] != 'undefined'){
+								if (typeof dataTemp[j] != 'undefined'){
+									if (this.form.skuData[i][this.skuProps.sku] === dataTemp[j][this.skuProps.sku]) {
+										dataTemp[j] = this.form.skuData[i]
+									}
+								}
 							}
 						}
 					}
@@ -637,7 +659,7 @@ export default {
 		},
 		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
 		// eslint-disable-next-line
-		mergeSpanMethod({ row, column, rowIndex, columnIndex }) {
+		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
 			if (!this.mergeTableArr || this.mergeTableArr.length <= 0) {
 				return
 			}
@@ -653,6 +675,7 @@ export default {
 			}
 		},
 		getTableSpanArr(data) {
+			this.mergeTableObj = {}
 			// eslint-disable-next-line
 			this.mergeTableArr.forEach((key, index1) => {
 				let count = 0; // 用来记录需要合并行的起始位置
@@ -663,7 +686,7 @@ export default {
 						this.mergeTableObj[key].push(1);
 					} else {
 						// 判断当前行是否与上一行其值相等 如果相等 在 count 记录的位置其值 +1 表示当前行需要合并 并push 一个 0 作为占位
-						if(item[key] === data[index - 1][key]) {
+						if((typeof item[key] != 'undefined' && typeof data[index - 1] != 'undefined' ) && item[key] === data[index - 1][key]) {
 							this.mergeTableObj[key][count] += 1;
 							this.mergeTableObj[key].push(0);
 						} else {
@@ -676,19 +699,21 @@ export default {
 			})
 		},
 		handleMergeTable(){
-			let tableData = this.form.skuData
+			// this.$refs.table.doLayout()
 			// console.log('tableData:', tableData)
 			// console.log('attributes', this.attributes)
 			// this.$nextTick(() => {})
+			let tableData = this.form.skuData
+			this.mergeTableArr = []
 			if (this.attributes && this.attributes.length > 0){
 				let mergeTableArr = [];
 				this.attributes.forEach(attr => {
 					mergeTableArr.push(attr.label)
 				})
-				if (mergeTableArr.length > 0) {
-					this.mergeTableArr = mergeTableArr
-					this.getTableSpanArr(tableData);
-				}
+				// if (mergeTableArr.length > 0) {}
+				this.mergeTableArr = mergeTableArr
+				console.log('this.mergeTableArr', this.mergeTableArr)
+				this.getTableSpanArr(tableData);
 			}
 		},
 	},

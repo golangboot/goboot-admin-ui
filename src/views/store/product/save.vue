@@ -99,13 +99,22 @@
 														</el-upload>
 													</div>
 												</template>
+												<template #operation="slotProps">
+													<div class="operation-container" style="margin: 0 auto;">
+														<el-popconfirm title="确定删除吗？" @confirm="skuFormTableRowDelete(slotProps.row, slotProps.index)">
+															<template #reference>
+																<el-button type="default" size="small" icon="el-icon-delete">删除</el-button>
+															</template>
+														</el-popconfirm>
+													</div>
+												</template>
 											</sku-form>
 											<el-row type="flex" :gutter="20">
-												<el-col>
+												<el-col :span="12">
 													<el-divider content-position="left">skus 数据</el-divider>
 													<pre><code>{{ skus }}</code></pre>
 												</el-col>
-												<el-col>
+												<el-col :span="12">
 													<el-divider content-position="left">attributes 数据</el-divider>
 													<pre><code>{{ attributes }}</code></pre>
 												</el-col>
@@ -339,7 +348,7 @@
 						name: 'code',
 						type: 'input',
 						label: 'SKU编码',
-						tip: '留空时系统自动生成',
+						tip: 'SKU编码请保持唯一性，可以使用商品货号或条形码等，留空时系统自动生成',
 						required: false,
 					},
 					{
@@ -360,6 +369,13 @@
 						defaultValue: 1,
 						label: '状态',
 						required: true,
+					},
+					{
+						name: 'operation',
+						type: 'slot',
+						label: '操作',
+						required: false,
+						skuProperty: false,
 					},
 				],
 				//sku属性字段
@@ -435,6 +451,28 @@
 			async getTreeList() {
 				let res = await this.$API.store.category.tree.get();
 				this.treeOptions = res.data
+			},
+			//表格行删除
+			skuFormTableRowDelete(row, index) {
+				// console.log('skuFormTableRowDelete.row:', row)
+				// console.log('skuFormTableRowDelete.row.sku:', row.sku)
+				// console.log('skuFormTableRowDelete.index:', index)
+				// console.log('this.$refs.skuForm:', this.$refs.skuForm.form.skuData)
+				this.$nextTick(() => {
+					let i = 0
+					for(let idx in this.$refs.skuForm.form.skuData){
+						// console.log('skuFormTableRowDelete.idx:', idx)
+						// console.log('skuFormTableRowDelete.i == index:', i == index)
+						if (i == index){
+							delete this.$refs.skuForm.form.skuData[idx]
+							this.$message.success("删除成功")
+						}
+						i++
+					}
+					// delete this.$refs.skuForm.form.skuData[index]
+				})
+				// delete this.skus[index]
+				// this.$refs.skuForm.table.removeIndex(index)
 			},
 		}
 	}
