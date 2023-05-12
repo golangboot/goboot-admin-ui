@@ -53,7 +53,7 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="属性值可选值列表" prop="inputListFormat" v-if="form.inputType == 1">
+			<el-form-item label="属性值可选值列表" prop="optionsFormat" v-if="form.inputType == 1">
 				<template #label="{ label }">
 					<span>{{ label }}&nbsp;</span>
 					<span>
@@ -63,7 +63,7 @@
 						</el-tooltip>
 					</span>
 				</template>
-				<el-input ref="inputListFormat" v-model="inputListFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="1000" :show-word-limit="true" type="textarea"></el-input>
+				<el-input ref="optionsFormat" v-model="optionsFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="65535" :show-word-limit="true" type="textarea"></el-input>
 				<div class="el-form-item-msg">多个属性值可选值使用Enter确认键换行</div>
 			</el-form-item>
 			<el-row :gutter="20">
@@ -199,7 +199,7 @@
 					selectType: 0,
 					inputType: 0,
 					canAddAttribute: 0,
-					inputList: "",
+					options: "",
 					isSaleAttribute: 0,
 					optionType: 0,
 				},
@@ -246,15 +246,15 @@
 						keyword: 'keyword',
 					},
 				},
-				inputListFormat: "",
+				optionsFormat: "",
 			}
 		},
 		watch: {
-			inputListFormat(val) {
+			optionsFormat(val) {
 				val = val.replace(/\n/g, ',')
-				this.form.inputList = val
+				this.form.options = val
 				/*this.$nextTick(() => {
-					this.$refs.inputListFormat.resizeTextarea();
+					this.$refs.optionsFormat.resizeTextarea();
 				});*/
 			}
 		},
@@ -306,8 +306,8 @@
 					this.form = res.data
 				}
 				// this.form.isGlobal = this.form.isGlobal || 0
-				if (this.form.inputList){
-					this.inputListFormat = this.form.inputList.replace(/,/g, '\n')
+				if (this.form.options){
+					this.optionsFormat = this.form.options.replace(/,/g, '\n')
 				}
 			}
 		}

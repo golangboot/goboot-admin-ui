@@ -18,7 +18,7 @@
 		</el-form-item>
 		<el-form-item style="margin-bottom: 10px;">
 				<el-col :span="12">
-					<el-checkbox :label="$t('login.rememberMe')" v-model="form.autologin"></el-checkbox>
+					<el-checkbox :label="$t('login.rememberMe')" v-model="form.autoLogin"></el-checkbox>
 				</el-col>
 				<el-col :span="12" class="login-forgot">
 					<router-link to="/reset_password">{{ $t('login.forgetPassword') }}？</router-link>
@@ -41,7 +41,7 @@
 				form: {
 					user: "admin",
 					password: "123456",
-					autologin: false
+					autoLogin: false,
 				},
 				rules: {
 					user: [
@@ -57,20 +57,20 @@
 		watch:{
 			userType(val){
 				if(val == 'admin'){
-					this.form.user = 'admin'
-					this.form.password = '123456'
+					this.form.user = ''
+					this.form.password = ''
 				}else if(val == 'user'){
-					this.form.user = 'user'
-					this.form.password = '123456'
+					this.form.user = ''
+					this.form.password = ''
 				}else if(val == 'enterprise'){
-					this.form.user = 'enterprise'
-					this.form.password = '123456'
+					this.form.user = ''
+					this.form.password = ''
 				}else if(val == 'organization'){
-					this.form.user = 'organization'
-					this.form.password = '123456'
+					this.form.user = ''
+					this.form.password = ''
 				}else if(val == 'merchant'){
-					this.form.user = 'merchant'
-					this.form.password = '123456'
+					this.form.user = ''
+					this.form.password = ''
 				}
 			}
 		},
@@ -98,7 +98,7 @@
 				}
 				if(user.code == 200){
 					this.$TOOL.cookie.set(this.$CONFIG.DATA_CODE.TOKEN, user.data.token, {
-						expires: this.form.autologin? 24*60*60 : 0
+						expires: this.form.autoLogin? 24*60*60 : 0
 					})
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.USER_INFO, user.data.userInfo || user.data.userinfo)
 				}else{

@@ -64,7 +64,7 @@
 							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<el-input v-model="scope.row[item.name]" :placeholder="`请输入${item.label}`" size="default" />
 							</el-form-item>
-							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
+							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}-${scope.$index}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 							</el-form-item>
 						</template>
