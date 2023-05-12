@@ -345,6 +345,8 @@ export default {
 		},
 		'form.skuData': {
 			handler(newValue, oldValue) {
+				// console.log('form.skuData.newValue:', newValue)
+				// console.log('form.skuData.oldValue:', oldValue)
 				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
@@ -361,11 +363,16 @@ export default {
 							this.structures.forEach(v2 => {
 								// console.log('structure v2', v2)
 								if (!(v2.type == 'slot' && v2.skuProperty == false)) {
-									obj[v2.name] = v1[v2.name] || (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
+									// console.log('form.skuData.structures:', v2)
+									// console.log(`form.skuData.structures ${v2.name}:`, v1[v2.name])
+									// console.log(`form.skuData.structures ${v2.name}:`, typeof v1[v2.name])
+									// obj[v2.name] = v1[v2.name] || (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
+									obj[v2.name] = (typeof v1[v2.name] != 'undefined') ? v1[v2.name] : (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
 								}
 							})
 							arr.push(obj)
 						})
+						// console.log('skus:', arr)
 						// this.skus = arr
 						this.$emit('update:skus', arr || [])
 					}

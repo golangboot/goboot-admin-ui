@@ -54,7 +54,7 @@
 				<el-table-column label="商品图片" prop="image" width="80">
 					<template #default="scope">
 						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-							<el-image class="image" :src="scope.row.image" v-if="scope.row.image" fit="cover" :preview-src-list="[scope.row.image]" hide-on-click-modal preview-teleported></el-image>
+							<el-image class="image" :src="scope.row.image" v-if="scope.row.image" :preview-src-list="[scope.row.image]" fit="cover" hide-on-click-modal preview-teleported></el-image>
 						</div>
 					</template>
 				</el-table-column>

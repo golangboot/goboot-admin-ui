@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'70%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
@@ -75,13 +75,28 @@
 														<el-rate v-model="slotProps.row.score" />
 													</div>
 												</template>-->
+												<template #status="slotProps">
+													<div style="margin: 0 auto;">
+														<el-switch
+															v-model="slotProps.row.status"
+															class="ml-2"
+															inline-prompt
+															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+															:active-value="1" :inactive-value="0"
+															active-text="开启" inactive-text="关闭"
+															@change="slotProps.row.status = $event"
+														/>
+													</div>
+												</template>
 												<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
-														<el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
-														<el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
+														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center; max-width: 40px; height: 40px;">
+															<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
+														</div>
+														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="slotProps.row.image = ''" />
+														<el-upload v-else :show-file-list="false" :action="$API.file.upload.url" :data="{type: 'image'}" name="file" :before-upload="beforeUpload" :on-success="res => slotProps.row.image = res.data.url" class="images-upload">
 															<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
 														</el-upload>
-														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
 													</div>
 												</template>
 											</sku-form>
@@ -296,8 +311,21 @@
 					{
 						name: 'price',
 						type: 'input',
-						label: '现价',
+						label: '销售价',
 						required: true,
+					},
+					{
+						name: 'marketPrice',
+						type: 'input',
+						label: '市场价',
+						tip: '划线参考价格',
+						required: false,
+					},
+					{
+						name: 'costPrice',
+						type: 'input',
+						label: '成本价',
+						required: false,
 					},
 					{
 						name: 'stock',
@@ -312,17 +340,24 @@
 						tip: '留空时系统自动生成',
 						required: false,
 					},
-					/*{
-						name: 'score',
-						type: 'slot',
-						defaultValue: 0,
-						label: '评分'
-					},*/
 					{
 						name: 'image',
 						type: 'slot',
 						label: '图片',
 						required: false,
+					},
+					/*{
+						name: 'score',
+						type: 'slot',
+						defaultValue: 0,
+						label: '评分',
+					},*/
+					{
+						name: 'status',
+						type: 'slot',
+						defaultValue: 1,
+						label: '状态',
+						required: true,
 					},
 				],
 				//sku属性字段
