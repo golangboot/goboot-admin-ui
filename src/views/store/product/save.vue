@@ -328,7 +328,7 @@
 				//sku属性字段
 				skuProps: {
 					sku: 'sku',
-					skuList: 'skuList',
+					attributeParams: 'attributeParams',
 				},
 			}
 		},

@@ -233,7 +233,7 @@ export default {
 			type: Object, default: () => {
 				return {
 					sku: 'sku',
-					skuList: 'skuList',
+					attributeParams: 'attributeParams',
 				}
 			}
 		},
@@ -355,8 +355,8 @@ export default {
 							let obj = {
 								[this.skuProps.sku]: v1[this.skuProps.sku],
 							}
-							if (v1[this.skuProps.skuList]){
-								obj[this.skuProps.skuList] = v1[this.skuProps.skuList]
+							if (v1[this.skuProps.attributeParams]){
+								obj[this.skuProps.attributeParams] = v1[this.skuProps.attributeParams]
 							}
 							this.structures.forEach(v2 => {
 								// console.log('structure v2', v2)
@@ -451,10 +451,18 @@ export default {
 				for (let i = 0; i < this.attributes[0].children.length; i++) {
 					let obj = {
 						[this.skuProps.sku]: this.attributes[0].children[i].label,
-						[this.skuProps.skuList]: [],
+						[this.skuProps.attributeParams]: [],
 						[this.attributes[0].label]: this.attributes[0].children[i].label,
 					}
-					obj[this.skuProps.skuList].push(this.attributes[0].children[i])
+					let attributeParams = {
+						attribute: {
+							label: this.attributes[0].label,
+							value: this.attributes[0].value,
+						},
+						attributeValue: this.attributes[0].children[i],
+					}
+					obj[this.skuProps.attributeParams].push(attributeParams)
+					// obj[this.skuProps.attributeParams].push(this.attributes[0].children[i])
 					this.structures.forEach(v => {
 						if (!(v.type == 'slot' && v.skuProperty == false)) {
 							obj[v.name] = typeof v.defaultValue != 'undefined' ? v.defaultValue : ''
@@ -473,7 +481,15 @@ export default {
 						// console.log('this.attributes[index].children[j]:', this.attributes[index].children[j])
 						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
 						obj[this.skuProps.sku] = [obj[this.skuProps.sku], this.attributes[index].children[j].label].join(this.separator)
-						obj[this.skuProps.skuList].push(this.attributes[index].children[j])
+						let attributeParams = {
+							attribute: {
+								label: this.attributes[index].label,
+								value: this.attributes[index].value,
+							},
+							attributeValue: this.attributes[index].children[j],
+						}
+						obj[this.skuProps.attributeParams].push(attributeParams)
+						// obj[this.skuProps.attributeParams].push(this.attributes[index].children[j])
 						obj[this.attributes[index].label] = this.attributes[index].children[j].label
 						// console.log('obj:', obj)
 						temp[temp.length - 1] = obj
