@@ -74,10 +74,10 @@
 						<!-- 自定义表格内部展示 -->
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
-							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
-								<el-input v-model="scope.row[item.name]" :placeholder="`${item.label}`" size="default" clearable />
+							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
+								<el-input v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item.label}`" size="default" clearable />
 							</el-form-item>
-							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-slot-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
+							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-slot-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
 								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 							</el-form-item>
 						</template>
@@ -287,6 +287,8 @@ export default {
 					}
 				}
 			})
+			// console.log('structures:', this.structures)
+			// console.log('rules:', rules)
 			return rules
 		},
 		isBatch() {
@@ -356,10 +358,10 @@ export default {
 						// console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
-					/*if (this.attributes.length > 0) {
-						// console.log('触发合并表单:', 'myAttributes')
+					if (this.attributes.length > 0) {
+						console.log('触发合并表单:', 'myAttributes')
 						// this.triggerMergeTable() // 合并表单
-					}*/
+					}
 				})
 			},
 			deep: true
@@ -396,7 +398,7 @@ export default {
 							})
 							skus.push(obj)
 						})
-						// console.log('触发合并表单:', 'form.skuData')
+						console.log('触发合并表单:', 'form.skuData')
 						// this.triggerMergeTable() // 合并表单
 						// console.log('skus:', skus)
 						// this.skus = skus
@@ -418,7 +420,7 @@ export default {
 						return item.sku && item.sku !== '' && item.sku.length > 0;
 					})
 					if (flag) {
-						// console.log('触发合并表单:', 'skus')
+						console.log('触发合并表单:', 'skus')
 						this.triggerMergeTable() // 合并表单
 					}
 				}
@@ -652,13 +654,26 @@ export default {
 				callback(valid)
 			})
 		},
-		validateFieldByColumns(colums, callback) {
+		validateFieldByColumns(columns, callback) {
 			let props = []
-			this.form.skuData.forEach((v, i) => {
-				colums.forEach(v => {
+			/*this.form.skuData.forEach((v, i) => {
+				columns.forEach(v => {
 					props.push(`skuData.${i}.${v}`)
+					console.log(`validateFieldByColumns.skuData.${i}.${v}`)
 				})
-			})
+			})*/
+			let i = 0
+			// eslint-disable-next-line
+			for(let idx in this.form.skuData){
+				columns.forEach(v => {
+					let prop = `skuData.${i}.${v}`
+					props.push(prop)
+					// console.log(`validateFieldByColumns.prop => ${prop}`)
+				})
+				i++
+			}
+			// console.log('validateFieldByColumns props:', props)
+			// console.log('validateFieldByColumns form:', this.$refs['form'])
 			this.$refs['form'].validateField(props, valid => {
 				callback(valid)
 			})

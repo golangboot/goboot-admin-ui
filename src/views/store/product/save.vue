@@ -464,16 +464,14 @@
 					for(let idx in this.$refs.skuForm.form.skuData){
 						// console.log('skuFormTableRowDelete.idx:', idx)
 						// console.log('skuFormTableRowDelete.i == index:', i == index)
-						if (i == index){
-							delete this.$refs.skuForm.form.skuData[idx]
+						if (i === index){
+							// delete this.$refs.skuForm.form.skuData[idx] // delete删除方式会导致数组下标错乱
+							this.$refs.skuForm.form.skuData.splice(idx, 1)
 							this.$message.success("删除成功")
 						}
 						i++
 					}
-					// delete this.$refs.skuForm.form.skuData[index]
 				})
-				// delete this.skus[index]
-				// this.$refs.skuForm.table.removeIndex(index)
 			},
 		}
 	}
