@@ -3,39 +3,20 @@
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-					<el-form-item label="文章分类" prop="categoryId">
-						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
-							<span>
-								<el-tooltip>
-									<template #content>请选择分类</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择文章分类" clearable filterable></el-cascader>
-					</el-form-item>
-					<el-form-item label="文章标题" prop="title">
+					<el-form-item label="标题" prop="title">
 						<el-input v-model="form.title" clearable></el-input>
 					</el-form-item>
-					<el-form-item label="文章简介" prop="description">
+					<el-form-item label="描述" prop="description">
 						<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 					</el-form-item>
 					<el-row :gutter="20">
 						<el-col :span="12">
-							<el-form-item label="封面图片" prop="image">
-								<sc-upload v-model="form.image" title="请上传封面图片"></sc-upload>
+							<el-form-item label="图片" prop="image">
+								<sc-upload v-model="form.image" title="请上传图片"></sc-upload>
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-form-item label="固定链接" prop="slug">
-						<el-input v-model="form.slug" clearable></el-input>
-					</el-form-item>
-					<el-row :gutter="20">
-						<el-col :span="24">
-						</el-col>
-					</el-row>
-					<el-form-item label="文章内容" prop="content">
+					<el-form-item label="内容" prop="content">
 						<sc-editor v-model="form.content" placeholder="请输入内容" :height="500"></sc-editor>
 					</el-form-item>
 					<el-form-item label="用户" prop="userId">
@@ -92,10 +73,7 @@
 				//验证规则
 				rules: {
 					title: [
-						{required: true, message: '请输入文章标题'}
-					],
-					categoryId: [
-						{ required: true, message: '请选择文章分类', trigger: 'change'}
+						{required: true, message: '请输入标题'}
 					],
 				},
 				userSelect: {
@@ -125,19 +103,9 @@
 						}
 					},
 				},
-				treeOptions: [],
-				treeProps: {
-					value: 'id',
-					label: 'name',
-					// checkStrictly: true,
-					checkStrictly: false, // 只能选择叶子节点(最后一级分类)
-					emitPath: false,
-					expandTrigger: "hover",
-				},
 			}
 		},
 		mounted() {
-			this.getTreeList()
 		},
 		methods: {
 			//显示
@@ -151,11 +119,11 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
-							res = await this.$API.cms.article.update.put(this.form)
+							res = await this.$API.system.notice.update.put(this.form)
 						} else {
-							res = await this.$API.cms.article.add.post(this.form)
+							res = await this.$API.system.notice.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -176,16 +144,12 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.cms.article.detail.get(reqData)
+					let res = await this.$API.system.notice.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
 				this.loading = false
-			},
-			async getTreeList() {
-				let res = await this.$API.cms.articleCategory.tree.get();
-				this.treeOptions = res.data
-			},
+			}
 		}
 	}
 </script>
