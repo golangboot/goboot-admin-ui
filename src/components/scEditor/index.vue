@@ -24,6 +24,9 @@
 	import 'tinymce/plugins/lists'  //列
 	import 'tinymce/plugins/advlist'  //列
 	import 'tinymce/plugins/quickbars'  //快速工具条
+	import 'tinymce/plugins/wordcount'  //字数统计插件
+	import 'tinymce/plugins/fullscreen'  //全屏幕
+	// import 'tinymce/plugins/autoresize'  //自动大小
 
 	export default {
 		components: {
@@ -38,6 +41,10 @@
 				type: String,
 				default: ""
 			},
+			width: {
+				type: [Number, String],
+				default: "100%"
+			},
 			height: {
 				type: Number,
 				default: 300,
@@ -48,13 +55,14 @@
 			},
 			plugins: {
 				type: [String, Array],
-				default: 'code image media link preview table quickbars template pagebreak lists advlist'
+				default: 'code image media link preview table quickbars template pagebreak lists advlist wordcount fullscreen'
 			},
 			toolbar: {
 				type: [String, Array],
-				default: 'undo redo |  forecolor backcolor bold italic underline strikethrough link | blocks fontfamily fontsize | \
-					alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
-					image media table template preview | code selectall'
+				default: 'undo redo | forecolor backcolor bold italic underline strikethrough link | blocks fontfamily fontsize | \
+					alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | blockquote subscript superscript removeformat | lineheight | hr pagebreak | \
+					image media table template preview | code selectall | fullscreen'
+					// + ' | cut copy paste pastetext'
 			},
 			templates: {
 				type: Array,
@@ -78,6 +86,7 @@
 					toolbar: this.toolbar,
 					toolbar_mode: 'sliding',
 					font_size_formats: '12px 14px 16px 18px 22px 24px 36px 72px',
+					// width: this.width,
 					height: this.height,
 					placeholder: this.placeholder,
 					branding: false,
@@ -96,7 +105,7 @@
 							const data = new FormData();
 							data.append("file", blobInfo.blob() ,blobInfo.filename());
 							API.file.upload.post(data).then((res) => {
-								resolve(res.data.src)
+								resolve(res.data.src || res.data.url)
 							}).catch(() => {
 								reject("Image upload failed")
 							})
