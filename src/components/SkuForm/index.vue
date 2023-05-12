@@ -420,7 +420,7 @@ export default {
 						return item.sku && item.sku !== '' && item.sku.length > 0;
 					})
 					if (flag) {
-						console.log('触发合并表单:', 'skus')
+						// console.log('触发合并表单:', 'skus')
 						this.triggerMergeTable() // 合并表单
 					}
 				}
