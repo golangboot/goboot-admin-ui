@@ -221,7 +221,7 @@ export default {
 		// 主题风格
 		theme: {
 			type: Number,
-			default: 3
+			default: 1
 		},
 		// 是否开启异步加载
 		async: {

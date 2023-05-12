@@ -102,7 +102,8 @@
 
 							<el-tab-pane label="商品详情">
 								<el-form-item label="商品内容" prop="content">
-									<el-input v-model="form.content" clearable type="textarea"></el-input>
+									<sc-editor v-model="form.content" placeholder="请输入内容" :height="500"></sc-editor>
+									<!--<el-input v-model="form.content" clearable type="textarea"></el-input>-->
 								</el-form-item>
 							</el-tab-pane>
 
@@ -162,12 +163,15 @@
 <script>
 	import SkuForm from "@/components/SkuForm";
 	import SelectRemote from "@/components/SelectRemote";
+	import { defineAsyncComponent } from 'vue';
+	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
 			SkuForm,
 			SelectRemote,
+			scEditor,
 		},
 		data() {
 			return {
