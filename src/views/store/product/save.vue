@@ -83,7 +83,7 @@
 															inline-prompt
 															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
 															:active-value="1" :inactive-value="0"
-															active-text="开启" inactive-text="关闭"
+															active-text="上架" inactive-text="下架"
 															@change="slotProps.row.status = $event"
 														/>
 													</div>
@@ -117,7 +117,7 @@
 
 							<el-tab-pane label="商品详情">
 								<el-form-item label="商品内容" prop="content">
-									<sc-editor v-model="form.content" placeholder="请输入内容" :height="500"></sc-editor>
+									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
 									<!--<el-input v-model="form.content" clearable type="textarea"></el-input>-->
 								</el-form-item>
 							</el-tab-pane>

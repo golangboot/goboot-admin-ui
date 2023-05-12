@@ -9,12 +9,25 @@
 					<template v-slot:header>
 						<div>{{ item.label }}</div>
 					</template>
-					<el-checkbox v-for="(item2, index2) in item.children" :key="index2" v-model="item2.checked" :label="item2.label" size="default" />
-					<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="default" placeholder="请输入规格名称" class="add-attr" clearable @keyup.enter="onAddAttribute(index)">
-						<template v-slot:append>
-							<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttribute(index)">添加</el-button>
-						</template>
-					</el-input>
+					<el-checkbox-group v-if="item.children && item.children.length > 0">
+						<el-checkbox v-for="(item2, index2) in item.children" :key="index2" v-model="item2.checked" :label="item2.label" size="default" />
+					</el-checkbox-group>
+					<div class="attr-button-group">
+						<div class="add-attr">
+							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="default" placeholder="请输入规格名称" clearable @keyup.enter="onAddAttribute(index)">
+								<template v-slot:append>
+									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttribute(index)">添加</el-button>
+								</template>
+							</el-input>
+						</div>
+						<div class="delete-attr" v-if="item.canDeleteAttribute">
+							<el-popconfirm title="确定删除选中吗？" @confirm="onDeleteAttribute(index)">
+								<template #reference>
+									<el-button type="default" size="default" icon="el-icon-delete">删除</el-button>
+								</template>
+							</el-popconfirm>
+						</div>
+					</div>
 				</el-card>
 			</div>
 			<el-table v-else :data="myAttributes" :show-header="false" class="theme-2">
@@ -397,6 +410,7 @@ export default {
 						label: v.label,
 						value: v.value,
 						canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
+						canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ?  v.canDeleteAttribute : true,
 						addAttribute: '',
 						children: []
 					}
@@ -520,14 +534,24 @@ export default {
 				this.form.skuData = dataTemp
 			}
 		},
+		// 删除选中规格
+		onDeleteAttribute(index) {
+			const flag = this.myAttributes[index].children.some(item => {
+				return item.checked;
+			})
+			if (!flag) {
+				this.$message({type: 'warning', message: '请勾选需要删除的规格名称'})
+				return
+			}
+			this.myAttributes[index].children = this.myAttributes[index].children.filter((item) => {
+				return !item.checked;
+			})
+		},
 		// 新增一个规格
 		onAddAttribute(index) {
 			// console.log('onAddAttribute.index:', index)
 			if (!this.myAttributes[index].addAttribute){
-				this.$message({
-					type: 'warning',
-					message: '规格名称不能为空'
-				})
+				this.$message({type: 'warning', message: '规格名称不能为空'})
 				return
 			}
 			this.myAttributes[index].addAttribute = this.myAttributes[index].addAttribute.trim()
@@ -694,9 +718,20 @@ export default {
 				&:last-child:nth-child(3n - 1) {
 					margin-right: calc(100% - 32% * 2 - 4% / 2) !important;
 				}
-				.add-attr {
+				/*.add-attr {
 					width: 100%;
 					margin-top: 10px;
+				}*/
+				.attr-button-group {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					margin-top: 10px;
+					.add-attr {
+						flex: 1;
+						padding-right: 20px;
+					}
+					.delete-attr {}
 				}
 			}
 		}
