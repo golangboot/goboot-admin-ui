@@ -9,9 +9,9 @@
 					<template v-slot:header>
 						<div>{{ item.label }}</div>
 					</template>
-					<el-checkbox-group v-if="item.children && item.children.length > 0">
+					<div v-if="item.children && item.children.length > 0">
 						<el-checkbox v-for="(item2, index2) in item.children" :key="index2" v-model="item2.checked" :label="item2.label" size="default" />
-					</el-checkbox-group>
+					</div>
 					<div class="attr-button-group">
 						<div class="add-attr">
 							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="default" placeholder="请输入规格名称" clearable @keyup.enter="onAddAttribute(index)">
