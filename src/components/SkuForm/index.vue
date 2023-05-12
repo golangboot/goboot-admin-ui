@@ -730,7 +730,7 @@ export default {
 		},
 		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
 		// eslint-disable-next-line
-		objectSpanMethod({row, column, rowIndex, columnIndex}) {
+		objectSpanMethodBack({row, column, rowIndex, columnIndex}) {
 			// console.log('column:', column)
 			let tableData = this.form.skuData
 			let mergeTableArr = [];
@@ -743,6 +743,79 @@ export default {
 			const spanMethod = getRowspanMethod(tableData, mergeTableArr || [])
 			// console.log('spanMethod:', spanMethod)
 			return spanMethod({row, column, rowIndex, columnIndex})
+		},
+		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
+		// eslint-disable-next-line
+		objectSpanMethod({row, column, rowIndex, columnIndex}) {
+			let tableData = this.form.skuData
+			let rowspanArray = [];
+			if (this.attributes && this.attributes.length > 0) {
+				this.attributes.forEach(attr => {
+					rowspanArray.push(attr.label)
+				})
+			}
+			let rowspanNumObject = this.getRowSpanData(tableData, rowspanArray || [])
+			return this.spanMethod(rowspanArray, rowspanNumObject, {row, column, rowIndex, columnIndex})
+		},
+		/**
+		 * 合并相同数据，导出合并列所需的方法(只适合el-table)
+		 * @param {Object} data
+		 * @param {Object} rowspanArray
+		 */
+		getRowSpanData(data, rowspanArray) {
+			/**
+			 * 要合并列的数据
+			 */
+			const rowspanNumObject = {};
+			//初始化 rowspanNumObject
+			rowspanArray.map(item => {
+				rowspanNumObject[item] = new Array(data.length).fill(1, 0, 1).fill(0, 1);
+				rowspanNumObject[`${item}-index`] = 0;
+			});
+			//计算相关的合并信息
+			let idx = 0
+			for (let i in data) {
+				rowspanArray.map(key => {
+					const index = rowspanNumObject[`${key}-index`];
+					let lastRowIndex = 1
+					if (!data[i - lastRowIndex] && i - idx > lastRowIndex) {
+						for (lastRowIndex = 1; lastRowIndex <= (i - idx); lastRowIndex++) {
+							if (data[i - lastRowIndex]) {
+								break
+							}
+						}
+					}
+					if ((data[i] && data[i - lastRowIndex]) && data[i][key] === data[i - lastRowIndex][key]) {
+						rowspanNumObject[key][index]++;
+					} else {
+						rowspanNumObject[`${key}-index`] = idx;
+						rowspanNumObject[key][idx] = 1;
+					}
+				});
+				idx++
+			}
+			return rowspanNumObject
+		},
+		/**
+		 * 合并方法
+		 * @param rowspanArray 要合并列的数据
+		 * @param rowspanNumObject 要合并列的数据
+		 * @param row
+		 * @param column
+		 * @param rowIndex
+		 * @param columnIndex
+		 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
+		 */
+		// eslint-disable-next-line
+		spanMethod(rowspanArray, rowspanNumObject, {row, column, rowIndex, columnIndex}) {
+			if (typeof column != 'undefined' && rowspanArray.includes(column['property'])) {
+				const rowspan = rowspanNumObject[column['property']][rowIndex];
+				if (rowspan > 0) {
+					return {rowspan: rowspan, colspan: 1}
+				}
+				return {rowspan: 0, colspan: 0}
+			}
+			return {rowspan: 1, colspan: 1}
 		},
 	},
 }
