@@ -63,7 +63,7 @@
 								<el-row :gutter="20">
 									<el-col :span="24">
 										<div>
-											<SkuForm ref="skuForm"
+											<sku-form ref="skuForm"
 													 v-model:sourceAttributes="sourceAttributes"
 													 v-model:structures="structures"
 													 v-model:attributes="attributes"
@@ -84,7 +84,7 @@
 														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
 													</div>
 												</template>
-											</SkuForm>
+											</sku-form>
 											<el-row type="flex" :gutter="20">
 												<el-col>
 													<el-divider content-position="left">skus 数据</el-divider>
