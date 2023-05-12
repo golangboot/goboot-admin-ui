@@ -1,33 +1,33 @@
 export default {
 	/**
 	 * 合并相同数据，导出合并列所需的方法(只适合el-table)
-	 * @param {Object} data
+	 * @param {Object} tableData
 	 * @param {Object} rowspanArray
 	 */
-	getRowSpanData(data, rowspanArray) {
+	getRowSpanData(tableData, rowspanArray) {
 		/**
 		 * 要合并列的数据
 		 */
 		const rowspanNumObject = {};
 		//初始化 rowspanNumObject
 		rowspanArray.map(item => {
-			rowspanNumObject[item] = new Array(data.length).fill(1, 0, 1).fill(0, 1);
+			rowspanNumObject[item] = new Array(tableData.length).fill(1, 0, 1).fill(0, 1);
 			rowspanNumObject[`${item}-index`] = 0;
 		});
 		//计算相关的合并信息
 		let idx = 0
-		for (let i in data) {
+		for (let i in tableData) {
 			rowspanArray.map(key => {
 				const index = rowspanNumObject[`${key}-index`];
 				let lastRowIndex = 1
-				if (!data[i - lastRowIndex] && i - idx > lastRowIndex) {
+				if (!tableData[i - lastRowIndex] && i - idx > lastRowIndex) {
 					for (lastRowIndex = 1; lastRowIndex <= (i - idx); lastRowIndex++) {
-						if (data[i - lastRowIndex]) {
+						if (tableData[i - lastRowIndex]) {
 							break
 						}
 					}
 				}
-				if ((data[i] && data[i - lastRowIndex]) && data[i][key] === data[i - lastRowIndex][key]) {
+				if ((tableData[i] && tableData[i - lastRowIndex]) && tableData[i][key] === tableData[i - lastRowIndex][key]) {
 					rowspanNumObject[key][index]++;
 				} else {
 					rowspanNumObject[`${key}-index`] = idx;
