@@ -106,6 +106,8 @@
 </template>
 
 <script>
+import {getRowspanMethod} from '@/utils/tableSpanMethod'
+
 export default {
 	name: "SkuForm",
 	props: {
@@ -261,6 +263,11 @@ export default {
 			batchData: {},
 			mergeTableObj: {},
 			mergeTableArr: [],
+			// 存放所有的表头 一定要与tableData一致
+			// colFields: [ "School", "Grade", "Class", "Name", "Chinese", "Math", "English", ],
+			colFields: [],
+			spanArr: [], //存储合并单元格的开始位置
+			tableData: [],
 		}
 	},
 	computed: {
@@ -355,8 +362,8 @@ export default {
 						// console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
-					this.handleMergeTable() // 合并表单
-					console.log('触发合并表单:', 'myAttributes')
+					// this.handleMergeTable() // 合并表单
+					// console.log('触发合并表单:', 'myAttributes')
 				})
 			},
 			deep: true
@@ -404,13 +411,16 @@ export default {
 			},
 			deep: true
 		},
-		/*skus: {
+		skus: {
+			// eslint-disable-next-line
 			handler(newValue, oldValue) {
 				// console.log('skus.newValue:', newValue)
 				// console.log('skus.oldValue:', oldValue)
+				// this.handleMergeTable() // 合并表单
+				// console.log('触发合并表单:', 'skus')
 			},
 			deep: true
-		},*/
+		},
 	},
 	mounted() {
 		!this.async && this.init()
@@ -659,10 +669,12 @@ export default {
 		},
 		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
 		// eslint-disable-next-line
-		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+		objectSpanMethodOld({ row, column, rowIndex, columnIndex }) {
 			if (!this.mergeTableArr || this.mergeTableArr.length <= 0) {
 				return
 			}
+			// console.log('mergeTableArr:', this.mergeTableArr)
+			// console.log('mergeTableObj:', this.mergeTableObj)
 			// 判断列的属性
 			if(this.mergeTableArr.indexOf(column.property) !== -1) {
 				// 判断其值是不是为0
@@ -704,17 +716,32 @@ export default {
 			// console.log('attributes', this.attributes)
 			// this.$nextTick(() => {})
 			let tableData = this.form.skuData
-			this.mergeTableArr = []
+			let mergeTableArr = [];
 			if (this.attributes && this.attributes.length > 0){
-				let mergeTableArr = [];
 				this.attributes.forEach(attr => {
 					mergeTableArr.push(attr.label)
 				})
-				// if (mergeTableArr.length > 0) {}
-				this.mergeTableArr = mergeTableArr
-				console.log('this.mergeTableArr', this.mergeTableArr)
-				this.getTableSpanArr(tableData);
+				if (mergeTableArr.length > 0) {
+					this.mergeTableArr = mergeTableArr
+					this.getTableSpanArr(tableData);
+				}
 			}
+		},
+		// 默认接受四个值 { 当前行的值, 当前列的值, 行的下标, 列的下标 }
+		// eslint-disable-next-line
+		objectSpanMethod({row, column, rowIndex, columnIndex}) {
+			// console.log('column:', column)
+			let tableData = this.form.skuData
+			let mergeTableArr = [];
+			if (this.attributes && this.attributes.length > 0) {
+				this.attributes.forEach(attr => {
+					mergeTableArr.push(attr.label)
+				})
+			}
+			// console.log('mergeTableArr:', mergeTableArr)
+			const spanMethod = getRowspanMethod(tableData, mergeTableArr || [])
+			// console.log('spanMethod:', spanMethod)
+			return spanMethod({row, column, rowIndex, columnIndex})
 		},
 	},
 }
