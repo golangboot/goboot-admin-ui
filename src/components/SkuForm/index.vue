@@ -26,7 +26,7 @@
 				</el-table-column>
 				<el-table-column width="250">
 					<template #default="scope">
-						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格" class="add-attr" @keyup.enter="onAddAttribute(scope.$index)">
+						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格" class="add-attr" clearable @keyup.enter="onAddAttribute(scope.$index)">
 							<template v-slot:append>
 								<el-button size="default" icon="el-icon-plus" @click="onAddAttribute(scope.$index)">添加</el-button>
 							</template>
@@ -62,7 +62,7 @@
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
 							<el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
-								<el-input v-model="scope.row[item.name]" :placeholder="`请输入${item.label}`" size="default" />
+								<el-input v-model="scope.row[item.name]" :placeholder="`请输入${item.label}`" size="default" clearable />
 							</el-form-item>
 							<el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row[skuProps.sku]}-${scope.$index}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
 								<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
@@ -82,7 +82,7 @@
 					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 						<template #default="scope">
 							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row[skuProps.sku]}`">
-								<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" @keyup.enter="onBatchSet(item.name)" />
+								<el-input v-model="batchData[item.name]" :placeholder="`请输入${item.label}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
 							</el-form-item>
 						</template>
 					</el-table-column>
