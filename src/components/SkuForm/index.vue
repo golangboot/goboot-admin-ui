@@ -55,7 +55,7 @@
                                 {{ item.label }}
                             </span>
 							<el-tooltip v-if="item.tip" effect="dark" :content="item.tip" placement="top">
-								<i class="el-icon-info" />
+								<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
 							</el-tooltip>
 						</template>
 						<!-- 自定义表格内部展示 -->

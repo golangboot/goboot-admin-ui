@@ -9,11 +9,11 @@
 
 								<el-form-item label="商品分类" prop="categoryId">
 									<template #label="{ label }">
-										<span>{{ label }}&nbsp;</span>
+										<span>{{ label }}</span>
 										<span>
 											<el-tooltip>
 												<template #content>请先选择商品分类后，再编辑商品信息</template>
-												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
 									</template>
@@ -130,11 +130,11 @@
 								</el-form-item>
 								<el-form-item label="备注" prop="remark">
 									<template #label="{ label }">
-										<span>{{ label }}&nbsp;</span>
+										<span>{{ label }}</span>
 										<span>
 											<el-tooltip>
 												<template #content>商品备注信息，一般填写：审核驳回、商品下架等原因</template>
-												<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
 									</template>
@@ -304,6 +304,13 @@
 						type: 'input',
 						label: '库存',
 						required: true,
+					},
+					{
+						name: 'code',
+						type: 'input',
+						label: 'SKU编码',
+						tip: '留空时系统自动生成',
+						required: false,
 					},
 					/*{
 						name: 'score',

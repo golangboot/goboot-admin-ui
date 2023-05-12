@@ -16,7 +16,7 @@
 						</el-form-item>
 						<el-form-item label="调试模式" prop="debug">
 							<template #label="{ label }">
-								<span>{{ label }}&nbsp;</span>
+								<span>{{ label }}</span>
 								<span>
 									<el-tooltip>
 										<template #content>系统调试模式</template>

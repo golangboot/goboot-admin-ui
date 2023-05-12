@@ -42,11 +42,11 @@
 				<el-form label-width="100px" label-position="right">
 					<el-form-item label="控制台视图">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>用于控制角色登录后控制台的视图</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>

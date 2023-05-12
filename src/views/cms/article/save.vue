@@ -5,11 +5,11 @@
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
 					<el-form-item label="文章分类" prop="categoryId">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>请选择分类</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>

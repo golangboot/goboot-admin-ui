@@ -6,11 +6,11 @@
 			</el-form-item>
 			<el-form-item label="属性选择类型" prop="selectType">
 				<template #label="{ label }">
-					<span>{{ label }}&nbsp;</span>
+					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
 							<template #content>属性选择类型为唯一或文本时，属性值录入方式需要设置为手工录入</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
 				</template>
@@ -22,11 +22,11 @@
 				<el-col :span="12">
 					<el-form-item label="属性值录入方式" prop="inputType">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 						<el-tooltip>
 							<template #content>属性值录入方式为[从列表中选取]时，请在可选值列表中添加可选值。手工录入则表示需要填写</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
 						</template>
@@ -38,11 +38,11 @@
 				<el-col :span="12">
 					<el-form-item label="是否必填/必选" prop="optionType">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>属性值是否可以留空或不选择</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
@@ -55,11 +55,11 @@
 			</el-row>
 			<el-form-item label="属性值可选值列表" prop="optionsFormat" v-if="form.inputType == 1">
 				<template #label="{ label }">
-					<span>{{ label }}&nbsp;</span>
+					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
 							<template #content>属性值可选值列表, 多个属性值可选值使用Enter确认键换行</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
 				</template>
@@ -70,11 +70,11 @@
 				<el-col :span="12">
 					<el-form-item label="销售属性" prop="isSaleAttribute">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>是否销售属性：销售属性为SKU属性（影响商品价格）</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
@@ -87,11 +87,11 @@
 				<el-col :span="12">
 					<el-form-item label="支持新增属性" prop="canAddAttribute">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>是否支持手动新增属性值</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
@@ -104,11 +104,11 @@
 			</el-row>
 			<el-form-item label="搜索类型" prop="searchType">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>默认选择不需要检索即可</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
@@ -122,11 +122,11 @@
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>是否关联全部商品规格</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
@@ -139,11 +139,11 @@
 				<el-col :span="12">
 					<el-form-item label="筛选样式" prop="filterType">
 						<template #label="{ label }">
-							<span>{{ label }}&nbsp;</span>
+							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
 									<template #content>预留字段</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;"><el-icon-question-filled /></el-icon>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
 						</template>
