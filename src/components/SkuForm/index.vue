@@ -750,9 +750,20 @@ export default {
 				&:last-child:nth-child(2n - 1) {
 					margin-right: calc(100% - 49% * 2 - 4% / 2) !important;
 				}
-				.add-attr {
+				/*.add-attr {
 					width: 100%;
 					margin-top: 10px;
+				}*/
+				.attr-button-group {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					margin-top: 10px;
+					.add-attr {
+						flex: 1;
+						padding-right: 20px;
+					}
+					.delete-attr {}
 				}
 			}
 		}
