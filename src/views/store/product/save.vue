@@ -40,13 +40,13 @@
 									<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 								</el-form-item>
 
-								<el-row :gutter="20">
-									<el-col :span="12">
-										<el-form-item label="商品图片" prop="image">
-											<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
-										</el-form-item>
-									</el-col>
-								</el-row>
+								<el-form-item label="商品图片" prop="image">
+									<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
+								</el-form-item>
+
+								<el-form-item label="商品相册" prop="images">
+									<sc-upload-multiple v-model="form.images" draggable :limit="5" tip="最多上传5个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
+								</el-form-item>
 
 								<el-form-item label="排序" prop="sort">
 									<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -207,6 +207,8 @@
 					status: 1,
 					remark: "",
 					auditStatus: 1,
+					image: "",
+					images: "",
 				},
 				//验证规则
 				rules: {
