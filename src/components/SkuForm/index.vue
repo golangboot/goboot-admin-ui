@@ -716,7 +716,7 @@ export default {
 			/**
 			 * 要合并列的数据
 			 */
-			const rowSpanNumObject = {};
+			let rowSpanNumObject = {};
 			//初始化 rowSpanNumObject
 			rowSpanArray.map(item => {
 				rowSpanNumObject[item] = new Array(tableData.length).fill(1, 0, 1).fill(0, 1);
