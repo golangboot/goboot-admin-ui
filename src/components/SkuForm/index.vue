@@ -137,6 +137,7 @@ export default {
 		 * 		children: [
 		 * 			{label: '128G', value: 11, checked: false},
 		 * 			{label: '512G', value: 12, checked: false},
+		 * 			{label: '1T', value: 13, checked: false},
 		 * 		],
 		 * 		canAddAttribute: true,
 		 * 	},
@@ -411,7 +412,7 @@ export default {
 			},
 			deep: true
 		},
-		skus: {
+		/*skus: {
 			// eslint-disable-next-line
 			handler(newValue, oldValue) {
 				// console.log('skus.newValue:', newValue)
@@ -420,7 +421,7 @@ export default {
 				// console.log('触发合并表单:', 'skus')
 			},
 			deep: true
-		},
+		},*/
 	},
 	mounted() {
 		!this.async && this.init()

@@ -299,6 +299,7 @@
 						children: [
 							{label: '128G', value: 11, checked: false},
 							{label: '512G', value: 12, checked: false},
+							{label: '1T', value: 13, checked: false},
 						],
 						canAddAttribute: true,
 					},
