@@ -7,10 +7,10 @@
 			<div v-if="theme == 1 || theme == 3" :class="'theme-' + theme">
 				<el-card v-for="(item, index) in myAttributes" :key="index" class="item" shadow="never">
 					<template v-slot:header>
-						<div>{{ item.label }}</div>
+						<div>{{ item[attributeProps.label] }}</div>
 					</template>
-					<div v-if="item.children && item.children.length > 0">
-						<el-checkbox v-for="(item2, index2) in item.children" :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2.label" size="default" />
+					<div v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
+						<el-checkbox v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" />
 					</div>
 					<div class="attr-button-group">
 						<div class="add-attr">
@@ -34,7 +34,7 @@
 				<el-table-column prop="label" width="120" :resizable="false" />
 				<el-table-column>
 					<template #default="scope">
-						<el-checkbox v-for="(item2, index2) in scope.row.children" :key="index2" v-model="item2.checked" :label="item2.label" size="default" />
+						<el-checkbox v-for="(item2, index2) in scope.row[attributeProps.options]" :key="index2" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" />
 					</template>
 				</el-table-column>
 				<el-table-column width="250">
@@ -53,7 +53,7 @@
 				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
 					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" fixed />
-					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr.label" :prop="attr.label" width="120" align="center" :resizable="false" fixed sortable>
+					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr[attributeProps.label]" :prop="attr[attributeProps.label]" width="120" align="center" :resizable="false" fixed sortable>
 						<!-- 自定义表格内部展示 -->
 						<!--<template #default="scope">
 							<el-form-item>
@@ -61,11 +61,11 @@
 							</el-form-item>
 						</template>-->
 					</el-table-column>
-					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`" :label="item.label" :prop="item.name" align="center" :resizable="false" min-width="120px">
+					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`" :label="item[attributeProps.label]" :prop="item.name" align="center" :resizable="false" min-width="120px">
 						<!-- 自定义表头 -->
 						<template #header>
                             <span :class="{'required_title': item.required}">
-                                {{ item.label }}
+                                {{ item[attributeProps.label] }}
                             </span>
 							<el-tooltip v-if="item.tip" effect="dark" :content="item.tip" placement="top">
 								<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
@@ -75,7 +75,7 @@
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
 							<el-form-item :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
-								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item.label}`" size="default" clearable />
+								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item[attributeProps.label]}`" size="default" clearable />
 								<template v-else-if="item.type == 'slot'">
 									<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 								</template>
@@ -94,8 +94,8 @@
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 						<template #default="scope">
-							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.row[skuProps.sku]}`">
-								<el-input v-model="batchData[item.name]" :placeholder="`${item.label}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
+								<el-input v-model="batchData[item.name]" :placeholder="`${item[this.attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
 							</el-form-item>
 						</template>
 					</el-table-column>
@@ -122,7 +122,7 @@ export default {
 		 * sourceAttributes: [
 		 * 	{
 		 * 		label: '颜色', value: 1,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '黑色', value: 1, checked: false},
 		 * 			{label: '白色', value: 2, checked: false},
 		 * 			{label: '银色', value: 3, checked: false},
@@ -132,7 +132,7 @@ export default {
 		 * 	},
 		 * 	{
 		 * 		label: '内存', value: 2,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '128G', value: 11, checked: false},
 		 * 			{label: '512G', value: 12, checked: false},
 		 * 			{label: '1T', value: 13, checked: false},
@@ -141,7 +141,7 @@ export default {
 		 * 	},
 		 * 	{
 		 * 		label: '运营商', value: 3,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '全网通', value: 21, checked: false},
 		 * 			{label: '电信', value: 22, checked: false},
 		 * 			{label: '移动', value: 23, checked: false},
@@ -167,14 +167,14 @@ export default {
 		 * attributes: [
 		 * 	{
 		 * 		label: '颜色', value: 1,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '黑色', value: 1, checked: false},
 		 * 		],
 		 * 		canAddAttribute: true,
 		 * 	},
 		 * 	{
 		 * 		label: '内存', value: 2,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '128G', value: 11, checked: false},
 		 * 			{label: '512G', value: 12, checked: false},
 		 * 		],
@@ -182,7 +182,7 @@ export default {
 		 * 	},
 		 * 	{
 		 * 		label: '运营商', value: 3,
-		 * 		children: [
+		 * 		options: [
 		 * 			{label: '全网通', value: 21, checked: false},
 		 * 			{label: '电信', value: 22, checked: false},
 		 * 			{label: '移动', value: 23, checked: false},
@@ -242,12 +242,24 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		//sku属性字段
+		//sku字段
 		skuProps: {
 			type: Object, default: () => {
 				return {
 					sku: 'sku',
 					attributeParams: 'attributeParams',
+					attribute: 'attribute',
+					attributeValue: 'attributeValue',
+				}
+			}
+		},
+		//属性字段
+		attributeProps: {
+			type: Object, default: () => {
+				return {
+					label: 'label',
+					value: 'value',
+					options: 'options',
 				}
 			}
 		},
@@ -272,7 +284,7 @@ export default {
 				if (v.type == 'input') {
 					rules[v.name] = []
 					if (v.required) {
-						rules[v.name].push({ required: true, message: `${v.label}不能为空`, trigger: 'blur' })
+						rules[v.name].push({ required: true, message: `${v[this.attributeProps.label]}不能为空`, trigger: 'blur' })
 					}
 					if (v.validate) {
 						rules[v.name].push({ validator: this.customizeValidate, trigger: 'blur' })
@@ -280,7 +292,7 @@ export default {
 				} else if (v.type == 'slot') {
 					rules[v.name] = []
 					if (v.required) {
-						rules[v.name].push({ required: true, message: `${v.label}不能为空`, trigger: ['change', 'blur'] })
+						rules[v.name].push({ required: true, message: `${v[this.attributeProps.label]}不能为空`, trigger: ['change', 'blur'] })
 					}
 					if (v.validate) {
 						rules[v.name].push({ validator: this.customizeValidate, trigger: ['change', 'blur'] })
@@ -303,22 +315,22 @@ export default {
 				// console.log('v1', v1)
 				const obj = {
 					// name: v1.name,
-					label: v1.label,
-					value: v1.value,
-					children: []
+					[this.attributeProps.label]: v1[this.attributeProps.label],
+					[this.attributeProps.value]: v1[this.attributeProps.value],
+					[this.attributeProps.options]: []
 				}
-				v1.children.forEach(v2 => {
+				v1[this.attributeProps.options].forEach(v2 => {
 					// console.log('v2', v2)
 					if (v2.checked) {
 						const obj2 = {
 							// name: v2.name,
-							label: v2.label,
-							value: v2.value,
+							[this.attributeProps.label]: v2[this.attributeProps.label],
+							[this.attributeProps.value]: v2[this.attributeProps.value],
 						}
-						obj.children.push(obj2)
+						obj[this.attributeProps.options].push(obj2)
 					}
 				})
-				if (obj.children.length !== 0) {
+				if (obj[this.attributeProps.options].length !== 0) {
 					attributes.push(obj)
 				}
 			})
@@ -417,7 +429,7 @@ export default {
 				// console.log('skus.oldValue.length:', oldValue.length)
 				if (newValue && newValue.length > 0 && newValue.length !== oldValue.length) {
 					const flag = newValue.some(item => {
-						return item.sku && item.sku !== '' && item.sku.length > 0;
+						return item[this.skuProps.sku] && item[this.skuProps.sku] !== '' && item[this.skuProps.sku].length > 0;
 					})
 					if (flag) {
 						// console.log('触发合并表单:', 'skus')
@@ -441,18 +453,18 @@ export default {
 				this.sourceAttributes.forEach(v => {
 					const temp = {
 						// name: v.name,
-						label: v.label,
-						value: v.value,
+						[this.attributeProps.label]: v[this.attributeProps.label],
+						[this.attributeProps.value]: v[this.attributeProps.value],
+						[this.attributeProps.options]: [],
 						canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
 						canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ?  v.canDeleteAttribute : true,
 						addAttribute: '',
-						children: []
 					}
-					v.children.forEach(item2 => {
-						temp.children.push({
+					v[this.attributeProps.options].forEach(item2 => {
+						temp[this.attributeProps.options].push({
 							// name: item2.name,
-							label: item2.label,
-							value: item2.value,
+							[this.attributeProps.label]: item2[this.attributeProps.label],
+							[this.attributeProps.value]: item2[this.attributeProps.value],
 							checked: false
 						})
 					})
@@ -461,20 +473,20 @@ export default {
 				// 根据 attribute 更新 myAttributes
 				this.attributes.forEach(attrVal => {
 					myAttributes.forEach(myAttrVal => {
-						if (attrVal.label === myAttrVal.label) {
-							attrVal.children.forEach(attrName => {
+						if (attrVal[this.attributeProps.label] === myAttrVal[this.attributeProps.label]) {
+							attrVal[this.attributeProps.options].forEach(attrName => {
 								if (
-									!myAttrVal.children.some(myAttrItem => {
-										if (attrName.label === myAttrItem.label) {
+									!myAttrVal[this.attributeProps.options].some(myAttrItem => {
+										if (attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]) {
 											myAttrItem.checked = true
 										}
-										return attrName.label === myAttrItem.label
+										return attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]
 									})
 								) {
-									myAttrVal.children.push({
+									myAttrVal[this.attributeProps.options].push({
 										// name: attrName.name,
-										label: attrName.label,
-										value: attrName.value,
+										[this.attributeProps.label]: attrName[this.attributeProps.label],
+										[this.attributeProps.value]: attrName[this.attributeProps.value],
 										checked: true
 									})
 								}
@@ -503,21 +515,21 @@ export default {
 		combinationAttributes(index = 0, dataTemp = []) {
 			// console.log('combinationAttributes => this.attributes', this.attributes)
 			if (index === 0) {
-				for (let i = 0; i < this.attributes[0].children.length; i++) {
+				for (let i = 0; i < this.attributes[0][this.attributeProps.options].length; i++) {
 					let obj = {
-						[this.skuProps.sku]: this.attributes[0].children[i].label,
+						[this.skuProps.sku]: this.attributes[0][this.attributeProps.options][i][this.attributeProps.label],
 						[this.skuProps.attributeParams]: [],
-						[this.attributes[0].label]: this.attributes[0].children[i].label,
+						[this.attributes[0][this.attributeProps.label]]: this.attributes[0][this.attributeProps.options][i][this.attributeProps.label],
 					}
 					let attributeParams = {
-						attribute: {
-							label: this.attributes[0].label,
-							value: this.attributes[0].value,
+						[this.skuProps.attribute]: {
+							[this.attributeProps.label]: this.attributes[0][this.attributeProps.label],
+							[this.attributeProps.value]: this.attributes[0][this.attributeProps.value],
 						},
-						attributeValue: this.attributes[0].children[i],
+						[this.skuProps.attributeValue]: this.attributes[0][this.attributeProps.options][i],
 					}
 					obj[this.skuProps.attributeParams].push(attributeParams)
-					// obj[this.skuProps.attributeParams].push(this.attributes[0].children[i])
+					// obj[this.skuProps.attributeParams].push(this.attributes[0][this.attributeProps.options][i])
 					this.structures.forEach(v => {
 						if (!(v.type == 'slot' && v.skuProperty == false)) {
 							obj[v.name] = typeof v.defaultValue != 'undefined' ? v.defaultValue : ''
@@ -528,24 +540,24 @@ export default {
 			} else {
 				let temp = []
 				for (let i = 0; i < dataTemp.length; i++) {
-					for (let j = 0; j < this.attributes[index].children.length; j++) {
+					for (let j = 0; j < this.attributes[index][this.attributeProps.options].length; j++) {
 						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
 						let obj = temp[temp.length - 1]
-						// temp[temp.length - 1][this.attributes[index].label] = this.attributes[index].children[j].label
-						// temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index].children[j].label].join(this.separator)
-						// console.log('this.attributes[index].children[j]:', this.attributes[index].children[j])
+						// temp[temp.length - 1][this.attributes[index][this.attributeProps.label]] = this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]
+						// temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]].join(this.separator)
+						// console.log('this.attributes[index][this.attributeProps.options][j]:', this.attributes[index][this.attributeProps.options][j])
 						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
-						obj[this.skuProps.sku] = [obj[this.skuProps.sku], this.attributes[index].children[j].label].join(this.separator)
+						obj[this.skuProps.sku] = [obj[this.skuProps.sku], this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]].join(this.separator)
 						let attributeParams = {
-							attribute: {
-								label: this.attributes[index].label,
-								value: this.attributes[index].value,
+							[this.skuProps.attribute]: {
+								[this.attributeProps.label]: this.attributes[index][this.attributeProps.label],
+								[this.attributeProps.value]: this.attributes[index][this.attributeProps.value],
 							},
-							attributeValue: this.attributes[index].children[j],
+							[this.skuProps.attributeValue]: this.attributes[index][this.attributeProps.options][j],
 						}
 						obj[this.skuProps.attributeParams].push(attributeParams)
-						// obj[this.skuProps.attributeParams].push(this.attributes[index].children[j])
-						obj[this.attributes[index].label] = this.attributes[index].children[j].label
+						// obj[this.skuProps.attributeParams].push(this.attributes[index][this.attributeProps.options][j])
+						obj[this.attributes[index][this.attributeProps.label]] = this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]
 						// console.log('obj:', obj)
 						temp[temp.length - 1] = obj
 					}
@@ -574,14 +586,14 @@ export default {
 		},
 		// 删除选中规格
 		onDeleteAttribute(index) {
-			const flag = this.myAttributes[index].children.some(item => {
+			const flag = this.myAttributes[index][this.attributeProps.options].some(item => {
 				return item.checked;
 			})
 			if (!flag) {
 				this.$message({type: 'warning', message: '请勾选需要删除的规格名称'})
 				return
 			}
-			this.myAttributes[index].children = this.myAttributes[index].children.filter((item) => {
+			this.myAttributes[index][this.attributeProps.options] = this.myAttributes[index][this.attributeProps.options].filter((item) => {
 				return !item.checked;
 			})
 		},
@@ -595,13 +607,13 @@ export default {
 			this.myAttributes[index].addAttribute = this.myAttributes[index].addAttribute.trim()
 			if (this.myAttributes[index].addAttribute !== '') {
 				if (!this.myAttributes[index].addAttribute.includes(this.separator)) {
-					const flag = this.myAttributes[index].children.some(item => {
-						return item.label === this.myAttributes[index].addAttribute
+					const flag = this.myAttributes[index][this.attributeProps.options].some(item => {
+						return item[this.attributeProps.label] === this.myAttributes[index].addAttribute
 					})
 					if (!flag) {
-						this.myAttributes[index].children.push({
-							label: this.myAttributes[index].addAttribute,
-							// value: "",
+						this.myAttributes[index][this.attributeProps.options].push({
+							[this.attributeProps.label]: this.myAttributes[index].addAttribute,
+							// [this.attributeProps.value]: "",
 							checked: true
 						})
 						this.myAttributes[index].addAttribute = ''
@@ -696,23 +708,23 @@ export default {
 			let tableRowSpanArray = [];
 			if (this.attributes && this.attributes.length > 0) {
 				this.attributes.forEach(attr => {
-					tableRowSpanArray.push(attr.label)
+					tableRowSpanArray.push(attr[this.attributeProps.label])
 				})
 			}
 			this.tableRowSpanArray = tableRowSpanArray
-			this.tableRowSpanNumObject = this.getRowSpanData(tableData, tableRowSpanArray)
+			this.tableRowSpanNumObject = this.getTableRowSpanData(tableData, tableRowSpanArray)
 		},
 		// 默认接受四个值 { row-当前行的值, column-当前列的值, rowIndex-行的下标, columnIndex-列的下标 }
 		// eslint-disable-next-line
 		objectSpanMethod({row, column, rowIndex, columnIndex}) {
-			return this.spanMethod(this.tableRowSpanArray, this.tableRowSpanNumObject, {row, column, rowIndex, columnIndex})
+			return this.mergeTableSpanMethod(this.tableRowSpanArray, this.tableRowSpanNumObject, {row, column, rowIndex, columnIndex})
 		},
 		/**
 		 * 合并相同数据，导出合并列所需的方法(只适合el-table)
 		 * @param {Object} tableData 表格数据
 		 * @param {Object} rowSpanArray ['颜色', '内存', '运营商']
 		 */
-		getRowSpanData(tableData, rowSpanArray) {
+		getTableRowSpanData(tableData, rowSpanArray) {
 			/**
 			 * 要合并列的数据
 			 */
@@ -728,6 +740,7 @@ export default {
 				rowSpanArray.map(key => {
 					const index = rowSpanNumObject[`${key}-index`];
 					let lastRowIndex = 1
+					// 防止表格数据key不是连续的
 					if (!tableData[i - lastRowIndex] && i - idx > lastRowIndex) {
 						for (lastRowIndex = 1; lastRowIndex <= (i - idx); lastRowIndex++) {
 							if (tableData[i - lastRowIndex]) {
@@ -754,18 +767,18 @@ export default {
 		 * @param column
 		 * @param rowIndex
 		 * @param columnIndex
-		 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
+		 * @returns {{colSpan: number, rowSpan: *}|{colSpan: number, rowSpan: number}}
 		 */
 		// eslint-disable-next-line
-		spanMethod(rowSpanArray, rowSpanNumObject, {row, column, rowIndex, columnIndex}) {
+		mergeTableSpanMethod(rowSpanArray, rowSpanNumObject, {row, column, rowIndex, columnIndex}) {
 			if (typeof column != 'undefined' && rowSpanArray.includes(column['property'])) {
-				const rowspan = rowSpanNumObject[column['property']][rowIndex];
-				if (rowspan > 0) {
-					return {rowspan: rowspan, colspan: 1}
+				const rowSpan = rowSpanNumObject[column['property']][rowIndex];
+				if (rowSpan > 0) {
+					return {rowSpan: rowSpan, colSpan: 1}
 				}
-				return {rowspan: 0, colspan: 0}
+				return {rowSpan: 0, colSpan: 0}
 			}
-			return {rowspan: 1, colspan: 1}
+			return {rowSpan: 1, colSpan: 1}
 		},
 	},
 }
