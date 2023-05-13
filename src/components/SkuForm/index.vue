@@ -767,18 +767,18 @@ export default {
 		 * @param column
 		 * @param rowIndex
 		 * @param columnIndex
-		 * @returns {{colSpan: number, rowSpan: *}|{colSpan: number, rowSpan: number}}
+		 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
 		 */
 		// eslint-disable-next-line
 		mergeTableSpanMethod(rowSpanArray, rowSpanNumObject, {row, column, rowIndex, columnIndex}) {
 			if (typeof column != 'undefined' && rowSpanArray.includes(column['property'])) {
-				const rowSpan = rowSpanNumObject[column['property']][rowIndex];
+				let rowSpan = rowSpanNumObject[column['property']][rowIndex];
 				if (rowSpan > 0) {
-					return {rowSpan: rowSpan, colSpan: 1}
+					return {rowspan: rowSpan, colspan: 1}
 				}
-				return {rowSpan: 0, colSpan: 0}
+				return {rowspan: 0, colspan: 0}
 			}
-			return {rowSpan: 1, colSpan: 1}
+			return {rowspan: 1, colspan: 1}
 		},
 	},
 }
