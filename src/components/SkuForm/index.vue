@@ -406,7 +406,8 @@ export default {
 						let skus = []
 						newValue.forEach(skuDataItem => {
 							// console.log('skuDataItem:', skuDataItem)
-							let obj = skuDataItem
+							//使用 Object.assign() 拷贝数据, 可以避免直接赋值时, 如果删除元素数据会导致原数据也被删除
+							let obj = Object.assign({}, skuDataItem)
 							// let obj = {}
 							obj[this.skuProps.sku] = skuDataItem[this.skuProps.sku]
 							if (skuDataItem[this.skuProps.attributeParams]) {
