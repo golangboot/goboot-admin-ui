@@ -1,4 +1,14 @@
 export default {
+	/**
+	 * 合并方法
+	 * @param tableRowSpanArray 需要合并的列(自定义)
+	 * @param tableRowSpanNumObject 需要合并的对象数据(getTableRowSpanData方法获取)
+	 * @param row
+	 * @param column
+	 * @param rowIndex
+	 * @param columnIndex
+	 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
+	 */
 	objectSpanMethod(tableRowSpanArray, tableRowSpanNumObject, {row, column, rowIndex, columnIndex}) {
 		return this.mergeTableSpanMethod(tableRowSpanArray, tableRowSpanNumObject, {row, column, rowIndex, columnIndex})
 	},
@@ -43,7 +53,7 @@ export default {
 		return rowSpanNumObject
 	},
 	/**
-	 * 合并方法
+	 * 表格合并数据返回
 	 * @param rowSpanArray 要合并列的数据
 	 * @param rowSpanNumObject 要合并列的数据
 	 * @param row

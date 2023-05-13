@@ -272,6 +272,7 @@ export default {
 				skuData: []
 			},
 			batchData: {},
+			//需要合并的列
 			tableRowSpanArray: [],
 			tableRowSpanNumObject: {},
 		}
