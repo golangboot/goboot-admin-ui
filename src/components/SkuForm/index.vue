@@ -263,10 +263,10 @@ export default {
 				}
 			}
 		},
-		//规格选项限制总数量(为0则表示不限制)
+		//规格选项限制总数量(为0时则表示不限制)
 		attributeOptionLimitTotalCount: {
 			type: Number,
-			default: 12
+			default: 0
 		},
 	},
 	data() {
