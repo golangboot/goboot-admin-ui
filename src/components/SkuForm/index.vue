@@ -405,10 +405,9 @@ export default {
 						// 更新父组件
 						let skus = []
 						newValue.forEach(skuDataItem => {
-							// console.log('skuDataItem:', skuDataItem)
+							// console.log('form.skuData skuDataItem:', skuDataItem)
 							//使用 Object.assign() 拷贝数据, 可以避免直接赋值时, 如果删除元素数据会导致原数据也被删除
 							let obj = Object.assign({}, skuDataItem)
-							// let obj = {}
 							obj[this.skuProps.sku] = skuDataItem[this.skuProps.sku]
 							if (skuDataItem[this.skuProps.attributeParams]) {
 								obj[this.skuProps.attributeParams] = skuDataItem[this.skuProps.attributeParams]
@@ -417,25 +416,22 @@ export default {
 							this.structures.forEach(structureItem => {
 								// console.log('form.skuData structureItem', structureItem)
 								if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
-									// console.log(`structure structureItem.${structureItem.name}:`, skuDataItem[structureItem.name])
-									// console.log('form.skuData.structures obj:', obj)
 									// console.log('form.skuData.structures structureItem:', structureItem)
-									// console.log(`form.skuData.structures ${structureItem.name}:`, skuDataItem[structureItem.name])
-									// console.log(`form.skuData.structures ${structureItem.name}:`, typeof skuDataItem[structureItem.name])
+									// console.log(`form.skuData.structures skuDataItem.${structureItem.name}:`, skuDataItem[structureItem.name])
 									// obj[structureItem.name] = skuDataItem[structureItem.name] || (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
-									// obj[structureItem.name] = (typeof skuDataItem[structureItem.name] != 'undefined') ? skuDataItem[structureItem.name] : (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
 									if (typeof skuDataItem[structureItem.name] != 'undefined') {
-										// console.log('structure structureItem:', skuDataItem[structureItem.name])
+										// console.log('form.skuData structureItem:', skuDataItem[structureItem.name])
 										obj[structureItem.name] = skuDataItem[structureItem.name]
 									} else {
 										obj[structureItem.name] = (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
 									}
+									// obj[structureItem.name] = (typeof skuDataItem[structureItem.name] != 'undefined') ? skuDataItem[structureItem.name] : (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
 								}
 							})
 							//冗余数据过滤
 							this.attributes.forEach(attributeItem => {
 								// console.log('form.skuData attributeItem', attributeItem)
-								if (attributeItem.label && obj[attributeItem.label]){
+								if (typeof attributeItem.label != 'undefined' && typeof obj[attributeItem.label] != 'undefined') {
 									delete obj[attributeItem.label]
 								}
 							})
@@ -533,8 +529,7 @@ export default {
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
 							if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
-								// 全部赋值数据
-								skuDataItem = skuItem
+								// skuDataItem = skuItem // 全部赋值数据(*注意: 不可使用该方式赋值, 会造成数据错乱)
 								this.structures.forEach(structureItem => {
 									skuDataItem[structureItem.name] = skuItem[structureItem.name]
 								})
@@ -629,7 +624,8 @@ export default {
 							if (typeof this.skus[i] != 'undefined') {
 								if (typeof skuDataTemp[j] != 'undefined') {
 									if (this.skus[i][this.skuProps.sku] === skuDataTemp[j][this.skuProps.sku]) {
-										skuDataTemp[j] = Object.assign(this.skus[i], skuDataTemp[j])
+										let skuDataTempItem = Object.assign({}, this.skus[i])
+										skuDataTemp[j] = Object.assign(skuDataTempItem, skuDataTemp[j])
 									}
 								}
 							}
