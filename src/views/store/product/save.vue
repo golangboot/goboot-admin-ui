@@ -99,6 +99,11 @@
 														</el-upload>
 													</div>
 												</template>
+												<template #totalPrice="slotProps">
+													<div style="margin: 0 0 0 auto;">
+														{{ skuFormTotalPrice(slotProps.row) }}
+													</div>
+												</template>
 												<template #operation="slotProps">
 													<div class="operation-container" style="margin: 0 auto;">
 														<el-popconfirm title="确定删除吗？" @confirm="skuFormTableRowDelete(slotProps.row, slotProps.index)">
@@ -796,6 +801,14 @@
 						label: '状态',
 						required: true,
 					},
+					{
+						name: 'totalPrice',
+						type: 'slot',
+						// 如果该字段无需记录到 sku 数据里，则设置为 false
+						skuProperty: false,
+						label: '总价',
+						tip: '总价 = 价格 * 库存，如果价格或库存为空时，则不计算'
+					},
 					/*{
 						name: 'score',
 						type: 'slot',
@@ -886,7 +899,7 @@
 				let res = await this.$API.store.category.tree.get();
 				this.treeOptions = res.data
 			},
-			//表格行删除
+			//Sku表单表格行删除
 			skuFormTableRowDelete(row, index) {
 				// console.log('skuFormTableRowDelete.row:', row)
 				// console.log('skuFormTableRowDelete.row.sku:', row.sku)
@@ -905,6 +918,15 @@
 						i++
 					}
 				})
+			},
+			//Sku表单表格行删除
+			skuFormTotalPrice(data) {
+				let totalPrice = ''
+				if (data.price && data.stock) {
+					totalPrice = (parseFloat(data.price) * parseFloat(data.stock)).toFixed(2)
+					totalPrice += ' 元'
+				}
+				return totalPrice
 			},
 		}
 	}

@@ -382,7 +382,7 @@ export default {
 					}
 					this.clearValidate()
 					if (this.attributes.length > 0) {
-						console.log('触发合并表单:', 'myAttributes')
+						// console.log('触发合并表单:', 'myAttributes')
 						this.triggerMergeTable() // 合并表单
 					}
 				})
@@ -446,7 +446,7 @@ export default {
 						return item[this.skuProps.sku] && item[this.skuProps.sku] !== '' && item[this.skuProps.sku].length > 0;
 					})
 					if (flag) {
-						console.log('触发合并表单:', 'skus')
+						// console.log('触发合并表单:', 'skus')
 						this.triggerMergeTable() // 合并表单
 					}
 				}
