@@ -75,7 +75,7 @@
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
 							<el-form-item :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
-								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :data-prop="`skuData.${scope.$index}.${item.name}`" :placeholder="`${item[attributeProps.label]}`" size="default" clearable />
+								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable />
 								<template v-else-if="item.type == 'slot'">
 									<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 								</template>
@@ -93,8 +93,12 @@
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 						<template #default="scope">
-							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
-								<el-input v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+							<el-form-item v-if="item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
+								<!--<el-input v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />-->
+								<el-input v-if="item.type == 'input'" v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+								<template v-else-if="item.type == 'slot'">
+									<slot :name="item.name" :index="scope.$index" :row="batchSetData = scope.row" :column="scope.column" />
+								</template>
 							</el-form-item>
 						</template>
 					</el-table-column>
@@ -415,7 +419,8 @@ export default {
 							this.structures.forEach(v2 => {
 								// console.log('structure v2', v2)
 								if (!(v2.type == 'slot' && v2.skuProperty == false)) {
-									// console.log('form.skuData.structures:', v2)
+									// console.log('form.skuData.structures obj:', obj)
+									// console.log('form.skuData.structures v2:', v2)
 									// console.log(`form.skuData.structures ${v2.name}:`, v1[v2.name])
 									// console.log(`form.skuData.structures ${v2.name}:`, typeof v1[v2.name])
 									// obj[v2.name] = v1[v2.name] || (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
@@ -628,9 +633,8 @@ export default {
 			this.myAttributes[index].addAttribute = addAttributeText
 			if (addAttributeText !== '') {
 				if (!addAttributeText.includes(this.separator)) {
-					// todo: 检查是否超出最大数量
 					// console.log('onAddAttribute attributeOptionLimitTotalCount:', this.attributeOptionLimitTotalCount)
-					//检查规格选项值是否超出最大数量
+					//检查规格项是否超出最大数量
 					if (this.attributeOptionLimitTotalCount > 0) {
 						let attributeOptionTotalCount = 0
 						this.myAttributes.forEach(myAttribute => {
@@ -673,16 +677,39 @@ export default {
 		},
 		onBatchSets() {
 			// console.log('this.structures:', this.structures)
-			// console.log('this.batchSetData:', this.batchSetData)
-			// console.log('Object.keys(this.batchSetData):', Object.keys(this.batchSetData).length)
+			// console.log('批量设置 onBatchSets:', this.batchSetData)
+			// console.log('批量设置 onBatchSets Object.keys(this.batchSetData):', Object.keys(this.batchSetData).length)
 			if (this.batchSetData && Object.keys(this.batchSetData).length > 0) {
 				Object.keys(this.batchSetData).forEach(type => {
+					// console.log('onBatchSets[type]:', type)
 					this.onBatchSet(type)
 				})
 			}
 		},
 		onBatchSet(type) {
-			if (this.batchSetData[type] != '') {
+			let value = this.batchSetData[type]
+			// console.log('单个设置 onBatchSet[type]:', this.batchSetData[type])
+			// console.log('单个设置 onBatchSet[value]:', value)
+			// console.log('单个设置 onBatchSet[typeof]:', typeof value)
+			// console.log('单个设置 onBatchSet[isNaN]:', isNaN(value))
+			let flag = true
+			//字符串
+			if (typeof value === 'string' && (value == '' || value.trim() == '')) {
+				flag = false
+			}
+			//数字
+			if (typeof value === 'number' && isNaN(value)) {
+				flag = false
+			}
+			//布尔
+			if (typeof value === 'boolean') {
+				flag = true
+			}
+			//未知
+			if (typeof value === 'undefined') {
+				flag = false
+			}
+			if (flag) {
 				this.form.skuData.forEach(v => {
 					v[type] = this.batchSetData[type]
 				})
