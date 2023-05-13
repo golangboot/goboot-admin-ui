@@ -111,12 +111,12 @@
 											</sku-form>
 											<el-row type="flex" :gutter="20">
 												<el-col :span="12">
-													<el-divider content-position="left">skus 数据</el-divider>
-													<pre><code>{{ skus }}</code></pre>
-												</el-col>
-												<el-col :span="12">
 													<el-divider content-position="left">attributes 数据</el-divider>
 													<pre><code>{{ attributes }}</code></pre>
+												</el-col>
+												<el-col :span="12">
+													<el-divider content-position="left">skus 数据</el-divider>
+													<pre><code>{{ skus }}</code></pre>
 												</el-col>
 											</el-row>
 										</div>
