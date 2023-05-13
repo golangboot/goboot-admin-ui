@@ -1,4 +1,5 @@
 /**
+ * 参考代码(待作废)
  * 合并相同数据，导出合并列所需的方法(只适合el-table)
  * @param {Object} data
  * @param {Object} rowspanArray
