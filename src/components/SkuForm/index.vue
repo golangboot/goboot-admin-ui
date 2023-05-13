@@ -53,7 +53,7 @@
 				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
 					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" fixed />
-					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr[attributeProps.label]" :prop="attr[attributeProps.label]" width="120" align="center" :resizable="false" fixed sortable>
+					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr[attributeProps.label]" :prop="attr[attributeProps.label]" width="120" align="center" :resizable="false" fixed>
 						<!-- 自定义表格内部展示 -->
 						<!--<template #default="scope">
 							<el-form-item>
@@ -249,6 +249,7 @@ export default {
 					attributeParams: 'attributeParams',
 					attribute: 'attribute',
 					attributeValue: 'attributeValue',
+					skuId: 'id',
 				}
 			}
 		},
@@ -381,8 +382,8 @@ export default {
 					}
 					this.clearValidate()
 					if (this.attributes.length > 0) {
-						// console.log('触发合并表单:', 'myAttributes')
-						// this.triggerMergeTable() // 合并表单
+						console.log('触发合并表单:', 'myAttributes')
+						this.triggerMergeTable() // 合并表单
 					}
 				})
 			},
@@ -407,6 +408,9 @@ export default {
 							}
 							if (v1[this.skuProps.attributeParams]){
 								obj[this.skuProps.attributeParams] = v1[this.skuProps.attributeParams]
+							}
+							if (v1[this.skuProps.skuId]){
+								obj[this.skuProps.skuId] = v1[this.skuProps.skuId]
 							}
 							this.structures.forEach(v2 => {
 								// console.log('structure v2', v2)
@@ -442,7 +446,7 @@ export default {
 						return item[this.skuProps.sku] && item[this.skuProps.sku] !== '' && item[this.skuProps.sku].length > 0;
 					})
 					if (flag) {
-						// console.log('触发合并表单:', 'skus')
+						console.log('触发合并表单:', 'skus')
 						this.triggerMergeTable() // 合并表单
 					}
 				}
@@ -507,6 +511,7 @@ export default {
 				this.myAttributes = myAttributes
 				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 myAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
+					//初始化赋值
 					// console.log('this.skus',this.skus)
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
@@ -514,6 +519,10 @@ export default {
 								this.structures.forEach(structureItem => {
 									skuDataItem[structureItem.name] = skuItem[structureItem.name]
 								})
+								//如果存在skuId字段则进行赋值
+								if (skuItem[this.skuProps.skuId]){
+									skuDataItem[this.skuProps.skuId] = skuItem[this.skuProps.skuId]
+								}
 							}
 						})
 					})
@@ -553,21 +562,22 @@ export default {
 					for (let j = 0; j < this.attributes[index][this.attributeProps.options].length; j++) {
 						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
 						let obj = temp[temp.length - 1]
-						// temp[temp.length - 1][this.attributes[index][this.attributeProps.label]] = this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]
-						// temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]].join(this.separator)
-						// console.log('this.attributes[index][this.attributeProps.options][j]:', this.attributes[index][this.attributeProps.options][j])
+						let obj2 = this.attributes[index][this.attributeProps.options][j]
+						// temp[temp.length - 1][this.attributes[index][this.attributeProps.label]] = obj2[this.attributeProps.label]
+						// temp[temp.length - 1]['sku'] = [temp[temp.length - 1]['sku'], obj2[this.attributeProps.label]].join(this.separator)
+						// console.log('obj2:', obj2)
 						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
-						obj[this.skuProps.sku] = [obj[this.skuProps.sku], this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]].join(this.separator)
+						obj[this.skuProps.sku] = [obj[this.skuProps.sku], obj2[this.attributeProps.label]].join(this.separator)
 						let attributeParams = {
 							[this.skuProps.attribute]: {
 								[this.attributeProps.label]: this.attributes[index][this.attributeProps.label],
 								[this.attributeProps.value]: this.attributes[index][this.attributeProps.value],
 							},
-							[this.skuProps.attributeValue]: this.attributes[index][this.attributeProps.options][j],
+							[this.skuProps.attributeValue]: obj2,
 						}
 						obj[this.skuProps.attributeParams].push(attributeParams)
-						// obj[this.skuProps.attributeParams].push(this.attributes[index][this.attributeProps.options][j])
-						obj[this.attributes[index][this.attributeProps.label]] = this.attributes[index][this.attributeProps.options][j][this.attributeProps.label]
+						// obj[this.skuProps.attributeParams].push(obj2)
+						obj[this.attributes[index][this.attributeProps.label]] = obj2[this.attributeProps.label]
 						// console.log('obj:', obj)
 						temp[temp.length - 1] = obj
 					}

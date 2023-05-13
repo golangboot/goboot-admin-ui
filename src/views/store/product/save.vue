@@ -315,16 +315,421 @@
 					},
 				],
 				//已使用的规格数据
-				attributes: [],
+				// attributes: [],
+				attributes: [
+					{
+						"label": "颜色",
+						"value": 1,
+						"options": [
+							{
+								"label": "黑色",
+								"value": 1
+							},
+							{
+								"label": "白色",
+								"value": 2
+							}
+						]
+					},
+					{
+						"label": "内存",
+						"value": 2,
+						"options": [
+							{
+								"label": "128G",
+								"value": 11
+							},
+							{
+								"label": "512G",
+								"value": 12
+							}
+						]
+					},
+					{
+						"label": "运营商",
+						"value": 3,
+						"options": [
+							{
+								"label": "全网通",
+								"value": 21
+							},
+							{
+								"label": "电信",
+								"value": 22
+							}
+						]
+					}
+				],
 				//用于复原sku数据
-				skus: [],
+				// skus: [],
+				skus: [
+					{
+						"sku": "黑色;128G;全网通",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "黑色",
+									"value": 1
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "128G",
+									"value": 11
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "全网通",
+									"value": 21
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 1
+					},
+					{
+						"sku": "黑色;128G;电信",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "黑色",
+									"value": 1
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "128G",
+									"value": 11
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "电信",
+									"value": 22
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 2
+					},
+					{
+						"sku": "黑色;512G;全网通",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "黑色",
+									"value": 1
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "512G",
+									"value": 12
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "全网通",
+									"value": 21
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 3
+					},
+					{
+						"sku": "黑色;512G;电信",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "黑色",
+									"value": 1
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "512G",
+									"value": 12
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "电信",
+									"value": 22
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 4
+					},
+					{
+						"sku": "白色;128G;全网通",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "白色",
+									"value": 2
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "128G",
+									"value": 11
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "全网通",
+									"value": 21
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 5
+					},
+					{
+						"sku": "白色;128G;电信",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "白色",
+									"value": 2
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "128G",
+									"value": 11
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "电信",
+									"value": 22
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 6
+					},
+					{
+						"sku": "白色;512G;全网通",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "白色",
+									"value": 2
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "512G",
+									"value": 12
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "全网通",
+									"value": 21
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 7
+					},
+					{
+						"sku": "白色;512G;电信",
+						"attributeParams": [
+							{
+								"attribute": {
+									"label": "颜色",
+									"value": 1
+								},
+								"attributeValue": {
+									"label": "白色",
+									"value": 2
+								}
+							},
+							{
+								"attribute": {
+									"label": "内存",
+									"value": 2
+								},
+								"attributeValue": {
+									"label": "512G",
+									"value": 12
+								}
+							},
+							{
+								"attribute": {
+									"label": "运营商",
+									"value": 3
+								},
+								"attributeValue": {
+									"label": "电信",
+									"value": 22
+								}
+							}
+						],
+						"price": "10",
+						"marketPrice": "",
+						"costPrice": "",
+						"stock": "1000",
+						"code": "",
+						"barcode": "",
+						"image": "",
+						"status": 1,
+						"id": 8
+					}
+				],
 				//表格结构
 				structures: [
 					{
 						name: 'price',
 						type: 'input',
 						label: '销售价',
+						tip: '商品售价',
 						required: true,
+						validate: (data, index, callback) => {
+							if (data[index].price && parseFloat(data[index].price) < 0) {
+								callback(new Error('价格不能小于0'))
+							}
+							callback()
+						}
 					},
 					{
 						name: 'marketPrice',
@@ -332,24 +737,50 @@
 						label: '市场价',
 						tip: '划线参考价格',
 						required: false,
+						validate: (data, index, callback) => {
+							if (data[index].marketPrice && parseFloat(data[index].marketPrice) < 0) {
+								callback(new Error('市场价不能小于0'))
+							}
+							callback()
+						}
 					},
 					{
 						name: 'costPrice',
 						type: 'input',
 						label: '成本价',
 						required: false,
+						validate: (data, index, callback) => {
+							if (data[index].costPrice && parseFloat(data[index].costPrice) < 0) {
+								callback(new Error('成本价不能小于0'))
+							}
+							callback()
+						}
 					},
 					{
 						name: 'stock',
 						type: 'input',
 						label: '库存',
 						required: true,
+						// data: 完整 sku 数据，index: 当前 sku 在 data 中的下标，callback: 验证结果回调函数
+						validate: (data, index, callback) => {
+							if (data[index].stock && parseInt(data[index].stock) < 0) {
+								callback(new Error('库存不能小于0'))
+							}
+							callback()
+						}
 					},
 					{
 						name: 'code',
 						type: 'input',
-						label: 'SKU编码',
-						tip: 'SKU编码请保持唯一性，可以使用商品货号或条形码等，留空时系统自动生成',
+						label: '商家编码',
+						tip: '商家编码请保持唯一性，可以使用商品货号或内部商品唯一标识等，留空时系统自动生成',
+						required: false,
+					},
+					{
+						name: 'barcode',
+						type: 'input',
+						label: '商品条形码',
+						tip: '请填写正确条码，将有助于平台准确识别您的商品，消费者能更方便找到您的商品，也可以提供更准确、全面的信息导购。',
 						required: false,
 					},
 					{
@@ -358,12 +789,6 @@
 						label: '图片',
 						required: false,
 					},
-					/*{
-						name: 'score',
-						type: 'slot',
-						defaultValue: 0,
-						label: '评分',
-					},*/
 					{
 						name: 'status',
 						type: 'slot',
@@ -371,6 +796,19 @@
 						label: '状态',
 						required: true,
 					},
+					/*{
+						name: 'score',
+						type: 'slot',
+						defaultValue: 0,
+						label: '评分',
+					},*/
+					/*{
+						name: 'id',
+						type: 'slot',
+						label: 'ID',
+						required: false,
+						skuProperty: false,
+					},*/
 					{
 						name: 'operation',
 						type: 'slot',
