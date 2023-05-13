@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'80%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'90%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
 				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
@@ -90,13 +90,19 @@
 												</template>
 												<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
-														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center; max-width: 40px; height: 40px;overflow: hidden;">
+														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center;justify-content: center; max-width: 35px; height: 35px;overflow: hidden;margin-bottom: 5px;">
 															<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
 														</div>
-														<el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="slotProps.row.image = ''" />
-														<el-upload v-else :show-file-list="false" :action="$API.file.upload.url" :data="{type: 'image'}" name="file" :before-upload="beforeUpload" :on-success="res => slotProps.row.image = res.data.url" class="images-upload">
-															<el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
-														</el-upload>
+														<div style="margin: 0 auto;display: flex; align-items: center;justify-content: center;">
+															<el-popconfirm v-if="slotProps.row.image" title="确定删除图片吗？" @confirm="slotProps.row.image = ''">
+																<template #reference>
+																	<el-button type="default" size="small" icon="el-icon-delete">删除图片</el-button>
+																</template>
+															</el-popconfirm>
+															<el-upload v-else :show-file-list="false" :action="$API.file.upload.url" :data="{type: 'image'}" name="file" :accept="'image/jpg,image/jpeg,image/png,image/gif,'" :before-upload="beforeUpload" :on-success="res => slotProps.row.image = res.data.url" class="images-upload">
+																<el-button type="default" size="small" icon="el-icon-upload">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
+															</el-upload>
+														</div>
 													</div>
 												</template>
 												<template #totalPrice="slotProps">
@@ -207,9 +213,9 @@
 				loading: false,
 				mode: "add",
 				titleMap: {
-					add: '新增',
-					edit: '编辑',
-					show: '查看'
+					add: '新增商品',
+					edit: '编辑商品',
+					show: '查看商品'
 				},
 				visible: false,
 				isSaving: false,
@@ -792,6 +798,7 @@
 						name: 'image',
 						type: 'slot',
 						label: '图片',
+						tip: 'SKU图片',
 						required: false,
 					},
 					{
