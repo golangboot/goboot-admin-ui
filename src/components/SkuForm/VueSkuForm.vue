@@ -83,7 +83,7 @@
 
 <script>
 export default {
-	name: 'SkuForm',
+	name: 'VueSkuForm',
 	props: {
 		/**
 		 * 原始规格数据
