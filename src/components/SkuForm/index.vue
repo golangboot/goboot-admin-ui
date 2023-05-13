@@ -406,9 +406,6 @@ export default {
 						let skus = []
 						newValue.forEach(skuDataItem => {
 							// console.log('skuDataItem:', skuDataItem)
-							if (skuDataItem['merchantId']){
-								console.log('存在商家id skuDataItem:', skuDataItem)
-							}
 							let obj = skuDataItem
 							// let obj = {}
 							obj[this.skuProps.sku] = skuDataItem[this.skuProps.sku]
