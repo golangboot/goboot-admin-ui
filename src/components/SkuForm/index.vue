@@ -83,10 +83,9 @@
 						</template>
 					</el-table-column>
 					<!-- 批量设置，当 sku 数超过 1 个时出现 -->
-					<!-- <template v-if="isBatch && form.skuData.length > 1" #append></template> -->
+					<!-- <template v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" #append></template> -->
 				</el-table>
-
-				<el-table :data="[{}]" :show-header="false" v-if="isBatch && form.skuData.length > 1" stripe border highlight-current-row>
+				<el-table :data="[{}]" :show-header="false" v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" stripe border highlight-current-row>
 					<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">
 						<template #default="scope">
 							<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
@@ -95,7 +94,7 @@
 					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
 						<template #default="scope">
 							<el-form-item v-if="item.type == 'input' && item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
-								<el-input v-model="batchData[item.name]" :placeholder="`${item[this.attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+								<el-input v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
 							</el-form-item>
 						</template>
 					</el-table-column>
@@ -268,6 +267,11 @@ export default {
 			type: Number,
 			default: 0
 		},
+		//批量设置显示触发数量
+		batchSetShowTriggerCount: {
+			type: Number,
+			default: 2
+		},
 	},
 	data() {
 		return {
@@ -276,7 +280,7 @@ export default {
 			form: {
 				skuData: []
 			},
-			batchData: {},
+			batchSetData: {},
 			//需要合并的列
 			tableRowSpanArray: [],
 			tableRowSpanNumObject: {},
@@ -309,7 +313,7 @@ export default {
 			// console.log('rules:', rules)
 			return rules
 		},
-		isBatch() {
+		isBatchSet() {
 			return this.structures.some(item => {
 				return item.type == 'input' && item.batch != false
 			})
@@ -659,20 +663,20 @@ export default {
 		},
 		onBatchSets() {
 			// console.log('this.structures:', this.structures)
-			// console.log('this.batchData:', this.batchData)
-			// console.log('Object.keys(this.batchData):', Object.keys(this.batchData).length)
-			if (this.batchData && Object.keys(this.batchData).length > 0) {
-				Object.keys(this.batchData).forEach(type => {
+			// console.log('this.batchSetData:', this.batchSetData)
+			// console.log('Object.keys(this.batchSetData):', Object.keys(this.batchSetData).length)
+			if (this.batchSetData && Object.keys(this.batchSetData).length > 0) {
+				Object.keys(this.batchSetData).forEach(type => {
 					this.onBatchSet(type)
 				})
 			}
 		},
 		onBatchSet(type) {
-			if (this.batchData[type] != '') {
+			if (this.batchSetData[type] != '') {
 				this.form.skuData.forEach(v => {
-					v[type] = this.batchData[type]
+					v[type] = this.batchSetData[type]
 				})
-				this.batchData[type] = ''
+				this.batchSetData[type] = ''
 				// 批量设置完成后，触发一次当前列的验证
 				this.validateFieldByColumns([type], () => {})
 			}
