@@ -68,7 +68,6 @@
 													 v-model:structures="structures"
 													 v-model:attributes="attributes"
 													 v-model:skus="skus"
-													 :skuProps="skuProps"
 											>
 												<!--<template #score="slotProps">
 													<div>
@@ -416,7 +415,9 @@
 						"barcode": "",
 						"image": "",
 						"status": 1,
-						"id": 1
+						"id": 2000,
+						"productId": 1000,
+						"merchantId": 100000,
 					},
 					{
 						"sku": "黑色;128G;电信",
@@ -821,13 +822,6 @@
 						type: 'slot',
 						defaultValue: 0,
 						label: '评分',
-					},*/
-					/*{
-						name: 'id',
-						type: 'slot',
-						label: 'ID',
-						required: false,
-						skuProperty: false,
 					},*/
 					{
 						name: 'operation',

@@ -253,7 +253,6 @@ export default {
 					attributeParams: 'attributeParams',
 					attribute: 'attribute',
 					attributeValue: 'attributeValue',
-					skuId: 'id',
 				}
 			}
 		},
@@ -399,32 +398,47 @@ export default {
 				// console.log('form.skuData.oldValue:', oldValue)
 				// console.log('form.skuData.newValue.length:', Object.keys(newValue).length)
 				// console.log('form.skuData.oldValue.length:', Object.keys(oldValue).length)
-
 				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
 					if (oldValue.length || !this.skus.length) {
+						// console.log(`如果有老数据，或者 sku 数据为空，则更新父级 sku 数据`)
 						// 更新父组件
 						let skus = []
-						newValue.forEach(v1 => {
-							// console.log('structure v1', v1)
-							let obj = {
-								[this.skuProps.sku]: v1[this.skuProps.sku],
+						newValue.forEach(skuDataItem => {
+							// console.log('skuDataItem:', skuDataItem)
+							if (skuDataItem['merchantId']){
+								console.log('存在商家id skuDataItem:', skuDataItem)
 							}
-							if (v1[this.skuProps.attributeParams]){
-								obj[this.skuProps.attributeParams] = v1[this.skuProps.attributeParams]
+							let obj = skuDataItem
+							// let obj = {}
+							obj[this.skuProps.sku] = skuDataItem[this.skuProps.sku]
+							if (skuDataItem[this.skuProps.attributeParams]) {
+								obj[this.skuProps.attributeParams] = skuDataItem[this.skuProps.attributeParams]
 							}
-							if (v1[this.skuProps.skuId]){
-								obj[this.skuProps.skuId] = v1[this.skuProps.skuId]
-							}
-							this.structures.forEach(v2 => {
-								// console.log('structure v2', v2)
-								if (!(v2.type == 'slot' && v2.skuProperty == false)) {
+							//表格结构数据过滤
+							this.structures.forEach(structureItem => {
+								// console.log('form.skuData structureItem', structureItem)
+								if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
+									// console.log(`structure structureItem.${structureItem.name}:`, skuDataItem[structureItem.name])
 									// console.log('form.skuData.structures obj:', obj)
-									// console.log('form.skuData.structures v2:', v2)
-									// console.log(`form.skuData.structures ${v2.name}:`, v1[v2.name])
-									// console.log(`form.skuData.structures ${v2.name}:`, typeof v1[v2.name])
-									// obj[v2.name] = v1[v2.name] || (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
-									obj[v2.name] = (typeof v1[v2.name] != 'undefined') ? v1[v2.name] : (typeof v2.defaultValue != 'undefined' ? v2.defaultValue : '')
+									// console.log('form.skuData.structures structureItem:', structureItem)
+									// console.log(`form.skuData.structures ${structureItem.name}:`, skuDataItem[structureItem.name])
+									// console.log(`form.skuData.structures ${structureItem.name}:`, typeof skuDataItem[structureItem.name])
+									// obj[structureItem.name] = skuDataItem[structureItem.name] || (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
+									// obj[structureItem.name] = (typeof skuDataItem[structureItem.name] != 'undefined') ? skuDataItem[structureItem.name] : (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
+									if (typeof skuDataItem[structureItem.name] != 'undefined') {
+										// console.log('structure structureItem:', skuDataItem[structureItem.name])
+										obj[structureItem.name] = skuDataItem[structureItem.name]
+									} else {
+										obj[structureItem.name] = (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
+									}
+								}
+							})
+							//冗余数据过滤
+							this.attributes.forEach(attributeItem => {
+								// console.log('form.skuData attributeItem', attributeItem)
+								if (attributeItem.label && obj[attributeItem.label]){
+									delete obj[attributeItem.label]
 								}
 							})
 							skus.push(obj)
@@ -521,13 +535,11 @@ export default {
 					this.skus.forEach(skuItem => {
 						this.form.skuData.forEach(skuDataItem => {
 							if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
+								// 全部赋值数据
+								skuDataItem = skuItem
 								this.structures.forEach(structureItem => {
 									skuDataItem[structureItem.name] = skuItem[structureItem.name]
 								})
-								//如果存在skuId字段则进行赋值
-								if (skuItem[this.skuProps.skuId]){
-									skuDataItem[this.skuProps.skuId] = skuItem[this.skuProps.skuId]
-								}
 							}
 						})
 					})
@@ -536,8 +548,9 @@ export default {
 			})
 		},
 		// 根据 attributes 进行排列组合，生成 skuData 数据
-		combinationAttributes(index = 0, dataTemp = []) {
+		combinationAttributes(index = 0, skuDataTemp = []) {
 			// console.log('combinationAttributes => this.attributes', this.attributes)
+			// console.log('combinationAttributes => structures', this.structures)
 			if (index === 0) {
 				for (let i = 0; i < this.attributes[0][this.attributeProps.options].length; i++) {
 					let obj = {
@@ -554,18 +567,22 @@ export default {
 					}
 					obj[this.skuProps.attributeParams].push(attributeParams)
 					// obj[this.skuProps.attributeParams].push(this.attributes[0][this.attributeProps.options][i])
-					this.structures.forEach(v => {
-						if (!(v.type == 'slot' && v.skuProperty == false)) {
-							obj[v.name] = typeof v.defaultValue != 'undefined' ? v.defaultValue : ''
+					this.structures.forEach(structureItem => {
+						if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
+							obj[structureItem.name] = typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : ''
 						}
 					})
-					dataTemp.push(obj)
+					// console.log(`combinationAttributes => form.skuData[${i}]:`, this.form.skuData[i])
+					// console.log(`combinationAttributes => skuDataTemp:`, skuDataTemp)
+					skuDataTemp.push(obj)
 				}
 			} else {
 				let temp = []
-				for (let i = 0; i < dataTemp.length; i++) {
+				for (let i = 0; i < skuDataTemp.length; i++) {
 					for (let j = 0; j < this.attributes[index][this.attributeProps.options].length; j++) {
-						temp.push(JSON.parse(JSON.stringify(dataTemp[i])))
+						temp.push(JSON.parse(JSON.stringify(skuDataTemp[i])))
+						// console.log('combinationAttributes => JSON:', JSON.parse(JSON.stringify(skuDataTemp[i])))
+						// console.log('combinationAttributes => temp[temp.length - 1]:', temp[temp.length - 1])
 						let obj = temp[temp.length - 1]
 						let obj2 = this.attributes[index][this.attributeProps.options][j]
 						// temp[temp.length - 1][this.attributes[index][this.attributeProps.label]] = obj2[this.attributeProps.label]
@@ -587,26 +604,43 @@ export default {
 						temp[temp.length - 1] = obj
 					}
 				}
-				dataTemp = temp
+				skuDataTemp = temp
 			}
 			if (index !== this.attributes.length - 1) {
-				this.combinationAttributes(index + 1, dataTemp)
+				this.combinationAttributes(index + 1, skuDataTemp)
 			} else {
 				if (!this.isInit || this.async) {
+					// console.log(`combinationAttributes => !this.isInit || this.async:`, 'true')
 					// 将原有的 sku 数据和新的 sku 数据比较，相同的 sku 则把原有的 sku 数据覆盖到新的 sku 数据里
 					for (let i = 0; i < this.form.skuData.length; i++) {
-						for (let j = 0; j < dataTemp.length; j++) {
+						for (let j = 0; j < skuDataTemp.length; j++) {
 							if (typeof this.form.skuData[i] != 'undefined'){
-								if (typeof dataTemp[j] != 'undefined'){
-									if (this.form.skuData[i][this.skuProps.sku] === dataTemp[j][this.skuProps.sku]) {
-										dataTemp[j] = this.form.skuData[i]
+								if (typeof skuDataTemp[j] != 'undefined'){
+									if (this.form.skuData[i][this.skuProps.sku] === skuDataTemp[j][this.skuProps.sku]) {
+										skuDataTemp[j] = this.form.skuData[i]
 									}
 								}
 							}
 						}
 					}
 				}
-				this.form.skuData = dataTemp
+				// 原属性赋值
+				if (this.skus && this.skus.length > 0) {
+					for (let i = 0; i < this.skus.length; i++) {
+						for (let j = 0; j < skuDataTemp.length; j++) {
+							if (typeof this.skus[i] != 'undefined') {
+								if (typeof skuDataTemp[j] != 'undefined') {
+									if (this.skus[i][this.skuProps.sku] === skuDataTemp[j][this.skuProps.sku]) {
+										skuDataTemp[j] = Object.assign(this.skus[i], skuDataTemp[j])
+									}
+								}
+							}
+						}
+					}
+				}
+				// console.log(`combinationAttributes => form.skuData:`, this.form.skuData)
+				// console.log(`combinationAttributes => skuDataTemp:`, skuDataTemp)
+				this.form.skuData = skuDataTemp
 			}
 		},
 		// 删除选中规格
