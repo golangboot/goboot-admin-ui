@@ -935,6 +935,19 @@
 				}
 				return totalPrice
 			},
+			//Sku表单校验
+			skuFormValidate(){
+				this.$refs.skuForm.validate(valid => {
+					if (valid) {
+						this.$message.success('验证通过')
+						return true
+					} else {
+						this.$message.warning('验证失败')
+						return false
+					}
+				})
+				return false
+			}
 		}
 	}
 </script>
