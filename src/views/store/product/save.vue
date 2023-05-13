@@ -7,6 +7,12 @@
 						<el-tabs tab-position="top">
 							<el-tab-pane label="基础信息">
 
+								<el-form-item label="商品类型" prop="type">
+									<el-radio-group v-model="form.type">
+										<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+
 								<el-form-item label="商品分类" prop="categoryId">
 									<template #label="{ label }">
 										<span>{{ label }}</span>
@@ -23,12 +29,12 @@
 								<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="商品品牌" prop="brandId">
-											<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable style="width:100%"></select-remote>
+											<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable></select-remote>
 										</el-form-item>
 									</el-col>
 									<el-col :span="12">
 										<el-form-item label="销售单位" prop="saleUnitId">
-											<select-remote v-model="form.saleUnitId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable style="width:100%"></select-remote>
+											<select-remote v-model="form.saleUnitId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable></select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -46,10 +52,6 @@
 
 								<el-form-item label="商品相册" prop="images">
 									<sc-upload-multiple v-model="form.images" draggable :limit="5" tip="最多上传5个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
-								</el-form-item>
-
-								<el-form-item label="排序" prop="sort">
-									<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 								</el-form-item>
 
 								<el-form-item label="商品状态" prop="status">
@@ -177,7 +179,21 @@
 								<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="虚拟销量" prop="virtualSaleCount">
+											<template #label="{ label }">
+												<span>{{ label }}</span>
+												<span>
+											<el-tooltip>
+												<template #content>虚拟销量不会计入商品真实销量中</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+											</template>
 											<el-input-number v-model="form.virtualSaleCount" controls-position="right" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+										<el-form-item label="排序" prop="sort">
+											<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -234,13 +250,20 @@
 					name: [
 						{required: true, message: '请输入商品名称'}
 					],
+					type: [
+						{ required: true, message: '请选择商品类型', trigger: ['change', 'blur']}
+					],
 					categoryId: [
-						{ required: true, message: '请选择商品分类', trigger: 'change'}
+						{ required: true, message: '请选择商品分类', trigger: ['change', 'blur']}
 					],
 				},
 				statusOptions: [
 					{label: "上架", value: 1,},
 					{label: "下架", value: 0,},
+				],
+				typeOptions: [
+					{label: "实物商品（物流发货）", value: 0,},
+					{label: "虚拟商品（无需物流）", value: 1,},
 				],
 				auditStatusOptions: [
 					{label: "待审核", value: 0},
