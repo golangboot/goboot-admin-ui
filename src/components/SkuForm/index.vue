@@ -14,7 +14,7 @@
 					</div>
 					<div class="attr-button-group">
 						<div class="add-attr">
-							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格名称" clearable @keyup.enter="onAddAttribute(index)">
+							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttribute(index)">
 								<template v-slot:append>
 									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttribute(index)">添加</el-button>
 								</template>
@@ -39,7 +39,7 @@
 				</el-table-column>
 				<el-table-column width="250">
 					<template #default="scope">
-						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格" class="add-attr" clearable @keyup.enter="onAddAttribute(scope.$index)">
+						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格项" class="add-attr" clearable @keyup.enter="onAddAttribute(scope.$index)">
 							<template v-slot:append>
 								<el-button size="default" icon="el-icon-plus" @click="onAddAttribute(scope.$index)">添加</el-button>
 							</template>
@@ -262,6 +262,11 @@ export default {
 					options: 'options',
 				}
 			}
+		},
+		//规格选项限制总数量(为0则表示不限制)
+		attributeOptionLimitTotalCount: {
+			type: Number,
+			default: 12
 		},
 	},
 	data() {
@@ -591,7 +596,7 @@ export default {
 				return item.checked;
 			})
 			if (!flag) {
-				this.$message({type: 'warning', message: '请勾选需要删除的规格名称'})
+				this.$message({type: 'warning', message: '请勾选需要删除的规格项'})
 				return
 			}
 			this.myAttributes[index][this.attributeProps.options] = this.myAttributes[index][this.attributeProps.options].filter((item) => {
@@ -602,18 +607,38 @@ export default {
 		onAddAttribute(index) {
 			// console.log('onAddAttribute.index:', index)
 			if (!this.myAttributes[index].addAttribute){
-				this.$message({type: 'warning', message: '规格名称不能为空'})
+				this.$message({type: 'warning', message: '规格项不能为空'})
 				return
 			}
-			this.myAttributes[index].addAttribute = this.myAttributes[index].addAttribute.trim()
-			if (this.myAttributes[index].addAttribute !== '') {
-				if (!this.myAttributes[index].addAttribute.includes(this.separator)) {
+			let addAttributeText = this.myAttributes[index].addAttribute.trim()
+			this.myAttributes[index].addAttribute = addAttributeText
+			if (addAttributeText !== '') {
+				if (!addAttributeText.includes(this.separator)) {
+					// todo: 检查是否超出最大数量
+					// console.log('onAddAttribute attributeOptionLimitTotalCount:', this.attributeOptionLimitTotalCount)
+					//检查规格选项值是否超出最大数量
+					if (this.attributeOptionLimitTotalCount > 0) {
+						let attributeOptionTotalCount = 0
+						this.myAttributes.forEach(myAttribute => {
+							if (myAttribute[this.attributeProps.options]) {
+								attributeOptionTotalCount += myAttribute[this.attributeProps.options].length
+							}
+						})
+						// console.log('onAddAttribute attributeOptionTotalCount:', attributeOptionTotalCount)
+						if (attributeOptionTotalCount >= this.attributeOptionLimitTotalCount) {
+							this.$message({
+								type: 'warning',
+								message: `规格项总数不能超过 ${this.attributeOptionLimitTotalCount} 个`
+							})
+							return
+						}
+					}
 					const flag = this.myAttributes[index][this.attributeProps.options].some(item => {
-						return item[this.attributeProps.label] === this.myAttributes[index].addAttribute
+						return item[this.attributeProps.label] === addAttributeText
 					})
 					if (!flag) {
 						this.myAttributes[index][this.attributeProps.options].push({
-							[this.attributeProps.label]: this.myAttributes[index].addAttribute,
+							[this.attributeProps.label]: addAttributeText,
 							// [this.attributeProps.value]: "",
 							checked: true
 						})
@@ -621,13 +646,13 @@ export default {
 					} else {
 						this.$message({
 							type: 'warning',
-							message: '请勿添加相同规格'
+							message: '请勿添加相同规格项'
 						})
 					}
 				} else {
 					this.$message({
 						type: 'warning',
-						message: `规格里不允许出现「 ${this.separator} 」字符，请检查后重新添加`
+						message: `规格项中不允许出现「 ${this.separator} 」字符，请检查后重新添加`
 					})
 				}
 			}
