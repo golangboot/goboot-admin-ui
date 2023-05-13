@@ -286,7 +286,7 @@
 				sourceAttributes: [
 					{
 						label: '颜色', value: 1,
-						children: [
+						options: [
 							{label: '黑色', value: 1, checked: false},
 							{label: '白色', value: 2, checked: false},
 							{label: '银色', value: 3, checked: false},
@@ -296,7 +296,7 @@
 					},
 					{
 						label: '内存', value: 2,
-						children: [
+						options: [
 							{label: '128G', value: 11, checked: false},
 							{label: '512G', value: 12, checked: false},
 							{label: '1T', value: 13, checked: false},
@@ -305,7 +305,7 @@
 					},
 					{
 						label: '运营商', value: 3,
-						children: [
+						options: [
 							{label: '全网通', value: 21, checked: false},
 							{label: '电信', value: 22, checked: false},
 							{label: '移动', value: 23, checked: false},
@@ -379,11 +379,6 @@
 						skuProperty: false,
 					},
 				],
-				//sku属性字段
-				skuProps: {
-					sku: 'sku',
-					attributeParams: 'attributeParams',
-				},
 			}
 		},
 		watch: {
