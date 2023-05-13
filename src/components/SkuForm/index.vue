@@ -766,7 +766,7 @@ export default {
 			/*this.form.skuData.forEach((v, i) => {
 				columns.forEach(v => {
 					props.push(`skuData.${i}.${v}`)
-					console.log(`validateFieldByColumns.skuData.${i}.${v}`)
+					// console.log(`validateFieldByColumns.skuData.${i}.${v}`)
 				})
 			})*/
 			let i = 0
