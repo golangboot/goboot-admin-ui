@@ -753,42 +753,43 @@
 				if (!this.categoryAttributes || this.categoryAttributes.length <= 0){
 					return
 				}
-
-				//销售属性
-				let saleAttributes = []
-				//规格参数
-				let specAttributes = []
-
-				// 处理属性参数 (新旧参数合并)
-				this.categoryAttributes.forEach(categoryAttribute => {
+				this.$nextTick(() => {
 					//销售属性
-					if (categoryAttribute.isSaleAttribute) {
-						let attribute = {
-							label: categoryAttribute.name,
-							value: categoryAttribute.id,
-							options: [],
-						}
-						if (categoryAttribute.options){
-							categoryAttribute.options.split(',').forEach(attributeValue => {
-								let attributeItem = {
-									label: attributeValue,
-									value: "",
-									checked: false,
-								}
-								attribute.options.push(attributeItem)
-							})
-						}
-						saleAttributes.push(attribute)
-					}
-
+					let saleAttributes = []
 					//规格参数
-					if (!categoryAttribute.isSaleAttribute) {
-						specAttributes.push(categoryAttribute)
-					}
-				})
+					let specAttributes = []
 
-				this.form.skuSourceAttributes = saleAttributes
-				this.$refs.skuForm.init() // skuForm初始化
+					// 处理属性参数 (新旧参数合并)
+					this.categoryAttributes.forEach(categoryAttribute => {
+						//销售属性
+						if (categoryAttribute.isSaleAttribute) {
+							let attribute = {
+								label: categoryAttribute.name,
+								value: categoryAttribute.id,
+								options: [],
+							}
+							if (categoryAttribute.options){
+								categoryAttribute.options.split(',').forEach(attributeValue => {
+									let attributeItem = {
+										label: attributeValue,
+										value: "",
+										checked: false,
+									}
+									attribute.options.push(attributeItem)
+								})
+							}
+							saleAttributes.push(attribute)
+						}
+
+						//规格参数
+						if (!categoryAttribute.isSaleAttribute) {
+							specAttributes.push(categoryAttribute)
+						}
+					})
+
+					this.form.skuSourceAttributes = Object.assign(this.form.skuSourceAttributes || [], saleAttributes)
+					this.$refs.skuForm.init() // skuForm初始化
+				})
 			},
 		}
 	}

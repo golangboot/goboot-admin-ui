@@ -86,7 +86,7 @@
 					<!-- <template v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" #append></template> -->
 				</el-table>
 				<el-table :data="[{}]" :show-header="false" v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" border>
-					<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false">
+					<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false" fixed>
 						<template #default="scope">
 							<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
 						</template>
