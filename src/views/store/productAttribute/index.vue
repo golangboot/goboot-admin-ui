@@ -60,7 +60,16 @@
 						</template>
 					</el-table-column>
 					<el-table-column label="属性值可选值列表" prop="options" width="200" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="是否必填/必选" prop="optionType" width="150" sortable>
+					<el-table-column label="属性选择类型" prop="selectType" width="120" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.selectType==0" type="info">唯一</el-tag>
+							<el-tag v-if="scope.row.selectType==1" type="success">单选</el-tag>
+							<el-tag v-if="scope.row.selectType==2" type="warning">多选</el-tag>
+							<el-tag v-if="scope.row.selectType==3" type="primary">文本</el-tag>
+							<el-tag v-if="scope.row.selectType==4" type="danger">布尔值</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="是否必填/必选" prop="optionType" width="130" sortable>
 						<template #default="scope">
 							<el-tag v-if="scope.row.optionType == 1" type="success">是</el-tag>
 							<el-tag v-else type="warning">否</el-tag>

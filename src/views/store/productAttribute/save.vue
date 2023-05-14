@@ -81,7 +81,7 @@
 						</el-tooltip>
 					</span>
 				</template>
-				<el-input ref="optionsFormat" v-model="optionsFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="65535" :show-word-limit="true" type="textarea"></el-input>
+				<el-input ref="optionsFormat" v-model="optionsFormat" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" :show-word-limit="true" type="textarea"></el-input>
 				<div class="el-form-item-msg">多个属性值可选值使用Enter确认键换行</div>
 			</el-form-item>
 			<el-form-item label="搜索类型" prop="searchType">
@@ -216,13 +216,23 @@
 			}
 		},
 		watch: {
+			/*form: {
+				handler(newValue){
+					if (newValue.isSaleAttribute && newValue.isSaleAttribute == 1){
+						this.form.selectType = 2
+						this.form.optionType = 0
+					}
+
+				},
+				deep: true
+			},*/
 			optionsFormat(val) {
 				val = val.replace(/\n/g, ',')
 				this.form.options = val
 				/*this.$nextTick(() => {
 					this.$refs.optionsFormat.resizeTextarea();
 				});*/
-			}
+			},
 		},
 		mounted() {
 			this.getCategoryList()
@@ -243,6 +253,13 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
+
+						// 处理表单信息
+						if (this.form.isSaleAttribute && this.form.isSaleAttribute == 1){
+							this.form.selectType = 2
+							this.form.optionType = 0
+						}
+
 						var res;
 						if (this.form.id) {
 							res = await this.$API.store.productAttribute.update.put(this.form)
