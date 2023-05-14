@@ -4,68 +4,6 @@
 			<el-form-item label="商品属性名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="属性选择类型" prop="selectType">
-				<template #label="{ label }">
-					<span>{{ label }}</span>
-					<span>
-						<el-tooltip>
-							<template #content>属性选择类型为唯一或文本时，属性值录入方式需要设置为手工录入</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-						</el-tooltip>
-					</span>
-				</template>
-				<el-radio-group v-model="form.selectType">
-					<el-radio v-for="(item, index) in selectTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="属性值录入方式" prop="inputType">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-						<el-tooltip>
-							<template #content>属性值录入方式为[从列表中选取]时，请在可选值列表中添加可选值。手工录入则表示需要填写</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-						</el-tooltip>
-					</span>
-						</template>
-						<el-radio-group v-model="form.inputType">
-							<el-radio v-for="(item, index) in inputTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-						</el-radio-group>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12">
-					<el-form-item label="是否必填/必选" prop="optionType">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-								<el-tooltip>
-									<template #content>属性值是否可以留空或不选择</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-radio-group v-model="form.optionType">
-							<el-radio :key="0" :label="0">否</el-radio>
-							<el-radio :key="1" :label="1">是</el-radio>
-						</el-radio-group>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="属性值可选值列表" prop="optionsFormat" v-if="form.inputType == 1">
-				<template #label="{ label }">
-					<span>{{ label }}</span>
-					<span>
-						<el-tooltip>
-							<template #content>属性值可选值列表, 多个属性值可选值使用Enter确认键换行</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-						</el-tooltip>
-					</span>
-				</template>
-				<el-input ref="optionsFormat" v-model="optionsFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="65535" :show-word-limit="true" type="textarea"></el-input>
-				<div class="el-form-item-msg">多个属性值可选值使用Enter确认键换行</div>
-			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="销售属性" prop="isSaleAttribute">
@@ -84,58 +22,85 @@
 						</el-radio-group>
 					</el-form-item>
 				</el-col>
-				<el-col :span="12">
-					<el-form-item label="支持新增属性" prop="canAddAttribute">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-								<el-tooltip>
-									<template #content>是否支持手动新增属性值</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-radio-group v-model="form.canAddAttribute">
-							<el-radio :key="0" :label="0">不支持</el-radio>
-							<el-radio :key="1" :label="1">支持</el-radio>
-						</el-radio-group>
-					</el-form-item>
-				</el-col>
 			</el-row>
+			<template v-if="form.isSaleAttribute == 1">
+				<el-form-item label="支持新增属性" prop="canAddAttribute">
+					<template #label="{ label }">
+						<span>{{ label }}</span>
+						<span>
+						<el-tooltip>
+							<template #content>是否支持手动新增属性值</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+					</template>
+					<el-radio-group v-model="form.canAddAttribute">
+						<el-radio :key="0" :label="0">不支持</el-radio>
+						<el-radio :key="1" :label="1">支持</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</template>
+			<template v-else>
+				<el-form-item label="属性选择类型" prop="selectType">
+					<template #label="{ label }">
+						<span>{{ label }}</span>
+						<span>
+						<el-tooltip>
+							<template #content>属性选择类型为唯一或文本时，属性值录入为用户手工录入</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+					</template>
+					<el-radio-group v-model="form.selectType">
+						<el-radio v-for="(item, index) in selectTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item :label="form.selectType == 1 || form.selectType == 2 || form.selectType == 4 ? '是否必选' : '是否必填'" prop="optionType">
+					<template #label="{ label }">
+						<span>{{ label }}</span>
+						<span>
+						<el-tooltip>
+							<template #content>属性值是否可以留空或不选择</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+					</template>
+					<el-radio-group v-model="form.optionType">
+						<el-radio :key="0" :label="0">否</el-radio>
+						<el-radio :key="1" :label="1">是</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</template>
+			<el-form-item label="属性值可选值列表" prop="optionsFormat" v-if="form.isSaleAttribute == 1 || form.selectType == 1 || form.selectType == 2">
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>属性值可选值列表, 多个属性值可选值使用Enter确认键换行</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-input ref="optionsFormat" v-model="optionsFormat" :autosize="{ minRows: 3, maxRows: 6 }" :maxlength="65535" :show-word-limit="true" type="textarea"></el-input>
+				<div class="el-form-item-msg">多个属性值可选值使用Enter确认键换行</div>
+			</el-form-item>
 			<el-form-item label="搜索类型" prop="searchType">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-								<el-tooltip>
-									<template #content>默认选择不需要检索即可</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-radio-group v-model="form.searchType">
-							<el-radio :key="0" :label="0">不需要进行检索</el-radio>
-							<el-radio :key="1" :label="1">关键字检索</el-radio>
-							<el-radio :key="2" :label="2">范围检索</el-radio>
-						</el-radio-group>
-					</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="是否全局" prop="isGlobal">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-								<el-tooltip>
-									<template #content>是否关联全部商品规格</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<el-radio-group v-model="form.isGlobal">
-							<el-radio :key="0" :label="0">否</el-radio>
-							<el-radio :key="1" :label="1">是</el-radio>
-						</el-radio-group>
-					</el-form-item>
-				</el-col>
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>默认选择不需要检索即可</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-radio-group v-model="form.searchType">
+					<el-radio :key="0" :label="0">不需要进行检索</el-radio>
+					<el-radio :key="1" :label="1">关键字检索</el-radio>
+					<el-radio :key="2" :label="2">范围检索</el-radio>
+				</el-radio-group>
+			</el-form-item>
+			<!--<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="筛选样式" prop="filterType">
 						<template #label="{ label }">
@@ -153,8 +118,8 @@
 						</el-radio-group>
 					</el-form-item>
 				</el-col>
-			</el-row>
-			<el-form-item label="商品规格" prop="productSpecId">
+			</el-row>-->
+			<el-form-item label="所属商品规格" prop="productSpecId">
 				<select-remote v-model="form.productSpecId" :apiObj="productSpecSelect.apiObj" :params="productSpecSelect.params" :props="productSpecSelect.props" clearable filterable style="width: 100%;"></select-remote>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
@@ -196,12 +161,13 @@
 					sort: null,
 					isGlobal: 0,
 					status: 1,
-					selectType: 0,
-					inputType: 0,
+					selectType: 3,
+					// inputType: 0,
 					canAddAttribute: 0,
 					options: "",
 					isSaleAttribute: 0,
 					optionType: 0,
+					searchType: 0,
 				},
 				//验证规则
 				rules: {
@@ -222,7 +188,7 @@
 					expandTrigger: "hover",
 				},
 				selectTypeOptions: [
-					{label: "唯一", value: 0,},
+					// {label: "唯一", value: 0,},
 					{label: "单选", value: 1,},
 					{label: "多选", value: 2,},
 					{label: "文本", value: 3,},
