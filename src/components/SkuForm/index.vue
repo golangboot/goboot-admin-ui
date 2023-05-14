@@ -400,7 +400,8 @@ export default {
 				// console.log('form.skuData.oldValue.length:', Object.keys(oldValue).length)
 				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
 					// 如果有老数据，或者 sku 数据为空，则更新父级 sku 数据
-					if (oldValue.length || !this.skus.length) {
+					// if (oldValue.length || !this.skus.length) {
+					if ((oldValue && oldValue.length) || (!this.skus || !this.skus.length)) {
 						// console.log(`如果有老数据，或者 sku 数据为空，则更新父级 sku 数据`)
 						// 更新父组件
 						let skus = []

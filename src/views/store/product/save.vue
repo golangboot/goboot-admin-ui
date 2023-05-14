@@ -67,9 +67,9 @@
 									<el-col :span="24">
 										<div>
 											<sku-form ref="skuForm"
-													 v-model:sourceAttributes="sourceAttributes"
+													 v-model:sourceAttributes="form.sourceAttributes"
 													 v-model:structures="structures"
-													 v-model:attributes="attributes"
+													 v-model:attributes="form.attributes"
 													 v-model:skus="form.skus"
 											>
 												<!--<template #score="slotProps">
@@ -131,7 +131,7 @@
 											<el-row type="flex" :gutter="20">
 												<el-col :span="12">
 													<el-divider content-position="left">attributes 数据</el-divider>
-													<pre><code>{{ attributes }}</code></pre>
+													<pre><code>{{ form.attributes }}</code></pre>
 												</el-col>
 												<el-col :span="12">
 													<el-divider content-position="left">skus 数据</el-divider>
@@ -384,7 +384,8 @@
 					customFormStatus: 0,
 					customFormParams: [],
 					skus: [],
-					// attributes: [],
+					attributes: [],
+					sourceAttributes: [],
 				},
 				//验证规则
 				rules: {
@@ -1067,9 +1068,11 @@
 				deep: true
 			},
 			categoryAttributes: {
-				handler(newValue){
-					console.log('watch -> categoryAttributes.newValue:', newValue)
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					// console.log('watch -> categoryAttributes.newValue:', newValue)
 					// console.log('watch -> categoryAttributes.oldValue:', oldValue)
+					this.handleCategoryAttributes()
 				},
 				deep: true
 			},
@@ -1175,7 +1178,50 @@
 					}
 				})
 				return false
-			}
+			},
+			//处理分类参数
+			handleCategoryAttributes(){
+				// console.log('handleCategoryAttributes -> categoryAttributes:', this.categoryAttributes)
+				if (!this.categoryAttributes || this.categoryAttributes.length <= 0){
+					return
+				}
+
+				//销售属性
+				let saleAttributes = []
+				//规格参数
+				let specAttributes = []
+
+				// 处理属性参数 (新旧参数合并)
+				this.categoryAttributes.forEach(categoryAttribute => {
+					//销售属性
+					if (categoryAttribute.isSaleAttribute) {
+						let attribute = {
+							label: categoryAttribute.name,
+							value: categoryAttribute.id,
+							options: [],
+						}
+						if (categoryAttribute.options){
+							categoryAttribute.options.split(',').forEach(attributeValue => {
+								let attributeItem = {
+									label: attributeValue,
+									value: "",
+									checked: false,
+								}
+								attribute.options.push(attributeItem)
+							})
+						}
+						saleAttributes.push(attribute)
+					}
+
+					//规格参数
+					if (!categoryAttribute.isSaleAttribute) {
+						specAttributes.push(categoryAttribute)
+					}
+				})
+
+				this.form.sourceAttributes = saleAttributes
+				this.$refs.skuForm.init() // skuForm初始化
+			},
 		}
 	}
 </script>
