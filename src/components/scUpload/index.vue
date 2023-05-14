@@ -281,4 +281,5 @@
 
 	/* css优化 */
 	.sc-upload .el-upload--picture-card {width: 100%;height: 100%;}
+	.sc-upload .file-empty h4 {line-height: 1.2;}
 </style>

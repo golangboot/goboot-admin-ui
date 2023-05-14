@@ -262,6 +262,7 @@
 	.sc-upload__item-progress {position: absolute;width: 100%;height: 100%;top: 0;left: 0;background-color: var(--el-overlay-color-lighter);}
 
 	/* css优化 */
+	.sc-upload-multiple:deep(.el-upload--picture-card) {width: auto;height: auto;}
 	.sc-upload-multiple:deep(.el-upload--picture-card).el-upload {width: auto;height: auto;border: none; align-items: baseline; background-color: unset;}
 	:deep(.el-upload-list__item) {width: auto;height: auto;}
 
