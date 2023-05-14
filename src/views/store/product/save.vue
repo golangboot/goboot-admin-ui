@@ -128,7 +128,7 @@
 													</div>
 												</template>
 											</sku-form>
-											<el-row type="flex" :gutter="20">
+											<!--<el-row type="flex" :gutter="20">
 												<el-col :span="12">
 													<el-divider content-position="left">attributes 数据</el-divider>
 													<pre><code>{{ form.skuAttributes }}</code></pre>
@@ -137,7 +137,7 @@
 													<el-divider content-position="left">skus 数据</el-divider>
 													<pre><code>{{ form.skus }}</code></pre>
 												</el-col>
-											</el-row>
+											</el-row>-->
 										</div>
 									</el-col>
 								</el-row>
