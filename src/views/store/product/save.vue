@@ -71,6 +71,7 @@
 													 v-model:structures="skuFormStructures"
 													 v-model:attributes="form.skuAttributes"
 													 v-model:skus="form.skus"
+													  :formDisabled="mode=='show'"
 											>
 												<!--<template #score="slotProps">
 													<div>

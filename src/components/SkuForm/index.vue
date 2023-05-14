@@ -49,7 +49,7 @@
 			</el-table>
 		</div>
 		<div class="sku-list">
-			<el-form ref="form" :model="form" status-icon inline-message>
+			<el-form ref="form" :model="form" :disabled="formDisabled" status-icon inline-message>
 				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" stripe border highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
 					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" fixed />
@@ -232,6 +232,11 @@ export default {
 		},
 		// 是否显示 sku 选择栏
 		disabled: {
+			type: Boolean,
+			default: false
+		},
+		// 是否显示 sku 选择栏
+		formDisabled: {
 			type: Boolean,
 			default: false
 		},
