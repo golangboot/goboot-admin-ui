@@ -70,26 +70,14 @@
 													 v-model:sourceAttributes="sourceAttributes"
 													 v-model:structures="structures"
 													 v-model:attributes="attributes"
-													 v-model:skus="skus"
+													 v-model:skus="form.skus"
 											>
 												<!--<template #score="slotProps">
 													<div>
 														<el-rate v-model="slotProps.row.score" />
 													</div>
 												</template>-->
-												<template #status="slotProps">
-													<div style="margin: 0 auto;">
-														<el-switch
-															v-model="slotProps.row.status"
-															class="ml-2"
-															inline-prompt
-															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-															:active-value="1" :inactive-value="0"
-															active-text="上架" inactive-text="下架"
-															@change="slotProps.row.status = $event"
-														/>
-													</div>
-												</template>
+
 												<!--<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
 														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center;justify-content: center; max-width: 35px; height: 35px;overflow: hidden;margin-bottom: 5px;">
@@ -110,6 +98,19 @@
 												<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
 														<sc-upload v-model="slotProps.row.image" title="请上传图片" :width="80" :height="80"></sc-upload>
+													</div>
+												</template>
+												<template #status="slotProps">
+													<div style="margin: 0 auto;">
+														<el-switch
+															v-model="slotProps.row.status"
+															class="ml-2"
+															inline-prompt
+															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+															:active-value="1" :inactive-value="0"
+															active-text="上架" inactive-text="下架"
+															@change="slotProps.row.status = $event"
+														/>
 													</div>
 												</template>
 												<template #totalPrice="slotProps">
@@ -134,7 +135,7 @@
 												</el-col>
 												<el-col :span="12">
 													<el-divider content-position="left">skus 数据</el-divider>
-													<pre><code>{{ skus }}</code></pre>
+													<pre><code>{{ form.skus }}</code></pre>
 												</el-col>
 											</el-row>
 										</div>
@@ -382,6 +383,8 @@
 					freightType: 0,
 					customFormStatus: 0,
 					customFormParams: [],
+					skus: [],
+					// attributes: [],
 				},
 				//验证规则
 				rules: {
@@ -1081,16 +1084,19 @@
 			async setData(data){
 				this.loading = true
 				Object.assign(this.form, data)
-				if (data.id){
-					this.isSaving = true
-					let reqData = {id: data.id}
-					let res = await this.$API.store.product.detail.get(reqData)
-					this.isSaving = false
-					this.form = res.data
-				}
-				this.loading = false
-				this.form.customFormParams = this.form.customFormParams || []
-				console.log('setData -> form', this.form)
+				this.$nextTick(async () => {
+					if (data.id) {
+						this.isSaving = true
+						let reqData = {id: data.id}
+						let res = await this.$API.store.product.detail.get(reqData)
+						this.isSaving = false
+						this.form = res.data
+					}
+					this.loading = false
+					this.form.customFormParams = this.form.customFormParams || []
+					this.form.skus = this.form.skus || []
+					console.log('setData -> form', this.form)
+				})
 			},
 			async getTreeList() {
 				let res = await this.$API.store.category.tree.get();

@@ -394,8 +394,8 @@ export default {
 		},
 		'form.skuData': {
 			handler(newValue, oldValue) {
-				// console.log('form.skuData.newValue:', newValue)
-				// console.log('form.skuData.oldValue:', oldValue)
+				// console.log('watch -> form.skuData.newValue:', newValue)
+				// console.log('watch -> form.skuData.oldValue:', oldValue)
 				// console.log('form.skuData.newValue.length:', Object.keys(newValue).length)
 				// console.log('form.skuData.oldValue.length:', Object.keys(oldValue).length)
 				if (!this.isInit || (newValue.length == 1 && newValue[0][this.skuProps.sku] == this.emptySku)) {
@@ -450,14 +450,18 @@ export default {
 		skus: {
 			// eslint-disable-next-line
 			handler(newValue, oldValue) {
-				// console.log('skus.newValue:', newValue)
-				// console.log('skus.oldValue:', oldValue)
+				// console.log('watch -> skus.newValue:', newValue)
+				// console.log('watch -> skus.oldValue:', oldValue)
 				// console.log('skus.newValue.length:', newValue.length)
 				// console.log('skus.oldValue.length:', oldValue.length)
-				if (newValue && newValue.length > 0 && newValue.length !== oldValue.length) {
-					const flag = newValue.some(item => {
+				// console.log('skus.newValue:', typeof newValue)
+				if (newValue && newValue.length > 0) {
+					let flag = newValue.some(item => {
 						return item[this.skuProps.sku] && item[this.skuProps.sku] !== '' && item[this.skuProps.sku].length > 0;
 					})
+					if (oldValue && oldValue.length > 0 && newValue.length === oldValue.length) {
+						flag = false
+					}
 					if (flag) {
 						// console.log('触发合并表单:', 'skus')
 						this.triggerMergeTable() // 合并表单
@@ -525,17 +529,19 @@ export default {
 				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 myAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
 					//初始化赋值
-					// console.log('this.skus',this.skus)
-					this.skus.forEach(skuItem => {
-						this.form.skuData.forEach(skuDataItem => {
-							if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
-								// skuDataItem = skuItem // 全部赋值数据(*注意: 不可使用该方式赋值, 会造成数据错乱)
-								this.structures.forEach(structureItem => {
-									skuDataItem[structureItem.name] = skuItem[structureItem.name]
-								})
-							}
+					// console.log('setTimeout -> skus',this.skus)
+					if (this.skus && this.skus.length > 0) {
+						this.skus.forEach(skuItem => {
+							this.form.skuData.forEach(skuDataItem => {
+								if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
+									// skuDataItem = skuItem // 全部赋值数据(*注意: 不可使用该方式赋值, 会造成数据错乱)
+									this.structures.forEach(structureItem => {
+										skuDataItem[structureItem.name] = skuItem[structureItem.name]
+									})
+								}
+							})
 						})
-					})
+					}
 					this.isInit = false
 				}, 0)
 			})
@@ -617,6 +623,7 @@ export default {
 						}
 					}
 				}
+				// console.log('combinationAttributes -> skus',this.skus)
 				// 原属性赋值
 				if (this.skus && this.skus.length > 0) {
 					for (let i = 0; i < this.skus.length; i++) {
