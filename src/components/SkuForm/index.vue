@@ -368,7 +368,7 @@ export default {
 				// 解决通过 $emit 更新后无法拿到 attribute 最新数据的问题
 				this.$nextTick(() => {
 					// console.log('this.attributes.length', this.attributes.length)
-					if (this.attributes.length !== 0) {
+					if (this.attributes && this.attributes.length !== 0) {
 						this.combinationAttributes()
 					} else {
 						this.form.skuData = []
@@ -384,7 +384,7 @@ export default {
 						// console.log('form.skuData', this.form.skuData)
 					}
 					this.clearValidate()
-					if (this.attributes.length > 0) {
+					if (this.attributes && this.attributes.length > 0) {
 						// console.log('触发合并表单:', 'myAttributes')
 						this.triggerMergeTable() // 合并表单
 					}
@@ -430,12 +430,14 @@ export default {
 								}
 							})
 							//冗余数据过滤
-							this.attributes.forEach(attributeItem => {
-								// console.log('form.skuData attributeItem', attributeItem)
-								if (typeof attributeItem.label != 'undefined' && typeof obj[attributeItem.label] != 'undefined') {
-									delete obj[attributeItem.label]
-								}
-							})
+							if (this.attributes && this.attributes.length > 0) {
+								this.attributes.forEach(attributeItem => {
+									// console.log('form.skuData attributeItem', attributeItem)
+									if (typeof attributeItem.label != 'undefined' && typeof obj[attributeItem.label] != 'undefined') {
+										delete obj[attributeItem.label]
+									}
+								})
+							}
 							skus.push(obj)
 						})
 						// console.log('触发合并表单:', 'form.skuData')
@@ -481,51 +483,55 @@ export default {
 				this.isInit = true
 				// 初始化 myAttributes
 				let myAttributes = []
-				// 根据 sourceAttribute 复原 myAttributes 的结构
-				this.sourceAttributes.forEach(v => {
-					const temp = {
-						// name: v.name,
-						[this.attributeProps.label]: v[this.attributeProps.label],
-						[this.attributeProps.value]: v[this.attributeProps.value],
-						[this.attributeProps.options]: [],
-						canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
-						canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ?  v.canDeleteAttribute : true,
-						addAttribute: '',
-					}
-					v[this.attributeProps.options].forEach(item2 => {
-						temp[this.attributeProps.options].push({
-							// name: item2.name,
-							[this.attributeProps.label]: item2[this.attributeProps.label],
-							[this.attributeProps.value]: item2[this.attributeProps.value],
-							checked: false
+				if (this.sourceAttributes && this.sourceAttributes.length > 0) {
+					// 根据 sourceAttribute 复原 myAttributes 的结构
+					this.sourceAttributes.forEach(v => {
+						const temp = {
+							// name: v.name,
+							[this.attributeProps.label]: v[this.attributeProps.label],
+							[this.attributeProps.value]: v[this.attributeProps.value],
+							[this.attributeProps.options]: [],
+							canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
+							canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ?  v.canDeleteAttribute : true,
+							addAttribute: '',
+						}
+						v[this.attributeProps.options].forEach(item2 => {
+							temp[this.attributeProps.options].push({
+								// name: item2.name,
+								[this.attributeProps.label]: item2[this.attributeProps.label],
+								[this.attributeProps.value]: item2[this.attributeProps.value],
+								checked: false
+							})
+						})
+						myAttributes.push(temp)
+					})
+				}
+				if (this.attributes && this.attributes.length > 0) {
+					// 根据 attribute 更新 myAttributes
+					this.attributes.forEach(attrVal => {
+						myAttributes.forEach(myAttrVal => {
+							if (attrVal[this.attributeProps.label] === myAttrVal[this.attributeProps.label]) {
+								attrVal[this.attributeProps.options].forEach(attrName => {
+									if (
+										!myAttrVal[this.attributeProps.options].some(myAttrItem => {
+											if (attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]) {
+												myAttrItem.checked = true
+											}
+											return attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]
+										})
+									) {
+										myAttrVal[this.attributeProps.options].push({
+											// name: attrName.name,
+											[this.attributeProps.label]: attrName[this.attributeProps.label],
+											[this.attributeProps.value]: attrName[this.attributeProps.value],
+											checked: true
+										})
+									}
+								})
+							}
 						})
 					})
-					myAttributes.push(temp)
-				})
-				// 根据 attribute 更新 myAttributes
-				this.attributes.forEach(attrVal => {
-					myAttributes.forEach(myAttrVal => {
-						if (attrVal[this.attributeProps.label] === myAttrVal[this.attributeProps.label]) {
-							attrVal[this.attributeProps.options].forEach(attrName => {
-								if (
-									!myAttrVal[this.attributeProps.options].some(myAttrItem => {
-										if (attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]) {
-											myAttrItem.checked = true
-										}
-										return attrName[this.attributeProps.label] === myAttrItem[this.attributeProps.label]
-									})
-								) {
-									myAttrVal[this.attributeProps.options].push({
-										// name: attrName.name,
-										[this.attributeProps.label]: attrName[this.attributeProps.label],
-										[this.attributeProps.value]: attrName[this.attributeProps.value],
-										checked: true
-									})
-								}
-							})
-						}
-					})
-				})
+				}
 				this.myAttributes = myAttributes
 				// 通过 sku 更新 skuData，但因为 skuData 是实时监听 myAttributes 变化并自动生成，而 watch 是在 methods 后执行，所以增加 setTimeout 方法，确保 skuData 生成后在执行下面的代码
 				setTimeout(() => {
