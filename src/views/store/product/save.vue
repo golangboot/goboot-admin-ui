@@ -712,19 +712,18 @@
 				// console.log('skuFormTableRowDelete.row.sku:', row.sku)
 				// console.log('skuFormTableRowDelete.index:', index)
 				// console.log('this.$refs.skuForm:', this.$refs.skuForm.form.skuData)
-				this.$nextTick(() => {
-					let i = 0
-					for(let idx in this.$refs.skuForm.form.skuData){
-						// console.log('skuFormTableRowDelete.idx:', idx)
-						// console.log('skuFormTableRowDelete.i == index:', i == index)
-						if (i === index){
-							// delete this.$refs.skuForm.form.skuData[idx] // delete删除方式会导致数组下标错乱
-							this.$refs.skuForm.form.skuData.splice(idx, 1)
-							this.$message.success("删除成功")
-						}
-						i++
+				// this.$nextTick(() => {})
+				let i = 0
+				for(let idx in this.$refs.skuForm.form.skuData){
+					// console.log('skuFormTableRowDelete.idx:', idx)
+					// console.log('skuFormTableRowDelete.i == index:', i == index)
+					if (i === index){
+						// delete this.$refs.skuForm.form.skuData[idx] // delete删除方式会导致数组下标错乱
+						this.$refs.skuForm.form.skuData.splice(idx, 1)
+						this.$message.success("删除成功")
 					}
-				})
+					i++
+				}
 			},
 			//Sku表单表格行删除
 			skuFormTotalPrice(data) {
@@ -754,43 +753,42 @@
 				if (!this.categoryAttributes || this.categoryAttributes.length <= 0){
 					return
 				}
-				this.$nextTick(() => {
+				// this.$nextTick(() => {})
+				//销售属性
+				let saleAttributes = []
+				//规格参数
+				let specAttributes = []
+
+				// 处理属性参数 (新旧参数合并)
+				this.categoryAttributes.forEach(categoryAttribute => {
 					//销售属性
-					let saleAttributes = []
+					if (categoryAttribute.isSaleAttribute) {
+						let attribute = {
+							label: categoryAttribute.name,
+							value: categoryAttribute.id,
+							options: [],
+						}
+						if (categoryAttribute.options){
+							categoryAttribute.options.split(',').forEach(attributeValue => {
+								let attributeItem = {
+									label: attributeValue,
+									value: "",
+									checked: false,
+								}
+								attribute.options.push(attributeItem)
+							})
+						}
+						saleAttributes.push(attribute)
+					}
+
 					//规格参数
-					let specAttributes = []
-
-					// 处理属性参数 (新旧参数合并)
-					this.categoryAttributes.forEach(categoryAttribute => {
-						//销售属性
-						if (categoryAttribute.isSaleAttribute) {
-							let attribute = {
-								label: categoryAttribute.name,
-								value: categoryAttribute.id,
-								options: [],
-							}
-							if (categoryAttribute.options){
-								categoryAttribute.options.split(',').forEach(attributeValue => {
-									let attributeItem = {
-										label: attributeValue,
-										value: "",
-										checked: false,
-									}
-									attribute.options.push(attributeItem)
-								})
-							}
-							saleAttributes.push(attribute)
-						}
-
-						//规格参数
-						if (!categoryAttribute.isSaleAttribute) {
-							specAttributes.push(categoryAttribute)
-						}
-					})
-
-					this.form.skuSourceAttributes = Object.assign(this.form.skuSourceAttributes || [], saleAttributes)
-					this.$refs.skuForm.init() // skuForm初始化
+					if (!categoryAttribute.isSaleAttribute) {
+						specAttributes.push(categoryAttribute)
+					}
 				})
+
+				this.form.skuSourceAttributes = Object.assign(this.form.skuSourceAttributes || [], saleAttributes)
+				this.$refs.skuForm.init() // skuForm初始化
 			},
 		}
 	}

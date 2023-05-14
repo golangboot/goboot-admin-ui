@@ -10,8 +10,8 @@
 						<div>{{ item[attributeProps.label] }}</div>
 					</template>
 					<template v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
-						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-item-${index2}`">
-							<el-checkbox :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default"></el-checkbox>
+						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-item-${index}-${index2}`">
+							<el-checkbox :key="`attribute-checkbox-${index}-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default"></el-checkbox>
 							<el-button v-if="item.canDeleteAttribute" text class="sku-check-item-btn" type="danger" size="default" icon="el-icon-delete" @click="myAttributes[index][attributeProps.options].splice(index2, 1)"></el-button>
 						</div>
 					</template>
