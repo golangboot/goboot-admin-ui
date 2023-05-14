@@ -2,7 +2,7 @@
 	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'90%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px">
-				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-position="right">
+				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
 					<el-card shadow="never">
 						<el-tabs tab-position="top">
 							<el-tab-pane label="基础信息">
@@ -150,15 +150,101 @@
 							</el-tab-pane>
 
 							<el-tab-pane label="物流设置">
-
+								<el-form-item label="物流方式" prop="logisticsType">
+									<el-radio-group v-model="form.logisticsType">
+										<el-radio v-for="(item, index) in logisticsTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+								<el-row :gutter="20" v-if="form.logisticsType == 1">
+									<el-col :span="12">
+										<el-form-item label="运费类型" prop="freightType">
+											<el-radio-group v-model="form.freightType">
+												<el-radio v-for="(item, index) in freightTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12" v-if="form.freightType == 1">
+										<el-form-item label="运费价格" prop="freightPrice">
+											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12" v-if="form.freightType == 2">
+										<el-form-item label="运费模板" prop="freightTemplateId">
+											<select-remote v-model="form.freightTemplateId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable></select-remote>
+										</el-form-item>
+									</el-col>
+								</el-row>
 							</el-tab-pane>
 
 							<el-tab-pane label="营销设置">
-
+								<el-alert title="开发中，待上线..." type="info" show-icon style="margin-bottom: 15px;"/>
 							</el-tab-pane>
 
 							<el-tab-pane label="其他设置">
-
+								<el-form-item label="商品关键词" prop="keywords">
+									<template #label="{ label }">
+										<span>{{ label }}</span>
+										<span>
+											<el-tooltip>
+												<template #content>商品关键词不影响搜索排序，请按照建议结构客观准确描述商品信息，避免带来商品转化或消费者投诉风险。</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
+									<el-input v-model="form.keywords" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+								</el-form-item>
+								<el-form-item label="自定义表单状态" prop="customFormStatus">
+									<template #label="{ label }">
+										<span>{{ label }}</span>
+										<span>
+											<el-tooltip>
+												<template #content>用户下单时需填写的信息，最多可设置10条。一般可以用来收集：真实姓名、身份证号码等参数</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
+									<el-switch
+										v-model="form.customFormStatus"
+										class="ml-2"
+										inline-prompt
+										style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+										:active-value="1" :inactive-value="0"
+										active-text="开启" inactive-text="关闭"
+									/>
+								</el-form-item>
+								<el-form-item label="自定义表单参数" prop="customFormParams" v-if="form.customFormStatus == 1">
+									<sc-form-table ref="customForm" v-model="form.customFormParams" :addTemplate="customFormParamAddTemplate" placeholder="暂无数据">
+										<el-table-column prop="label" label="标题">
+											<template #default="scope">
+												<el-input v-model="scope.row.label" placeholder="请输入标题"></el-input>
+											</template>
+										</el-table-column>
+										<!--<el-table-column prop="value" label="默认值">
+											<template #default="scope">
+												<el-input v-model="scope.row.value" placeholder="默认留空"></el-input>
+											</template>
+										</el-table-column>-->
+										<el-table-column prop="type" label="类型">
+											<template #default="scope">
+												<el-select v-model="scope.row.type" placeholder="">
+													<el-option v-for="(item, index) in customFormTypeOptions" :key="index" :label="item.label" :value="item.value"/>
+												</el-select>
+											</template>
+										</el-table-column>
+										<el-table-column prop="required" label="是否必填">
+											<template #default="scope">
+												<el-switch
+													v-model="scope.row.required"
+													class="ml-2"
+													inline-prompt
+													style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+													:active-value="true" :inactive-value="false"
+													active-text="必填" inactive-text="选填"
+												/>
+											</template>
+										</el-table-column>
+									</sc-form-table>
+								</el-form-item>
 							</el-tab-pane>
 
 							<el-tab-pane label="平台操作">
@@ -182,6 +268,7 @@
 									</template>
 									<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 								</el-form-item>
+								<el-divider>特殊参数</el-divider>
 								<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="虚拟销量" prop="virtualSaleCount">
@@ -197,9 +284,50 @@
 											<el-input-number v-model="form.virtualSaleCount" controls-position="right" style="width: 100%;"></el-input-number>
 										</el-form-item>
 									</el-col>
+								</el-row>
+								<el-row :gutter="20">
 									<el-col :span="12">
-										<el-form-item label="排序" prop="sort">
+										<el-form-item label="赠送积分" prop="giveIntegral">
+											<el-input-number v-model="form.giveIntegral" placeholder="请输入赠送积分" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="商品排序" prop="sort">
 											<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+								</el-row>
+								<el-divider>系统自动维护参数</el-divider>
+								<el-alert title="以下参数为系统内部参数，一般由系统自动计算，如非必要，请勿改动！" type="warning" show-icon style="margin-bottom: 15px;"/>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="销量" prop="saleCount">
+											<template #label="{ label }">
+												<span>{{ label }}</span>
+												<span>
+											<el-tooltip>
+												<template #content>商品真实销量，商品SKU所有销量总和</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+											</template>
+											<el-input-number v-model="form.saleCount" controls-position="right" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+										<el-form-item label="评价数" prop="commentCount">
+											<el-input-number v-model="form.commentCount" placeholder="" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="收藏数" prop="favoriteCount">
+											<el-input-number v-model="form.favoriteCount" placeholder="" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -250,6 +378,8 @@
 					auditStatus: 1,
 					image: "",
 					images: "",
+					logisticsType: 0,
+					freightType: 0,
 				},
 				//验证规则
 				rules: {
@@ -275,6 +405,16 @@
 					{label: "待审核", value: 0},
 					{label: "审核通过", value: 1},
 					{label: "审核驳回", value: 2},
+				],
+				logisticsTypeOptions: [
+					{label: "无需发货", value: 0,},
+					{label: "快递物流", value: 1,},
+					{label: "到店核销", value: 2,},
+				],
+				freightTypeOptions: [
+					{label: "免费包邮", value: 0,},
+					{label: "固定运费", value: 1,},
+					{label: "运费模板", value: 2,},
 				],
 				treeOptions: [],
 				treeProps: {
@@ -321,6 +461,15 @@
 						keyword: 'keyword',
 					},
 				},
+				customFormParamAddTemplate: {
+					"label": "",
+					"value": "",
+					"type": "input",
+					"required": true,
+				},
+				customFormTypeOptions: [
+					{label: "输入框", value: "input",},
+				],
 				//原始规格数据
 				sourceAttributes: [
 					{
@@ -822,6 +971,20 @@
 						type: 'input',
 						label: '商品条形码',
 						tip: '请填写正确条码，将有助于平台准确识别您的商品，消费者能更方便找到您的商品，也可以提供更准确、全面的信息导购。',
+						required: false,
+					},
+					{
+						name: 'weight',
+						type: 'input',
+						label: '重量(KG)',
+						tip: '商品重量，单位：KG',
+						required: false,
+					},
+					{
+						name: 'volume',
+						type: 'input',
+						label: '体积(m³)',
+						tip: '商品体积，单位：m³',
 						required: false,
 					},
 					{
