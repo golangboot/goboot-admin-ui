@@ -46,6 +46,13 @@ export default {
 				return await http.get(this.url, data);
 			}
 		},
+		getCategoryAttributes: {
+			url: `${config.API_URL}/store/category/getCategoryAttributes`,
+			name: "获取分类属性",
+			get: async function(data){
+				return await http.get(this.url, data);
+			}
+		},
 	},
 	brand: {
 		list: {

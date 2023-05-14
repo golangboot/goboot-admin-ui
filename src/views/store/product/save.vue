@@ -475,6 +475,8 @@
 				customFormTypeOptions: [
 					{label: "输入框", value: "input",},
 				],
+				//分类属性集合
+				categoryAttributes: [],
 				//原始规格数据
 				sourceAttributes: [
 					{
@@ -1034,15 +1036,40 @@
 			form: {
 				handler(){
 					// 处理品牌搜索条件
-					if (this.form.categoryId){
+					/*if (this.form.categoryId){
 						this.brandSelect.params.categoryId = this.form.categoryId
 						this.brandSelect.search.categoryId = this.form.categoryId
-					}
+					}*/
 					// 处理销售单位搜索条件
-					if (this.form.categoryId){
+					/*if (this.form.categoryId){
 						this.saleUnitSelect.params.categoryId = this.form.categoryId
 						this.saleUnitSelect.search.categoryId = this.form.categoryId
+					}*/
+				},
+				deep: true
+			},
+			'form.categoryId': {
+				handler(newValue,oldValue){
+					if (newValue !== oldValue){
+						// 处理品牌搜索条件
+						if (newValue){
+							this.brandSelect.params.categoryId = newValue
+							this.brandSelect.search.categoryId = newValue
+						}
+						// 处理销售单位搜索条件
+						if (newValue){
+							this.saleUnitSelect.params.categoryId = newValue
+							this.saleUnitSelect.search.categoryId = newValue
+						}
+						this.getCategoryAttributes()
 					}
+				},
+				deep: true
+			},
+			categoryAttributes: {
+				handler(newValue){
+					console.log('watch -> categoryAttributes.newValue:', newValue)
+					// console.log('watch -> categoryAttributes.oldValue:', oldValue)
 				},
 				deep: true
 			},
@@ -1101,6 +1128,11 @@
 			async getTreeList() {
 				let res = await this.$API.store.category.tree.get();
 				this.treeOptions = res.data
+			},
+			async getCategoryAttributes() {
+				let reqData = {categoryId: this.form.categoryId}
+				let res = await this.$API.store.category.getCategoryAttributes.get(reqData);
+				this.categoryAttributes = res.data
 			},
 			//Sku表单表格行删除
 			skuFormTableRowDelete(row, index) {
