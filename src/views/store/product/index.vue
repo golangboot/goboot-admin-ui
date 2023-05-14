@@ -59,6 +59,34 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="商品名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
+					<template #default="scope">
+						<span>{{ scope.row.category.name }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="品牌" prop="brand" width="100" :show-overflow-tooltip="true">
+					<template #default="scope">
+						<span>{{ scope.row.brand.name }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="商家" prop="merchant" width="150" :show-overflow-tooltip="true">
+					<template #default="scope">
+						<span>{{ scope.row.merchant.name }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="自营商品" prop="merchant" width="100" :show-overflow-tooltip="true">
+					<template #default="scope">
+						<el-tag v-if="scope.row.merchant.isSelf == 1" type="success">是</el-tag>
+						<el-tag v-else type="warning">否</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="审核状态" prop="auditStatus" width="100" :show-overflow-tooltip="true">
+					<template #default="scope">
+						<el-tag v-if="scope.row.auditStatus == 1" type="success">审核通过</el-tag>
+						<el-tag v-else-if="scope.row.auditStatus == 2" type="danger">审核驳回</el-tag>
+						<el-tag v-else type="warning">待审核</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
