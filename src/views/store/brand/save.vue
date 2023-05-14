@@ -97,7 +97,8 @@
 					value: 'id',
 					label: 'name',
 					multiple: true,
-					checkStrictly: true,
+					// checkStrictly: true,
+					checkStrictly: false, // 只能选择叶子节点(最后一级分类)
 					emitPath: false,
 					expandTrigger: "hover",
 				},

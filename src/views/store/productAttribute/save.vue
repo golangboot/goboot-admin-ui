@@ -245,7 +245,7 @@
 				return this
 			},
 			async getCategoryList(){
-				var res = await this.$API.store.category.tree.get();
+				let res = await this.$API.store.category.tree.get();
 				this.categoryOptions = res.data
 			},
 			//表单提交方法

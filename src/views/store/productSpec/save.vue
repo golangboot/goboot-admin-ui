@@ -7,7 +7,7 @@
 			<el-form-item label="描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
-			<el-row :gutter="20">
+			<!--<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="是否全局" prop="isGlobal">
 						<template #label="{ label }">
@@ -26,7 +26,7 @@
 				</el-col>
 				<el-col :span="12">
 				</el-col>
-			</el-row>
+			</el-row>-->
 			<el-form-item label="所属商品分类" prop="categoryIds">
 				<el-cascader v-model="form.categoryIds" :options="categoryOptions" :props="categoryProps" :show-all-levels="true" style="width:100%" placeholder="请选择所属商品分类" filterable clearable></el-cascader>
 			</el-form-item>
@@ -77,7 +77,8 @@
 					value: 'id',
 					label: 'name',
 					multiple: true,
-					checkStrictly: true,
+					// checkStrictly: true,
+					checkStrictly: false, // 只能选择叶子节点(最后一级分类)
 					emitPath: false,
 					expandTrigger: "hover",
 				},

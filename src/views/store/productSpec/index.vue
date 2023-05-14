@@ -33,12 +33,12 @@
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="商品规格名称" prop="name" min-width="120"></el-table-column>
 					<el-table-column label="描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
+					<!--<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 						<template #default="scope">
 							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>
 							<el-tag v-if="scope.row.isGlobal==0" type="warning">否</el-tag>
 						</template>
-					</el-table-column>
+					</el-table-column>-->
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
