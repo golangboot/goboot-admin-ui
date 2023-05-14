@@ -1,10 +1,10 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="商家入驻申请名称" prop="name">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
+			<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="商家入驻申请描述" prop="description">
+			<el-form-item label="描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
@@ -76,7 +76,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入店铺名称'}
+						{required: true, message: '请输入名称'}
 					],
 				},
 				userSelect: {

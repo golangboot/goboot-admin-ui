@@ -380,8 +380,9 @@
 				}
 				this.loading = false
 			},
+			// eslint-disable-next-line
 			async departmentChange(value){
-				console.log('departmentChange:', value)
+				// console.log('departmentChange:', value)
 				this.form.positionId = null
 				await this.getPositionList()
 			},
@@ -394,7 +395,7 @@
 					this.$emit('success', this.form, this.mode)
 					this.visible = false;
 					// this.$message.success("操作成功")
-					this.$message.success("角色分配成功")
+					// this.$message.success("角色分配成功")
 				}else{
 					await this.$alert(res.message, "提示", {type: 'error'})
 				}
