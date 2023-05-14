@@ -380,6 +380,8 @@
 					images: "",
 					logisticsType: 0,
 					freightType: 0,
+					customFormStatus: 0,
+					customFormParams: [],
 				},
 				//验证规则
 				rules: {
@@ -1087,6 +1089,8 @@
 					this.form = res.data
 				}
 				this.loading = false
+				this.form.customFormParams = this.form.customFormParams || []
+				console.log('setData -> form', this.form)
 			},
 			async getTreeList() {
 				let res = await this.$API.store.category.tree.get();
