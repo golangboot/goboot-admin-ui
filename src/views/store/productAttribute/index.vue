@@ -55,11 +55,17 @@
 					<el-table-column label="商品属性名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="销售属性" prop="isSaleAttribute" width="100" sortable>
 						<template #default="scope">
-							<el-tag v-if="scope.row.isSaleAttribute==1" type="success">是</el-tag>
+							<el-tag v-if="scope.row.isSaleAttribute == 1" type="success">是</el-tag>
 							<el-tag v-else type="warning">否</el-tag>
 						</template>
 					</el-table-column>
 					<el-table-column label="属性值可选值列表" prop="options" width="200" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="是否必填/必选" prop="optionType" width="150" sortable>
+						<template #default="scope">
+							<el-tag v-if="scope.row.optionType == 1" type="success">是</el-tag>
+							<el-tag v-else type="warning">否</el-tag>
+						</template>
+					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
