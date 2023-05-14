@@ -1095,7 +1095,7 @@
 					this.loading = false
 					this.form.customFormParams = this.form.customFormParams || []
 					this.form.skus = this.form.skus || []
-					console.log('setData -> form', this.form)
+					// console.log('setData -> form:', this.form)
 				})
 			},
 			async getTreeList() {
