@@ -7,7 +7,7 @@
 			<el-image class="image" :src="file.tempFile" fit="cover"></el-image>
 		</div>
 		<div v-if="file && file.status=='success'" class="sc-upload__img">
-			<el-image class="image" :src="file.url" :preview-src-list="[file.url]" fit="cover" hide-on-click-modal append-to-body :z-index="9999">
+			<el-image class="image" :src="file.url" :preview-src-list="[file.url]" fit="cover" hide-on-click-modal preview-teleported append-to-body :z-index="9999">
 				<template #placeholder>
 					<div class="sc-upload__img-slot">
 						Loading...
@@ -70,7 +70,7 @@
 			apiObj: { type: Object, default: () => {} },
 			name: { type: String, default: config.filename },
 			data: { type: Object, default: () => {} },
-			accept: { type: String, default: "image/gif, image/jpeg, image/png" },
+			accept: { type: String, default: "image/gif, image/jpeg, image/jpg, image/png" },
 			maxSize: { type: Number, default: config.maxSizeFile },
 			limit: { type: Number, default: 1 },
 			autoUpload: { type: Boolean, default: true },
@@ -278,4 +278,7 @@
 	.sc-upload.sc-upload-round .el-upload--picture-card {border-radius: 50%;}
 	.sc-upload.sc-upload-round .sc-upload__img-actions {top: auto;left: 0;right: 0;bottom: 0;}
 	.sc-upload.sc-upload-round .sc-upload__img-actions span {width: 100%;}
+
+	/* css优化 */
+	.sc-upload .el-upload--picture-card {width: 100%;height: 100%;}
 </style>

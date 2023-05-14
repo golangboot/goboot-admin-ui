@@ -100,7 +100,7 @@
 				menuId: '',
 				value: this.multiple ? [] : '',
 				fileList: [],
-				accept: this.onlyImage ? "image/gif, image/jpeg, image/png" : "",
+				accept: this.onlyImage ? "image/gif, image/jpeg, image/jpg, image/png" : "",
 				listLoading: false,
 				menuLoading: false,
 				treeProps: config.menuProps,

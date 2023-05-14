@@ -18,14 +18,20 @@
 			:on-preview="handlePreview"
 			:on-exceed="handleExceed">
 			<slot>
-				<el-icon><el-icon-plus/></el-icon>
+				<!--<el-icon><el-icon-plus/></el-icon>-->
+				<div class="el-upload--picture-card">
+					<div class="file-empty" :style="style">
+						<el-icon><component :is="icon" /></el-icon>
+						<h4 v-if="title">{{title}}</h4>
+					</div>
+				</div>
 			</slot>
 			<template #tip>
 				<div v-if="tip" class="el-upload__tip">{{tip}}</div>
 			</template>
 			<template #file="{ file }">
-				<div class="sc-upload-list-item">
-					<el-image class="el-upload-list__item-thumbnail" :src="file.url" fit="cover" :preview-src-list="preview" :initial-index="preview.findIndex(n=>n==file.url)" hide-on-click-modal append-to-body :z-index="9999">
+				<div class="sc-upload-list-item" :style="style">
+					<el-image class="el-upload-list__item-thumbnail" :src="file.url" fit="cover" :preview-src-list="preview" :initial-index="preview.findIndex(n=>n==file.url)" hide-on-click-modal preview-teleported append-to-body :z-index="9999">
 						<template #placeholder>
 							<div class="sc-upload-multiple-image-slot">
 								Loading...
@@ -52,12 +58,16 @@
 	export default {
 		props: {
 			modelValue: { type: [String, Array], default: "" },
+			height: {type: Number, default: 148},
+			width: {type: Number, default: 148},
+			title: { type: String, default: "" },
+			icon: { type: String, default: "el-icon-plus" },
 			tip: { type: String, default: "" },
 			action: { type: String, default: "" },
 			apiObj: { type: Object, default: () => {} },
 			name: { type: String, default: config.filename },
 			data: { type: Object, default: () => {} },
-			accept: { type: String, default: "image/gif, image/jpeg, image/png" },
+			accept: { type: String, default: "image/gif, image/jpeg, image/jpg, image/png" },
 			maxSize: { type: Number, default: config.maxSizeFile },
 			limit: { type: Number, default: 0 },
 			autoUpload: { type: Boolean, default: true },
@@ -70,7 +80,11 @@
 		data(){
 			return {
 				value: "",
-				defaultFileList: []
+				defaultFileList: [],
+				style: {
+					width: this.width + "px",
+					height: this.height + "px"
+				},
 			}
 		},
 		watch:{
@@ -246,4 +260,12 @@
 	.sc-upload__item-actions span i {font-size: 12px;}
 	.sc-upload__item-actions .del {background: #F56C6C;}
 	.sc-upload__item-progress {position: absolute;width: 100%;height: 100%;top: 0;left: 0;background-color: var(--el-overlay-color-lighter);}
+
+	/* css优化 */
+	.sc-upload-multiple:deep(.el-upload--picture-card).el-upload {width: auto;height: auto;border: none; align-items: baseline; background-color: unset;}
+	:deep(.el-upload-list__item) {width: auto;height: auto;}
+
+	.sc-upload-multiple .file-empty {width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;}
+	.sc-upload-multiple .file-empty i {font-size: 28px;}
+	.sc-upload-multiple .file-empty h4 {font-size: 12px;font-weight: normal;color: #8c939d;margin-top: 8px;line-height: 1.2;}
 </style>

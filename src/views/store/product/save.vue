@@ -24,6 +24,7 @@
 										</span>
 									</template>
 									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
+									<div class="el-form-item-msg" v-if="!form.categoryId">请选择商品分类后，再编辑商品信息</div>
 								</el-form-item>
 
 								<el-row :gutter="20">
@@ -47,11 +48,11 @@
 								</el-form-item>
 
 								<el-form-item label="商品图片" prop="image">
-									<sc-upload v-model="form.image" title="请上传商品图片"></sc-upload>
+									<sc-upload v-model="form.image" title="请上传图片" :width="80" :height="80"></sc-upload>
 								</el-form-item>
 
 								<el-form-item label="商品相册" prop="images">
-									<sc-upload-multiple v-model="form.images" draggable :limit="5" tip="最多上传5个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
+									<sc-upload-multiple v-model="form.images" :width="80" :height="80" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
 								</el-form-item>
 
 								<el-form-item label="商品状态" prop="status">
@@ -89,7 +90,7 @@
 														/>
 													</div>
 												</template>
-												<template #image="slotProps">
+												<!--<template #image="slotProps">
 													<div class="image-upload-container" style="margin: 0 auto;">
 														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center;justify-content: center; max-width: 35px; height: 35px;overflow: hidden;margin-bottom: 5px;">
 															<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
@@ -104,6 +105,11 @@
 																<el-button type="default" size="small" icon="el-icon-upload">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
 															</el-upload>
 														</div>
+													</div>
+												</template>-->
+												<template #image="slotProps">
+													<div class="image-upload-container" style="margin: 0 auto;">
+														<sc-upload v-model="slotProps.row.image" title="请上传图片" :width="80" :height="80"></sc-upload>
 													</div>
 												</template>
 												<template #totalPrice="slotProps">
