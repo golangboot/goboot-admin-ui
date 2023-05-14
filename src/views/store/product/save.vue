@@ -67,9 +67,9 @@
 									<el-col :span="24">
 										<div>
 											<sku-form ref="skuForm"
-													 v-model:sourceAttributes="form.sourceAttributes"
-													 v-model:structures="structures"
-													 v-model:attributes="form.attributes"
+													 v-model:sourceAttributes="form.skuSourceAttributes"
+													 v-model:structures="skuFormStructures"
+													 v-model:attributes="form.skuAttributes"
 													 v-model:skus="form.skus"
 											>
 												<!--<template #score="slotProps">
@@ -131,7 +131,7 @@
 											<el-row type="flex" :gutter="20">
 												<el-col :span="12">
 													<el-divider content-position="left">attributes 数据</el-divider>
-													<pre><code>{{ form.attributes }}</code></pre>
+													<pre><code>{{ form.skuAttributes }}</code></pre>
 												</el-col>
 												<el-col :span="12">
 													<el-divider content-position="left">skus 数据</el-divider>
@@ -379,13 +379,17 @@
 					auditStatus: 1,
 					image: "",
 					images: "",
+					type: 0,
 					logisticsType: 0,
 					freightType: 0,
 					customFormStatus: 0,
 					customFormParams: [],
+					//用于复原sku数据
 					skus: [],
-					attributes: [],
-					sourceAttributes: [],
+					//已使用的Sku属性数据
+					skuAttributes: [],
+					//原始Sku属性数据
+					skuSourceAttributes: [],
 				},
 				//验证规则
 				rules: {
@@ -478,444 +482,8 @@
 				],
 				//分类属性集合
 				categoryAttributes: [],
-				//原始规格数据
-				sourceAttributes: [
-					{
-						label: '颜色', value: 1,
-						options: [
-							{label: '黑色', value: 1, checked: false},
-							{label: '白色', value: 2, checked: false},
-							{label: '银色', value: 3, checked: false},
-							{label: '金色', value: 4, checked: false},
-						],
-						canAddAttribute: true,
-					},
-					{
-						label: '内存', value: 2,
-						options: [
-							{label: '128G', value: 11, checked: false},
-							{label: '512G', value: 12, checked: false},
-							{label: '1T', value: 13, checked: false},
-						],
-						canAddAttribute: true,
-					},
-					{
-						label: '运营商', value: 3,
-						options: [
-							{label: '全网通', value: 21, checked: false},
-							{label: '电信', value: 22, checked: false},
-							{label: '移动', value: 23, checked: false},
-							{label: '联通', value: 24, checked: false},
-						],
-						canAddAttribute: false,
-					},
-				],
-				//已使用的规格数据
-				// attributes: [],
-				attributes: [
-					{
-						"label": "颜色",
-						"value": 1,
-						"options": [
-							{
-								"label": "黑色",
-								"value": 1
-							},
-							{
-								"label": "白色",
-								"value": 2
-							}
-						]
-					},
-					{
-						"label": "内存",
-						"value": 2,
-						"options": [
-							{
-								"label": "128G",
-								"value": 11
-							},
-							{
-								"label": "512G",
-								"value": 12
-							}
-						]
-					},
-					{
-						"label": "运营商",
-						"value": 3,
-						"options": [
-							{
-								"label": "全网通",
-								"value": 21
-							},
-							{
-								"label": "电信",
-								"value": 22
-							}
-						]
-					}
-				],
-				//用于复原sku数据
-				// skus: [],
-				skus: [
-					{
-						"sku": "黑色;128G;全网通",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "黑色",
-									"value": 1
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "128G",
-									"value": 11
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "全网通",
-									"value": 21
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 2000,
-						"productId": 1000,
-						"merchantId": 100000,
-					},
-					{
-						"sku": "黑色;128G;电信",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "黑色",
-									"value": 1
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "128G",
-									"value": 11
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "电信",
-									"value": 22
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 2
-					},
-					{
-						"sku": "黑色;512G;全网通",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "黑色",
-									"value": 1
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "512G",
-									"value": 12
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "全网通",
-									"value": 21
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 3
-					},
-					{
-						"sku": "黑色;512G;电信",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "黑色",
-									"value": 1
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "512G",
-									"value": 12
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "电信",
-									"value": 22
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 4
-					},
-					{
-						"sku": "白色;128G;全网通",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "白色",
-									"value": 2
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "128G",
-									"value": 11
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "全网通",
-									"value": 21
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 5
-					},
-					{
-						"sku": "白色;128G;电信",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "白色",
-									"value": 2
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "128G",
-									"value": 11
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "电信",
-									"value": 22
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 6
-					},
-					{
-						"sku": "白色;512G;全网通",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "白色",
-									"value": 2
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "512G",
-									"value": 12
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "全网通",
-									"value": 21
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 7
-					},
-					{
-						"sku": "白色;512G;电信",
-						"attributeParams": [
-							{
-								"attribute": {
-									"label": "颜色",
-									"value": 1
-								},
-								"attributeValue": {
-									"label": "白色",
-									"value": 2
-								}
-							},
-							{
-								"attribute": {
-									"label": "内存",
-									"value": 2
-								},
-								"attributeValue": {
-									"label": "512G",
-									"value": 12
-								}
-							},
-							{
-								"attribute": {
-									"label": "运营商",
-									"value": 3
-								},
-								"attributeValue": {
-									"label": "电信",
-									"value": 22
-								}
-							}
-						],
-						"price": "10",
-						"marketPrice": "",
-						"costPrice": "",
-						"stock": "1000",
-						"code": "",
-						"barcode": "",
-						"image": "",
-						"status": 1,
-						"id": 8
-					}
-				],
-				//表格结构
-				structures: [
+				//sku表格结构
+				skuFormStructures: [
 					{
 						name: 'price',
 						type: 'input',
@@ -1219,7 +787,7 @@
 					}
 				})
 
-				this.form.sourceAttributes = saleAttributes
+				this.form.skuSourceAttributes = saleAttributes
 				this.$refs.skuForm.init() // skuForm初始化
 			},
 		}
