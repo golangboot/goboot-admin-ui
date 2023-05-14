@@ -9,9 +9,12 @@
 					<template v-slot:header>
 						<div>{{ item[attributeProps.label] }}</div>
 					</template>
-					<div v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
-						<el-checkbox v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" />
-					</div>
+					<template v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
+						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-item-${index2}`">
+							<el-checkbox :key="`attribute-checkbox-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default"></el-checkbox>
+							<el-button v-if="item.canDeleteAttribute" text class="sku-check-item-btn" type="danger" size="default" icon="el-icon-delete" @click="myAttributes[index][attributeProps.options].splice(index2, 1)"></el-button>
+						</div>
+					</template>
 					<div class="attr-button-group">
 						<div class="add-attr">
 							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttribute(index)">
@@ -20,13 +23,13 @@
 								</template>
 							</el-input>
 						</div>
-						<div class="delete-attr" v-if="item.canDeleteAttribute">
+						<!--<div class="delete-attr" v-if="item.canDeleteAttribute">
 							<el-popconfirm title="确定删除选中吗？" @confirm="onDeleteAttribute(index)">
 								<template #reference>
 									<el-button type="default" size="default" icon="el-icon-delete">删除</el-button>
 								</template>
 							</el-popconfirm>
-						</div>
+						</div>-->
 					</div>
 				</el-card>
 			</div>
@@ -968,6 +971,21 @@ export default {
 					}
 					.delete-attr {}
 				}
+			}
+		}
+		.theme-1 .sku-check-item, .theme-3 .sku-check-item {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			.sku-check-item-btn {
+				padding-left: 10px;
+				padding-right: 10px;
+				margin-left: 10px;
+				margin-right: 10px;
+				visibility: hidden;
+			}
+			&:hover .sku-check-item-btn {
+				visibility: visible;
 			}
 		}
 	}
