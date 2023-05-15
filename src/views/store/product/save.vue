@@ -114,12 +114,10 @@
 													<div style="margin: 0 auto;">
 														<el-switch
 															v-model="slotProps.row.status"
-															class="ml-2"
 															inline-prompt
 															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
 															:active-value="1" :inactive-value="0"
 															active-text="上架" inactive-text="下架"
-															@change="slotProps.row.status = $event"
 														/>
 													</div>
 												</template>
