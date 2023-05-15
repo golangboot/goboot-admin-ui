@@ -83,6 +83,9 @@
 		}else if(indexOf(userAgent, "Safari")){
 			browerInfo.type = "Safari"
 			browerInfo.version = userAgent.match(/Safari\/([\d.]+)/)[1]
+		}else if(indexOf(userAgent, "MicroMessenger")){
+			browerInfo.type = "MicroMessenger"
+			browerInfo.version = userAgent.match(/MicroMessenger\/([\d.]+)/)[1]
 		}
 		return browerInfo
 	}
@@ -95,7 +98,8 @@
 			"Firefox": 65,
 			"Safari": 12,
 			"Edg": 97,
-			"IE": 999
+			"IE": 999,
+			"MicroMessenger": 6,
 		}
 		var browerInfo = getBrowerInfo()
 		var materVer = browerInfo.version.split('.')[0]
