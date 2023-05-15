@@ -281,12 +281,17 @@ export default {
 			type: Number,
 			default: 2
 		},
-		//规格项限制总数量(为0时则表示不限制)
+		//sku总数量限制(为0时则表示不限制)
+		skuTotalCountLimit: {
+			type: Number,
+			default: 0
+		},
+		//规格项总数量限制(为0时则表示不限制)
 		optionTotalCountLimit: {
 			type: Number,
 			default: 0
 		},
-		//选中规格项限制总数量(为0时则表示不限制)
+		//选中规格项总数量限制(为0时则表示不限制)
 		selectOptionTotalCountLimit: {
 			type: Number,
 			default: 0
@@ -792,9 +797,22 @@ export default {
 		handleAttributeValueChange(checked, index, index2, item2) {
 			// console.log('handleAttributeValueChange value:', checked, index, index2, item2)
 			// console.log('onAddAttributeValue selectOptionTotalCountLimit:', this.selectOptionTotalCountLimit)
+			// console.log('handleAttributeValueChange -> form.skuData:', this.form.skuData)
+			// console.log('handleAttributeValueChange -> form.skuData.length:', this.form.skuData.length)
 			let flag = false
+			if (!flag && this.skuTotalCountLimit > 0) {
+				if (this.form.skuData && this.form.skuData.length > 0) {
+					if (this.form.skuData.length > this.skuTotalCountLimit) {
+						this.$message({
+							type: 'warning',
+							message: `选择后的SKU组合规格总数为 ${this.form.skuData.length} 个，已经超出允许最大数量 ${this.skuTotalCountLimit} 个`
+						})
+						flag = true
+					}
+				}
+			}
 			//检查规格项是否超出最大数量
-			if (this.selectOptionTotalCountLimit > 0) {
+			if (!flag && this.selectOptionTotalCountLimit > 0) {
 				let selectOptionTotalCountLimit = 0
 				this.myAttributes.forEach(myAttribute => {
 					let myAttributeOptions = myAttribute[this.attributeProps.options]
