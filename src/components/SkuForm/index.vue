@@ -11,7 +11,7 @@
 					</template>
 					<template v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
 						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-item-${index}-${index2}`">
-							<el-checkbox :key="`attribute-checkbox-${index}-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default"></el-checkbox>
+							<el-checkbox :key="`attribute-checkbox-${index}-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" @change="checked => handleAttributeValueChange(checked, index, index2, item2)"></el-checkbox>
 							<el-button v-if="item.canDeleteAttribute" text class="sku-check-item-btn" type="danger" size="default" icon="el-icon-delete" @click="myAttributes[index][attributeProps.options].splice(index2, 1)"></el-button>
 						</div>
 					</template>
@@ -273,8 +273,6 @@ export default {
 					options: 'options',
 					// 属性添加默认checked状态
 					checked: false,
-					//规格选项限制总数量(为0时则表示不限制)
-					optionLimitTotalCount: 0,
 				}
 			}
 		},
@@ -282,6 +280,16 @@ export default {
 		batchSetShowTriggerCount: {
 			type: Number,
 			default: 2
+		},
+		//规格项限制总数量(为0时则表示不限制)
+		optionTotalCountLimit: {
+			type: Number,
+			default: 0
+		},
+		//选中规格项限制总数量(为0时则表示不限制)
+		selectOptionTotalCountLimit: {
+			type: Number,
+			default: 0
 		},
 	},
 	data() {
@@ -683,9 +691,9 @@ export default {
 			this.myAttributes[index].addAttribute = addAttributeText
 			if (addAttributeText !== '') {
 				if (!addAttributeText.includes(this.separator)) {
-					// console.log('onAddAttribute attributeProps.optionLimitTotalCount:', this.attributeProps.optionLimitTotalCount)
+					// console.log('onAddAttribute optionTotalCountLimit:', this.optionTotalCountLimit)
 					//检查规格项是否超出最大数量
-					if (this.attributeProps.optionLimitTotalCount > 0) {
+					if (this.optionTotalCountLimit > 0) {
 						let attributeOptionTotalCount = 0
 						this.myAttributes.forEach(myAttribute => {
 							if (myAttribute[this.attributeProps.options]) {
@@ -693,10 +701,10 @@ export default {
 							}
 						})
 						// console.log('onAddAttribute attributeOptionTotalCount:', attributeOptionTotalCount)
-						if (attributeOptionTotalCount >= this.attributeProps.optionLimitTotalCount) {
+						if (attributeOptionTotalCount > this.optionTotalCountLimit) {
 							this.$message({
 								type: 'warning',
-								message: `规格项总数不能超过 ${this.attributeProps.optionLimitTotalCount} 个`
+								message: `规格项总数不能超过 ${this.optionTotalCountLimit} 个`
 							})
 							return
 						}
@@ -708,7 +716,7 @@ export default {
 						this.myAttributes[index][this.attributeProps.options].push({
 							[this.attributeProps.label]: addAttributeText,
 							// [this.attributeProps.value]: "",
-							checked: true
+							checked: this.attributeProps.checked || false,
 						})
 						this.myAttributes[index].addAttribute = ''
 					} else {
@@ -736,20 +744,21 @@ export default {
 			addAttributeText = addAttributeText.trim()
 			if (addAttributeText !== '') {
 				if (!addAttributeText.includes(this.separator)) {
-					// console.log('onAddAttributeValue attributeProps.optionLimitTotalCount:', this.attributeProps.optionLimitTotalCount)
+					// console.log('onAddAttributeValue optionTotalCountLimit:', this.optionTotalCountLimit)
 					//检查规格项是否超出最大数量
-					if (this.attributeProps.optionLimitTotalCount > 0) {
+					if (this.optionTotalCountLimit > 0) {
 						let attributeOptionTotalCount = 0
 						this.myAttributes.forEach(myAttribute => {
-							if (myAttribute[this.attributeProps.options]) {
-								attributeOptionTotalCount += myAttribute[this.attributeProps.options].length
+							let myAttributeOptions =  myAttribute[this.attributeProps.options]
+							if (myAttributeOptions) {
+								attributeOptionTotalCount += myAttributeOptions.length
 							}
 						})
 						// console.log('onAddAttributeValue attributeOptionTotalCount:', attributeOptionTotalCount)
-						if (attributeOptionTotalCount >= this.attributeProps.optionLimitTotalCount) {
+						if (attributeOptionTotalCount > this.optionTotalCountLimit) {
 							this.$message({
 								type: 'warning',
-								message: `规格项总数不能超过 ${this.attributeProps.optionLimitTotalCount} 个`
+								message: `规格项总数不能超过 ${this.optionTotalCountLimit} 个`
 							})
 							return
 						}
@@ -761,7 +770,7 @@ export default {
 						this.myAttributes[index][this.attributeProps.options].push({
 							[this.attributeProps.label]: addAttributeText,
 							// [this.attributeProps.value]: "",
-							checked: this.attributeProps.checked,
+							checked: this.attributeProps.checked || false,
 						})
 						this.addAttributeValueText[index] = ''
 					} else {
@@ -776,6 +785,38 @@ export default {
 						message: `规格项中不允许出现「 ${this.separator} 」字符，请检查后重新添加`
 					})
 				}
+			}
+		},
+		// 规格项改变
+		// eslint-disable-next-line
+		handleAttributeValueChange(checked, index, index2, item2) {
+			// console.log('handleAttributeValueChange value:', checked, index, index2, item2)
+			// console.log('onAddAttributeValue selectOptionTotalCountLimit:', this.selectOptionTotalCountLimit)
+			let flag = false
+			//检查规格项是否超出最大数量
+			if (this.selectOptionTotalCountLimit > 0) {
+				let selectOptionTotalCountLimit = 0
+				this.myAttributes.forEach(myAttribute => {
+					let myAttributeOptions = myAttribute[this.attributeProps.options]
+					if (myAttributeOptions && myAttributeOptions.length > 0) {
+						myAttributeOptions.forEach(myAttributeValue => {
+							if (myAttributeValue.checked) {
+								selectOptionTotalCountLimit++
+							}
+						})
+					}
+				})
+				// console.log('onAddAttributeValue selectOptionTotalCountLimit:', selectOptionTotalCountLimit)
+				if (selectOptionTotalCountLimit > this.selectOptionTotalCountLimit) {
+					this.$message({
+						type: 'warning',
+						message: `已选规格项总数不能超过 ${this.selectOptionTotalCountLimit} 个`
+					})
+					flag = true
+				}
+			}
+			if (flag) {
+				this.myAttributes[index][this.attributeProps.options][index2].checked = false
 			}
 		},
 		onBatchSets() {

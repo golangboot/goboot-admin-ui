@@ -75,7 +75,7 @@
 									<el-col :span="24">
 										<div>
 											<sku-form ref="skuForm"
-													 v-model:sourceAttributes="form.skuSourceAttributes"
+													 v-model:source-attributes="form.skuSourceAttributes"
 													 v-model:structures="skuFormStructures"
 													 v-model:attributes="form.skuAttributes"
 													 v-model:skus="form.skus"
