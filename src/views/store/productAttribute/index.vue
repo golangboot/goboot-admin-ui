@@ -50,7 +50,7 @@
 			</el-header>
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
-					<el-table-column type="selection" width="50"></el-table-column>
+					<el-table-column type="selection" width="150"></el-table-column>
 					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
 					<el-table-column label="商品属性名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="销售属性" prop="isSaleAttribute" width="100" sortable>
