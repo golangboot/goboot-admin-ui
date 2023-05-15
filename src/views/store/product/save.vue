@@ -180,8 +180,8 @@
 										</el-form-item>
 									</el-col>
 									<el-col :span="12" v-if="form.freightType == 2">
-										<el-form-item label="运费模板" prop="freightTemplateId">
-											<select-remote v-model="form.freightTemplateId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable></select-remote>
+										<el-form-item label="运费模板" prop="shippingTemplateId">
+											<select-remote v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -481,6 +481,18 @@
 						keyword: 'keyword',
 					},
 				},
+				shippingTemplateSelect: {
+					// api接口
+					apiObj: this.$API.store.shippingTemplate.list,
+					// 参数(搜索关键字为空时生效)
+					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+				},
 				customFormParamAddTemplate: {
 					"label": "",
 					"value": "",
@@ -629,18 +641,25 @@
 			},
 			'form.categoryId': {
 				handler(newValue,oldValue){
-					if (newValue !== oldValue){
-						// 处理品牌搜索条件
-						if (newValue){
-							this.brandSelect.params.categoryId = newValue
-							this.brandSelect.search.categoryId = newValue
-						}
-						// 处理销售单位搜索条件
-						if (newValue){
-							this.saleUnitSelect.params.categoryId = newValue
-							this.saleUnitSelect.search.categoryId = newValue
-						}
+					if (newValue && newValue !== oldValue){
+						// 处理 品牌 搜索条件
+						this.brandSelect.params.categoryId = newValue
+						this.brandSelect.search.categoryId = newValue
+						// 处理 销售单位 搜索条件
+						this.saleUnitSelect.params.categoryId = newValue
+						this.saleUnitSelect.search.categoryId = newValue
+						// 处理 分类属性
 						this.getCategoryAttributes()
+					}
+				},
+				deep: true
+			},
+			'form.merchantId': {
+				handler(newValue,oldValue){
+					if (newValue && newValue !== oldValue){
+						// 处理 运费模板 搜索条件
+						this.shippingTemplateSelect.params.merchantId = newValue
+						this.shippingTemplateSelect.search.merchantId = newValue
 					}
 				},
 				deep: true

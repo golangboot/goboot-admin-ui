@@ -1,15 +1,24 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="名称" prop="name">
+			<el-form-item label="模板名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="描述" prop="description">
-				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+			<el-form-item label="计费方式" prop="type">
+				<el-radio-group v-model="form.type">
+					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
+			<el-form-item label="配送区域" prop="shippingArea">
+				<el-input v-model="form.shippingArea" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="商家" prop="merchantId">
+						<select-remote v-model="form.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :search="merchantSelect.search" :props="merchantSelect.props" clearable filterable style="width:100%"></select-remote>
+					</el-form-item>
+				</el-col>
+			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -54,17 +63,24 @@
 					sort: null,
 					status: 1,
 					remark: "",
-					isSelf: 0,
+					merchantId: "",
+					userId: "",
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入名称'}
+						{required: true, message: '请输入模板名称'}
 					],
 				},
-				userSelect: {
+				typeOptions: [
+					{label: "免费包邮", value: 0,},
+					{label: "按件数", value: 1,},
+					{label: "按重量", value: 2,},
+					{label: "按体积", value: 3,},
+				],
+				merchantSelect: {
 					// api接口
-					apiObj: this.$API.user.user.list,
+					apiObj: this.$API.store.merchant.list,
 					// 参数(搜索关键字为空时生效)
 					params: {},
 					// 搜索参数(搜索关键字不为空时生效)
@@ -72,21 +88,6 @@
 					// 属性字段
 					props: {
 						keyword: 'keyword',
-					},
-					// 解析数据
-					parseData: function (res) {
-						return {
-							data: res.data.records || res.data,
-							msg: res.message,
-							code: res.code
-						}
-					},
-					// 解析数据字段
-					parseDataField: function (item) {
-						return {
-							label: item.username || item.nickname || item.mobile || item.email,
-							value: item.id,
-						}
 					},
 				},
 			}
