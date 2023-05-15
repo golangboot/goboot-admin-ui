@@ -79,7 +79,7 @@
 													 v-model:structures="skuFormStructures"
 													 v-model:attributes="form.skuAttributes"
 													 v-model:skus="form.skus"
-													  :sku-total-count-limit="30"
+													  :sku-total-count-limit="100"
 													  :formDisabled="mode=='show'"
 											>
 												<!--<template #score="slotProps">
