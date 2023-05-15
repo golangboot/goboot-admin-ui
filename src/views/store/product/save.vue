@@ -80,7 +80,6 @@
 													 v-model:attributes="form.skuAttributes"
 													 v-model:skus="form.skus"
 													  :formDisabled="mode=='show'"
-													  async
 											>
 												<!--<template #score="slotProps">
 													<div>

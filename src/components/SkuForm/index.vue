@@ -17,9 +17,9 @@
 					</template>
 					<div class="attr-button-group">
 						<div class="add-attr">
-							<el-input v-if="item.canAddAttribute" v-model="item.addAttribute" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttribute(index)">
+							<el-input v-if="item.canAddAttribute" v-model="addAttributeValueText[index]" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttribute(index)">
 								<template v-slot:append>
-									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttribute(index)">添加</el-button>
+									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttributeValue(index)">添加</el-button>
 								</template>
 							</el-input>
 						</div>
@@ -253,7 +253,7 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		//sku字段
+		//sku字段配置
 		skuProps: {
 			type: Object, default: () => {
 				return {
@@ -264,20 +264,19 @@ export default {
 				}
 			}
 		},
-		//属性字段
+		//属性字段配置
 		attributeProps: {
 			type: Object, default: () => {
 				return {
 					label: 'label',
 					value: 'value',
 					options: 'options',
+					// 属性添加默认checked状态
+					checked: false,
+					//规格选项限制总数量(为0时则表示不限制)
+					optionLimitTotalCount: 0,
 				}
 			}
-		},
-		//规格选项限制总数量(为0时则表示不限制)
-		attributeOptionLimitTotalCount: {
-			type: Number,
-			default: 0
 		},
 		//批量设置显示触发数量
 		batchSetShowTriggerCount: {
@@ -296,6 +295,7 @@ export default {
 			//需要合并的列
 			tableRowSpanArray: [],
 			tableRowSpanNumObject: {},
+			addAttributeValueText: [],
 		}
 	},
 	computed: {
@@ -683,9 +683,9 @@ export default {
 			this.myAttributes[index].addAttribute = addAttributeText
 			if (addAttributeText !== '') {
 				if (!addAttributeText.includes(this.separator)) {
-					// console.log('onAddAttribute attributeOptionLimitTotalCount:', this.attributeOptionLimitTotalCount)
+					// console.log('onAddAttribute attributeProps.optionLimitTotalCount:', this.attributeProps.optionLimitTotalCount)
 					//检查规格项是否超出最大数量
-					if (this.attributeOptionLimitTotalCount > 0) {
+					if (this.attributeProps.optionLimitTotalCount > 0) {
 						let attributeOptionTotalCount = 0
 						this.myAttributes.forEach(myAttribute => {
 							if (myAttribute[this.attributeProps.options]) {
@@ -693,10 +693,10 @@ export default {
 							}
 						})
 						// console.log('onAddAttribute attributeOptionTotalCount:', attributeOptionTotalCount)
-						if (attributeOptionTotalCount >= this.attributeOptionLimitTotalCount) {
+						if (attributeOptionTotalCount >= this.attributeProps.optionLimitTotalCount) {
 							this.$message({
 								type: 'warning',
-								message: `规格项总数不能超过 ${this.attributeOptionLimitTotalCount} 个`
+								message: `规格项总数不能超过 ${this.attributeProps.optionLimitTotalCount} 个`
 							})
 							return
 						}
@@ -711,6 +711,59 @@ export default {
 							checked: true
 						})
 						this.myAttributes[index].addAttribute = ''
+					} else {
+						this.$message({
+							type: 'warning',
+							message: '请勿添加相同规格项'
+						})
+					}
+				} else {
+					this.$message({
+						type: 'warning',
+						message: `规格项中不允许出现「 ${this.separator} 」字符，请检查后重新添加`
+					})
+				}
+			}
+		},
+		// 新增一个规格项(解决新增规格项卡顿问题)
+		onAddAttributeValue(index) {
+			let addAttributeText = this.addAttributeValueText[index]
+			// console.log('onAddAttributeValue index:', index)
+			if (!addAttributeText){
+				this.$message({type: 'warning', message: '规格项不能为空'})
+				return
+			}
+			addAttributeText = addAttributeText.trim()
+			if (addAttributeText !== '') {
+				if (!addAttributeText.includes(this.separator)) {
+					// console.log('onAddAttributeValue attributeProps.optionLimitTotalCount:', this.attributeProps.optionLimitTotalCount)
+					//检查规格项是否超出最大数量
+					if (this.attributeProps.optionLimitTotalCount > 0) {
+						let attributeOptionTotalCount = 0
+						this.myAttributes.forEach(myAttribute => {
+							if (myAttribute[this.attributeProps.options]) {
+								attributeOptionTotalCount += myAttribute[this.attributeProps.options].length
+							}
+						})
+						// console.log('onAddAttributeValue attributeOptionTotalCount:', attributeOptionTotalCount)
+						if (attributeOptionTotalCount >= this.attributeProps.optionLimitTotalCount) {
+							this.$message({
+								type: 'warning',
+								message: `规格项总数不能超过 ${this.attributeProps.optionLimitTotalCount} 个`
+							})
+							return
+						}
+					}
+					const flag = this.myAttributes[index][this.attributeProps.options].some(item => {
+						return item[this.attributeProps.label] === addAttributeText
+					})
+					if (!flag) {
+						this.myAttributes[index][this.attributeProps.options].push({
+							[this.attributeProps.label]: addAttributeText,
+							// [this.attributeProps.value]: "",
+							checked: this.attributeProps.checked,
+						})
+						this.addAttributeValueText[index] = ''
 					} else {
 						this.$message({
 							type: 'warning',
