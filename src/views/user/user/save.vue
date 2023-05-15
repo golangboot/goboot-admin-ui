@@ -182,26 +182,24 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
-									<el-col :span="12">
-										<el-form-item label="员工账号" prop="isEmployee">
-											<template #label="{ label }">
-												<span>{{ label }}</span>
-												<span>
+									<el-form-item label="员工账号" prop="isEmployee">
+										<template #label="{ label }">
+											<span>{{ label }}</span>
+											<span>
 												<el-tooltip>
 													<template #content>为保证系统安全性，如果为用户分配了角色，需要将员工账号设置为是，才可以修改平台类参数</template>
 													<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
 												</el-tooltip>
 											</span>
-											</template>
-											<el-switch
-												v-model="form.isEmployee"
-												inline-prompt
-												style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-												:active-value="1" :inactive-value="0"
-												active-text="是" inactive-text="否"
-											/>
-										</el-form-item>
-									</el-col>
+										</template>
+										<el-switch
+											v-model="form.isEmployee"
+											inline-prompt
+											style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+											:active-value="1" :inactive-value="0"
+											active-text="是" inactive-text="否"
+										/>
+									</el-form-item>
 								</el-col>
 							</el-row>
 						</el-tab-pane>
