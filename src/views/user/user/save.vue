@@ -193,11 +193,9 @@
 											</span>
 										</template>
 										<el-switch
-											v-model="form.isEmployee"
-											inline-prompt
+											v-model="form.isEmployee" inline-prompt
 											style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-											:active-value="1" :inactive-value="0"
-											active-text="是" inactive-text="否"
+											:active-value="1" :inactive-value="0" active-text="是" inactive-text="否"
 										/>
 									</el-form-item>
 								</el-col>
