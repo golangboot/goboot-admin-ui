@@ -63,6 +63,14 @@
 							</el-tab-pane>
 
 							<el-tab-pane label="规格库存">
+								<!--<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="规格操作">
+											<el-button type="primary" icon="el-icon-plus" @click="skuFormAddAttribute">添加SKU规格属性</el-button>
+											<el-button type="primary" icon="el-icon-plus" @click="skuFormSyncUpdateHandler">更新SKU规格属性</el-button>
+										</el-form-item>
+									</el-col>
+								</el-row>-->
 								<el-row :gutter="20">
 									<el-col :span="24">
 										<div>
@@ -748,6 +756,8 @@
 				})
 				return false
 			},
+			//更新Sku表单
+			skuFormSyncUpdateHandler(){},
 			//处理分类参数
 			handleCategoryAttributes(){
 				// console.log('handleCategoryAttributes -> categoryAttributes:', this.categoryAttributes)
@@ -790,6 +800,7 @@
 
 				this.form.skuSourceAttributes = Object.assign(this.form.skuSourceAttributes || [], saleAttributes)
 				this.$refs.skuForm.init() // skuForm初始化
+				// console.log('handleCategoryAttributes -> skuForm.isInit:', this.$refs.skuForm.isInit)
 			},
 		}
 	}
