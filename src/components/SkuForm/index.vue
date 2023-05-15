@@ -17,7 +17,7 @@
 					</template>
 					<div class="attr-button-group">
 						<div class="add-attr">
-							<el-input v-if="item.canAddAttribute" v-model="addAttributeValueText[index]" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttribute(index)">
+							<el-input v-if="item.canAddAttribute" v-model="addAttributeValueText[index]" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttributeValue(index)">
 								<template v-slot:append>
 									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttributeValue(index)">添加</el-button>
 								</template>
