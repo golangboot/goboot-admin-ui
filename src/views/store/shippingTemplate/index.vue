@@ -7,8 +7,19 @@
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
-					<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input>
-					<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
+					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
+						<el-form-item label="商家：" prop="merchantId">
+							<select-remote v-model="search.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :props="merchantSelect.props" clearable filterable style="width: 160px;"></select-remote>
+						</el-form-item>
+						<el-form-item label="商品搜索：" prop="keyword">
+							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
+						</el-form-item>
+						<el-form-item>
+							<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
+						</el-form-item>
+					</el-form>
+					<!--<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input>-->
+					<!--<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>-->
 				</div>
 			</div>
 		</el-header>
@@ -51,11 +62,13 @@
 
 <script>
 	import saveDialog from './save'
+	import SelectRemote from "@/components/SelectRemote";
 
 	export default {
 		name: 'storeShippingTemplate',
 		components: {
 			saveDialog,
+			SelectRemote,
 		},
 		data() {
 			return {
@@ -66,8 +79,19 @@
 				params: {},
 				selection: [],
 				search: {
-					keyword: null
-				}
+					keyword: null,
+					merchantId: null,
+				},
+				merchantSelect: {
+					// api接口
+					apiObj: this.$API.store.merchant.list,
+					// 搜索参数(搜索关键词为空时生效)
+					params: {},
+					// 属性字段
+					props: {
+						keyword: 'keyword',
+					},
+				},
 			}
 		},
 		methods: {
@@ -172,5 +196,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+.form-inline .el-form-item {
+	margin-bottom: 0;
+}
 </style>
