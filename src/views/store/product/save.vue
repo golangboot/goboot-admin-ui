@@ -154,7 +154,6 @@
 							<el-tab-pane label="商品详情">
 								<el-form-item label="商品内容" prop="content">
 									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
-									<!--<el-input v-model="form.content" clearable type="textarea"></el-input>-->
 								</el-form-item>
 							</el-tab-pane>
 
@@ -423,7 +422,8 @@
 				logisticsTypeOptions: [
 					{label: "无需发货", value: 0,},
 					{label: "快递物流", value: 1,},
-					{label: "到店核销", value: 2,},
+					// {label: "自提点自提", value: 2,}, // 预留功能未实现, 暂时隐藏
+					// {label: "到店核销", value: 3,}, // 预留功能未实现, 暂时隐藏
 				],
 				freightTypeOptions: [
 					{label: "免费包邮", value: 0,},
