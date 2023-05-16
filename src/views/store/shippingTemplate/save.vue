@@ -9,16 +9,49 @@
 					<el-radio v-for="(item, index) in isFreeShippingOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
+			<el-form-item label="默认运费">
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>当配送区域未单独设置运费时，则采用默认运费设置</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-row :gutter="20">
+					<el-col :span="6">
+						<el-form-item :label="`首${unit}`" prop="firstNum">
+							<el-input-number v-model="form.firstNum" placeholder="" controls-position="right" :min="0"></el-input-number>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item :label="`运费（${priceUnit}）`" prop="firstPrice">
+							<el-input-number v-model="form.firstPrice" placeholder="" controls-position="right" :min="0"></el-input-number>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item :label="`续${unit}`" prop="renewNum">
+							<el-input-number v-model="form.renewNum" placeholder="" controls-position="right" :min="0"></el-input-number>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item :label="`续费（${priceUnit}）`" prop="renewPrice">
+							<el-input-number v-model="form.renewPrice" placeholder="" controls-position="right" :min="0"></el-input-number>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form-item>
 			<el-form-item label="计费方式" prop="type">
 				<el-radio-group v-model="form.type">
 					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="配送区域" prop="shippingArea">
+			<el-form-item label="配送区域及运费" prop="shippingArea">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
-					<el-table-column prop="area" label="可配送区域" fixed min-width="150">
+					<el-table-column prop="areaOptions" label="可配送区域" fixed min-width="150">
 						<template #default="scope">
-							<el-input v-model="scope.row.area" placeholder="请输入区域"></el-input>
+							<el-input v-model="scope.row.areaOptions" placeholder="请点击最右侧[编辑区域]按钮设置配送区域" :autosize="{ minRows: 1, maxRows: 999 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
 					</el-table-column>
 					<!--<el-table-column prop="shippingMethod" label="配送方式" width="135">
@@ -28,30 +61,30 @@
 							</el-select>
 						</template>
 					</el-table-column>-->
-					<el-table-column prop="firstNum" label="首件" width="125">
+					<el-table-column prop="firstNum" :label="`首${unit}`" width="125">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="price" label="运费（元）" width="135">
+					<el-table-column prop="firstPrice" :label="`运费（${priceUnit}）`" width="135">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.price" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
+							<el-input-number v-model="scope.row.firstPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewNum" label="续件" width="125">
+					<el-table-column prop="renewNum" :label="`续${unit}`" width="125">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.renewNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewPrice" label="续费（元）" width="135">
+					<el-table-column prop="renewPrice" :label="`续费（${priceUnit}）`" width="135">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.renewPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" align="center" width="80">
+					<el-table-column label="操作" fixed="right" align="center" width="100">
 						<template #default="scope">
 							<el-button-group>
-								<el-button type="primary" icon="el-icon-menu" size="small" @click="tableOperation(scope.row, scope.$index)"></el-button>
+								<el-button text type="primary" size="small" @click="tableOperation(scope.row, scope.$index)">编辑区域</el-button>
 							</el-button-group>
 						</template>
 					</el-table-column>
@@ -155,7 +188,35 @@
 				},
 			}
 		},
+		computed: {
+			unit() {
+				let unit = '件'
+				if (this.form.type == 1){
+					unit = '件'
+				}
+				if (this.form.type == 2){
+					unit = '重量(KG)'
+				}
+				if (this.form.type == 3){
+					unit = '体积(m³)'
+				}
+				return unit
+			},
+			priceUnit() {
+				let unit = '元'
+				return unit
+			},
+		},
 		watch: {
+			'form.type': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (typeof newValue == 'undefined' || !newValue || newValue < 1) {
+						this.form.type = 1
+					}
+				},
+				deep: true
+			},
 			'form.shippingArea': {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {

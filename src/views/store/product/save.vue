@@ -313,11 +313,11 @@
 											<template #label="{ label }">
 												<span>{{ label }}</span>
 												<span>
-											<el-tooltip>
-												<template #content>商品真实销量，商品SKU所有销量总和</template>
-												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-											</el-tooltip>
-										</span>
+													<el-tooltip>
+														<template #content>商品真实销量，商品SKU所有销量总和</template>
+														<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+													</el-tooltip>
+												</span>
 											</template>
 											<el-input-number v-model="form.saleCount" controls-position="right" style="width: 100%;"></el-input-number>
 										</el-form-item>
