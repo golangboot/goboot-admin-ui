@@ -30,7 +30,7 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 					<el-table-column label="职位名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="职位图片" prop="image" width="100">
 						<template #default="scope">

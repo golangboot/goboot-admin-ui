@@ -11,33 +11,36 @@
 			</el-form-item>
 			<el-form-item label="配送区域" prop="shippingArea">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
-					<el-table-column prop="label" label="标题">
+					<el-table-column prop="area" label="可配送区域">
 						<template #default="scope">
-							<el-input v-model="scope.row.label" placeholder="请输入标题"></el-input>
+							<el-input v-model="scope.row.area" placeholder="请输入区域"></el-input>
 						</template>
 					</el-table-column>
-					<!--<el-table-column prop="value" label="默认值">
+					<el-table-column prop="firstNum" label="首件">
 						<template #default="scope">
-							<el-input v-model="scope.row.value" placeholder="默认留空"></el-input>
-						</template>
-					</el-table-column>-->
-					<el-table-column prop="type" label="类型">
-						<template #default="scope">
-							<el-select v-model="scope.row.type" placeholder="">
-								<el-option v-for="(item, index) in customFormTypeOptions" :key="index" :label="item.label" :value="item.value"/>
-							</el-select>
+							<el-input-number v-model="scope.row.firstNum" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="required" label="是否必填">
+					<el-table-column prop="price" label="运费（元）">
 						<template #default="scope">
-							<el-switch
-								v-model="scope.row.required"
-								class="ml-2"
-								inline-prompt
-								style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-								:active-value="true" :inactive-value="false"
-								active-text="必填" inactive-text="选填"
-							/>
+							<el-input-number v-model="scope.row.price" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+						</template>
+					</el-table-column>
+					<el-table-column prop="renewNum" label="续件">
+						<template #default="scope">
+							<el-input-number v-model="scope.row.renewNum" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+						</template>
+					</el-table-column>
+					<el-table-column prop="renewPrice" label="续费（元）">
+						<template #default="scope">
+							<el-input-number v-model="scope.row.renewPrice" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" fixed="right" align="center" width="80">
+						<template #default="scope">
+							<el-button-group>
+								<el-button type="primary" icon="el-icon-menu" size="small" @click="tableOperation(scope.row, scope.$index)"></el-button>
+							</el-button-group>
 						</template>
 					</el-table-column>
 				</sc-form-table>
@@ -95,6 +98,8 @@
 					remark: "",
 					merchantId: "",
 					userId: "",
+					type: 1,
+					shippingArea: [],
 				},
 				//验证规则
 				rules: {
@@ -126,6 +131,17 @@
 					},
 				},
 			}
+		},
+		watch: {
+			'form.shippingArea': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (!newValue) {
+						this.form.shippingArea = []
+					}
+				},
+				deep: true
+			},
 		},
 		mounted() {
 		},
@@ -168,6 +184,7 @@
 					let res = await this.$API.store.shippingTemplate.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
+					// this.form.shippingArea = this.form.shippingArea || []
 				}
 			}
 		}

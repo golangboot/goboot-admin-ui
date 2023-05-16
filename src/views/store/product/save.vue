@@ -512,7 +512,7 @@
 						required: true,
 						validate: (data, index, callback) => {
 							if (data[index].price && parseFloat(data[index].price) < 0) {
-								callback(new Error('价格不能小于0'))
+								callback(new Error('商品价格不能小于0'))
 							}
 							callback()
 						}
@@ -525,7 +525,7 @@
 						required: false,
 						validate: (data, index, callback) => {
 							if (data[index].marketPrice && parseFloat(data[index].marketPrice) < 0) {
-								callback(new Error('市场价不能小于0'))
+								callback(new Error('商品市场价不能小于0'))
 							}
 							callback()
 						}

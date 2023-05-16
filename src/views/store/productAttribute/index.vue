@@ -15,7 +15,7 @@
 				</el-header>
 				<el-main class="nopadding">
 					<scTable ref="parentTable" :apiObj="list.apiObj" :params="list.params" row-key="id" stripe highlightCurrentRow @row-click="parentRowClick">
-						<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+						<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 						<el-table-column label="商品规格名称" prop="name" min-width="120"></el-table-column>
 						<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 							<template #default="scope">
@@ -50,8 +50,8 @@
 			</el-header>
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
-					<el-table-column type="selection" width="150"></el-table-column>
-					<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+					<el-table-column type="selection" width="50"></el-table-column>
+					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 					<el-table-column label="商品属性名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="销售属性" prop="isSaleAttribute" width="100" sortable>
 						<template #default="scope">

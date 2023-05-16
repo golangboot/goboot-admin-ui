@@ -15,7 +15,7 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="ID" prop="id" width="80" sortable></el-table-column>
+				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="图片" prop="image" width="100">
