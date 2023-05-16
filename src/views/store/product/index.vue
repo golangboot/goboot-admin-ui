@@ -123,7 +123,7 @@
 <script>
 import saveDialog from './save'
 import scSelectFilter from '@/components/scSelectFilter'
-import SelectRemote from '@/components/SelectRemote'
+import selectRemote from '@/components/selectRemote'
 import useTabs from "@/utils/useTabs";
 
 export default {
@@ -131,7 +131,7 @@ export default {
 	components: {
 		saveDialog,
 		scSelectFilter,
-		SelectRemote,
+		selectRemote,
 	},
 	data() {
 		return {

@@ -39,14 +39,14 @@
 </template>
 
 <script>
-	import SelectRemote from "@/components/SelectRemote";
+	import selectRemote from "@/components/selectRemote";
 	import { defineAsyncComponent } from 'vue';
 	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			SelectRemote,
+			selectRemote,
 			scEditor,
 		},
 		data() {

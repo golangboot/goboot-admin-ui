@@ -113,7 +113,7 @@
 
 <script>
 export default {
-	name: "SkuForm",
+	name: "skuForm",
 	props: {
 		/**
 		 * 原始规格数据

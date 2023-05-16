@@ -45,12 +45,12 @@
 </template>
 
 <script>
-	import SelectRemote from "@/components/SelectRemote";
+	import selectRemote from "@/components/selectRemote";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			SelectRemote,
+			selectRemote,
 		},
 		data() {
 			return {

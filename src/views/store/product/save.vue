@@ -176,7 +176,7 @@
 											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
 										</el-form-item>
 										<el-form-item label="运费模板" prop="shippingTemplateId" v-if="form.freightType == 2">
-											<select-remote ref="shippingTemplateSelectRemote" v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
+											<select-remote ref="shippingTemplateselectRemote" v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -349,16 +349,16 @@
 </template>
 
 <script>
-	import SkuForm from "@/components/SkuForm";
-	import SelectRemote from "@/components/SelectRemote";
+	import skuForm from "@/components/skuForm";
+	import selectRemote from "@/components/selectRemote";
 	import { defineAsyncComponent } from 'vue';
 	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			SkuForm,
-			SelectRemote,
+			skuForm,
+			selectRemote,
 			scEditor,
 		},
 		data() {
@@ -657,7 +657,7 @@
 						// 处理 运费模板 搜索条件
 						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
 						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
-						this.$refs.shippingTemplateSelectRemote?.getRemoteData()
+						this.$refs.shippingTemplateselectRemote?.getRemoteData()
 					}
 				},
 				deep: true

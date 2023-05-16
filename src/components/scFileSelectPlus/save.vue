@@ -113,13 +113,13 @@
 
 <script>
 	import scVideo from '@/components/scVideo'
-	import SelectRemote from '@/components/SelectRemote'
+	import selectRemote from '@/components/selectRemote'
 
 	export default {
 		emits: ['success', 'closed'],
 		components: {
 			scVideo,
-			SelectRemote,
+			selectRemote,
 		},
 		data() {
 			return {

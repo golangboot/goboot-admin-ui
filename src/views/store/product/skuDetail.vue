@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import UploadImage from "@/components/UploadImage";
+import UploadImage from "@/components/uploadImage";
 
 export default {
 	components: {

@@ -46,6 +46,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<div class="el-form-item-msg">除指定配送地区外，其余地区的运费采用“默认运费”</div>
 			</el-form-item>
 			<el-form-item label="配送区域及运费" prop="shippingArea">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
@@ -111,16 +112,19 @@
 			<el-button @click="visible=false" >取 消</el-button>
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
+
+		<select-city ref="selectCity" @submit="selectCitySubmit"></select-city>
+
 	</el-dialog>
 </template>
 
 <script>
-	import SelectRemote from "@/components/SelectRemote";
+	import selectCity from "@/components/selectCity";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			SelectRemote,
+			selectCity,
 		},
 		data() {
 			return {
@@ -270,7 +274,11 @@
 					this.form = res.data
 					// this.form.shippingArea = this.form.shippingArea || []
 				}
-			}
+			},
+			selectCitySubmit(data){
+				console.log('selectCitySubmit:', data)
+				// Object.assign(this.form, data)
+			},
 		}
 	}
 </script>

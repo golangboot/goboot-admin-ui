@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="'API接口选择器'" v-model="dialogVisible" :width="'80%'" :top="'1vh'" destroy-on-close append-to-body @closed="$emit('closed')">
+	<el-dialog :title="title" v-model="dialogVisible" :width="'80%'" :top="'1vh'" destroy-on-close append-to-body @closed="$emit('closed')">
 		<div class="select-route">
 			<div class="select-route-header">
 				<el-input v-model="searchText" placeholder="请输入关键词搜索" clearable @keyup.enter="search"></el-input>
@@ -54,8 +54,14 @@
 
 <script>
 export default {
-	name: "ApiRouteSelect",
+	name: "selectApiRoute",
 	emits: ['success', 'closed'],
+	props: {
+		title: {
+			type: String,
+			default: 'API接口选择器'
+		},
+	},
 	data() {
 		return {
 			dialogVisible: false,
@@ -81,7 +87,8 @@ export default {
 	},
 	watch: {
 		form: {
-			handler(){
+			// eslint-disable-next-line
+			handler(newValue, oldValue){
 				// 处理标识
 				if (this.form.url){
 					this.form.code = this.handleCode(this.form.url)

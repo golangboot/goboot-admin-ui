@@ -62,13 +62,13 @@
 
 <script>
 	import saveDialog from './save'
-	import SelectRemote from "@/components/SelectRemote";
+	import selectRemote from "@/components/selectRemote";
 
 	export default {
 		name: 'storeShippingTemplate',
 		components: {
 			saveDialog,
-			SelectRemote,
+			selectRemote,
 		},
 		data() {
 			return {
