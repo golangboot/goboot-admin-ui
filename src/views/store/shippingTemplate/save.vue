@@ -21,13 +21,13 @@
 							<el-input v-model="scope.row.area" placeholder="请输入区域"></el-input>
 						</template>
 					</el-table-column>
-					<el-table-column prop="shippingMethod" label="配送方式" width="135">
+					<!--<el-table-column prop="shippingMethod" label="配送方式" width="135">
 						<template #default="scope">
 							<el-select v-model="scope.row.shippingMethod" :valie="shippingMethodOptions[0].value" placeholder="" filterable>
 								<el-option v-for="(item, index) in shippingMethodOptions" :key="index" :label="item.label" :value="item.value"/>
 							</el-select>
 						</template>
-					</el-table-column>
+					</el-table-column>-->
 					<el-table-column prop="firstNum" label="首件" width="125">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
