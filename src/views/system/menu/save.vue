@@ -119,7 +119,7 @@
 			</el-footer>
 		</el-container>
 
-		<select-api-route ref="selectRoute" @submit="selectRouteSubmit"></select-api-route>
+		<select-api-route ref="selectApiRoute" @submit="selectApiRouteSubmit"></select-api-route>
 	</el-drawer>
 </template>
 
@@ -280,18 +280,18 @@
 				}
 			},
 			table_select(row, index){
-				// console.log('table_select:', row,index)
+				// console.log('table_select:', row, index)
 				// this.$message("请手动输入参数, 弹框快捷选择接口功能开发中...")
 				this.$nextTick(() => {
 					let data = {
 						row: row,
 						index: index,
 					}
-					this.$refs.selectRoute.open().setData(data)
+					this.$refs.selectApiRoute.open().setData(data)
 				})
 			},
-			selectRouteSubmit(data){
-				// console.log('selectRouteSubmit:', data)
+			selectApiRouteSubmit(data){
+				// console.log('selectApiRouteSubmit:', data)
 				let index = data.index;
 				// let row = data.row;
 				delete data.index

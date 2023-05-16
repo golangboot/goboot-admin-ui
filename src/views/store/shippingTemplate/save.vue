@@ -85,7 +85,7 @@
 					<el-table-column label="操作" fixed="right" align="center" width="100">
 						<template #default="scope">
 							<el-button-group>
-								<el-button text type="primary" size="small" @click="tableOperation(scope.row, scope.$index)">编辑区域</el-button>
+								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index)">编辑区域</el-button>
 							</el-button-group>
 						</template>
 					</el-table-column>
@@ -119,12 +119,14 @@
 </template>
 
 <script>
+	import selectRemote from "@/components/selectRemote";
 	import selectCity from "@/components/selectCity";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
 			selectCity,
+			selectRemote,
 		},
 		data() {
 			return {
@@ -274,6 +276,16 @@
 					this.form = res.data
 					// this.form.shippingArea = this.form.shippingArea || []
 				}
+			},
+			tableRowOperation(row, index){
+				console.log('tableRowOperation:', row, index)
+				this.$nextTick(() => {
+					let data = {
+						row: row,
+						index: index,
+					}
+					this.$refs.selectCity.open().setData(data)
+				})
 			},
 			selectCitySubmit(data){
 				console.log('selectCitySubmit:', data)

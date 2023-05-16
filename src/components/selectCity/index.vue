@@ -1,6 +1,8 @@
 <template>
 	<el-dialog :title="title" v-model="dialogVisible" :width="'80%'" :top="'5vh'" destroy-on-close append-to-body @closed="$emit('closed')">
-		<div class="select-city-container"></div>
+		<div class="select-city-container">
+			城市列表
+		</div>
 		<template #footer>
 			<el-button @click="dialogVisible=false" >取 消</el-button>
 			 <el-button type="primary" :loading="isSaving" @click="submit()">确 定</el-button>

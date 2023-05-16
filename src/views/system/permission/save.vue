@@ -35,7 +35,7 @@
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 
-		<select-api-route ref="selectRoute" @submit="selectRouteSubmit"></select-api-route>
+		<select-api-route ref="selectApiRoute" @submit="selectApiRouteSubmit"></select-api-route>
 
 	</el-dialog>
 </template>
@@ -139,11 +139,11 @@
 			select(){
 				this.$nextTick(() => {
 					let data = {}
-					this.$refs.selectRoute.open().setData(data)
+					this.$refs.selectApiRoute.open().setData(data)
 				})
 			},
-			selectRouteSubmit(data){
-				// console.log('selectRouteSubmit:', data)
+			selectApiRouteSubmit(data){
+				// console.log('selectApiRouteSubmit:', data)
 				Object.assign(this.form, data)
 			},
 		}
