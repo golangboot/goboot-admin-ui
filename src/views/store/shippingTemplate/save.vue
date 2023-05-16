@@ -9,6 +9,11 @@
 					<el-radio v-for="(item, index) in isFreeShippingOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
+			<el-form-item label="计费方式" prop="type">
+				<el-radio-group v-model="form.type">
+					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
 			<el-form-item label="默认运费">
 				<template #label="{ label }">
 					<span>{{ label }}</span>
@@ -41,11 +46,6 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-			</el-form-item>
-			<el-form-item label="计费方式" prop="type">
-				<el-radio-group v-model="form.type">
-					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
 			</el-form-item>
 			<el-form-item label="配送区域及运费" prop="shippingArea">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">

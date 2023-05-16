@@ -2,15 +2,13 @@
 	<el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
 		<el-form-item prop="user">
 			<el-input v-model="form.user" prefix-icon="el-icon-user" clearable :placeholder="$t('login.userPlaceholder')">
-				<template #append>
+				<!--<template #append>
 					<el-select v-model="userType" style="width: 120px;">
 						<el-option :label="$t('login.admin')" value="admin"></el-option>
 						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
 						<el-option :label="$t('login.user')" value="user"></el-option>
-						<el-option :label="$t('login.enterprise')" value="enterprise"></el-option>
-						<el-option :label="$t('login.organization')" value="organization"></el-option>
 					</el-select>
-				</template>
+				</template>-->
 			</el-input>
 		</el-form-item>
 		<el-form-item prop="password">
@@ -37,7 +35,7 @@
 	export default {
 		data() {
 			return {
-				userType: 'user',
+				userType: 'admin',
 				form: {
 					user: "",
 					password: "",
@@ -60,12 +58,6 @@
 					this.form.user = ''
 					this.form.password = ''
 				}else if(val == 'user'){
-					this.form.user = ''
-					this.form.password = ''
-				}else if(val == 'enterprise'){
-					this.form.user = ''
-					this.form.password = ''
-				}else if(val == 'organization'){
 					this.form.user = ''
 					this.form.password = ''
 				}else if(val == 'merchant'){
@@ -123,6 +115,7 @@
 						return false
 					}
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.MENU, menu.data.menu)
+					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.ROLES, menu.data.roles)
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.PERMISSIONS, menu.data.permissions)
 					this.$TOOL.data.set(this.$CONFIG.DATA_CODE.DASHBOARD_GRID, menu.data.dashboardGrid)
 				}else{

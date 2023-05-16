@@ -47,10 +47,16 @@ export function rolePermission(data) {
 	if(!userInfo){
 		return false;
 	}
-	let role = userInfo.role;
-	if(!role){
+	let userRoles = userInfo.roles;
+	if(!userRoles){
 		return false;
 	}
-	let isHave = role.includes(data);
+	let isHave = userRoles.includes(data);
+	if (!isHave){
+		let roles = tool.data.get(config.DATA_CODE.ROLES);
+		if (roles){
+			isHave = roles.includes(data);
+		}
+	}
 	return isHave;
 }

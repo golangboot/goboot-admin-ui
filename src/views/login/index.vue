@@ -120,6 +120,7 @@
 			this.$TOOL.cookie.remove(this.$CONFIG.DATA_CODE.TOKEN)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.USER_INFO)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.MENU)
+			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.ROLES)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.PERMISSIONS)
 			this.$TOOL.data.remove(this.$CONFIG.DATA_CODE.DASHBOARD_GRID)
 			this.$TOOL.data.remove("grid")
