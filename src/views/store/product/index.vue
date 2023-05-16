@@ -91,7 +91,12 @@
 				<el-table-column label="状态" prop="status" width="80" sortable>
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)"
-							:loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
+								   :loading="scope.row.$switch_status"
+								   inline-prompt
+								   style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+								   :active-value="1" :inactive-value="0"
+								   active-text="上架" inactive-text="下架">
+						</el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
