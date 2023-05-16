@@ -662,6 +662,24 @@
 				},
 				deep: true
 			},
+			'form.customFormParams': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (typeof newValue == 'undefined') {
+						this.form.customFormParams = []
+					}
+				},
+				deep: true
+			},
+			'form.skus': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (typeof newValue == 'undefined') {
+						this.form.skus = []
+					}
+				},
+				deep: true
+			},
 			categoryAttributes: {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
@@ -718,8 +736,8 @@
 						this.form = res.data
 					}
 					this.loading = false
-					this.form.customFormParams = this.form.customFormParams || []
-					this.form.skus = this.form.skus || []
+					// this.form.customFormParams = this.form.customFormParams || []
+					// this.form.skus = this.form.skus || []
 					// console.log('setData -> form:', this.form)
 				})
 			},

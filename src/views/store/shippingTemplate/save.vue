@@ -136,7 +136,7 @@
 			'form.shippingArea': {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
-					if (!newValue) {
+					if (typeof newValue == 'undefined') {
 						this.form.shippingArea = []
 					}
 				},
