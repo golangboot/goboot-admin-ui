@@ -21,24 +21,24 @@
 							<el-input v-model="scope.row.area" placeholder="请输入区域"></el-input>
 						</template>
 					</el-table-column>
-					<el-table-column prop="firstNum" label="首件">
+					<el-table-column prop="firstNum" label="首件" width="125">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0"></el-input-number>
+							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="price" label="运费（元）">
+					<el-table-column prop="price" label="运费（元）" width="135">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.price" controls-position="right" :min="0"></el-input-number>
+							<el-input-number v-model="scope.row.price" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewNum" label="续件">
+					<el-table-column prop="renewNum" label="续件" width="125">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewNum" controls-position="right" :min="0"></el-input-number>
+							<el-input-number v-model="scope.row.renewNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewPrice" label="续费（元）">
+					<el-table-column prop="renewPrice" label="续费（元）" width="135">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewPrice" controls-position="right" :min="0"></el-input-number>
+							<el-input-number v-model="scope.row.renewPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" fixed="right" align="center" width="80">
