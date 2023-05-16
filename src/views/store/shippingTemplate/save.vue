@@ -4,6 +4,11 @@
 			<el-form-item label="模板名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
+			<el-form-item label="是否包邮" prop="isFreeShipping">
+				<el-radio-group v-model="form.isFreeShipping">
+					<el-radio v-for="(item, index) in isFreeShippingOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
 			<el-form-item label="计费方式" prop="type">
 				<el-radio-group v-model="form.type">
 					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
@@ -99,6 +104,7 @@
 					merchantId: "",
 					userId: "",
 					type: 1,
+					isFreeShipping: 0,
 					shippingArea: [],
 				},
 				//验证规则
@@ -111,6 +117,10 @@
 					{label: "按件数", value: 1,},
 					{label: "按重量", value: 2,},
 					{label: "按体积", value: 3,},
+				],
+				isFreeShippingOptions: [
+					{label: "自定义运费", value: 0,},
+					{label: "包邮", value: 1,},
 				],
 				shippingAreaAddTemplate: {
 					"label": "",

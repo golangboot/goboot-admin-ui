@@ -241,9 +241,7 @@
 										<el-table-column prop="required" label="是否必填">
 											<template #default="scope">
 												<el-switch
-													v-model="scope.row.required"
-													class="ml-2"
-													inline-prompt
+													v-model="scope.row.required" inline-prompt
 													style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
 													:active-value="true" :inactive-value="false"
 													active-text="必填" inactive-text="选填"
@@ -561,7 +559,7 @@
 						required: false,
 					},
 					{
-						name: 'barcode',
+						name: 'barCode',
 						type: 'input',
 						label: '商品条形码',
 						tip: '请填写正确条码，将有助于平台准确识别您的商品，消费者能更方便找到您的商品，也可以提供更准确、全面的信息导购。',
