@@ -31,7 +31,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`运费（${priceUnit}）`" prop="firstPrice">
+						<el-form-item :label="`首费（${priceUnit}）`" prop="firstPrice">
 							<el-input-number v-model="form.firstPrice" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
@@ -66,7 +66,7 @@
 							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="firstPrice" :label="`运费（${priceUnit}）`" width="135">
+					<el-table-column prop="firstPrice" :label="`首费（${priceUnit}）`" width="135">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.firstPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
