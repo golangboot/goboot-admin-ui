@@ -3,9 +3,9 @@
 		<el-header class="header-tabs">
 			<el-tabs type="card" v-model="search.groupId" @tab-change="tabChange">
 				<el-tab-pane label="全部商品" name=""></el-tab-pane>
-				<el-tab-pane label="自营商品" name="1"></el-tab-pane>
-				<el-tab-pane label="第三方商品" name="2"></el-tab-pane>
-				<el-tab-pane label="回收站商品" name="3"></el-tab-pane>
+				<el-tab-pane label="回收站商品" name="-1"></el-tab-pane>
+				<!--<el-tab-pane label="自营商品" name="1"></el-tab-pane>-->
+				<!--<el-tab-pane label="第三方商品" name="2"></el-tab-pane>-->
 			</el-tabs>
 		</el-header>
 		<el-header style="height: auto;">
