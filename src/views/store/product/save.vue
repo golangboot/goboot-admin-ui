@@ -172,14 +172,12 @@
 											</el-radio-group>
 										</el-form-item>
 									</el-col>
-									<el-col :span="12" v-if="form.freightType == 1">
-										<el-form-item label="运费价格" prop="freightPrice">
+									<el-col :span="12">
+										<el-form-item label="运费价格" prop="freightPrice" v-if="form.freightType == 1">
 											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
 										</el-form-item>
-									</el-col>
-									<el-col :span="12" v-if="form.freightType == 2">
-										<el-form-item label="运费模板" prop="shippingTemplateId">
-											<select-remote v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
+										<el-form-item label="运费模板" prop="shippingTemplateId" v-if="form.freightType == 2">
+											<select-remote ref="shippingTemplateSelectRemote" v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -623,17 +621,8 @@
 		},
 		watch: {
 			form: {
-				handler(){
-					// 处理品牌搜索条件
-					/*if (this.form.categoryId){
-						this.brandSelect.params.categoryId = this.form.categoryId
-						this.brandSelect.search.categoryId = this.form.categoryId
-					}*/
-					// 处理销售单位搜索条件
-					/*if (this.form.categoryId){
-						this.saleUnitSelect.params.categoryId = this.form.categoryId
-						this.saleUnitSelect.search.categoryId = this.form.categoryId
-					}*/
+				// eslint-disable-next-line
+				handler(newValue, oldValue){
 				},
 				deep: true
 			},
@@ -653,11 +642,24 @@
 				deep: true
 			},
 			'form.merchantId': {
+				// eslint-disable-next-line
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 运费模板 搜索条件
-						this.shippingTemplateSelect.params.merchantId = newValue
-						this.shippingTemplateSelect.search.merchantId = newValue
+						// this.shippingTemplateSelect.params.merchantId = this.form.merchantId
+						// this.shippingTemplateSelect.search.merchantId = this.form.merchantId
+					}
+				},
+				deep: true
+			},
+			'form.shippingTemplateId': {
+				// eslint-disable-next-line
+				handler(newValue,oldValue){
+					if (newValue && newValue !== oldValue){
+						// 处理 运费模板 搜索条件
+						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
+						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
+						this.$refs.shippingTemplateSelectRemote.getRemoteData()
 					}
 				},
 				deep: true

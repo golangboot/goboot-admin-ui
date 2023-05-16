@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" :width="'80%'" :top="'5vh'" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
 			<el-form-item label="模板名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
@@ -11,29 +11,29 @@
 			</el-form-item>
 			<el-form-item label="配送区域" prop="shippingArea">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
-					<el-table-column prop="area" label="可配送区域">
+					<el-table-column prop="area" label="可配送区域" fixed min-width="150">
 						<template #default="scope">
 							<el-input v-model="scope.row.area" placeholder="请输入区域"></el-input>
 						</template>
 					</el-table-column>
 					<el-table-column prop="firstNum" label="首件">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.firstNum" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column prop="price" label="运费（元）">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.price" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+							<el-input-number v-model="scope.row.price" controls-position="right" :min="0"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column prop="renewNum" label="续件">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewNum" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+							<el-input-number v-model="scope.row.renewNum" controls-position="right" :min="0"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column prop="renewPrice" label="续费（元）">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewPrice" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+							<el-input-number v-model="scope.row.renewPrice" controls-position="right" :min="0"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" fixed="right" align="center" width="80">
@@ -53,7 +53,7 @@
 				</el-col>
 			</el-row>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-position="right"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
@@ -136,7 +136,7 @@
 			'form.shippingArea': {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
-					if (typeof newValue == 'undefined') {
+					if (typeof newValue == 'undefined' || !newValue) {
 						this.form.shippingArea = []
 					}
 				},

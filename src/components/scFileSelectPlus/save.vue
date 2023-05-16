@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" :width="'60%'" :top="'5vh'" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="110px" label-position="left">
 			<el-form-item label="文件名称" prop="filename">
 				<el-input v-model="form.filename" clearable></el-input>
