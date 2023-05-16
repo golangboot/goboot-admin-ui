@@ -222,7 +222,7 @@
 									/>
 								</el-form-item>
 								<el-form-item label="自定义表单参数" prop="customFormParams" v-if="form.customFormStatus == 1">
-									<sc-form-table ref="customForm" v-model="form.customFormParams" :addTemplate="customFormParamAddTemplate" placeholder="暂无数据">
+									<sc-form-table ref="customFormTable" v-model="form.customFormParams" :addTemplate="customFormParamAddTemplate" placeholder="暂无数据">
 										<el-table-column prop="label" label="标题">
 											<template #default="scope">
 												<el-input v-model="scope.row.label" placeholder="请输入标题"></el-input>

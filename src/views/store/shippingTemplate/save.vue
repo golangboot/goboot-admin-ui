@@ -10,7 +10,37 @@
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item label="配送区域" prop="shippingArea">
-				<el-input v-model="form.shippingArea" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
+					<el-table-column prop="label" label="标题">
+						<template #default="scope">
+							<el-input v-model="scope.row.label" placeholder="请输入标题"></el-input>
+						</template>
+					</el-table-column>
+					<!--<el-table-column prop="value" label="默认值">
+						<template #default="scope">
+							<el-input v-model="scope.row.value" placeholder="默认留空"></el-input>
+						</template>
+					</el-table-column>-->
+					<el-table-column prop="type" label="类型">
+						<template #default="scope">
+							<el-select v-model="scope.row.type" placeholder="">
+								<el-option v-for="(item, index) in customFormTypeOptions" :key="index" :label="item.label" :value="item.value"/>
+							</el-select>
+						</template>
+					</el-table-column>
+					<el-table-column prop="required" label="是否必填">
+						<template #default="scope">
+							<el-switch
+								v-model="scope.row.required"
+								class="ml-2"
+								inline-prompt
+								style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+								:active-value="true" :inactive-value="false"
+								active-text="必填" inactive-text="选填"
+							/>
+						</template>
+					</el-table-column>
+				</sc-form-table>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
@@ -26,7 +56,7 @@
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
-				<el-input v-model="form.remark" clearable type="textarea"></el-input>
+				<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -73,11 +103,16 @@
 					],
 				},
 				typeOptions: [
-					{label: "免费包邮", value: 0,},
 					{label: "按件数", value: 1,},
 					{label: "按重量", value: 2,},
 					{label: "按体积", value: 3,},
 				],
+				shippingAreaAddTemplate: {
+					"label": "",
+					"value": "",
+					"type": "input",
+					"required": true,
+				},
 				merchantSelect: {
 					// api接口
 					apiObj: this.$API.store.merchant.list,
