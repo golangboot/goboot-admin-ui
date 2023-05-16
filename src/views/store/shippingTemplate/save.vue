@@ -52,7 +52,7 @@
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
 					<el-table-column prop="areaOptions" label="可配送区域" fixed min-width="150">
 						<template #default="scope">
-							<el-input v-model="scope.row.areaOptions" placeholder="请点击最右侧[编辑区域]按钮设置配送区域" :autosize="{ minRows: 1, maxRows: 999 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
+							<el-input v-model="scope.row.areaOptions" placeholder="请编辑区域" :autosize="{ minRows: 1, maxRows: 999 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
 					</el-table-column>
 					<!--<el-table-column prop="shippingMethod" label="配送方式" width="135">
@@ -192,6 +192,16 @@
 						keyword: 'keyword',
 					},
 				},
+				categoryOptions: [],
+				categoryProps: {
+					value: 'id',
+					label: 'name',
+					multiple: true,
+					// checkStrictly: true,
+					checkStrictly: false, // 只能选择叶子节点(最后一级分类)
+					emitPath: false,
+					expandTrigger: "hover",
+				},
 			}
 		},
 		computed: {
@@ -234,6 +244,7 @@
 			},
 		},
 		mounted() {
+			this.getCategoryList()
 		},
 		methods: {
 			//显示
@@ -276,6 +287,10 @@
 					this.form = res.data
 					// this.form.shippingArea = this.form.shippingArea || []
 				}
+			},
+			async getCategoryList(){
+				let res = await this.$API.store.category.tree.get();
+				this.categoryOptions = res.data
 			},
 			tableRowOperation(row, index){
 				console.log('tableRowOperation:', row, index)
