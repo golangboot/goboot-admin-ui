@@ -187,7 +187,7 @@
 											<span>{{ label }}</span>
 											<span>
 												<el-tooltip>
-													<template #content>为保证系统安全性，如果为用户分配了角色，需要将员工账号设置为是，当前用户才可以修改平台类参数</template>
+													<template #content>为保证系统安全性，如果为用户分配了角色，需要将员工账号设置为是，该用户才可以修改平台类参数</template>
 													<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
 												</el-tooltip>
 											</span>
