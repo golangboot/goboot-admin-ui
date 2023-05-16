@@ -657,7 +657,7 @@
 						// 处理 运费模板 搜索条件
 						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
 						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
-						this.$refs.shippingTemplateSelectRemote.getRemoteData()
+						this.$refs.shippingTemplateSelectRemote?.getRemoteData()
 					}
 				},
 				deep: true
