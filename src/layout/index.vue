@@ -7,7 +7,7 @@
 					<img class="logo" src="img/logo.png">
 					<span>{{ $CONFIG.APP_NAME }}</span>
 				</div>
-				<ul v-if="!ismobile" class="nav">
+				<ul v-if="!isMobile" class="nav">
 					<li v-for="item in menu" :key="item" :class="pmenu.path==item.path?'active':''" @click="showMenu(item)">
 						<el-icon><component :is="item.meta.icon || 'el-icon-menu'" /></el-icon>
 						<span>{{ item.meta.title }}</span>
@@ -19,7 +19,7 @@
 			</div>
 		</header>
 		<section class="aminui-wrapper">
-			<div v-if="!ismobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+			<div v-if="!isMobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
 				<div v-if="!menuIsCollapse" class="adminui-side-top">
 					<h2>{{ pmenu.meta.title }}</h2>
 				</div>
@@ -34,10 +34,10 @@
 					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
 				</div>
 			</div>
-			<Side-m v-if="ismobile"></Side-m>
+			<Side-m v-if="isMobile"></Side-m>
 			<div class="aminui-body el-container">
-				<Topbar v-if="!ismobile"></Topbar>
-				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<Topbar v-if="!isMobile"></Topbar>
+				<Tags v-if="!isMobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
 					<router-view v-slot="{ Component }">
 					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
@@ -64,7 +64,7 @@
 			</div>
 		</header>
 		<section class="aminui-wrapper">
-			<div v-if="!ismobile" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+			<div v-if="!isMobile" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
 				<div class="adminui-side-scroll">
 					<el-scrollbar>
 						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
@@ -76,10 +76,10 @@
 					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
 				</div>
 			</div>
-			<Side-m v-if="ismobile"></Side-m>
+			<Side-m v-if="isMobile"></Side-m>
 			<div class="aminui-body el-container">
-				<Topbar v-if="!ismobile"></Topbar>
-				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<Topbar v-if="!isMobile"></Topbar>
+				<Tags v-if="!isMobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
 					<router-view v-slot="{ Component }">
 					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
@@ -102,18 +102,18 @@
 				</div>
 			</div>
 			<div class="adminui-header-right">
-				<div v-if="!ismobile" class="adminui-header-menu">
+				<div v-if="!isMobile" class="adminui-header-menu">
 					<el-menu mode="horizontal" :default-active="active" router background-color="#222b45" text-color="#fff" active-text-color="var(--el-color-primary)">
 						<NavMenu :navMenus="menu"></NavMenu>
 					</el-menu>
 				</div>
-				<Side-m v-if="ismobile"></Side-m>
+				<Side-m v-if="isMobile"></Side-m>
 				<userbar></userbar>
 			</div>
 		</header>
 		<section class="aminui-wrapper">
 			<div class="aminui-body el-container">
-				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<Tags v-if="!isMobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
 					<router-view v-slot="{ Component }">
 					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
@@ -129,7 +129,7 @@
 	<!-- 默认布局 -->
 	<template v-else>
 		<section class="aminui-wrapper">
-			<div v-if="!ismobile" class="aminui-side-split">
+			<div v-if="!isMobile" class="aminui-side-split">
 				<div class="aminui-side-split-top">
 					<router-link :to="$CONFIG.DASHBOARD_URL">
 						<img class="logo" :title="$CONFIG.APP_NAME" src="img/logo-r.png">
@@ -147,7 +147,7 @@
 					</el-scrollbar>
 				</div>
 			</div>
-			<div v-if="!ismobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+			<div v-if="!isMobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
 				<div v-if="!menuIsCollapse" class="adminui-side-top">
 					<h2>{{ pmenu.meta.title }}</h2>
 				</div>
@@ -162,12 +162,12 @@
 					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
 				</div>
 			</div>
-			<Side-m v-if="ismobile"></Side-m>
+			<Side-m v-if="isMobile"></Side-m>
 			<div class="aminui-body el-container">
 				<Topbar>
 					<userbar></userbar>
 				</Topbar>
-				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<Tags v-if="!isMobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
 					<router-view v-slot="{ Component }">
 					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
@@ -223,8 +223,8 @@
 			}
 		},
 		computed:{
-			ismobile(){
-				return this.$store.state.global.ismobile
+			isMobile(){
+				return this.$store.state.global.isMobile
 			},
 			layout(){
 				return this.$store.state.global.layout
@@ -259,7 +259,7 @@
 				this.settingDialog = true;
 			},
 			onLayoutResize(){
-				this.$store.commit("SET_ismobile", document.body.clientWidth < 992)
+				this.$store.commit("SET_isMobile", document.body.clientWidth < 992)
 			},
 			//路由监听高亮
 			showThis(){

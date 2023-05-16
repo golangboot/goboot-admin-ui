@@ -32,8 +32,8 @@
 			iframeList(){
 				return this.$store.state.iframe.iframeList
 			},
-			ismobile(){
-				return this.$store.state.global.ismobile
+			isMobile(){
+				return this.$store.state.global.isMobile
 			},
 			layoutTags(){
 				return this.$store.state.global.layoutTags
@@ -45,13 +45,13 @@
 		methods: {
 			push(route){
 				if(route.meta.type == 'iframe'){
-					if(this.ismobile || !this.layoutTags){
+					if(this.isMobile || !this.layoutTags){
 						this.$store.commit("setIframeList", route)
 					}else{
 						this.$store.commit("pushIframeList", route)
 					}
 				}else{
-					if(this.ismobile || !this.layoutTags){
+					if(this.isMobile || !this.layoutTags){
 						this.$store.commit("clearIframeList")
 					}
 				}
