@@ -26,33 +26,33 @@
 				</template>
 				<el-row :gutter="20">
 					<el-col :span="6">
-						<el-form-item :label="`首${unit}`" prop="firstNum">
-							<el-input-number v-model="form.firstNum" placeholder="" controls-position="right" :min="0"></el-input-number>
+						<el-form-item :label="`首${unit}`" prop="startStandard">
+							<el-input-number v-model="form.startStandard" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`首费（${priceUnit}）`" prop="firstPrice">
-							<el-input-number v-model="form.firstPrice" placeholder="" controls-position="right" :min="0"></el-input-number>
+						<el-form-item :label="`首费（${priceUnit}）`" prop="startFee">
+							<el-input-number v-model="form.startFee" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`续${unit}`" prop="renewNum">
-							<el-input-number v-model="form.renewNum" placeholder="" controls-position="right" :min="0"></el-input-number>
+						<el-form-item :label="`续${unit}`" prop="addStandard">
+							<el-input-number v-model="form.addStandard" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`续费（${priceUnit}）`" prop="renewPrice">
-							<el-input-number v-model="form.renewPrice" placeholder="" controls-position="right" :min="0"></el-input-number>
+						<el-form-item :label="`续费（${priceUnit}）`" prop="addFee">
+							<el-input-number v-model="form.addFee" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<div class="el-form-item-msg">除指定配送地区外，其余地区的运费采用“默认运费”</div>
 			</el-form-item>
-			<el-form-item label="配送区域及运费" prop="shippingArea">
-				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingArea" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
-					<el-table-column prop="areaOptions" label="可配送区域" fixed min-width="150">
+			<el-form-item label="配送区域及运费" prop="shippingAreaTemplate">
+				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingAreaTemplate" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
+					<el-table-column prop="areaNames" label="可配送区域" fixed min-width="150">
 						<template #default="scope">
-							<el-input v-model="scope.row.areaOptions" placeholder="请编辑区域" :autosize="{ minRows: 1, maxRows: 999 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
+							<el-input v-model="scope.row.areaNames" placeholder="请编辑区域" :autosize="{ minRows: 1, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
 					</el-table-column>
 					<!--<el-table-column prop="shippingMethod" label="配送方式" width="135">
@@ -62,24 +62,24 @@
 							</el-select>
 						</template>
 					</el-table-column>-->
-					<el-table-column prop="firstNum" :label="`首${unit}`" width="125">
+					<el-table-column prop="startStandard" :label="`首${unit}`" width="125">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.firstNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
+							<el-input-number v-model="scope.row.startStandard" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="firstPrice" :label="`首费（${priceUnit}）`" width="135">
+					<el-table-column prop="startFee" :label="`首费（${priceUnit}）`" width="135">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.firstPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
+							<el-input-number v-model="scope.row.startFee" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewNum" :label="`续${unit}`" width="125">
+					<el-table-column prop="addStandard" :label="`续${unit}`" width="125">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewNum" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
+							<el-input-number v-model="scope.row.addStandard" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="renewPrice" :label="`续费（${priceUnit}）`" width="135">
+					<el-table-column prop="addFee" :label="`续费（${priceUnit}）`" width="135">
 						<template #default="scope">
-							<el-input-number v-model="scope.row.renewPrice" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
+							<el-input-number v-model="scope.row.addFee" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" fixed="right" align="center" width="100">
@@ -113,7 +113,7 @@
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 
-		<select-area ref="selectArea" @submit="selectAreaSubmit"></select-area>
+		<select-area ref="selectArea" :limitLevel="2" @submit="selectAreaSubmit"></select-area>
 
 	</el-dialog>
 </template>
@@ -151,7 +151,11 @@
 					userId: "",
 					type: 1,
 					isFreeShipping: 0,
-					shippingArea: [],
+					shippingAreaTemplate: [],
+					startStandard: null,
+					startFee: null,
+					addStandard: null,
+					addFee: null,
 				},
 				//验证规则
 				rules: {
@@ -169,10 +173,12 @@
 					{label: "包邮", value: 1,},
 				],
 				shippingAreaAddTemplate: {
-					"label": "",
-					"value": "",
-					"type": "input",
-					"required": true,
+					areaIds: [],
+					areas: {},
+					startStandard: null,
+					startFee: null,
+					addStandard: null,
+					addFee: null,
 				},
 				shippingMethodOptions: [
 					{label: "快递", value: 1,},
@@ -233,11 +239,11 @@
 				},
 				deep: true
 			},
-			'form.shippingArea': {
+			'form.shippingAreaTemplate': {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
 					if (typeof newValue == 'undefined' || !newValue) {
-						this.form.shippingArea = []
+						this.form.shippingAreaTemplate = []
 					}
 				},
 				deep: true
@@ -285,26 +291,46 @@
 					let res = await this.$API.store.shippingTemplate.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
-					// this.form.shippingArea = this.form.shippingArea || []
+					// this.form.shippingAreaTemplate = this.form.shippingAreaTemplate || []
 				}
 			},
 			async getCategoryList(){
 				let res = await this.$API.store.category.tree.get();
 				this.categoryOptions = res.data
 			},
-			tableRowOperation(row, index){
+			tableRowOperation(row, index) {
 				// console.log('tableRowOperation:', row, index)
 				this.$nextTick(() => {
+					let ignoreAreas = {}
+					this.form.shippingAreaTemplate?.forEach((item, itemI) => {
+						if (index != itemI) {
+							Object.assign(ignoreAreas, item.areas)
+						}
+					})
 					let data = {
 						row: row,
 						index: index,
+						areas: row.areas,
+						areaIds: row.areaIds,
+						ignoreAreas: ignoreAreas,
 					}
 					this.$refs.selectArea.open().setData(data)
 				})
 			},
 			selectAreaSubmit(data){
 				console.log('selectAreaSubmit:', data)
+				console.log('selectAreaSubmit Object.values(data.areas):', Object.values(data.areas))
 				// Object.assign(this.form, data)
+				let index = data.index
+				let row = data.row
+				// row.areaNames = data.areaLabels.join(',').replace(/,/g, '\n')
+				row.areaNames = Object.values(data.areas).join('\n')
+				// let arr = [].concat.apply([], Object.values(data.areas));
+				// let areaList = arr.filter(val => val)
+				row.areas = data.areas
+				row.areaIds = data.areaIds
+				Object.assign(this.form.shippingAreaTemplate[index], row)
+				console.log(`selectAreaSubmit -> form.shippingAreaTemplate[${index}]:`, this.form.shippingAreaTemplate[index])
 			},
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
 	<el-dialog :title="title" v-model="dialogVisible" :width="'80%'" :top="'5vh'" destroy-on-close append-to-body @closed="$emit('closed')">
 		<div class="select-city-container">
-			<el-cascader-panel v-model="form.options" :options="treeOptions" :props="treeProps" />
+			<el-cascader-panel ref="cascader" v-model="form.areaIds" :options="options" :props="props"  @change="selectChange" />
 		</div>
 		<template #footer>
 			<el-button @click="dialogVisible=false" >取 消</el-button>
@@ -19,6 +19,26 @@ export default {
 			type: String,
 			default: '城市选择器'
 		},
+		lazyLoad: {
+			type: Boolean,
+			default: false
+		},
+		limitLevel: {
+			type: Number,
+			default: 0
+		},
+		separator: {
+			type: String,
+			default: ','
+		},
+		pathValueSeparator: {
+			type: String,
+			default: ','
+		},
+		pathLabelSeparator: {
+			type: String,
+			default: '/'
+		},
 	},
 	data() {
 		return {
@@ -27,10 +47,10 @@ export default {
 			visible: false,
 			//表单数据
 			form: {
-				url: "",
-				method: "",
-				code: "",
-				options: [],
+				areas: {},
+				ignoreAreas: {},
+				areaIds: [],
+				ignoreAreaIds: [],
 			},
 			//验证规则
 			rules: {
@@ -38,275 +58,8 @@ export default {
 					{required: true, message: '请输入名称'}
 				],
 			},
-			cascaderPanelOptions: [
-				{
-					value: 'guide',
-					label: 'Guide',
-					children: [
-						{
-							value: 'disciplines',
-							label: 'Disciplines',
-							children: [
-								{
-									value: 'consistency',
-									label: 'Consistency',
-								},
-								{
-									value: 'feedback',
-									label: 'Feedback',
-								},
-								{
-									value: 'efficiency',
-									label: 'Efficiency',
-								},
-								{
-									value: 'controllability',
-									label: 'Controllability',
-								},
-							],
-						},
-						{
-							value: 'navigation',
-							label: 'Navigation',
-							children: [
-								{
-									value: 'side nav',
-									label: 'Side Navigation',
-								},
-								{
-									value: 'top nav',
-									label: 'Top Navigation',
-								},
-							],
-						},
-					],
-				},
-				{
-					value: 'component',
-					label: 'Component',
-					children: [
-						{
-							value: 'basic',
-							label: 'Basic',
-							children: [
-								{
-									value: 'layout',
-									label: 'Layout',
-								},
-								{
-									value: 'color',
-									label: 'Color',
-								},
-								{
-									value: 'typography',
-									label: 'Typography',
-								},
-								{
-									value: 'icon',
-									label: 'Icon',
-								},
-								{
-									value: 'button',
-									label: 'Button',
-								},
-							],
-						},
-						{
-							value: 'form',
-							label: 'Form',
-							children: [
-								{
-									value: 'radio',
-									label: 'Radio',
-								},
-								{
-									value: 'checkbox',
-									label: 'Checkbox',
-								},
-								{
-									value: 'input',
-									label: 'Input',
-								},
-								{
-									value: 'input-number',
-									label: 'InputNumber',
-								},
-								{
-									value: 'select',
-									label: 'Select',
-								},
-								{
-									value: 'cascader',
-									label: 'Cascader',
-								},
-								{
-									value: 'switch',
-									label: 'Switch',
-								},
-								{
-									value: 'slider',
-									label: 'Slider',
-								},
-								{
-									value: 'time-picker',
-									label: 'TimePicker',
-								},
-								{
-									value: 'date-picker',
-									label: 'DatePicker',
-								},
-								{
-									value: 'datetime-picker',
-									label: 'DateTimePicker',
-								},
-								{
-									value: 'upload',
-									label: 'Upload',
-								},
-								{
-									value: 'rate',
-									label: 'Rate',
-								},
-								{
-									value: 'form',
-									label: 'Form',
-								},
-							],
-						},
-						{
-							value: 'data',
-							label: 'Data',
-							children: [
-								{
-									value: 'table',
-									label: 'Table',
-								},
-								{
-									value: 'tag',
-									label: 'Tag',
-								},
-								{
-									value: 'progress',
-									label: 'Progress',
-								},
-								{
-									value: 'tree',
-									label: 'Tree',
-								},
-								{
-									value: 'pagination',
-									label: 'Pagination',
-								},
-								{
-									value: 'badge',
-									label: 'Badge',
-								},
-							],
-						},
-						{
-							value: 'notice',
-							label: 'Notice',
-							children: [
-								{
-									value: 'alert',
-									label: 'Alert',
-								},
-								{
-									value: 'loading',
-									label: 'Loading',
-								},
-								{
-									value: 'message',
-									label: 'Message',
-								},
-								{
-									value: 'message-box',
-									label: 'MessageBox',
-								},
-								{
-									value: 'notification',
-									label: 'Notification',
-								},
-							],
-						},
-						{
-							value: 'navigation',
-							label: 'Navigation',
-							children: [
-								{
-									value: 'menu',
-									label: 'Menu',
-								},
-								{
-									value: 'tabs',
-									label: 'Tabs',
-								},
-								{
-									value: 'breadcrumb',
-									label: 'Breadcrumb',
-								},
-								{
-									value: 'dropdown',
-									label: 'Dropdown',
-								},
-								{
-									value: 'steps',
-									label: 'Steps',
-								},
-							],
-						},
-						{
-							value: 'others',
-							label: 'Others',
-							children: [
-								{
-									value: 'dialog',
-									label: 'Dialog',
-								},
-								{
-									value: 'tooltip',
-									label: 'Tooltip',
-								},
-								{
-									value: 'popover',
-									label: 'Popover',
-								},
-								{
-									value: 'card',
-									label: 'Card',
-								},
-								{
-									value: 'carousel',
-									label: 'Carousel',
-								},
-								{
-									value: 'collapse',
-									label: 'Collapse',
-								},
-							],
-						},
-					],
-				},
-				{
-					value: 'resource',
-					label: 'Resource',
-					children: [
-						{
-							value: 'axure',
-							label: 'Axure Components',
-						},
-						{
-							value: 'sketch',
-							label: 'Sketch Templates',
-						},
-						{
-							value: 'docs',
-							label: 'Design Documentation',
-						},
-					],
-				},
-			],
-			cascaderPanelProps: {
+			lazyLoadOptions: [],
+			lazyLoadTreeProps: {
 				// value: 'id',
 				// label: 'name',
 				// 是否多选
@@ -345,7 +98,7 @@ export default {
 						size: 999999,
 					}
 					let res = await this.$API.system.area.list.get(reqData);
-					if(res.code == 200){
+					if (res.code == 200) {
 						let items = res.data?.records || res.data;
 						// console.log('items:', items)
 						let options = []
@@ -377,27 +130,33 @@ export default {
 			},
 		}
 	},
+	computed: {
+		options() {
+			return this.lazyLoad ? this.lazyLoadOptions : this.treeOptions
+		},
+		props() {
+			return this.lazyLoad ? this.lazyLoadTreeProps : this.treeProps
+		},
+	},
 	watch: {
 		form: {
 			// eslint-disable-next-line
-			handler(newValue, oldValue){
-				// 处理标识
-				if (this.form.url){
-					this.form.code = this.handleCode(this.form.url)
-				}
+			handler(newValue, oldValue) {
 			},
 			deep: true
 		},
 	},
 	mounted() {
-		this.getTreeList()
+		if (!this.lazyLoad) {
+			this.getTreeList()
+		}
 	},
 	methods: {
-		open(){
+		open() {
 			this.dialogVisible = true
 			return this
 		},
-		submit(){
+		submit() {
 			this.$emit('submit', this.form);
 			this.$nextTick(() => {
 				this.dialogVisible = false
@@ -405,22 +164,154 @@ export default {
 				this.clear()
 			});
 		},
-		setData(data){
+		setData(data) {
 			Object.assign(this.form, data)
+			let ignoreAreas = this.form.ignoreAreas
+			if (ignoreAreas && Object.keys(ignoreAreas).length > 0) {
+				let ignoreAreaIds = []
+				Object.keys(ignoreAreas).forEach((item) => {
+					let itemIds = item.split(',');
+					ignoreAreaIds.push(itemIds.pop())
+				})
+				// console.log('setData -> ignoreAreaIds:', ignoreAreaIds)
+				this.treeOptions = this.setTreeDataDisable(this.treeOptions, ignoreAreaIds);
+			}
 		},
 		//获取列表数据
-		async getTreeList(){
+		async getTreeList() {
 			this.isSaving = true
 			let reqData = {}
 			let res = await this.$API.system.area.tree.get(reqData);
-			this.treeOptions = res.data;
+			let items = res.data;
+			this.treeOptions = items;
+			if (this.limitLevel && this.limitLevel > 0) {
+				this.treeOptions = this.getTreeData(1, this.treeOptions, 2);
+				// this.setDisable(1, this.treeOptions, limitLevel)
+			}
 			this.isSaving = false
 		},
-		clear(){
+		// 递归判断列表，把children设为undefined
+		// num 设定显示的层级
+		/**
+		 * 递归的方式将树形结构处理
+		 * @param currentLevel 当前层级
+		 * @param data 当前层级的数据
+		 * @param limitLevel 限制层级, 最多不能超过几级
+		 * @returns {*[]}
+		 */
+		getTreeData(currentLevel = 1, data = [], limitLevel) {
+			data.forEach(v => {
+				v.level = currentLevel // 设置最外层数据的初始level
+				// console.log(v)
+				if (v.level <= limitLevel) {
+					if (v.level === limitLevel) {
+						// children若为空数组，则将children设为undefined
+						v.children = undefined
+					} else if (v.children && v.children.length) {
+						// children若不为空数组，则继续 递归调用 本方法
+						this.getTreeData(currentLevel + 1, v.children, limitLevel)
+					}
+				}
+			})
+			return data
+		},
+		/**
+		 * 递归的方式将树形结构处理，如：
+		 * this.setDisable(1, this.parentMenuList, 2)// 限制2级以后不可选中
+		 * count: 当前层级
+		 * data: 当前层级的数据
+		 * maxNum: 最多不能超过几级，超过2级,不能选中,
+		 */
+		setTreeDisable(count, data, maxNum) {
+			if (count > maxNum) { //最多几级就写几
+				data.forEach(v => {
+					v.disabled = true // 超过设定的最大级数,给这一集的数据添加disabled属性
+				})
+			} else {
+				data.forEach(v => {
+					v.count = count // 设置最外层数据的初始count
+					if (v.children && v.children.length) {
+						this.setTreeDisable(count + 1, v.children, maxNum) // 子级循环时把这一层数据的count传入
+					}
+				})
+			}
+		},
+		setTreeDataDisable(data = [], ids) {
+			data.forEach(v => {
+				// console.log('ids.includes(String(v.value)): ', String(v.id))
+				// console.log('ids.includes(String(v.value)): ', ids.includes(String(v.value)))
+				if (ids.includes(String(v.id))) {
+					v.disabled = true
+				}
+				if (v.children && v.children.length) {
+					// children若不为空数组，则继续 递归调用 本方法
+					this.setTreeDataDisable(v.children, ids)
+				}
+			})
+			return data
+		},
+		clear() {
 			this.filterData = []
 		},
-		select(data) {
-			console.log(data)
+		// eslint-disable-next-line
+		selectChange(data) {
+			// console.log('selectChange -> data:', data)
+			let nodes = this.$refs.cascader.getCheckedNodes()
+			// console.log('selectChange cascader:', nodes[0].pathLabels.join(" / "))
+			// let items = {}
+			let rootAreas = {}
+			let ignoreAreas = this.form.ignoreAreas
+			let areas = {}
+			// let selectLabels = []
+			nodes.forEach(node => {
+				let nodePathLabels = node.pathLabels.join(this.pathLabelSeparator)
+				let nodePathValues = node.pathValues.join(this.pathValueSeparator)
+				// console.log('selectChange -> cascader node:', node)
+				// console.log('selectChange -> cascader node nodePathLabels:', nodePathLabels)
+				let flag = false
+				let area = {
+					label: nodePathLabels,
+					value: nodePathValues,
+				}
+
+				if (node.pathValues.length == 1) {
+					rootAreas[area.value] = area.label
+					// flag = true
+				}
+
+				if (node.pathValues.length == 1) {
+					let idFlag = Object.keys(ignoreAreas).some(item => {
+						let itemIds = item.split(',');
+						return itemIds.includes(String(node.pathValues[0]))
+					})
+					// console.log('selectChange -> cascader idFlag:', idFlag)
+					// console.log('selectChange -> cascader node area.label:', area.label)
+					if (idFlag) {
+						delete rootAreas[area.value]
+						flag = false
+					} else {
+						flag = true
+					}
+				} else if (!Object.keys(rootAreas).includes(String(node.pathValues[0]))) {
+					// selectLabels = [selectLabels, nodePathLabels].join(this.separator)
+					// selectLabels.push(nodePathLabels)
+					flag = true
+				}
+
+				if (Object.keys(ignoreAreas).includes(String(area.value))) {
+					flag = false
+				}
+
+				// console.log('selectChange -> cascader rootAreas:', Object.keys(rootAreas))
+				// console.log('selectChange -> cascader node.pathValues[0]:', String(node.pathValues[0]))
+
+				if (flag){
+					areas[area.value] = area.label
+				}
+			})
+
+			// console.log('selectChange -> cascader areas:', areas)
+			this.form.areas = areas
 		},
 	},
 }
