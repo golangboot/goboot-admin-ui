@@ -1,7 +1,7 @@
 <template>
 	<el-dialog :title="title" v-model="dialogVisible" :width="'80%'" :top="'5vh'" destroy-on-close append-to-body @closed="$emit('closed')">
 		<div class="select-city-container">
-			<el-cascader-panel v-model="form.options" :options="selectOptions" :props="cascaderPanelProps" />
+			<el-cascader-panel v-model="form.options" :options="treeOptions" :props="treeProps" />
 		</div>
 		<template #footer>
 			<el-button @click="dialogVisible=false" >取 消</el-button>
@@ -38,9 +38,6 @@ export default {
 					{required: true, message: '请输入名称'}
 				],
 			},
-			filterData: [],
-			selectData: {},
-			selectOptions: [],
 			cascaderPanelOptions: [
 				{
 					value: 'guide',
@@ -323,8 +320,12 @@ export default {
 				expandTrigger: "hover",
 				// 动态加载
 				lazy: true,
-				lazyLoad(node, resolve) {
-					const { level } = node
+				lazyLoad: async (node, resolve) => {
+					// eslint-disable-next-line
+					const {value, level} = node
+					// console.log('node:', node)
+					// console.log('value, level:', value, level)
+					/*
 					let id = 0
 					setTimeout(() => {
 						// eslint-disable-next-line
@@ -336,7 +337,43 @@ export default {
 						// Invoke `resolve` callback to return the child nodes data and indicate the loading is finished.
 						resolve(nodes)
 					}, 100)
+					*/
+
+					let pid = value || 0
+					let reqData = {
+						parentId: pid,
+						size: 999999,
+					}
+					let res = await this.$API.system.area.list.get(reqData);
+					if(res.code == 200){
+						let items = res.data?.records || res.data;
+						// console.log('items:', items)
+						let options = []
+						items.forEach(item => {
+							options.push({
+								label: item.name,
+								value: item.id,
+								leaf: level >= 2,
+							})
+						})
+
+						resolve(options)
+					}
 				},
+			},
+			treeOptions: [],
+			treeProps: {
+				value: 'id',
+				label: 'name',
+				// 是否多选
+				multiple: true,
+				// checkStrictly: true,
+				// 只能选择叶子节点(最后一级分类)
+				checkStrictly: false,
+				// 在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值
+				// emitPath: false,
+				// 次级菜单的展开方式
+				expandTrigger: "hover",
 			},
 		}
 	},
@@ -353,7 +390,7 @@ export default {
 		},
 	},
 	mounted() {
-		this.getData()
+		this.getTreeList()
 	},
 	methods: {
 		open(){
@@ -372,13 +409,11 @@ export default {
 			Object.assign(this.form, data)
 		},
 		//获取列表数据
-		async getData(){
+		async getTreeList(){
 			this.isSaving = true
-
 			let reqData = {}
-			let res = await this.$API.system.route.list.get(reqData);
-			this.data = res.data;
-
+			let res = await this.$API.system.area.tree.get(reqData);
+			this.treeOptions = res.data;
 			this.isSaving = false
 		},
 		clear(){
@@ -391,6 +426,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.el-cascader-panel{
+	height: 60vh;
+	:deep(.el-cascader-menu__wrap).el-scrollbar__wrap {
+		height: 100%;
+	}
+}
 </style>

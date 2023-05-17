@@ -113,19 +113,19 @@
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 
-		<select-city ref="selectCity" @submit="selectCitySubmit"></select-city>
+		<select-area ref="selectArea" @submit="selectAreaSubmit"></select-area>
 
 	</el-dialog>
 </template>
 
 <script>
 	import selectRemote from "@/components/selectRemote";
-	import selectCity from "@/components/selectCity";
+	import selectArea from "@/components/selectArea";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			selectCity,
+			selectArea,
 			selectRemote,
 		},
 		data() {
@@ -293,17 +293,17 @@
 				this.categoryOptions = res.data
 			},
 			tableRowOperation(row, index){
-				console.log('tableRowOperation:', row, index)
+				// console.log('tableRowOperation:', row, index)
 				this.$nextTick(() => {
 					let data = {
 						row: row,
 						index: index,
 					}
-					this.$refs.selectCity.open().setData(data)
+					this.$refs.selectArea.open().setData(data)
 				})
 			},
-			selectCitySubmit(data){
-				console.log('selectCitySubmit:', data)
+			selectAreaSubmit(data){
+				console.log('selectAreaSubmit:', data)
 				// Object.assign(this.form, data)
 			},
 		}
