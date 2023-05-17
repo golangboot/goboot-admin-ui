@@ -48,8 +48,8 @@
 				</el-row>
 				<div class="el-form-item-msg">除指定配送地区外，其余地区的运费采用“默认运费”</div>
 			</el-form-item>
-			<el-form-item label="配送区域及运费" prop="shippingAreaTemplate">
-				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingAreaTemplate" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
+			<el-form-item label="配送区域及运费" prop="shippingAreas">
+				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
 					<el-table-column prop="areaNames" label="可配送区域" fixed min-width="150">
 						<template #default="scope">
 							<el-input v-model="scope.row.areaNames" placeholder="请编辑区域" :autosize="{ minRows: 1, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
@@ -151,7 +151,7 @@
 					userId: "",
 					type: 1,
 					isFreeShipping: 0,
-					shippingAreaTemplate: [],
+					shippingAreas: [],
 					startStandard: null,
 					startFee: null,
 					addStandard: null,
@@ -239,11 +239,11 @@
 				},
 				deep: true
 			},
-			'form.shippingAreaTemplate': {
+			'form.shippingAreas': {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
 					if (typeof newValue == 'undefined' || !newValue) {
-						this.form.shippingAreaTemplate = []
+						this.form.shippingAreas = []
 					}
 				},
 				deep: true
@@ -291,7 +291,7 @@
 					let res = await this.$API.store.shippingTemplate.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
-					// this.form.shippingAreaTemplate = this.form.shippingAreaTemplate || []
+					// this.form.shippingAreas = this.form.shippingAreas || []
 				}
 			},
 			async getCategoryList(){
@@ -302,7 +302,7 @@
 				// console.log('tableRowOperation:', row, index)
 				this.$nextTick(() => {
 					let ignoreAreas = {}
-					this.form.shippingAreaTemplate?.forEach((item, itemI) => {
+					this.form.shippingAreas?.forEach((item, itemI) => {
 						if (index != itemI) {
 							Object.assign(ignoreAreas, item.areas)
 						}
@@ -329,8 +329,8 @@
 				// let areaList = arr.filter(val => val)
 				row.areas = data.areas
 				row.areaIds = data.areaIds
-				Object.assign(this.form.shippingAreaTemplate[index], row)
-				console.log(`selectAreaSubmit -> form.shippingAreaTemplate[${index}]:`, this.form.shippingAreaTemplate[index])
+				Object.assign(this.form.shippingAreas[index], row)
+				console.log(`selectAreaSubmit -> form.shippingAreas[${index}]:`, this.form.shippingAreas[index])
 			},
 		}
 	}
