@@ -8,6 +8,7 @@
 				<el-radio-group v-model="form.isFreeShipping">
 					<el-radio v-for="(item, index) in isFreeShippingOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
+				<div class="el-form-item-msg" v-if="form.isFreeShipping == 1">当前设置为包邮，将由卖家承担运费</div>
 			</el-form-item>
 			<el-form-item label="计费方式" prop="type">
 				<el-radio-group v-model="form.type">
@@ -50,9 +51,9 @@
 			</el-form-item>
 			<el-form-item label="配送区域及运费" prop="shippingAreas">
 				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
-					<el-table-column prop="areaNames" label="可配送区域" fixed min-width="150">
+					<el-table-column label="指定配送地区" fixed min-width="150">
 						<template #default="scope">
-							<el-input v-model="scope.row.areaNames" placeholder="请编辑区域" :autosize="{ minRows: 1, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
+							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
 					</el-table-column>
 					<!--<el-table-column prop="shippingMethod" label="配送方式" width="135">
@@ -85,7 +86,7 @@
 					<el-table-column label="操作" fixed="right" align="center" width="100">
 						<template #default="scope">
 							<el-button-group>
-								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index)">编辑区域</el-button>
+								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index)">编辑地区</el-button>
 							</el-button-group>
 						</template>
 					</el-table-column>
@@ -319,18 +320,19 @@
 			},
 			selectAreaSubmit(data){
 				console.log('selectAreaSubmit:', data)
-				console.log('selectAreaSubmit Object.values(data.areas):', Object.values(data.areas))
+				// console.log('selectAreaSubmit Object.keys(data.areas):', Object.keys(data.areas))
+				// console.log('selectAreaSubmit Object.values(data.areas):', Object.values(data.areas))
 				// Object.assign(this.form, data)
 				let index = data.index
 				let row = data.row
 				// row.areaNames = data.areaLabels.join(',').replace(/,/g, '\n')
-				row.areaNames = Object.values(data.areas).join('\n')
+				// row.areaNames = Object.values(data.areas).join('\n')
 				// let arr = [].concat.apply([], Object.values(data.areas));
 				// let areaList = arr.filter(val => val)
 				row.areas = data.areas
 				row.areaIds = data.areaIds
 				Object.assign(this.form.shippingAreas[index], row)
-				console.log(`selectAreaSubmit -> form.shippingAreas[${index}]:`, this.form.shippingAreas[index])
+				// console.log(`selectAreaSubmit -> form.shippingAreas[${index}]:`, this.form.shippingAreas[index])
 			},
 		}
 	}
