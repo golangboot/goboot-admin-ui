@@ -61,22 +61,22 @@
 				<el-table-column label="商品名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<span>{{ scope.row.category.name }}</span>
+						<span>{{ scope.row.category?.name }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="品牌" prop="brand" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<span>{{ scope.row.brand.name }}</span>
+						<span>{{ scope.row.brand?.name }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="商家" prop="merchant" width="150" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<span>{{ scope.row.merchant.name }}</span>
+						<span>{{ scope.row.merchant?.name }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="自营商品" prop="merchant" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<el-tag v-if="scope.row.merchant.isSelf == 1" type="success">是</el-tag>
+						<el-tag v-if="scope.row.merchant?.isSelf == 1" type="success">是</el-tag>
 						<el-tag v-else type="warning">否</el-tag>
 					</template>
 				</el-table-column>
