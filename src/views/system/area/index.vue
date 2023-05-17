@@ -49,17 +49,15 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="部门名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="部门编码" prop="code" width="200"></el-table-column>
+					<el-table-column label="地区名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-					<el-table-column label="状态" prop="status" width="80">
+					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
 					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 					<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-					<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="170">
 						<template #default="scope">
 							<el-button-group>
@@ -73,6 +71,7 @@
 							</el-button-group>
 						</template>
 					</el-table-column>
+
 				</scTable>
 			</el-main>
 		</el-container>
@@ -84,11 +83,10 @@
 
 <script>
 	import saveDialog from './save'
-	// import Sortable from "sortablejs";
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'systemDepartment',
+		name: 'systemArea',
 		components: {
 			saveDialog,
 		},
@@ -97,7 +95,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.system.department.list,
+				apiObj: this.$API.system.area.list,
 				params: {},
 				selection: [],
 				search: {
@@ -145,7 +143,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.system.department.delete.delete(reqData);
+				var res = await this.$API.system.area.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -163,7 +161,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.system.department.delete.delete(reqData)
+					var res = await this.$API.system.area.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -194,7 +192,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.system.department.update.put(reqData);
+				var res = await this.$API.system.area.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -222,7 +220,7 @@
 			},
 			//加载树数据
 			async getTreeList(){
-				let res = await this.$API.system.department.tree.get();
+				let res = await this.$API.system.area.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};
 				res.data.unshift(allNode);
@@ -236,7 +234,7 @@
 			//树过滤
 			treeNodeFilter(value, data){
 				if (!value) return true;
-				let targetText = data.name + data.code;
+				var targetText = data.name;
 				return targetText.indexOf(value) !== -1;
 			},
 			//树拖拽
@@ -244,8 +242,8 @@
 				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
 					this.loading = true;
 					let res = data.id
-						? await this.$API.system.department.update.put(data)
-						: await this.$API.system.department.add.post(data);
+						? await this.$API.system.area.update.put(data)
+						: await this.$API.system.area.add.post(data);
 					if (res.code == 200) {
 						this.$message.success("保存成功");
 					} else {
@@ -281,7 +279,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.system.department.delete.delete(reqData)
+				var res = await this.$API.system.area.delete.delete(reqData)
 
 				this.menuloading = false
 
@@ -320,7 +318,7 @@
 				}).then(async () => {
 					let row = data
 					var reqData = {id: row.id}
-					var res = await this.$API.system.department.delete.delete(reqData);
+					var res = await this.$API.system.area.delete.delete(reqData);
 					if(res.code == 200){
 						this.$refs.tree.remove(node)
 						this.$refs.table.refresh()

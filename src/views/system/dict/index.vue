@@ -85,7 +85,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'dict',
+		name: 'systemDict',
 		components: {
 			dictDialog,
 			listDialog

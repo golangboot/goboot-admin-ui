@@ -59,7 +59,7 @@
 	import permissionDialog from './permission'
 
 	export default {
-		name: 'role',
+		name: 'systemRole',
 		components: {
 			saveDialog,
 			permissionDialog

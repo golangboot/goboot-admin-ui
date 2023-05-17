@@ -128,7 +128,7 @@
 	import edit from './edit'
 
 	export default {
-		name: "settingMenu",
+		name: "systemMenu",
 		components: {
 			saveDialog,
 			edit,

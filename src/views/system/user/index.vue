@@ -90,7 +90,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'user',
+		name: 'systemUser',
 		components: {
 			saveDialog,
 			assignDialog,

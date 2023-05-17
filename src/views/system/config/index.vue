@@ -54,7 +54,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: "config",
+		name: "systemConfig",
 		components: {
 			saveDialog
 		},
