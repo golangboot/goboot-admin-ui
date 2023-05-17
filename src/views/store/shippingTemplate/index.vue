@@ -11,8 +11,8 @@
 						<el-form-item label="商家：" prop="merchantId">
 							<select-remote v-model="search.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :props="merchantSelect.props" clearable filterable style="width: 160px;"></select-remote>
 						</el-form-item>
-						<el-form-item label="商品搜索：" prop="keyword">
-							<el-input v-model="search.keyword" placeholder="请输入商品名称/货号/ID" clearable />
+						<el-form-item label="搜索：" prop="keyword">
+							<el-input v-model="search.keyword" placeholder="请输入关键字" clearable />
 						</el-form-item>
 						<el-form-item>
 							<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
@@ -28,7 +28,6 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="模板名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="配送区域" prop="shippingArea" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
