@@ -20,7 +20,7 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>当配送区域未单独设置运费时，则采用默认运费设置</template>
+							<template #content>除指定配送地区外，其余地区的运费采用“默认运费”</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -47,10 +47,10 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<div class="el-form-item-msg">除指定配送地区外，其余地区的运费采用“默认运费”</div>
+				<div class="el-form-item-msg">默认运费：在 {{ form.startStandard || 0 }} {{ unit }}内 {{ form.startFee || 0 }} {{ priceUnit }}，每增加 {{ form.addStandard || 0 }} {{ unit }}，增加运费 {{ form.addFee || 0 }} {{ priceUnit }}。除指定配送地区外，其余地区的运费采用“默认运费”</div>
 			</el-form-item>
 			<el-form-item label="配送区域及运费" prop="shippingAreas">
-				<sc-form-table ref="shippingAreaFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreaAddTemplate" placeholder="暂无数据">
+				<sc-form-table ref="shippingAreasFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreasAddTemplate" placeholder="暂无数据">
 					<el-table-column label="指定配送地区" fixed min-width="150">
 						<template #default="scope">
 							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
@@ -83,10 +83,75 @@
 							<el-input-number v-model="scope.row.addFee" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
 						</template>
 					</el-table-column>
+					<el-table-column label="条件说明" width="120">
+						<template #default="scope">
+							<div class="el-form-item-msg">在 {{ scope.row.startStandard || 0 }} {{ unit }}内 {{ scope.row.startFee || 0 }} {{ priceUnit }}，每增加 {{ scope.row.addStandard || 0 }} {{ unit }}，增加运费 {{ scope.row.addFee || 0 }} {{ priceUnit }}</div>
+						</template>
+					</el-table-column>
 					<el-table-column label="操作" fixed="right" align="center" width="100">
 						<template #default="scope">
 							<el-button-group>
-								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index)">编辑地区</el-button>
+								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index, 'shippingAreas')">编辑地区</el-button>
+							</el-button-group>
+						</template>
+					</el-table-column>
+				</sc-form-table>
+			</el-form-item>
+			<el-form-item label="指定条件包邮" prop="freeShippingAreas">
+				<sc-form-table ref="freeShippingAreasFormTable" v-model="form.freeShippingAreas" :addTemplate="freeShippingAreasAddTemplate" placeholder="暂无数据">
+					<el-table-column label="包邮地区" fixed min-width="150">
+						<template #default="scope">
+							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
+						</template>
+					</el-table-column>
+					<el-table-column prop="condition" label="包邮条件" width="135">
+						<template #default="scope">
+							<el-select v-model="scope.row.condition" placeholder="请选择条件" filterable>
+								<el-option :key="1" :label="`${unit}`" :value="1"/>
+								<el-option :key="2" :label="`金额`" :value="2"/>
+								<el-option :key="3" :label="`${unit}+金额`" :value="3"/>
+								<el-option :key="4" :label="`${unit}/金额`" :value="4"/>
+							</el-select>
+						</template>
+					</el-table-column>
+					<el-table-column prop="startStandard" :label="`${unit}`" width="125">
+						<template #default="scope">
+							<el-input-number v-if="!(scope.row?.condition == 2)" v-model="scope.row.startStandard" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
+						</template>
+					</el-table-column>
+					<el-table-column prop="startFee" :label="`金额（${priceUnit}）`" width="135">
+						<template #default="scope">
+							<el-input-number v-if="!(scope.row?.condition == 1)" v-model="scope.row.startFee" controls-position="right" :min="0" style="width: 110px;"></el-input-number>
+						</template>
+					</el-table-column>
+					<el-table-column label="条件说明" width="120">
+						<template #default="scope">
+							<div class="el-form-item-msg" v-if="scope.row?.condition == 1">在 {{ scope.row.startStandard || 0 }} {{ unit }}内包邮</div>
+							<div class="el-form-item-msg" v-if="scope.row?.condition == 2">满 {{ scope.row.startFee || 0 }} {{ priceUnit }}包邮</div>
+							<div class="el-form-item-msg" v-if="scope.row?.condition == 3">在 {{ scope.row.startStandard || 0}} {{ unit }}内，{{ scope.row.startFee || 0 }} {{ priceUnit }}以上包邮</div>
+							<div class="el-form-item-msg" v-if="scope.row?.condition == 4">在 {{ scope.row.startStandard || 0}} {{ unit }}内，或 {{ scope.row.startFee || 0 }} {{ priceUnit }}以上包邮</div>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" fixed="right" align="center" width="100">
+						<template #default="scope">
+							<el-button-group>
+								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index, 'freeShippingAreas')">编辑地区</el-button>
+							</el-button-group>
+						</template>
+					</el-table-column>
+				</sc-form-table>
+			</el-form-item>
+			<el-form-item label="指定不送达" prop="nondeliveryAreas">
+				<sc-form-table ref="nondeliveryAreasFormTable" v-model="form.nondeliveryAreas" :addTemplate="nondeliveryAreasAddTemplate" placeholder="暂无数据">
+					<el-table-column label="无法配送地区" fixed min-width="150">
+						<template #default="scope">
+							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" fixed="right" align="center" width="100">
+						<template #default="scope">
+							<el-button-group>
+								<el-button text type="primary" size="small" @click="tableRowOperation(scope.row, scope.$index, 'nondeliveryAreas')">编辑地区</el-button>
 							</el-button-group>
 						</template>
 					</el-table-column>
@@ -153,6 +218,8 @@
 					type: 1,
 					isFreeShipping: 0,
 					shippingAreas: [],
+					freeShippingAreas: [],
+					nondeliveryAreas: [],
 					startStandard: null,
 					startFee: null,
 					addStandard: null,
@@ -173,7 +240,7 @@
 					{label: "自定义运费", value: 0,},
 					{label: "包邮", value: 1,},
 				],
-				shippingAreaAddTemplate: {
+				shippingAreasAddTemplate: {
 					areaIds: [],
 					areas: {},
 					startStandard: null,
@@ -181,6 +248,23 @@
 					addStandard: null,
 					addFee: null,
 				},
+				freeShippingAreasAddTemplate: {
+					areaIds: [],
+					areas: {},
+					startStandard: null,
+					startFee: null,
+					condition: 1,
+				},
+				nondeliveryAreasAddTemplate: {
+					areaIds: [],
+					areas: {},
+				},
+				freeShippingConditionOptions: [
+					{label: "件", value: 1,},
+					{label: "金额", value: 2,},
+					{label: "件+金额", value: 3,},
+					{label: "件/金额", value: 4,},
+				],
 				shippingMethodOptions: [
 					{label: "快递", value: 1,},
 					{label: "同城配送", value: 2,},
@@ -249,6 +333,24 @@
 				},
 				deep: true
 			},
+			'form.freeShippingAreas': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (typeof newValue == 'undefined' || !newValue) {
+						this.form.freeShippingAreas = []
+					}
+				},
+				deep: true
+			},
+			'form.nondeliveryAreas': {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (typeof newValue == 'undefined' || !newValue) {
+						this.form.nondeliveryAreas = []
+					}
+				},
+				deep: true
+			},
 		},
 		mounted() {
 			this.getCategoryList()
@@ -299,21 +401,41 @@
 				let res = await this.$API.store.category.tree.get();
 				this.categoryOptions = res.data
 			},
-			tableRowOperation(row, index) {
-				// console.log('tableRowOperation:', row, index)
+			tableRowOperation(row, index, type) {
+				// console.log('tableRowOperation:', row, index, type)
 				this.$nextTick(() => {
 					let ignoreAreas = {}
-					this.form.shippingAreas?.forEach((item, itemI) => {
-						if (index != itemI) {
-							Object.assign(ignoreAreas, item.areas)
-						}
-					})
+					if (type == 'shippingAreas' || type == 'nondeliveryAreas'){
+						this.form.shippingAreas?.forEach((item, itemI) => {
+							if (index != itemI) {
+								Object.assign(ignoreAreas, item.areas)
+							}
+						})
+						this.form.nondeliveryAreas?.forEach((item, itemI) => {
+							if (index != itemI) {
+								Object.assign(ignoreAreas, item.areas)
+							}
+						})
+					}
+					if (type == 'freeShippingAreas'){
+						this.form.freeShippingAreas?.forEach((item, itemI) => {
+							if (index != itemI) {
+								Object.assign(ignoreAreas, item.areas)
+							}
+						})
+						this.form.nondeliveryAreas?.forEach((item, itemI) => {
+							if (index != itemI) {
+								Object.assign(ignoreAreas, item.areas)
+							}
+						})
+					}
 					let data = {
 						row: row,
 						index: index,
 						areas: row.areas,
 						areaIds: row.areaIds,
 						ignoreAreas: ignoreAreas,
+						type: type,
 					}
 					this.$refs.selectArea.open().setData(data)
 				})
@@ -323,6 +445,7 @@
 				// console.log('selectAreaSubmit Object.keys(data.areas):', Object.keys(data.areas))
 				// console.log('selectAreaSubmit Object.values(data.areas):', Object.values(data.areas))
 				// Object.assign(this.form, data)
+				let type = data.type
 				let index = data.index
 				let row = data.row
 				// row.areaNames = data.areaLabels.join(',').replace(/,/g, '\n')
@@ -331,7 +454,15 @@
 				// let areaList = arr.filter(val => val)
 				row.areas = data.areas
 				row.areaIds = data.areaIds
-				Object.assign(this.form.shippingAreas[index], row)
+				if (type == 'shippingAreas'){
+					Object.assign(this.form.shippingAreas[index], row)
+				}
+				if (type == 'freeShippingAreas'){
+					Object.assign(this.form.freeShippingAreas[index], row)
+				}
+				if (type == 'nondeliveryAreas'){
+					Object.assign(this.form.nondeliveryAreas[index], row)
+				}
 				// console.log(`selectAreaSubmit -> form.shippingAreas[${index}]:`, this.form.shippingAreas[index])
 			},
 		}
