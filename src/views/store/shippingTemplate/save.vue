@@ -179,7 +179,7 @@
 			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 		</template>
 
-		<select-area ref="selectArea" :limitLevel="2" @submit="selectAreaSubmit"></select-area>
+		<select-area ref="selectArea" :limitLevel="3" @submit="selectAreaSubmit"></select-area>
 
 	</el-dialog>
 </template>
@@ -208,8 +208,6 @@
 				form: {
 					id:"",
 					name: "",
-					code: "",
-					label: "",
 					sort: null,
 					status: 1,
 					remark: "",
@@ -241,23 +239,32 @@
 					{label: "包邮", value: 1,},
 				],
 				shippingAreasAddTemplate: {
-					areaIds: [],
+					// areaIds: [],
 					areas: {},
+					province: [],
+					city: [],
+					district: [],
 					startStandard: null,
 					startFee: null,
 					addStandard: null,
 					addFee: null,
 				},
 				freeShippingAreasAddTemplate: {
-					areaIds: [],
+					// areaIds: [],
 					areas: {},
+					province: [],
+					city: [],
+					district: [],
 					startStandard: null,
 					startFee: null,
 					condition: 1,
 				},
 				nondeliveryAreasAddTemplate: {
-					areaIds: [],
+					// areaIds: [],
 					areas: {},
+					province: [],
+					city: [],
+					district: [],
 				},
 				freeShippingConditionOptions: [
 					{label: "件", value: 1,},
@@ -430,18 +437,21 @@
 						})
 					}
 					let data = {
+						type: type,
 						row: row,
 						index: index,
-						areas: row.areas,
-						areaIds: row.areaIds,
 						ignoreAreas: ignoreAreas,
-						type: type,
+						// areaIds: row.areaIds,
+						areas: row.areas,
+						province: row.province,
+						city: row.city,
+						district: row.district,
 					}
 					this.$refs.selectArea.open().setData(data)
 				})
 			},
 			selectAreaSubmit(data){
-				console.log('selectAreaSubmit:', data)
+				console.log('selectAreaSubmit -> data:', data)
 				// console.log('selectAreaSubmit Object.keys(data.areas):', Object.keys(data.areas))
 				// console.log('selectAreaSubmit Object.values(data.areas):', Object.values(data.areas))
 				// Object.assign(this.form, data)
@@ -452,8 +462,11 @@
 				// row.areaNames = Object.values(data.areas).join('\n')
 				// let arr = [].concat.apply([], Object.values(data.areas));
 				// let areaList = arr.filter(val => val)
+				// row.areaIds = data.areaIds
 				row.areas = data.areas
-				row.areaIds = data.areaIds
+				row.province = data.province
+				row.city = data.city
+				row.district = data.district
 				if (type == 'shippingAreas'){
 					Object.assign(this.form.shippingAreas[index], row)
 				}

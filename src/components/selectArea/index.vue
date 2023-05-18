@@ -1,8 +1,18 @@
 <template>
-	<el-dialog :title="title" v-model="dialogVisible" :width="'80%'" :top="'5vh'" destroy-on-close append-to-body @closed="$emit('closed')">
-		<div class="select-city-container">
-			<el-cascader-panel ref="cascader" v-model="form.areaIds" :options="options" :props="props"  @change="selectChange" />
-		</div>
+	<el-dialog :title="title" v-model="dialogVisible" :width="'60%'" :top="'10vh'" destroy-on-close append-to-body @closed="$emit('closed')">
+		<el-container>
+			<el-header>
+				<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
+			</el-header>
+			<el-main class="nopadding">
+				<!--<div class="select-city-container"></div>-->
+				<el-cascader-panel ref="cascaderPanel" v-model="form.areaIds" :options="options" :props="props" :border="false" @expand-change="cascaderPanelExpandChange" @change="getSelectedData" />
+			</el-main>
+			<el-footer style="height:51px;">
+				<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
+				<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
+			</el-footer>
+		</el-container>
 		<template #footer>
 			<el-button @click="dialogVisible=false" >取 消</el-button>
 			 <el-button type="primary" :loading="isSaving" @click="submit()">确 定</el-button>
@@ -12,12 +22,12 @@
 
 <script>
 export default {
-	name: "selectCity",
+	name: "selectArea",
 	emits: ['success', 'closed'],
 	props: {
 		title: {
 			type: String,
-			default: '城市选择器'
+			default: '地区选择器'
 		},
 		lazyLoad: {
 			type: Boolean,
@@ -47,10 +57,12 @@ export default {
 			visible: false,
 			//表单数据
 			form: {
-				areas: {},
-				ignoreAreas: {},
 				areaIds: [],
-				ignoreAreaIds: [],
+				areas: {},
+				province: [],
+				city: [],
+				district: [],
+				ignoreAreas: {},
 			},
 			//验证规则
 			rules: {
@@ -109,7 +121,6 @@ export default {
 								leaf: level >= 2,
 							})
 						})
-
 						resolve(options)
 					}
 				},
@@ -124,10 +135,11 @@ export default {
 				// 只能选择叶子节点(最后一级分类)
 				checkStrictly: false,
 				// 在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值
-				// emitPath: false,
+				emitPath: false,
 				// 次级菜单的展开方式
 				expandTrigger: "hover",
 			},
+			treeFilterText: '',
 		}
 	},
 	computed: {
@@ -139,12 +151,15 @@ export default {
 		},
 	},
 	watch: {
-		form: {
+		/*form: {
 			// eslint-disable-next-line
 			handler(newValue, oldValue) {
 			},
 			deep: true
-		},
+		},*/
+		treeFilterText(val) {
+			this.$refs.cascaderPanel.filter(val);
+		}
 	},
 	mounted() {
 		if (!this.lazyLoad) {
@@ -168,11 +183,12 @@ export default {
 			Object.assign(this.form, data)
 			let ignoreAreas = this.form.ignoreAreas
 			if (ignoreAreas && Object.keys(ignoreAreas).length > 0) {
-				let ignoreAreaIds = []
+				/*let ignoreAreaIds = []
 				Object.keys(ignoreAreas).forEach((item) => {
 					let itemIds = item.split(',');
 					ignoreAreaIds.push(itemIds.pop())
-				})
+				})*/
+				let ignoreAreaIds = Object.keys(ignoreAreas)
 				// console.log('setData -> ignoreAreaIds:', ignoreAreaIds)
 				this.treeOptions = this.setTreeDataDisable(this.treeOptions, ignoreAreaIds);
 			}
@@ -185,8 +201,7 @@ export default {
 			let items = res.data;
 			this.treeOptions = items;
 			if (this.limitLevel && this.limitLevel > 0) {
-				this.treeOptions = this.getTreeData(1, this.treeOptions, 2);
-				// this.setDisable(1, this.treeOptions, limitLevel)
+				this.treeOptions = this.getTreeData(1, this.treeOptions, this.limitLevel);
 			}
 			this.isSaving = false
 		},
@@ -253,65 +268,85 @@ export default {
 		clear() {
 			this.filterData = []
 		},
+		filterNode(value, data) {
+			if (!value) return true;
+			return data.label.indexOf(value) !== -1;
+		},
 		// eslint-disable-next-line
-		selectChange(data) {
-			// console.log('selectChange -> data:', data)
-			let nodes = this.$refs.cascader.getCheckedNodes()
-			// console.log('selectChange cascader:', nodes[0].pathLabels.join(" / "))
-			// let items = {}
-			let rootAreas = {}
-			let ignoreAreas = this.form.ignoreAreas
+		getSelectedData(data) {
+			// console.log('getSelectedData -> data:', data)
+			// console.log('getSelectedData -> this.$refs.cascaderPanel.menus', this.$refs.cascaderPanel.menus)
+			let nodes = this.$refs.cascaderPanel.getCheckedNodes()
+			// console.log('getSelectedData -> nodes', nodes)
 			let areas = {}
-			// let selectLabels = []
+			let province = []
+			let city = []
+			let district = []
 			nodes.forEach(node => {
+				// console.log('getSelectedData -> node', node)
+				// let nodeLabel = node.label
+				let nodeValue = node.value
 				let nodePathLabels = node.pathLabels.join(this.pathLabelSeparator)
-				let nodePathValues = node.pathValues.join(this.pathValueSeparator)
-				// console.log('selectChange -> cascader node:', node)
-				// console.log('selectChange -> cascader node nodePathLabels:', nodePathLabels)
+				// let nodePathValues = node.pathValues.join(this.pathValueSeparator)
 				let flag = false
-				let area = {
-					label: nodePathLabels,
-					value: nodePathValues,
-				}
-
-				if (node.pathValues.length == 1) {
-					rootAreas[area.value] = area.label
-					// flag = true
-				}
-
-				if (node.pathValues.length == 1) {
-					let idFlag = Object.keys(ignoreAreas).some(item => {
-						let itemIds = item.split(',');
-						return itemIds.includes(String(node.pathValues[0]))
-					})
-					// console.log('selectChange -> cascader idFlag:', idFlag)
-					// console.log('selectChange -> cascader node area.label:', area.label)
-					if (idFlag) {
-						delete rootAreas[area.value]
-						flag = false
-					} else {
-						flag = true
-					}
-				} else if (!Object.keys(rootAreas).includes(String(node.pathValues[0]))) {
-					// selectLabels = [selectLabels, nodePathLabels].join(this.separator)
-					// selectLabels.push(nodePathLabels)
+				if (node.checked) {
 					flag = true
 				}
-
-				if (Object.keys(ignoreAreas).includes(String(area.value))) {
+				// 存在父类 判断父类是否被选中
+				if (node.parent) {
+					// 父类被选中, 则不加入
+					if (node.parent.checked) {
+						flag = false
+					}
+				} else {
+					// 不存在父类说明是顶级节点
+				}
+				// 忽略区域排除
+				if (Object.keys(this.form?.ignoreAreas).includes(nodeValue)) {
 					flag = false
 				}
-
-				// console.log('selectChange -> cascader rootAreas:', Object.keys(rootAreas))
-				// console.log('selectChange -> cascader node.pathValues[0]:', String(node.pathValues[0]))
-
-				if (flag){
-					areas[area.value] = area.label
+				if (flag) {
+					if (node.level == 1) {
+						province.push(nodeValue)
+					}
+					if (node.level == 2) {
+						city.push(nodeValue)
+					}
+					if (node.level == 3) {
+						district.push(nodeValue)
+					}
+					// areas[nodePathValues] = nodePathLabels
+					areas[nodeValue] = nodePathLabels
 				}
 			})
-
-			// console.log('selectChange -> cascader areas:', areas)
+			console.log('getSelectedData -> areas:', areas)
+			console.log('getSelectedData -> province:', province)
+			console.log('getSelectedData -> city:', city)
+			console.log('getSelectedData -> district:', district)
 			this.form.areas = areas
+			this.form.province = province
+			this.form.city = city
+			this.form.district = district
+		},
+		// 保持所选子菜单展开
+		// eslint-disable-next-line
+		cascaderPanelExpandChange(val) {
+			// console.log('cascaderPanelExpandChange -> val:', val)
+			/*if (val.length == 1) {
+				this.$nextTick(() => {
+					let nodes = this.$refs.cascaderPanel.menus
+					let nodeArr = nodes[0].filter(node => node.value == val[0])
+					let cascaderPanel = this.$refs.cascaderPanel
+					console.log('cascaderPanelExpandChange -> nodeArr:', nodeArr)
+					cascaderPanel.handleExpand(nodeArr,true)
+					cascaderPanel.handleExpand(nodeArr[0],true)
+					cascaderPanel.handleExpand(nodeArr[0],true)
+					cascaderPanel.handleExpand(nodeArr[0].children[0],true)
+					cascaderPanel.handleCheckChange(nodeArr, true)
+					cascaderPanel.handleCheckChange(nodeArr[0], true)
+					cascaderPanel.handleCheckChange(nodeArr[0].children[0], true)
+				})
+			}*/
 		},
 	},
 }
