@@ -902,6 +902,9 @@ export default {
 		},
 		// sku 表单验证
 		validate(callback) {
+			if (!callback){
+				return this.$refs['form'].validate()
+			}
 			this.$refs['form'].validate(valid => {
 				callback(valid)
 			})

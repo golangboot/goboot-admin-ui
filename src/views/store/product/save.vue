@@ -80,6 +80,7 @@
 							</el-card>
 
 							<el-card shadow="never" header="规格属性">
+								<div ref="skuFormContainer">
 								<!--<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="规格操作">
@@ -88,84 +89,79 @@
 										</el-form-item>
 									</el-col>
 								</el-row>-->
-								<el-row :gutter="20">
-									<el-col :span="24">
+								<sku-form ref="skuForm"
+										  v-model:source-attributes="form.saleAttributes"
+										  v-model:structures="skuFormStructures"
+										  v-model:attributes="form.skuAttributes"
+										  v-model:skus="form.skus"
+										  :sku-total-count-limit="100"
+										  :formDisabled="mode=='show'"
+								>
+									<!--<template #score="slotProps">
 										<div>
-											<sku-form ref="skuForm"
-													  v-model:source-attributes="form.saleAttributes"
-													  v-model:structures="skuFormStructures"
-													  v-model:attributes="form.skuAttributes"
-													  v-model:skus="form.skus"
-													  :sku-total-count-limit="100"
-													  :formDisabled="mode=='show'"
-											>
-												<!--<template #score="slotProps">
-													<div>
-														<el-rate v-model="slotProps.row.score" />
-													</div>
-												</template>-->
-
-												<!--<template #image="slotProps">
-													<div class="image-upload-container" style="margin: 0 auto;">
-														<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center;justify-content: center; max-width: 35px; height: 35px;overflow: hidden;margin-bottom: 5px;">
-															<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
-														</div>
-														<div style="margin: 0 auto;display: flex; align-items: center;justify-content: center;">
-															<el-popconfirm v-if="slotProps.row.image" title="确定删除图片吗？" @confirm="slotProps.row.image = ''">
-																<template #reference>
-																	<el-button type="default" size="small" icon="el-icon-delete">删除图片</el-button>
-																</template>
-															</el-popconfirm>
-															<el-upload v-else :show-file-list="false" :action="$API.file.upload.url" :data="{type: 'image'}" name="file" :accept="'image/jpg,image/jpeg,image/png,image/gif,'" :before-upload="beforeUpload" :on-success="res => slotProps.row.image = res.data.url" class="images-upload">
-																<el-button type="default" size="small" icon="el-icon-upload">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
-															</el-upload>
-														</div>
-													</div>
-												</template>-->
-												<template #image="slotProps">
-													<div class="image-upload-container" style="margin: 0 auto;">
-														<sc-upload v-model="slotProps.row.image" title="请上传图片" :width="80" :height="80"></sc-upload>
-													</div>
-												</template>
-												<template #status="slotProps">
-													<div style="margin: 0 auto;">
-														<el-switch
-															v-model="slotProps.row.status"
-															inline-prompt
-															style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-															:active-value="1" :inactive-value="0"
-															active-text="上架" inactive-text="下架"
-														/>
-													</div>
-												</template>
-												<template #totalPrice="slotProps">
-													<div style="margin: 0 0 0 auto;">
-														{{ skuFormTotalPrice(slotProps.row) }}
-													</div>
-												</template>
-												<template #operation="slotProps">
-													<div class="operation-container" style="margin: 0 auto;">
-														<el-popconfirm title="确定删除吗？" @confirm="skuFormTableRowDelete(slotProps.row, slotProps.index)">
-															<template #reference>
-																<el-button type="default" size="small" icon="el-icon-delete">删除</el-button>
-															</template>
-														</el-popconfirm>
-													</div>
-												</template>
-											</sku-form>
-											<!--<el-row type="flex" :gutter="20">
-												<el-col :span="12">
-													<el-divider content-position="left">attributes 数据</el-divider>
-													<pre><code>{{ form.skuAttributes }}</code></pre>
-												</el-col>
-												<el-col :span="12">
-													<el-divider content-position="left">skus 数据</el-divider>
-													<pre><code>{{ form.skus }}</code></pre>
-												</el-col>
-											</el-row>-->
+											<el-rate v-model="slotProps.row.score" />
 										</div>
+									</template>-->
+
+									<!--<template #image="slotProps">
+										<div class="image-upload-container" style="margin: 0 auto;">
+											<div v-if="slotProps.row.image" style="margin: 0 auto;display: flex; align-items: center;justify-content: center; max-width: 35px; height: 35px;overflow: hidden;margin-bottom: 5px;">
+												<el-image class="image" v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" hide-on-click-modal preview-teleported />
+											</div>
+											<div style="margin: 0 auto;display: flex; align-items: center;justify-content: center;">
+												<el-popconfirm v-if="slotProps.row.image" title="确定删除图片吗？" @confirm="slotProps.row.image = ''">
+													<template #reference>
+														<el-button type="default" size="small" icon="el-icon-delete">删除图片</el-button>
+													</template>
+												</el-popconfirm>
+												<el-upload v-else :show-file-list="false" :action="$API.file.upload.url" :data="{type: 'image'}" name="file" :accept="'image/jpg,image/jpeg,image/png,image/gif,'" :before-upload="beforeUpload" :on-success="res => slotProps.row.image = res.data.url" class="images-upload">
+													<el-button type="default" size="small" icon="el-icon-upload">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
+												</el-upload>
+											</div>
+										</div>
+									</template>-->
+									<template #image="slotProps">
+										<div class="image-upload-container" style="margin: 0 auto;">
+											<sc-upload v-model="slotProps.row.image" title="请上传图片" :width="80" :height="80"></sc-upload>
+										</div>
+									</template>
+									<template #status="slotProps">
+										<div style="margin: 0 auto;">
+											<el-switch
+												v-model="slotProps.row.status"
+												inline-prompt
+												style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+												:active-value="1" :inactive-value="0"
+												active-text="上架" inactive-text="下架"
+											/>
+										</div>
+									</template>
+									<template #totalPrice="slotProps">
+										<div style="margin: 0 0 0 auto;">
+											{{ skuFormTotalPrice(slotProps.row) }}
+										</div>
+									</template>
+									<template #operation="slotProps">
+										<div class="operation-container" style="margin: 0 auto;">
+											<el-popconfirm title="确定删除吗？" @confirm="skuFormTableRowDelete(slotProps.row, slotProps.index)">
+												<template #reference>
+													<el-button type="default" size="small" icon="el-icon-delete">删除</el-button>
+												</template>
+											</el-popconfirm>
+										</div>
+									</template>
+								</sku-form>
+								<!--<el-row type="flex" :gutter="20">
+									<el-col :span="12">
+										<el-divider content-position="left">attributes 数据</el-divider>
+										<pre><code>{{ form.skuAttributes }}</code></pre>
 									</el-col>
-								</el-row>
+									<el-col :span="12">
+										<el-divider content-position="left">skus 数据</el-divider>
+										<pre><code>{{ form.skus }}</code></pre>
+									</el-col>
+								</el-row>-->
+								</div>
 							</el-card>
 
 							<el-card shadow="never" header="规格参数">
@@ -780,31 +776,36 @@
 				})
 			},
 			//表单提交方法
-			submit(){
+			async submit() {
 				//Sku表单校验
-				if (!this.skuFormValidate()) {
+				if (!await this.skuFormValidate()) {
 					this.$message.warning('商品规格属性验证失败')
+					this.$refs.skuFormContainer.scrollIntoView()
 					return
 				}
-				this.$refs.form.validate(async (valid) => {
+				await this.$refs.form.validate(async (valid, val) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
 							res = await this.$API.store.product.update.put(this.form)
 						} else {
 							res = await this.$API.store.product.add.post(this.form)
 						}
 						this.isSaving = false;
-						if(res.code == 200){
+						if (res.code == 200) {
 							this.form = res.data
 							this.$emit('success', this.form, this.mode)
 							// this.visible = false;
 							this.$message.success("操作成功")
 							this.stepFormActive += 1
-						}else{
+						} else {
 							await this.$alert(res.message, "提示", {type: 'error'})
 						}
+					}else {
+						this.$message.warning('商品参数验证失败，请检查您填写的商品参数')
+						let obj = Object.keys(val)
+						this.$refs.form.scrollToField(obj[0])
 					}
 				})
 			},
@@ -864,15 +865,14 @@
 				return totalPrice
 			},
 			//Sku表单校验
-			skuFormValidate(){
-				this.$refs.skuForm.validate(valid => {
-					if (valid) {
+			async skuFormValidate() {
+				return await this.$refs.skuForm.validate()
+					.then(() => {
 						return true
-					} else {
+					})
+					.catch(() => {
 						return false
-					}
-				})
-				return false
+					})
 			},
 			//更新Sku表单
 			skuFormSyncUpdateHandler(){},
