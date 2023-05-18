@@ -1,31 +1,42 @@
 <template>
 	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'90%'" :close-on-click-modal="mode=='show'" destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
-			<el-main style="padding:0 20px 20px 20px">
-				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-					<el-card shadow="never">
-						<el-tabs tab-position="top">
-							<el-tab-pane label="基础信息">
-
+			<el-main style="padding:0 20px 20px 20px;">
+				<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="form" label-width="130px" label-position="right">
+					<el-steps :active="stepFormActive" finish-status="success" align-center style="margin-bottom: 20px;">
+						<el-step title="选择商品分类"></el-step>
+						<el-step title="填写商品信息"></el-step>
+						<el-step title="完成"></el-step>
+					</el-steps>
+					<el-row :gutter="20" v-if="stepFormActive === 0">
+						<el-col :span="24">
+							<el-form-item label="商品分类" prop="categoryId">
+								<el-cascader-panel v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader-panel>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="20" v-if="stepFormActive === 1">
+						<el-col :span="24">
+							<el-card shadow="never" header="基础信息">
 								<el-form-item label="商品类型" prop="type">
 									<el-radio-group v-model="form.type">
 										<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 									</el-radio-group>
 								</el-form-item>
 
-								<el-form-item label="商品分类" prop="categoryId">
+								<!--<el-form-item label="商品分类" prop="categoryId">
 									<template #label="{ label }">
 										<span>{{ label }}</span>
 										<span>
-											<el-tooltip>
-												<template #content>请先选择商品分类后，再编辑商品信息</template>
-												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-											</el-tooltip>
-										</span>
+												<el-tooltip>
+													<template #content>请先选择商品分类后，再编辑商品信息</template>
+													<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+												</el-tooltip>
+											</span>
 									</template>
 									<el-cascader v-model="form.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" style="width:100%" placeholder="请选择商品分类" clearable filterable></el-cascader>
 									<div class="el-form-item-msg" v-if="!form.categoryId">请选择商品分类后，再编辑商品信息</div>
-								</el-form-item>
+								</el-form-item>-->
 
 								<el-row :gutter="20">
 									<el-col :span="12">
@@ -60,9 +71,15 @@
 										<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 									</el-radio-group>
 								</el-form-item>
-							</el-tab-pane>
+							</el-card>
 
-							<el-tab-pane label="规格库存">
+							<el-card shadow="never" header="商品详情">
+								<el-form-item label="商品内容" prop="content">
+									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
+								</el-form-item>
+							</el-card>
+
+							<el-card shadow="never" header="规格属性">
 								<!--<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="规格操作">
@@ -75,10 +92,10 @@
 									<el-col :span="24">
 										<div>
 											<sku-form ref="skuForm"
-													 v-model:source-attributes="form.skuSourceAttributes"
-													 v-model:structures="skuFormStructures"
-													 v-model:attributes="form.skuAttributes"
-													 v-model:skus="form.skus"
+													  v-model:source-attributes="form.saleAttributes"
+													  v-model:structures="skuFormStructures"
+													  v-model:attributes="form.skuAttributes"
+													  v-model:skus="form.skus"
 													  :sku-total-count-limit="100"
 													  :formDisabled="mode=='show'"
 											>
@@ -149,15 +166,13 @@
 										</div>
 									</el-col>
 								</el-row>
-							</el-tab-pane>
+							</el-card>
 
-							<el-tab-pane label="商品详情">
-								<el-form-item label="商品内容" prop="content">
-									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
-								</el-form-item>
-							</el-tab-pane>
+							<el-card shadow="never" header="规格参数">
 
-							<el-tab-pane label="物流设置">
+							</el-card>
+
+							<el-card shadow="never" header="物流设置">
 								<el-form-item label="物流方式" prop="logisticsType">
 									<el-radio-group v-model="form.logisticsType">
 										<el-radio v-for="(item, index) in logisticsTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
@@ -180,13 +195,13 @@
 										</el-form-item>
 									</el-col>
 								</el-row>
-							</el-tab-pane>
+							</el-card>
 
-							<el-tab-pane label="营销设置">
+							<el-card shadow="never" header="营销设置">
 								<el-alert title="开发中，待上线..." type="info" show-icon style="margin-bottom: 15px;"/>
-							</el-tab-pane>
+							</el-card>
 
-							<el-tab-pane label="其他设置">
+							<el-card shadow="never" header="其他设置">
 								<el-form-item label="商品关键词" prop="keywords">
 									<template #label="{ label }">
 										<span>{{ label }}</span>
@@ -249,9 +264,9 @@
 										</el-table-column>
 									</sc-form-table>
 								</el-form-item>
-							</el-tab-pane>
+							</el-card>
 
-							<el-tab-pane label="平台操作">
+							<el-card shadow="never" header="平台操作">
 								<el-form-item label="商家" prop="merchantId">
 									<select-remote v-model="form.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :search="merchantSelect.search" :props="merchantSelect.props" clearable filterable style="width:100%"></select-remote>
 								</el-form-item>
@@ -335,14 +350,29 @@
 										</el-form-item>
 									</el-col>
 								</el-row>
-							</el-tab-pane>
-						</el-tabs>
-					</el-card>
+							</el-card>
+
+							<!--<el-card shadow="never" header="更多设置"></el-card>-->
+						</el-col>
+					</el-row>
+					<el-row :gutter="20" v-if="stepFormActive === 2">
+						<el-col :span="24">
+							<el-result icon="success" title="操作成功" sub-title="商品保存成功">
+								<template #extra>
+									<el-button type="primary" @click="resetForm()">继续添加商品</el-button>
+									<el-button @click="mode = 'show'; stepFormActive = 0">查看商品</el-button>
+									<el-button type="warning" @click="mode = 'add'; stepFormActive = 0; form.id = ''">复制商品</el-button>
+								</template>
+							</el-result>
+						</el-col>
+					</el-row>
 				</el-form>
 			</el-main>
 			<el-footer>
-				<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit">保存</el-button>
-				<el-button @click="visible=false">取消</el-button>
+				<el-button v-if="stepFormActive>0 && stepFormActive<2" @click="pre" :disabled="isSaving">上一步</el-button>
+				<el-button v-if="stepFormActive<1" type="primary" @click="next">下一步</el-button>
+				<el-button v-if="mode!='show' && stepFormActive==1" type="primary" :loading="isSaving" @click="submit">保存</el-button>
+				<el-button @click="visible=false">返回</el-button>
 			</el-footer>
 		</el-container>
 	</el-drawer>
@@ -372,6 +402,8 @@
 				},
 				visible: false,
 				isSaving: false,
+				stepFormActive: 0,
+				sourceForm: {},
 				//表单数据
 				form: {
 					id:"",
@@ -379,6 +411,7 @@
 					sort: null,
 					status: 1,
 					remark: "",
+					categoryId: null,
 					auditStatus: 1,
 					image: "",
 					images: "",
@@ -391,8 +424,10 @@
 					skus: [],
 					//已使用的Sku属性数据
 					skuAttributes: [],
-					//原始Sku属性数据
-					skuSourceAttributes: [],
+					//规格属性原始Sku属性数据
+					saleAttributes: [],
+					//规格参数
+					specAttributes: [],
 				},
 				//验证规则
 				rules: {
@@ -634,7 +669,7 @@
 						this.saleUnitSelect.params.categoryId = newValue
 						this.saleUnitSelect.search.categoryId = newValue
 						// 处理 分类属性
-						this.getCategoryAttributes()
+						// this.getCategoryAttributes()
 					}
 				},
 				deep: true
@@ -644,8 +679,8 @@
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 运费模板 搜索条件
-						// this.shippingTemplateSelect.params.merchantId = this.form.merchantId
-						// this.shippingTemplateSelect.search.merchantId = this.form.merchantId
+						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
+						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
 					}
 				},
 				deep: true
@@ -680,6 +715,16 @@
 				},
 				deep: true
 			},
+			stepFormActive: {
+				// eslint-disable-next-line
+				handler(newValue, oldValue) {
+					if (newValue === 1){
+						// 处理 分类属性
+						this.getCategoryAttributes()
+					}
+				},
+				deep: true
+			},
 			categoryAttributes: {
 				// eslint-disable-next-line
 				handler(newValue, oldValue) {
@@ -691,6 +736,9 @@
 			},
 		},
 		mounted() {
+			if (Object.keys(this.sourceForm).length <= 0) {
+				this.sourceForm = Object.assign({}, this.form)
+			}
 			this.getTreeList()
 		},
 		methods: {
@@ -700,9 +748,45 @@
 				this.visible = true;
 				return this
 			},
+			//下一步
+			next(){
+				if (this.stepFormActive === 0){
+					this.$refs.form.validateField(['categoryId'], (valid) => {
+						// console.log('valid:', valid)
+						// console.log('form:', this.form)
+						if (valid) {
+							this.stepFormActive += 1
+						} else {
+							this.$message.warning("商品分类不能为空")
+							return false
+						}
+					})
+				}
+			},
+			//上一步
+			pre(){
+				this.stepFormActive -= 1
+			},
+			//再来一次
+			again(){
+				this.stepFormActive = 0
+			},
+			resetForm(){
+				this.mode = 'add'
+				this.stepFormActive = 0
+				this.$nextTick(() => {
+					this.form = this.sourceForm
+					this.$refs.form.resetFields()
+				})
+			},
 			//表单提交方法
 			submit(){
-				this.$refs.dialogForm.validate(async (valid) => {
+				//Sku表单校验
+				if (!this.skuFormValidate()) {
+					this.$message.warning('商品规格属性验证失败')
+					return
+				}
+				this.$refs.form.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
 						var res;
@@ -715,8 +799,9 @@
 						if(res.code == 200){
 							this.form = res.data
 							this.$emit('success', this.form, this.mode)
-							this.visible = false;
+							// this.visible = false;
 							this.$message.success("操作成功")
+							this.stepFormActive += 1
 						}else{
 							await this.$alert(res.message, "提示", {type: 'error'})
 						}
@@ -782,10 +867,8 @@
 			skuFormValidate(){
 				this.$refs.skuForm.validate(valid => {
 					if (valid) {
-						this.$message.success('验证通过')
 						return true
 					} else {
-						this.$message.warning('验证失败')
 						return false
 					}
 				})
@@ -807,39 +890,52 @@
 
 				// 处理属性参数 (新旧参数合并)
 				this.categoryAttributes.forEach(categoryAttribute => {
-					//销售属性
+					let attribute = {
+						// id: categoryAttribute.id,
+						label: categoryAttribute.name,
+						value: categoryAttribute.id,
+						options: [],
+					}
+					if (categoryAttribute.options){
+						categoryAttribute.options.split(',').forEach(attributeValue => {
+							let attributeItem = {
+								label: attributeValue,
+								// value: "",
+								// checked: false,
+							}
+							attribute.options.push(attributeItem)
+						})
+					}
+
+					//规格属性(销售属性)
 					if (categoryAttribute.isSaleAttribute) {
-						let attribute = {
-							label: categoryAttribute.name,
-							value: categoryAttribute.id,
-							options: [],
-						}
-						if (categoryAttribute.options){
-							categoryAttribute.options.split(',').forEach(attributeValue => {
-								let attributeItem = {
-									label: attributeValue,
-									value: "",
-									checked: false,
-								}
-								attribute.options.push(attributeItem)
-							})
-						}
+						attribute.value = categoryAttribute.id
 						saleAttributes.push(attribute)
 					}
 
 					//规格参数
 					if (!categoryAttribute.isSaleAttribute) {
-						specAttributes.push(categoryAttribute)
+						attribute.required = categoryAttribute.optionType == 1
+						attribute.selectType = categoryAttribute.selectType
+						specAttributes.push(attribute)
 					}
 				})
 
-				this.form.skuSourceAttributes = Object.assign(this.form.skuSourceAttributes || [], saleAttributes)
-				this.$refs.skuForm.init() // skuForm初始化
+				this.form.saleAttributes = Object.assign(this.form.saleAttributes || [], saleAttributes)
+				// this.$refs.skuForm?.init() // skuForm初始化
 				// console.log('handleCategoryAttributes -> skuForm.isInit:', this.$refs.skuForm.isInit)
+
+				this.form.specAttributes = Object.assign(this.form.specAttributes || [], specAttributes)
 			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+.el-cascader-panel{
+	height: 60vh;
+	:deep(.el-cascader-menu__wrap).el-scrollbar__wrap {
+		height: 100%;
+	}
+}
 </style>

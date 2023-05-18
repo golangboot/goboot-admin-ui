@@ -561,11 +561,22 @@ export default {
 					if (this.skus && this.skus.length > 0) {
 						this.skus.forEach(skuItem => {
 							this.form.skuData.forEach(skuDataItem => {
+								let flag = false
+								if (skuItem[this.skuProps.sku] === '' || typeof skuItem[this.skuProps.sku] === 'undefined' || skuItem[this.skuProps.sku] === null) {
+									flag = true
+								}
 								if (skuItem[this.skuProps.sku] === skuDataItem[this.skuProps.sku]) {
+									flag = true
+								}
+								if (flag) {
+									// console.log('setTimeout -> skuItem', skuItem)
+									// console.log('setTimeout -> skuDataItem', skuDataItem)
+									// console.log('setTimeout -> flag', flag)
 									// skuDataItem = skuItem // 全部赋值数据(*注意: 不可使用该方式赋值, 会造成数据错乱)
 									this.structures.forEach(structureItem => {
 										skuDataItem[structureItem.name] = skuItem[structureItem.name]
 									})
+									// console.log('setTimeout -> skuDataItem:', skuDataItem)
 								}
 							})
 						})
