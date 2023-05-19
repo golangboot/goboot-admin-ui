@@ -6,9 +6,9 @@
 			<p style="margin-top: 5px;">最新版本 {{ version }}</p>
 		</div>
 		<div style="margin-top: 20px;">
-			<el-button type="primary" plain round @click="golog">更新日志</el-button>
-			<el-button type="primary" plain round @click="gogit">GitHub</el-button>
-			<el-button type="primary" plain round @click="gogitee">Gitee</el-button>
+			<el-button type="primary" plain round @click="goLog">更新日志</el-button>
+			<el-button type="primary" plain round @click="goGit">GitHub</el-button>
+			<el-button type="primary" plain round @click="goGitee">Gitee</el-button>
 		</div>
 	</el-card>
 </template>
@@ -28,16 +28,16 @@
 		},
 		methods: {
 			async getVer(){
-				const res = await this.$API.system.version.get()
+				const res = await this.$API.app.info.get()
 				this.version = res.data.version
 			},
-			golog(){
+			goLog(){
 				window.open("https://github.com/golangboot/goui/releases")
 			},
-			gogit(){
+			goGit(){
 				window.open("https://github.com/golangboot/goui")
 			},
-			gogitee(){
+			goGitee(){
 				window.open("https://gitee.com/goboot/goui")
 			}
 		}
