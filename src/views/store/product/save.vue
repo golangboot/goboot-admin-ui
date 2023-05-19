@@ -159,7 +159,38 @@
 								</div>
 							</el-card>
 
-							<el-card shadow="never" header="规格参数">
+							<el-card shadow="never" header="规格参数" v-if="form.specAttributes && form.specAttributes.length > 0">
+								<sc-form-table ref="specAttributesFormTable" v-model="form.specAttributes" :addTemplate="specAttributesAddTemplate" placeholder="暂无数据" hideDelete hideAdd>
+									<el-table-column prop="label" label="参数名称">
+										<template #default="scope">
+											<span>{{ scope.row.label }}</span>
+										</template>
+									</el-table-column>
+									<el-table-column prop="param" label="参数值">
+										<template #default="scope">
+											 <!-- :rules="specAttributesRules[scope.row.value]" :required="scope.row.required" :inline-message="true" :error="`${scope.row.label}不能为空`" -->
+											<el-form-item :key="`specAttributes-param-${scope.$index}`" :prop="`specAttributes.${scope.$index}.${scope.column.property}`" :rules="specAttributesRules[scope.row.value]" :inline-message="true" style="margin-bottom: 0;">
+												<template v-if="scope.row?.selectType == 1 || scope.row?.selectType == 2">
+													<el-select v-model="scope.row.param" placeholder="" style="width: 100%;">
+														<el-option v-for="(item, index) in scope.row.options" :key="index" :label="item.label" :value="item.value"/>
+													</el-select>
+												</template>
+												<template v-else-if="scope.row?.selectType == 4">
+													<el-switch
+														v-model="scope.row.param"
+														inline-prompt
+														style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+														:active-value="'是'" :inactive-value="'否'"
+														active-text="是" inactive-text="否"
+													/>
+												</template>
+												<template v-else>
+													<el-input v-model="scope.row.param" placeholder="请输入参数值"></el-input>
+												</template>
+											</el-form-item>
+										</template>
+									</el-table-column>
+								</sc-form-table>
 
 							</el-card>
 
@@ -231,7 +262,7 @@
 									/>
 								</el-form-item>
 								<el-form-item label="自定义表单参数" prop="customFormParams" v-if="form.customFormStatus == 1">
-									<sc-form-table ref="customFormTable" v-model="form.customFormParams" :addTemplate="customFormParamAddTemplate" placeholder="暂无数据">
+									<sc-form-table ref="customFormTable" v-model="form.customFormParams" :addTemplate="customFormParamAddTemplate" placeholder="暂无数据" dragSort>
 										<el-table-column prop="label" label="标题">
 											<template #default="scope">
 												<el-input v-model="scope.row.label" placeholder="请输入标题"></el-input>
@@ -528,6 +559,14 @@
 				customFormTypeOptions: [
 					{label: "输入框", value: "input",},
 				],
+				specAttributesAddTemplate: {
+					"label": "",
+					"value": "",
+					"required": false,
+					"selectType": null,
+					"options": [],
+					"param": "",
+				},
 				//分类属性集合
 				categoryAttributes: [],
 				//sku表格结构
@@ -650,9 +689,24 @@
 				],
 				//sku表格属性
 				skuFormTableProps: {
-					height: `calc(100vh - 5vh - 180px )`,
+					// height: `calc(100vh - 5vh - 180px )`,
 				},
 			}
+		},
+		computed: {
+			specAttributesRules() {
+				// 重新生成验证规则
+				let rules = {}
+				this.form?.specAttributes.forEach(v => {
+					// let name = v.name || 'param'
+					let name = v.value
+					rules[name] = []
+					if (v.required) {
+						rules[name].push({ required: true, message: `${v.label}不能为空`, trigger: ['change', 'blur'] })
+					}
+				})
+				return rules
+			},
 		},
 		watch: {
 			form: {
@@ -896,33 +950,46 @@
 
 				// 处理属性参数 (新旧参数合并)
 				this.categoryAttributes.forEach(categoryAttribute => {
-					let attribute = {
-						// id: categoryAttribute.id,
-						label: categoryAttribute.name,
-						value: categoryAttribute.id,
-						options: [],
-					}
-					if (categoryAttribute.options){
-						categoryAttribute.options.split(',').forEach(attributeValue => {
-							let attributeItem = {
-								label: attributeValue,
-								// value: "",
-								// checked: false,
-							}
-							attribute.options.push(attributeItem)
-						})
-					}
-
 					//规格属性(销售属性)
 					if (categoryAttribute.isSaleAttribute) {
+						let attribute = {
+							label: categoryAttribute.name,
+							value: categoryAttribute.id,
+							options: [],
+						}
+						if (categoryAttribute.options){
+							categoryAttribute.options.split(',').forEach(attributeValue => {
+								let attributeItem = {
+									label: attributeValue,
+									// value: "",
+									// checked: false,
+								}
+								attribute.options.push(attributeItem)
+							})
+						}
 						attribute.value = categoryAttribute.id
 						saleAttributes.push(attribute)
 					}
 
 					//规格参数
 					if (!categoryAttribute.isSaleAttribute) {
-						attribute.required = categoryAttribute.optionType == 1
-						attribute.selectType = categoryAttribute.selectType
+						let attribute = {
+							label: categoryAttribute.name,
+							value: categoryAttribute.id,
+							param: "",
+							options: [],
+							required: categoryAttribute.optionType == 1,
+							selectType:  categoryAttribute.selectType,
+						}
+						if (categoryAttribute.options){
+							categoryAttribute.options.split(',').forEach(attributeValue => {
+								let attributeItem = {
+									label: attributeValue,
+									value: attributeValue,
+								}
+								attribute.options.push(attributeItem)
+							})
+						}
 						specAttributes.push(attribute)
 					}
 				})
@@ -931,7 +998,15 @@
 				// this.$refs.skuForm?.init() // skuForm初始化
 				// console.log('handleCategoryAttributes -> skuForm.isInit:', this.$refs.skuForm.isInit)
 
-				this.form.specAttributes = Object.assign(this.form.specAttributes || [], specAttributes)
+				// this.form.specAttributes = Object.assign(this.form.specAttributes || [], specAttributes)
+				specAttributes.forEach(specAttribute => {
+					this.form.specAttributes.forEach(specAttr => {
+						if (specAttribute.value == specAttr.value){
+							specAttribute.param = specAttr.param
+						}
+					})
+				})
+				this.form.specAttributes = specAttributes
 			},
 		}
 	}
