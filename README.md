@@ -52,6 +52,7 @@ GoUI的宗旨是 让一切复杂的东西傻瓜化。
 ![logo](https://lolicode.gitee.io/scui-doc/g_2.jpg)
 
 ## 安装教程
+
 ``` sh
 # 克隆项目
 git clone https://github.com/golangboot/goui.git
@@ -59,16 +60,24 @@ git clone https://github.com/golangboot/goui.git
 # 进入项目目录
 cd scui
 
-# 安装依赖
+# 安装依赖 (nodejs v14+)
 npm i
+npm install --force
 
 # 安装依赖(pnpm)
 npm i -g pnpm
 pnpm install
+pnpm install --force
+
+# 镜像加速
+npm config set registry  https://registry.npmmirror.com
+# 恢复官方镜像
+npm config set registry  https://registry.npmjs.org
 
 # 安装依赖(yarn)
 npm i -g yarn
 yarn install
+# 遇到安装问题推荐使用 yarn 强制安装
 yarn install --force
 
 # 启动项目(开发模式)
