@@ -38,6 +38,22 @@
 									<div class="el-form-item-msg" v-if="!form.categoryId">请选择商品分类后，再编辑商品信息</div>
 								</el-form-item>-->
 
+								<el-form-item label="商品名称" prop="name">
+									<el-input v-model="form.name" clearable></el-input>
+								</el-form-item>
+
+								<el-form-item label="商品描述" prop="description">
+									<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+								</el-form-item>
+
+								<el-form-item label="商品图片" prop="image">
+									<sc-upload v-model="form.image" title="请上传图片" :width="80" :height="80"></sc-upload>
+								</el-form-item>
+
+								<el-form-item label="商品相册" prop="images">
+									<sc-upload-multiple v-model="form.images" :width="80" :height="80" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
+								</el-form-item>
+
 								<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="商品品牌" prop="brandId">
@@ -51,20 +67,18 @@
 									</el-col>
 								</el-row>
 
-								<el-form-item label="商品名称" prop="name">
-									<el-input v-model="form.name" clearable></el-input>
-								</el-form-item>
-								<el-form-item label="商品描述" prop="description">
-									<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
-								</el-form-item>
-
-								<el-form-item label="商品图片" prop="image">
-									<sc-upload v-model="form.image" title="请上传图片" :width="80" :height="80"></sc-upload>
-								</el-form-item>
-
-								<el-form-item label="商品相册" prop="images">
-									<sc-upload-multiple v-model="form.images" :width="80" :height="80" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
-								</el-form-item>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="商品编码" prop="productSn">
+											<el-input v-model="form.productSn" clearable></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+										<el-form-item label="商品产地" prop="productArea">
+											<el-input v-model="form.productArea" clearable></el-input>
+										</el-form-item>
+									</el-col>
+								</el-row>
 
 								<el-form-item label="商品状态" prop="status">
 									<el-radio-group v-model="form.status">
