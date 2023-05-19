@@ -132,9 +132,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.store.merchantApply.update.put(this.form)
+							res = await this.$API.store.sellerApply.update.put(this.form)
 						} else {
-							res = await this.$API.store.merchantApply.add.post(this.form)
+							res = await this.$API.store.sellerApply.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -154,7 +154,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.store.merchantApply.detail.get(reqData)
+					let res = await this.$API.store.sellerApply.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

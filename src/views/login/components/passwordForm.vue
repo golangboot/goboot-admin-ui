@@ -5,7 +5,7 @@
 				<!--<template #append>
 					<el-select v-model="userType" style="width: 120px;">
 						<el-option :label="$t('login.admin')" value="admin"></el-option>
-						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
+						<el-option :label="$t('login.seller')" value="seller"></el-option>
 						<el-option :label="$t('login.user')" value="user"></el-option>
 					</el-select>
 				</template>-->
@@ -60,7 +60,7 @@
 				}else if(val == 'user'){
 					this.form.user = ''
 					this.form.password = ''
-				}else if(val == 'merchant'){
+				}else if(val == 'seller'){
 					this.form.user = ''
 					this.form.password = ''
 				}

@@ -159,8 +159,8 @@
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="商家" prop="merchantId">
-						<select-remote v-model="form.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :search="merchantSelect.search" :props="merchantSelect.props" clearable filterable style="width:100%"></select-remote>
+					<el-form-item label="卖家" prop="sellerId">
+						<select-remote v-model="form.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :search="sellerSelect.search" :props="sellerSelect.props" clearable filterable style="width:100%"></select-remote>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -211,7 +211,7 @@
 					sort: null,
 					status: 1,
 					remark: "",
-					merchantId: "",
+					sellerId: "",
 					userId: "",
 					type: 1,
 					isFreeShipping: 0,
@@ -290,9 +290,9 @@
 					{label: "EMS", value: 3,},
 					{label: "平邮", value: 4,},
 				],
-				merchantSelect: {
+				sellerSelect: {
 					// api接口
-					apiObj: this.$API.store.merchant.list,
+					apiObj: this.$API.store.seller.list,
 					// 参数(搜索关键字为空时生效)
 					params: {},
 					// 搜索参数(搜索关键字不为空时生效)

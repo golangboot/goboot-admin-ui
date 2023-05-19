@@ -8,8 +8,8 @@
 			<div class="right-panel">
 				<div class="right-panel-search">
 					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
-						<el-form-item label="商家：" prop="merchantId">
-							<select-remote v-model="search.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :props="merchantSelect.props" clearable filterable style="width: 160px;"></select-remote>
+						<el-form-item label="卖家：" prop="sellerId">
+							<select-remote v-model="search.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :props="sellerSelect.props" clearable filterable style="width: 160px;"></select-remote>
 						</el-form-item>
 						<el-form-item label="搜索：" prop="keyword">
 							<el-input v-model="search.keyword" placeholder="请输入关键字" clearable />
@@ -79,11 +79,11 @@
 				selection: [],
 				search: {
 					keyword: null,
-					merchantId: null,
+					sellerId: null,
 				},
-				merchantSelect: {
+				sellerSelect: {
 					// api接口
-					apiObj: this.$API.store.merchant.list,
+					apiObj: this.$API.store.seller.list,
 					// 搜索参数(搜索关键词为空时生效)
 					params: {},
 					// 属性字段

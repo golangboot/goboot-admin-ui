@@ -19,8 +19,8 @@
 				<el-form-item label="品牌：" prop="brandId">
 					<select-remote v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></select-remote>
 				</el-form-item>
-				<el-form-item label="商家：" prop="merchantId">
-					<select-remote v-model="search.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :props="merchantSelect.props" clearable filterable style="width: 160px;"></select-remote>
+				<el-form-item label="卖家：" prop="sellerId">
+					<select-remote v-model="search.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :props="sellerSelect.props" clearable filterable style="width: 160px;"></select-remote>
 				</el-form-item>
 			</el-form>
 		</el-header>
@@ -69,14 +69,14 @@
 						<span>{{ scope.row.brand?.name }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column label="商家" prop="merchant" width="150" :show-overflow-tooltip="true">
+				<el-table-column label="卖家" prop="seller" width="150" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<span>{{ scope.row.merchant?.name }}</span>
+						<span>{{ scope.row.seller?.name }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column label="自营商品" prop="merchant" width="100" :show-overflow-tooltip="true">
+				<el-table-column label="自营商品" prop="seller" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
-						<el-tag v-if="scope.row.merchant?.isSelf == 1" type="success">是</el-tag>
+						<el-tag v-if="scope.row.seller?.isSelf == 1" type="success">是</el-tag>
 						<el-tag v-else type="warning">否</el-tag>
 					</template>
 				</el-table-column>
@@ -150,7 +150,7 @@ export default {
 				keyword: null,
 				categoryId: null,
 				brandId: null,
-				merchantId: null,
+				sellerId: null,
 				groupId: "",
 			},
 			filterData: [
@@ -232,9 +232,9 @@ export default {
 					keyword: 'keyword',
 				},
 			},
-			merchantSelect: {
+			sellerSelect: {
 				// api接口
-				apiObj: this.$API.store.merchant.list,
+				apiObj: this.$API.store.seller.list,
 				// 搜索参数(搜索关键词为空时生效)
 				params: {},
 				// 属性字段

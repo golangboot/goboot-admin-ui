@@ -309,8 +309,8 @@
 							</el-card>
 
 							<el-card shadow="never" header="平台操作">
-								<el-form-item label="商家" prop="merchantId">
-									<select-remote v-model="form.merchantId" :apiObj="merchantSelect.apiObj" :params="merchantSelect.params" :search="merchantSelect.search" :props="merchantSelect.props" clearable filterable style="width:100%"></select-remote>
+								<el-form-item label="卖家" prop="sellerId">
+									<select-remote v-model="form.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :search="sellerSelect.search" :props="sellerSelect.props" clearable filterable style="width:100%"></select-remote>
 								</el-form-item>
 								<el-form-item label="审核状态" prop="auditStatus">
 									<el-radio-group v-model="form.auditStatus">
@@ -540,9 +540,9 @@
 						keyword: 'keyword',
 					},
 				},
-				merchantSelect: {
+				sellerSelect: {
 					// api接口
-					apiObj: this.$API.store.merchant.list,
+					apiObj: this.$API.store.seller.list,
 					// 参数(搜索关键字为空时生效)
 					params: {},
 					// 搜索参数(搜索关键字不为空时生效)
@@ -744,13 +744,13 @@
 				},
 				deep: true
 			},
-			'form.merchantId': {
+			'form.sellerId': {
 				// eslint-disable-next-line
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 运费模板 搜索条件
-						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
-						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
+						this.shippingTemplateSelect.params.sellerId = this.form.sellerId
+						this.shippingTemplateSelect.search.sellerId = this.form.sellerId
 					}
 				},
 				deep: true
@@ -760,8 +760,8 @@
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 运费模板 搜索条件
-						this.shippingTemplateSelect.params.merchantId = this.form.merchantId
-						this.shippingTemplateSelect.search.merchantId = this.form.merchantId
+						this.shippingTemplateSelect.params.sellerId = this.form.sellerId
+						this.shippingTemplateSelect.search.sellerId = this.form.sellerId
 						this.$refs.shippingTemplateselectRemote?.getRemoteData()
 					}
 				},
