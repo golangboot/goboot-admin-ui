@@ -533,7 +533,7 @@
 				skuFormStructures: [
 					{
 						name: 'price',
-						type: 'input',
+						type: 'input-number',
 						label: '销售价',
 						tip: '商品售价',
 						required: true,
@@ -546,7 +546,7 @@
 					},
 					{
 						name: 'marketPrice',
-						type: 'input',
+						type: 'input-number',
 						label: '市场价',
 						tip: '划线参考价格',
 						required: false,
@@ -559,7 +559,7 @@
 					},
 					{
 						name: 'costPrice',
-						type: 'input',
+						type: 'input-number',
 						label: '成本价',
 						required: false,
 						validate: (data, index, callback) => {
@@ -571,7 +571,7 @@
 					},
 					{
 						name: 'stock',
-						type: 'input',
+						type: 'input-number',
 						label: '库存',
 						required: true,
 						// data: 完整 sku 数据，index: 当前 sku 在 data 中的下标，callback: 验证结果回调函数
@@ -586,57 +586,58 @@
 						name: 'code',
 						type: 'input',
 						label: '商家编码',
-						tip: '商家编码请保持唯一性，可以使用商品货号或内部商品唯一标识等，留空时系统自动生成',
 						required: false,
+						tip: '商家编码请保持唯一性，可以使用商品货号或内部商品唯一标识等，留空时系统自动生成',
 					},
 					{
 						name: 'barCode',
 						type: 'input',
 						label: '商品条形码',
-						tip: '请填写正确条码，将有助于平台准确识别您的商品，消费者能更方便找到您的商品，也可以提供更准确、全面的信息导购。',
 						required: false,
+						tip: '请填写正确条码，将有助于平台准确识别您的商品，消费者能更方便找到您的商品，也可以提供更准确、全面的信息导购。',
 					},
 					{
 						name: 'weight',
-						type: 'input',
+						type: 'input-number',
 						label: '重量(KG)',
-						tip: '商品重量，单位：KG',
 						required: false,
+						tip: '商品重量，单位：KG',
 					},
 					{
 						name: 'volume',
-						type: 'input',
+						type: 'input-number',
 						label: '体积(m³)',
-						tip: '商品体积，单位：m³',
 						required: false,
+						tip: '商品体积，单位：m³',
 					},
 					{
 						name: 'image',
 						type: 'slot',
 						label: '图片',
-						tip: 'SKU属性图片',
 						required: false,
+						tip: '商品SKU属性图片',
 					},
 					{
 						name: 'status',
 						type: 'slot',
-						defaultValue: 0,
 						label: '状态',
 						required: true,
+						tip: '商品SKU上下架状态',
+						defaultValue: 0,
 					},
 					{
 						name: 'totalPrice',
 						type: 'slot',
+						label: '总价',
+						tip: '总价 = 价格 * 库存，如果价格或库存为空时，则不计算',
 						// 如果该字段无需记录到 sku 数据里，则设置为 false
 						skuProperty: false,
-						label: '总价',
-						tip: '总价 = 价格 * 库存，如果价格或库存为空时，则不计算'
 					},
 					/*{
 						name: 'score',
 						type: 'slot',
-						defaultValue: 0,
 						label: '评分',
+						defaultValue: 0,
 					},*/
 					{
 						name: 'operation',

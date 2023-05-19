@@ -79,6 +79,7 @@
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
 							<el-form-item :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
 								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable />
+								<el-input-number v-else-if="item.type == 'input-number'" v-model="scope.row[item.name]" :placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0" size="default" clearable />
 								<template v-else-if="item.type == 'slot'">
 									<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 								</template>
@@ -99,6 +100,7 @@
 							<el-form-item v-if="item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
 								<!--<el-input v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />-->
 								<el-input v-if="item.type == 'input'" v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+								<el-input-number v-else-if="item.type == 'input-number'" v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
 								<template v-else-if="item.type == 'slot'">
 									<slot :name="item.name" :index="scope.$index" :row="batchSetData = scope.row" :column="scope.column" />
 								</template>
@@ -219,8 +221,14 @@ export default {
 		structures: {
 			type: Array,
 			default: () => [
-				{ name: 'price', type: 'input', label: '价格', required: true, },
-				{ name: 'stock', type: 'input', label: '库存', required: true, },
+				{ name: 'price', type: 'input-number', label: '价格', required: true, },
+				{ name: 'stock', type: 'input-number', label: '库存', required: true, },
+				{ name: 'barCode', type: 'input', label: '商品条形码', required: false, },
+				{ name: 'weight', type: 'input-number', label: '重量(KG)', required: false, },
+				{ name: 'volume', type: 'input-number', label: '体积(m³)', required: false, },
+				// { name: 'image', type: 'slot', label: '图片', required: false, tip: 'SKU属性图片',},
+				// { name: 'status', type: 'slot', label: '状态', required: false, defaultValue: 0, tip: '商品SKU上下架状态',},
+				// { name: 'operation', type: 'slot', label: '操作', required: false, skuProperty: false,},
 			]
 		},
 		// sku 字段分隔符
@@ -316,7 +324,7 @@ export default {
 			// 重新生成验证规则
 			let rules = {}
 			this.structures.forEach(v => {
-				if (v.type == 'input') {
+				if (v.type == 'input' || v.type == 'input-number') {
 					rules[v.name] = []
 					if (v.required) {
 						rules[v.name].push({ required: true, message: `${v[this.attributeProps.label]}不能为空`, trigger: 'blur' })
@@ -340,7 +348,8 @@ export default {
 		},
 		isBatchSet() {
 			return this.structures.some(item => {
-				return item.type == 'input' && item.batch != false
+				// return item.type == 'input' && item.batch != false
+				return item.batch != false
 			})
 		},
 		// 将 myAttributes 数据还原回 attributes 数据的结构，用于更新 attribute
