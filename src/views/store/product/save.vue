@@ -768,6 +768,10 @@
 					if (typeof newValue == 'undefined') {
 						this.form.skus = []
 					}
+					if(newValue && newValue.length > 10) {
+						// 调整Sku表单组件中表格的高度
+						this.skuFormTableProps.height = `calc(100vh - 5vh - 180px )`
+					}
 				},
 				deep: true
 			},
