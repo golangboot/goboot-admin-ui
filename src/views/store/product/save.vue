@@ -73,12 +73,6 @@
 								</el-form-item>
 							</el-card>
 
-							<el-card shadow="never" header="商品详情">
-								<el-form-item label="商品内容" prop="content">
-									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
-								</el-form-item>
-							</el-card>
-
 							<el-card shadow="never" header="规格属性">
 								<div ref="skuFormContainer">
 								<!--<el-row :gutter="20">
@@ -91,9 +85,10 @@
 								</el-row>-->
 								<sku-form ref="skuForm"
 										  v-model:source-attributes="form.saleAttributes"
-										  v-model:structures="skuFormStructures"
 										  v-model:attributes="form.skuAttributes"
 										  v-model:skus="form.skus"
+										  :structures="skuFormStructures"
+										  :table-props="skuFormTableProps"
 										  :sku-total-count-limit="100"
 										  :formDisabled="mode=='show'"
 								>
@@ -166,6 +161,12 @@
 
 							<el-card shadow="never" header="规格参数">
 
+							</el-card>
+
+							<el-card shadow="never" header="商品详情">
+								<el-form-item label="商品内容" prop="content">
+									<sc-editor v-model="form.content" :disabled="mode=='show'" placeholder="请输入内容" :height="500"></sc-editor>
+								</el-form-item>
 							</el-card>
 
 							<el-card shadow="never" header="物流设置">
@@ -647,6 +648,10 @@
 						skuProperty: false,
 					},
 				],
+				//sku表格属性
+				skuFormTableProps: {
+					height: `calc(100vh - 5vh - 180px )`,
+				},
 			}
 		},
 		watch: {
