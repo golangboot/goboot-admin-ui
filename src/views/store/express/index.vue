@@ -1,19 +1,5 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="treeShowLoading">
-			<el-container>
-				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
-				</el-header>
-				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" :current-node-key="''" :highlight-current="true" :expand-on-click-node="false" :filter-node-method="treeNodeFilter" @node-click="treeClick"></el-tree>
-				</el-main>
-				<el-footer style="height:51px;">
-					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
-					<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
-				</el-footer>
-			</el-container>
-		</el-aside>
 		<el-container class="is-vertical">
 			<el-header>
 				<div class="left-panel">
@@ -31,7 +17,7 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="品牌名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="快递物流名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="LOGO" prop="image" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
@@ -39,14 +25,8 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="品牌编码" prop="code" width="100"></el-table-column>
-					<el-table-column label="品牌介绍" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
-						<template #default="scope">
-							<el-tag v-if="scope.row.isGlobal==1" type="success">是</el-tag>
-							<el-tag v-if="scope.row.isGlobal==0" type="warning">否</el-tag>
-						</template>
-					</el-table-column>
+					<el-table-column label="快递物流编码" prop="code" width="100"></el-table-column>
+					<el-table-column label="快递物流介绍" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
@@ -80,10 +60,9 @@
 
 <script>
 	import saveDialog from './save'
-	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'storeBrand',
+		name: 'storeExpress',
 		components: {
 			saveDialog,
 		},
@@ -92,31 +71,17 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.store.brand.list,
+				apiObj: this.$API.store.express.list,
 				params: {},
 				selection: [],
 				search: {
 					keyword: null
 				},
-				treeShowLoading: false,
-				treeStatus: false,
-				treeFilterText: '',
-				treeList: [],
-				treeProps: {
-					value: "id",
-					label: "name",
-					emitPath: false,
-					checkStrictly: true
-				},
 			}
 		},
 		watch: {
-			treeFilterText(val) {
-				this.$refs.tree.filter(val);
-			}
 		},
 		mounted() {
-			this.getTreeList()
 		},
 		methods: {
 			//添加
@@ -143,7 +108,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.store.brand.delete.delete(reqData);
+				var res = await this.$API.store.express.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -161,7 +126,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.store.brand.delete.delete(reqData)
+					var res = await this.$API.store.express.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -192,7 +157,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.store.brand.update.put(reqData);
+				var res = await this.$API.store.express.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -215,32 +180,6 @@
 						Object.assign(item, data)
 					})
 				}
-			},
-			//加载树数据
-			async getTreeList(){
-				this.treeShowLoading = true;
-				var res = await this.$API.store.category.tree.get();
-				this.treeShowLoading = false;
-				var allNode ={id: '', name: '全部商品分类', label: '全部商品分类'}
-				res.data.unshift(allNode);
-				this.treeList = res.data;
-			},
-			//树过滤
-			treeNodeFilter(value, data){
-				if (!value) return true;
-				return data.name.indexOf(value) !== -1;
-			},
-			//树点击事件
-			treeClick(data){
-				this.search.categoryId = data.id
-				this.$refs.table.upData(this.search)
-			},
-			//树展开/收缩
-			shrinkTreeNode () {
-				// 改变一个全局变量
-				this.treeStatus = !this.treeStatus;
-				// 改变每个节点的状态
-				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
 			},
 		}
 	}
