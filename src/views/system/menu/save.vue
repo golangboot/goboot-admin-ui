@@ -65,7 +65,7 @@
 						</el-col>
 						<el-col :lg="12" class="api-list">
 							<h2>Api接口权限</h2>
-							<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
+							<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限" dragSort>
 								<el-table-column prop="url" label="请求接口">
 									<template #default="scope">
 										<el-input v-model="scope.row.url" placeholder="请输入 API URL"></el-input>

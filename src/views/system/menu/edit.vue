@@ -75,7 +75,7 @@
 					</el-select>
 				</el-form-item>-->
 				<h2>接口权限</h2>
-				<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
+				<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限" dragSort>
 					<el-table-column prop="code" label="标识" width="150">
 						<template #default="scope">
 							<el-input v-model="scope.row.code" placeholder="请输入内容"></el-input>

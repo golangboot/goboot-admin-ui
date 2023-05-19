@@ -50,8 +50,8 @@
 				<div class="el-form-item-msg" style="margin-top: 10px;">默认运费：在 {{ form.startStandard || 0 }} {{ unit }}内 {{ form.startFee || 0 }} {{ priceUnit }}，每增加 {{ form.addStandard || 0 }} {{ unit }}，增加运费 {{ form.addFee || 0 }} {{ priceUnit }}。除指定配送地区外，其余地区的运费采用“默认运费”</div>
 			</el-form-item>
 			<el-form-item label="配送区域及运费" prop="shippingAreas">
-				<sc-form-table ref="shippingAreasFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreasAddTemplate" placeholder="暂无数据">
-					<el-table-column label="指定配送地区" fixed min-width="150">
+				<sc-form-table ref="shippingAreasFormTable" v-model="form.shippingAreas" :addTemplate="shippingAreasAddTemplate" placeholder="暂无数据" dragSort>
+					<el-table-column label="指定配送地区" min-width="150">
 						<template #default="scope">
 							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
@@ -98,8 +98,8 @@
 				</sc-form-table>
 			</el-form-item>
 			<el-form-item label="指定条件包邮" prop="freeShippingAreas">
-				<sc-form-table ref="freeShippingAreasFormTable" v-model="form.freeShippingAreas" :addTemplate="freeShippingAreasAddTemplate" placeholder="暂无数据">
-					<el-table-column label="条件包邮地区" fixed min-width="150">
+				<sc-form-table ref="freeShippingAreasFormTable" v-model="form.freeShippingAreas" :addTemplate="freeShippingAreasAddTemplate" placeholder="暂无数据" dragSort>
+					<el-table-column label="条件包邮地区" min-width="150">
 						<template #default="scope">
 							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
@@ -142,8 +142,8 @@
 				</sc-form-table>
 			</el-form-item>
 			<el-form-item label="指定不送达" prop="nondeliveryAreas">
-				<sc-form-table ref="nondeliveryAreasFormTable" v-model="form.nondeliveryAreas" :addTemplate="nondeliveryAreasAddTemplate" placeholder="暂无数据">
-					<el-table-column label="无法配送地区" fixed min-width="150">
+				<sc-form-table ref="nondeliveryAreasFormTable" v-model="form.nondeliveryAreas" :addTemplate="nondeliveryAreasAddTemplate" placeholder="暂无数据" dragSort>
+					<el-table-column label="无法配送地区" min-width="150">
 						<template #default="scope">
 							<el-input :value="Object.values(scope.row.areas).join('\n')" placeholder="请编辑地区" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="65535" disabled :show-word-limit="true" type="textarea"></el-input>
 						</template>
