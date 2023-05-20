@@ -1,27 +1,24 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="售后订单名称" prop="name">
+			<el-form-item label="字典名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="字典描述" prop="description">
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+			</el-form-item>
+			<el-form-item label="字典编码" prop="code">
+				<el-input v-model="form.code" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="字典类型" prop="type">
+				<el-input v-model="form.type" clearable></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="LOGO" prop="image">
-						<sc-upload v-model="form.image" title="请上传LOGO"></sc-upload>
-					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId"
-							   :apiObj="$API.user.user.list"
-							   :params="{id: form.userId}"
-							   :searchClearParams="['id']"
-							   :request="{name: 'keyword'}"
-							   :props="{label: 'label', value: 'value'}"
-							   :parseData="userSelect.parseData"
-							   :parseDataField="userSelect.parseDataField"
-							   clearable filterable style="width:100%">
-				</select-remote>
+			<el-form-item label="是否锁定" prop="isLock">
+				<el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -29,24 +26,17 @@
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
-			<el-form-item label="备注" prop="remark">
-				<el-input v-model="form.remark" clearable type="textarea"></el-input>
-			</el-form-item>
 		</el-form>
 		<template #footer>
-			<el-button @click="visible=false" >取 消</el-button>
-			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
-		</template>
+			<el-button v-if="mode!='show'" type="primary" :loading="isSaving" @click="submit">保存</el-button>
+			<el-button @click="visible=false">取消</el-button>		</template>
 	</el-dialog>
 </template>
 
 <script>
-	import selectRemote from "@/components/selectRemote";
-
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			selectRemote,
 		},
 		data() {
 			return {
@@ -56,6 +46,7 @@
 					edit: '编辑',
 					show: '查看'
 				},
+				loading: false,
 				visible: false,
 				isSaving: false,
 				//表单数据
@@ -63,33 +54,15 @@
 					id:"",
 					name: "",
 					code: "",
-					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入售后订单名称'}
+						{required: true, message: '请输入名称'}
 					],
-				},
-				userSelect: {
-					// 解析数据
-					parseData: function (res) {
-						return {
-							data: res.data.records || res.data,
-							msg: res.message,
-							code: res.code
-						}
-					},
-					// 解析数据字段
-					parseDataField: function (item) {
-						return {
-							label: item.username || item.nickname || item.mobile || item.email,
-							value: item.id,
-						}
-					},
 				},
 			}
 		},
@@ -107,11 +80,11 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
-							res = await this.$API.store.orderRefund.update.put(this.form)
+							res = await this.$API.system.dict.update.put(this.form)
 						} else {
-							res = await this.$API.store.orderRefund.add.post(this.form)
+							res = await this.$API.system.dict.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -127,14 +100,16 @@
 			},
 			//表单注入数据
 			async setData(data){
+				this.loading = true
 				Object.assign(this.form, data)
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.store.orderRefund.detail.get(reqData)
+					let res = await this.$API.system.dict.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
+				this.loading = false
 			}
 		}
 	}

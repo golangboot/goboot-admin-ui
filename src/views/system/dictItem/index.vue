@@ -15,14 +15,19 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
+				<el-table-column label="" width="60">
+					<template #default>
+						<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="图片" prop="image" width="100">
+				<el-table-column label="字典项名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项值" prop="value" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字段类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>
 					<template #default="scope">
-						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-							<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
-						</div>
+						<el-tag v-if="scope.row.isLock == 1" type="success">是</el-tag>
+						<el-tag v-else type="warning">否</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
@@ -46,6 +51,7 @@
 						</el-button-group>
 					</template>
 				</el-table-column>
+
 			</scTable>
 		</el-main>
 	</el-container>
@@ -56,9 +62,10 @@
 
 <script>
 	import saveDialog from './save'
+	import Sortable from "sortablejs";
 
 	export default {
-		name: 'systemNotice',
+		name: 'systemDictItem',
 		components: {
 			saveDialog,
 		},
@@ -67,20 +74,29 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.system.notice.list,
+				apiObj: this.$API.system.dictItem.list,
 				params: {},
 				selection: [],
 				search: {
 					keyword: null
-				}
+				},
 			}
+		},
+		watch: {
+		},
+		mounted() {
+			this.rowDrop()
 		},
 		methods: {
 			//添加
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					let form = {}
+					if (this.params.dictId){
+						form.dictId = this.params.dictId
+					}
+					this.$refs.saveDialog.open('add').setData(form)
 				})
 			},
 			//编辑
@@ -100,7 +116,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.system.notice.delete.delete(reqData);
+				var res = await this.$API.system.dictItem.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -118,7 +134,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.system.notice.delete.delete(reqData)
+					var res = await this.$API.system.dictItem.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -149,7 +165,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.system.notice.update.put(reqData);
+				var res = await this.$API.system.dictItem.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -172,6 +188,22 @@
 						Object.assign(item, data)
 					})
 				}
+			},
+			//行拖拽
+			rowDrop(){
+				const _this = this
+				const tbody = this.$refs.table.$el.querySelector('.el-table__body-wrapper tbody')
+				Sortable.create(tbody, {
+					handle: ".move",
+					animation: 300,
+					ghostClass: "ghost",
+					onEnd({ newIndex, oldIndex }) {
+						const tableData = _this.$refs.table.tableData
+						const currRow = tableData.splice(oldIndex, 1)[0]
+						tableData.splice(newIndex, 0, currRow)
+						_this.$message.success("排序成功")
+					}
+				})
 			},
 		}
 	}

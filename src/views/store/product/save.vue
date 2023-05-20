@@ -57,12 +57,26 @@
 								<el-row :gutter="20">
 									<el-col :span="12">
 										<el-form-item label="商品品牌" prop="brandId">
-											<select-remote v-model="form.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :search="brandSelect.search" :props="brandSelect.props" clearable filterable></select-remote>
+											<select-remote v-model="form.brandId"
+														   :apiObj="$API.store.brand.list"
+														   :params="{id: form.brandId}"
+														   :searchClearParams="['id']"
+														   :request="{name: 'keyword'}"
+														   :props="{label: 'name', value: 'id',}"
+														   clearable filterable style="width: 100%;">
+											</select-remote>
 										</el-form-item>
 									</el-col>
 									<el-col :span="12">
 										<el-form-item label="销售单位" prop="saleUnitId">
-											<select-remote v-model="form.saleUnitId" :apiObj="saleUnitSelect.apiObj" :params="saleUnitSelect.params" :search="saleUnitSelect.search" :props="saleUnitSelect.props" clearable filterable></select-remote>
+											<select-remote v-model="form.saleUnitId"
+														   :apiObj="$API.store.saleUnit.list"
+														   :params="{id: form.saleUnitId}"
+														   :searchClearParams="['id']"
+														   :request="{name: 'keyword'}"
+														   :props="{label: 'name', value: 'id',}"
+														   clearable filterable style="width: 100%;">
+											</select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -233,7 +247,14 @@
 											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
 										</el-form-item>
 										<el-form-item label="运费模板" prop="shippingTemplateId" v-if="form.freightType == 2">
-											<select-remote ref="shippingTemplateselectRemote" v-model="form.shippingTemplateId" :apiObj="shippingTemplateSelect.apiObj" :params="shippingTemplateSelect.params" :search="shippingTemplateSelect.search" :props="shippingTemplateSelect.props" clearable filterable></select-remote>
+											<select-remote v-model="form.shippingTemplateId"
+														   :apiObj="$API.store.shippingTemplate.list"
+														   :params="{id: form.shippingTemplateId}"
+														   :searchClearParams="['id']"
+														   :request="{name: 'keyword'}"
+														   :props="{label: 'name', value: 'id',}"
+														   clearable filterable style="width: 100%;">
+											</select-remote>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -310,7 +331,14 @@
 
 							<el-card shadow="never" header="平台操作">
 								<el-form-item label="卖家" prop="sellerId">
-									<select-remote v-model="form.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :search="sellerSelect.search" :props="sellerSelect.props" clearable filterable style="width:100%"></select-remote>
+									<select-remote v-model="form.sellerId"
+												   :apiObj="$API.store.seller.list"
+												   :params="{id: form.sellerId}"
+												   :searchClearParams="['id']"
+												   :request="{name: 'keyword'}"
+												   :props="{label: 'name', value: 'id',}"
+												   clearable filterable style="width: 100%;">
+									</select-remote>
 								</el-form-item>
 								<el-form-item label="审核状态" prop="auditStatus">
 									<el-radio-group v-model="form.auditStatus">

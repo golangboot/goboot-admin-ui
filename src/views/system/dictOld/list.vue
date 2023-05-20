@@ -95,7 +95,7 @@
 			},
 			//获取字典类型列表
 			async getDictTypeList(){
-				var res = await this.$API.system.dict.getDictType.get();
+				var res = await this.$API.system.dictItem.list.get();
 				this.dictTypeList = res.data;
 			},
 			//表单提交方法

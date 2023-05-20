@@ -1,36 +1,33 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="售后订单名称" prop="name">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="120px" label-dictItem="right">
+			<el-form-item label="字典项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="LOGO" prop="image">
-						<sc-upload v-model="form.image" title="请上传LOGO"></sc-upload>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId"
-							   :apiObj="$API.user.user.list"
-							   :params="{id: form.userId}"
+			<el-form-item label="字典项值" prop="value">
+				<el-input v-model="form.value" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+			</el-form-item>
+			<el-form-item label="字段类型" prop="type">
+				<el-input v-model="form.type" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="所属字典" prop="dictId">
+				<select-remote v-model="form.dictId"
+							   :apiObj="$API.system.dict.list"
+							   :params="{id: form.dictId}"
 							   :searchClearParams="['id']"
 							   :request="{name: 'keyword'}"
-							   :props="{label: 'label', value: 'value'}"
-							   :parseData="userSelect.parseData"
-							   :parseDataField="userSelect.parseDataField"
+							   :props="{label: 'name', value: 'id',}"
 							   clearable filterable style="width:100%">
 				</select-remote>
 			</el-form-item>
+			<el-form-item label="是否锁定" prop="isLock">
+				<el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+				<el-input-number v-model="form.sort" controls-dictItem="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
-			</el-form-item>
-			<el-form-item label="备注" prop="remark">
-				<el-input v-model="form.remark" clearable type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -64,6 +61,7 @@
 					name: "",
 					code: "",
 					label: "",
+					isGlobal: 0,
 					sort: null,
 					status: 1,
 					remark: ""
@@ -71,24 +69,20 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入售后订单名称'}
+						{required: true, message: '请输入字典项名称'}
 					],
 				},
-				userSelect: {
-					// 解析数据
-					parseData: function (res) {
-						return {
-							data: res.data.records || res.data,
-							msg: res.message,
-							code: res.code
-						}
-					},
-					// 解析数据字段
-					parseDataField: function (item) {
-						return {
-							label: item.username || item.nickname || item.mobile || item.email,
-							value: item.id,
-						}
+				dictSelect: {
+					// api接口
+					apiObj: this.$API.system.dict.list,
+					// 参数(搜索关键字为空时生效)
+					params: {},
+					// 搜索参数(搜索关键字不为空时生效)
+					search: {},
+					// 属性字段
+					props: {
+						// keyword: 'keyword',
+						keyword: 'code',
 					},
 				},
 			}
@@ -102,6 +96,7 @@
 				this.visible = true;
 				return this
 			},
+
 			//表单提交方法
 			submit(){
 				this.$refs.dialogForm.validate(async (valid) => {
@@ -109,9 +104,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.store.orderRefund.update.put(this.form)
+							res = await this.$API.system.dictItem.update.put(this.form)
 						} else {
-							res = await this.$API.store.orderRefund.add.post(this.form)
+							res = await this.$API.system.dictItem.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -131,10 +126,11 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.store.orderRefund.detail.get(reqData)
+					let res = await this.$API.system.dictItem.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
+				// this.form.isGlobal = this.form.isGlobal || 0
 			}
 		}
 	}

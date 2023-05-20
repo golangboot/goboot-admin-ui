@@ -87,7 +87,16 @@
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="用户ID" prop="userId">
-						<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
+						<select-remote v-model="form.userId"
+									   :apiObj="$API.user.user.list"
+									   :params="{id: form.userId}"
+									   :searchClearParams="['id']"
+									   :request="{name: 'keyword'}"
+									   :props="{label: 'label', value: 'value'}"
+									   :parseData="userSelect.parseData"
+									   :parseDataField="userSelect.parseDataField"
+									   clearable filterable style="width:100%">
+						</select-remote>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -162,16 +171,6 @@
 					{label: "全部分类", value: 1,},
 				],
 				userSelect: {
-					// api接口
-					apiObj: this.$API.user.user.list,
-					// 参数(搜索关键字为空时生效)
-					params: {},
-					// 搜索参数(搜索关键字不为空时生效)
-					search: {},
-					// 属性字段
-					props: {
-						keyword: 'keyword',
-					},
 					// 解析数据
 					parseData: function (res) {
 						return {

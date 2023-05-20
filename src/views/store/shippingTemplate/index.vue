@@ -9,7 +9,14 @@
 				<div class="right-panel-search">
 					<el-form :inline="true" :model="search" class="form-inline" style="vertical-align: middle;">
 						<el-form-item label="卖家：" prop="sellerId">
-							<select-remote v-model="search.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :props="sellerSelect.props" clearable filterable style="width: 160px;"></select-remote>
+							<select-remote v-model="search.sellerId"
+										   :apiObj="$API.store.seller.list"
+										   :params="{id: search.sellerId}"
+										   :searchClearParams="['id']"
+										   :request="{name: 'keyword'}"
+										   :props="{label: 'name', value: 'id',}"
+										   clearable filterable style="width: 160px;">
+							</select-remote>
 						</el-form-item>
 						<el-form-item label="搜索：" prop="keyword">
 							<el-input v-model="search.keyword" placeholder="请输入关键字" clearable />

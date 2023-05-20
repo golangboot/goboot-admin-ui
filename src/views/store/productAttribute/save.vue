@@ -120,7 +120,14 @@
 				</el-col>
 			</el-row>-->
 			<el-form-item label="所属商品规格" prop="productSpecId">
-				<select-remote v-model="form.productSpecId" :apiObj="productSpecSelect.apiObj" :params="productSpecSelect.params" :props="productSpecSelect.props" clearable filterable style="width: 100%;"></select-remote>
+				<select-remote v-model="form.productSpecId"
+							   :apiObj="$API.store.productSpec.list"
+							   :params="{id: form.productSpecId}"
+							   :searchClearParams="['id']"
+							   :request="{name: 'keyword'}"
+							   :props="{label: 'name', value: 'id',}"
+							   clearable filterable style="width: 100%;">
+				</select-remote>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>

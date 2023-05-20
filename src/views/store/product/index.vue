@@ -17,10 +17,24 @@
 					<el-cascader v-model="search.categoryId" :options="treeOptions" :props="treeProps" :show-all-levels="true" placeholder="请选择商品分类" clearable filterable></el-cascader>
 				</el-form-item>
 				<el-form-item label="品牌：" prop="brandId">
-					<select-remote v-model="search.brandId" :apiObj="brandSelect.apiObj" :params="brandSelect.params" :props="brandSelect.props" clearable filterable style="width: 160px;"></select-remote>
+					<select-remote v-model="search.brandId"
+								   :apiObj="$API.store.brand.list"
+								   :params="{id: search.brandId}"
+								   :searchClearParams="['id']"
+								   :request="{name: 'keyword'}"
+								   :props="{label: 'name', value: 'id',}"
+								   clearable filterable style="width: 160px;">
+					</select-remote>
 				</el-form-item>
 				<el-form-item label="卖家：" prop="sellerId">
-					<select-remote v-model="search.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :props="sellerSelect.props" clearable filterable style="width: 160px;"></select-remote>
+					<select-remote v-model="search.sellerId"
+								   :apiObj="$API.store.seller.list"
+								   :params="{id: search.sellerId}"
+								   :searchClearParams="['id']"
+								   :request="{name: 'keyword'}"
+								   :props="{label: 'name', value: 'id',}"
+								   clearable filterable style="width: 160px;">
+					</select-remote>
 				</el-form-item>
 			</el-form>
 		</el-header>
@@ -221,26 +235,6 @@ export default {
 				checkStrictly: true,
 				emitPath: false,
 				expandTrigger: "hover",
-			},
-			brandSelect: {
-				// api接口
-				apiObj: this.$API.store.brand.list,
-				// 搜索参数(搜索关键词为空时生效)
-				params: {},
-				// 属性字段
-				props: {
-					keyword: 'keyword',
-				},
-			},
-			sellerSelect: {
-				// api接口
-				apiObj: this.$API.store.seller.list,
-				// 搜索参数(搜索关键词为空时生效)
-				params: {},
-				// 属性字段
-				props: {
-					keyword: 'keyword',
-				},
 			},
 		}
 	},

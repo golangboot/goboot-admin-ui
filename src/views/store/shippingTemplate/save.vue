@@ -160,7 +160,14 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="卖家" prop="sellerId">
-						<select-remote v-model="form.sellerId" :apiObj="sellerSelect.apiObj" :params="sellerSelect.params" :search="sellerSelect.search" :props="sellerSelect.props" clearable filterable style="width:100%"></select-remote>
+						<select-remote v-model="form.sellerId"
+									   :apiObj="$API.store.seller.list"
+									   :params="{id: form.sellerId}"
+									   :searchClearParams="['id']"
+									   :request="{name: 'keyword'}"
+									   :props="{label: 'name', value: 'id',}"
+									   clearable filterable style="width: 100%;">
+						</select-remote>
 					</el-form-item>
 				</el-col>
 			</el-row>

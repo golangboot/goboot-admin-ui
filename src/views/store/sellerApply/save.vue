@@ -25,7 +25,16 @@
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId" :apiObj="userSelect.apiObj" :params="userSelect.params" :props="userSelect.props" :parseDataField="userSelect.parseDataField" clearable filterable style="width: 100%;"></select-remote>
+				<select-remote v-model="form.userId"
+							   :apiObj="$API.user.user.list"
+							   :params="{id: form.userId}"
+							   :searchClearParams="['id']"
+							   :request="{name: 'keyword'}"
+							   :props="{label: 'label', value: 'value'}"
+							   :parseData="userSelect.parseData"
+							   :parseDataField="userSelect.parseDataField"
+							   clearable filterable style="width:100%">
+				</select-remote>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -80,16 +89,6 @@
 					],
 				},
 				userSelect: {
-					// api接口
-					apiObj: this.$API.user.user.list,
-					// 参数(搜索关键字为空时生效)
-					params: {},
-					// 搜索参数(搜索关键字不为空时生效)
-					search: {},
-					// 属性字段
-					props: {
-						keyword: 'keyword',
-					},
 					// 解析数据
 					parseData: function (res) {
 						return {
