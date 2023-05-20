@@ -133,7 +133,6 @@
 			//获取数据
 			async getRemoteData(query){
 				this.loading = true
-
 				if (this.apiObj) {
 					// 远程搜索
 					let reqData = {}
