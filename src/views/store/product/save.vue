@@ -234,30 +234,37 @@
 										<el-radio v-for="(item, index) in logisticsTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 									</el-radio-group>
 								</el-form-item>
-								<el-row :gutter="20" v-if="form.logisticsType == 1">
-									<el-col :span="12">
-										<el-form-item label="运费类型" prop="freightType">
-											<el-radio-group v-model="form.freightType">
-												<el-radio v-for="(item, index) in freightTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-											</el-radio-group>
-										</el-form-item>
-									</el-col>
-									<el-col :span="12">
-										<el-form-item label="运费价格" prop="freightPrice" v-if="form.freightType == 1">
-											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
-										</el-form-item>
-										<el-form-item label="运费模板" prop="shippingTemplateId" v-if="form.freightType == 2">
-											<select-remote v-model="form.shippingTemplateId" ref="shippingTemplateSelectRemote"
-														   :apiObj="$API.store.shippingTemplate.list"
-														   :params="{id: form.shippingTemplateId, sellerId: form.sellerId}"
-														   :searchClearParams="['id']"
-														   :request="{name: 'keyword'}"
-														   :props="{label: 'name', value: 'id',}"
-														   clearable filterable style="width: 100%;">
-											</select-remote>
-										</el-form-item>
-									</el-col>
-								</el-row>
+								<template v-if="form.logisticsType == 1">
+									<el-form-item label="运费类型" prop="freightType">
+										<el-radio-group v-model="form.freightType">
+											<el-radio v-for="(item, index) in freightTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+										</el-radio-group>
+									</el-form-item>
+									<el-row :gutter="20" v-if="form.freightType == 1">
+										<el-col :span="12">
+											<el-form-item label="运费价格" prop="freightPrice">
+												<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格（元）" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
+											</el-form-item>
+										</el-col>
+									</el-row>
+									<el-row :gutter="20" v-if="form.freightType == 2">
+										<el-col :span="12">
+											<el-form-item label="运费模板" prop="shippingTemplateId" :rules="shippingTemplateRules">
+												<select-remote v-model="form.shippingTemplateId" ref="shippingTemplateSelectRemote"
+															   :apiObj="$API.store.shippingTemplate.list"
+															   :params="{id: form.shippingTemplateId, sellerId: form.sellerId}"
+															   :searchClearParams="['id']"
+															   :request="{name: 'keyword'}"
+															   :props="{label: 'name', value: 'id',}"
+															   clearable filterable style="width: 100%;">
+												</select-remote>
+											</el-form-item>
+										</el-col>
+										<el-col :span="12">
+											<el-button type="default" @click="shippingTemplateAdd">新建运费模板</el-button>
+										</el-col>
+									</el-row>
+								</template>
 							</el-card>
 
 							<el-card shadow="never" header="营销设置">
@@ -330,16 +337,23 @@
 							</el-card>
 
 							<el-card shadow="never" header="平台操作">
-								<el-form-item label="卖家" prop="sellerId">
-									<select-remote v-model="form.sellerId"
-												   :apiObj="$API.store.seller.list"
-												   :params="{id: form.sellerId}"
-												   :searchClearParams="['id']"
-												   :request="{name: 'keyword'}"
-												   :props="{label: 'name', value: 'id',}"
-												   clearable filterable style="width: 100%;">
-									</select-remote>
-								</el-form-item>
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="卖家" prop="sellerId">
+											<select-remote v-model="form.sellerId"
+														   :apiObj="$API.store.seller.list"
+														   :params="{id: form.sellerId}"
+														   :searchClearParams="['id']"
+														   :request="{name: 'keyword'}"
+														   :props="{label: 'name', value: 'id',}"
+														   clearable filterable style="width: 100%;">
+											</select-remote>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+									</el-col>
+								</el-row>
+
 								<el-form-item label="审核状态" prop="auditStatus">
 									<el-radio-group v-model="form.auditStatus">
 										<el-radio v-for="(item, index) in auditStatusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
@@ -445,6 +459,8 @@
 				<el-button @click="visible=false">返回</el-button>
 			</el-footer>
 		</el-container>
+
+		<shipping-template-save-dialog v-if="dialog.shippingTemplateSave" ref="shippingTemplateSaveDialog" @success="shippingTemplateHandleSaveSuccess" @closed="dialog.shippingTemplateSave=false"></shipping-template-save-dialog>
 	</el-drawer>
 </template>
 
@@ -453,6 +469,7 @@
 	import selectRemote from "@/components/selectRemote";
 	import { defineAsyncComponent } from 'vue';
 	const scEditor = defineAsyncComponent(() => import('@/components/scEditor'));
+	import shippingTemplateSaveDialog from '../shippingTemplate/save'
 
 	export default {
 		emits: ['success', 'closed'],
@@ -460,6 +477,7 @@
 			skuForm,
 			selectRemote,
 			scEditor,
+			shippingTemplateSaveDialog,
 		},
 		data() {
 			return {
@@ -469,6 +487,9 @@
 					add: '新增商品',
 					edit: '编辑商品',
 					show: '查看商品'
+				},
+				dialog: {
+					shippingTemplateSave: false,
 				},
 				visible: false,
 				isSaving: false,
@@ -749,6 +770,14 @@
 				})
 				return rules
 			},
+			shippingTemplateRules() {
+				// 重新生成验证规则
+				let rules = []
+				if (this.form.freightType == 2){
+					rules.push({ required: true, message: `运费模板不能为空`, trigger: ['change', 'blur'] })
+				}
+				return rules
+			},
 		},
 		watch: {
 			form: {
@@ -779,7 +808,6 @@
 						// 处理 运费模板 搜索条件
 						// this.shippingTemplateSelect.params.sellerId = this.form.sellerId
 						// this.shippingTemplateSelect.search.sellerId = this.form.sellerId
-						this.$refs.shippingTemplateSelectRemote?.getRemoteData()
 						// 卖家ID发生改变时, 运费模板需要重置
 						this.form.shippingTemplateId = ''
 					}
@@ -1044,6 +1072,18 @@
 					})
 				})
 				this.form.specAttributes = specAttributes
+			},
+			shippingTemplateAdd(){
+				this.dialog.shippingTemplateSave = true
+				this.$nextTick(() => {
+					let form = {}
+					if (this.form.sellerId){
+						form.sellerId = this.form.sellerId
+					}
+					this.$refs.shippingTemplateSaveDialog.open('add').setData(form)
+				})
+			},
+			shippingTemplateHandleSaveSuccess(){
 			},
 		}
 	}

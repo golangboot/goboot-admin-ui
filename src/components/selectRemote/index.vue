@@ -17,7 +17,7 @@
 		<el-select
 			v-bind="$attrs"
 			remote
-			reserve-keyword
+			:reserve-keyword="false"
 			placeholder="请输入关键字搜索"
 			:remote-method="getRemoteData"
 			:loading="loading"
@@ -99,6 +99,16 @@ export default {
 			initLoading: false,
 		}
 	},
+	/*watch: {
+		'$attrs.modelValue': {
+			// eslint-disable-next-line
+			handler(newValue, oldValue){
+				console.log('selectRemote -> $attrs.modelValue:', newValue, oldValue)
+				if (newValue && newValue !== oldValue){}
+			},
+			deep: true
+		},
+	},*/
 	created() {
 		//如果有默认值就去请求接口获取options
 		if (this.hasValue()) {
@@ -111,6 +121,8 @@ export default {
 		visibleChange(isOpen) {
 			if (isOpen && this.options.length == 0 && (this.apiObj)) {
 				this.getRemoteData()
+			} else if (isOpen) {
+				this.getRemoteData()
 			}
 		},
 		//获取数据
@@ -120,7 +132,7 @@ export default {
 			// 远程搜索
 			let reqData = this.params
 			// console.log('query',query)
-			if (query) {
+			if (typeof query != 'undefined') {
 				if (this.searchClearParams && this.searchClearParams.length > 0) {
 					this.searchClearParams.forEach(key => {
 						if (reqData[key]) {
@@ -148,7 +160,6 @@ export default {
 				})
 			}
 			this.options = options
-
 			// console.log('options', this.options)
 			this.loading = false
 			this.initLoading = false
