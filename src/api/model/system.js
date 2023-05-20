@@ -202,18 +202,18 @@ export default {
 				return await http.get(this.url);
 			}
 		},
-		getChildren: {
-			url: `${config.API_URL}/sys/dict/getChildren`,
-			name: "获取子类",
-			get: async function(){
-				return await http.get(this.url);
+		getDictList: {
+			url: `${config.API_URL}/sys/dict/getDictList`,
+			name: "获取字典列表子类",
+			get: async function(data){
+				return await http.get(this.url, data);
 			}
 		},
 		getDictType: {
 			url: `${config.API_URL}/sys/dict/getDictType`,
 			name: "获取字典类型",
-			get: async function(){
-				return await http.get(this.url);
+			get: async function(data){
+				return await http.get(this.url, data);
 			}
 		},
 	},

@@ -25,10 +25,10 @@
 			@visible-change="visibleChange"
 		>
 			<el-option
-				v-for="item in options"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value"
+				v-for="(item, index) in options"
+				:key="index"
+				:label="isDictSelect ? item[dictConfig.props.label] : item.label"
+				:value="isDictSelect ? item[dictConfig.props.value] : item.value"
 			>
 				<slot name="option" :data="item"></slot>
 			</el-option>
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+	import API from "@/api";
+
 	export default {
 		name: "selectRemote",
 		props: {
@@ -74,12 +76,44 @@
 					}
 				}
 			},
+			dict: { type: String, default: "" },
+			dictType: { type: String, default: "" },
+			objValueType: { type: Boolean, default: false },
+			defaultOptions: { type: Object, default: () => ({}) },
+			dictConfig: {
+				type: Object, default: () => {
+					return {
+						dictApiObj: API.system.dict.getDictList,		//获取字典接口对象
+						parseData: function (res) {
+							return {
+								data: res.data || res.data.records,				//分析行数据字段结构
+								msg: res.message,			//分析描述字段结构
+								code: res.code				//分析状态字段结构
+							}
+						},
+						request: {
+							name: 'code',					//规定搜索字段
+						},
+						props: {
+							label: 'label',					//映射label显示字段
+							value: 'value',					//映射value值字段
+							type: 'type',					//映射type值字段
+						}
+					}
+				}
+			},
+		},
+		computed: {
+			isDictSelect() {
+				return this.dict && this.dict !== ''
+			},
 		},
 		data() {
 			return {
 				loading: false,
 				options: [],
-				initLoading: false
+				initLoading: false,
+				dictParams: this.params,
 			}
 		},
 		created() {
@@ -99,33 +133,79 @@
 			//获取数据
 			async getRemoteData(query){
 				this.loading = true
-				let reqData = {}
-				// console.log('query',query)
-				if (query){
-					reqData[this.props.keyword] = query
-					Object.assign(reqData, this.search)
-				}else {
-					reqData = this.params
+
+				if (this.apiObj) {
+					// 远程搜索
+					let reqData = {}
+					// console.log('query',query)
+					if (query){
+						reqData[this.props.keyword] = query
+						Object.assign(reqData, this.search)
+					}else {
+						reqData = this.params
+					}
+					// console.log('reqData',reqData)
+					let res = await this.apiObj.get(reqData)
+					let response = this.parseData(res)
+					let items =  response.data
+					let options = []
+					items.forEach(item => {
+						/*options.push({
+							label: item[this.props.label],
+							value: item[this.props.value],
+						})*/
+						options.push(this.parseDataField(item))
+						/*let option = this.parseDataField(item)
+						console.log('label', option.label)
+						console.log('value', option.value)
+						options.push({
+							label:  option.label,
+							value:  option.value,
+						})*/
+					})
+					this.options = options
+				} else if (this.isDictSelect) {
+					// 字典搜索
+					let res = {}
+					this.dictParams[this.dictConfig.request.name] = this.dict
+					res = await this.dictConfig.dictApiObj.get(this.dictParams)
+					let response = this.dictConfig.parseData(res)
+					let items = response.data
+					let options = []
+					items.forEach(item => {
+						let label = item[this.dictConfig.props.label]
+						let value = item[this.dictConfig.props.value]
+						let type = item[this.dictConfig.props.type]
+						if (this.dictType && this.dictType !== ''){
+							type = this.dictType
+						}
+						// 数据类型处理
+						let dictType = String(type).toUpperCase();
+						switch(dictType)
+						{
+							case "INTEGER" || "INT" || "LONG":
+								// value = Number(value)
+								value = parseInt(value)
+								break;
+							case "FLOAT" || "DOUBLE"  || "DECIMAL" || "BIG_DECIMAL":
+								value = parseFloat(value)
+								break;
+							case "BOOLEAN":
+								value = Boolean(value)
+								break;
+							default:
+								value = String(value)
+						}
+						options.push({
+							[this.dictConfig.props.label]: label,
+							[this.dictConfig.props.value]: value,
+						})
+					})
+					if (options.length <= 0 && (this.defaultOptions && this.defaultOptions.length > 0)){
+						options = this.defaultOptions
+					}
+					this.options = options
 				}
-				// console.log('reqData',reqData)
-				var res = await this.apiObj.get(reqData)
-				var response = this.parseData(res)
-				let items =  response.data
-				this.options = []
-				items.forEach(item => {
-					/*this.options.push({
-						label: item[this.props.label],
-						value: item[this.props.value],
-					})*/
-					this.options.push(this.parseDataField(item))
-					/*let option = this.parseDataField(item)
-					console.log('label', option.label)
-					console.log('value', option.value)
-					this.options.push({
-						label:  option.label,
-						value:  option.value,
-					})*/
-				})
 				// console.log('options', this.options)
 				this.loading = false
 				this.initLoading = false
