@@ -202,7 +202,7 @@ export default {
 				return await http.get(this.url);
 			}
 		},
-		getDictList: {
+		getDictItemList: {
 			url: `${config.API_URL}/sys/dict/getDictList`,
 			name: "获取字典列表子类",
 			get: async function(data){

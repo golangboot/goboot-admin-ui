@@ -38,7 +38,7 @@
 			// api接口
 			apiObj: {
 				type: Object, default: () => {
-					return API.system.dict.getDictList
+					return API.system.dict.getDictItemList
 				}
 			},
 			params: { type: Object, default: () => ({}) },
