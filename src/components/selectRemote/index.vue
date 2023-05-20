@@ -18,7 +18,7 @@
 			v-bind="$attrs"
 			remote
 			reserve-keyword
-			placeholder="请输入关键词搜索"
+			placeholder="请输入关键字搜索"
 			:remote-method="getRemoteData"
 			:loading="loading"
 			remote-show-suffix
@@ -28,7 +28,7 @@
 		>
 			<el-option
 				v-for="(item, index) in options"
-				:key="index"
+				:key="`${index}-${item[props.value]}`"
 				:label="item[props.label]"
 				:value="item[props.value]"
 			>

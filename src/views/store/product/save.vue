@@ -59,7 +59,7 @@
 										<el-form-item label="商品品牌" prop="brandId">
 											<select-remote v-model="form.brandId"
 														   :apiObj="$API.store.brand.list"
-														   :params="{id: form.brandId}"
+														   :params="{id: form.brandId, categoryId: form.categoryId}"
 														   :searchClearParams="['id']"
 														   :request="{name: 'keyword'}"
 														   :props="{label: 'name', value: 'id',}"
@@ -71,7 +71,7 @@
 										<el-form-item label="销售单位" prop="saleUnitId">
 											<select-remote v-model="form.saleUnitId"
 														   :apiObj="$API.store.saleUnit.list"
-														   :params="{id: form.saleUnitId}"
+														   :params="{id: form.saleUnitId, categoryId: form.categoryId}"
 														   :searchClearParams="['id']"
 														   :request="{name: 'keyword'}"
 														   :props="{label: 'name', value: 'id',}"
@@ -247,9 +247,9 @@
 											<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格" controls-position="right" :min="0" style="width: 50%;"></el-input-number>
 										</el-form-item>
 										<el-form-item label="运费模板" prop="shippingTemplateId" v-if="form.freightType == 2">
-											<select-remote v-model="form.shippingTemplateId"
+											<select-remote v-model="form.shippingTemplateId" ref="shippingTemplateSelectRemote"
 														   :apiObj="$API.store.shippingTemplate.list"
-														   :params="{id: form.shippingTemplateId}"
+														   :params="{id: form.shippingTemplateId, sellerId: form.sellerId}"
 														   :searchClearParams="['id']"
 														   :request="{name: 'keyword'}"
 														   :props="{label: 'name', value: 'id',}"
@@ -761,11 +761,11 @@
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 品牌 搜索条件
-						this.brandSelect.params.categoryId = newValue
-						this.brandSelect.search.categoryId = newValue
+						// this.brandSelect.params.categoryId = newValue
+						// this.brandSelect.search.categoryId = newValue
 						// 处理 销售单位 搜索条件
-						this.saleUnitSelect.params.categoryId = newValue
-						this.saleUnitSelect.search.categoryId = newValue
+						// this.saleUnitSelect.params.categoryId = newValue
+						// this.saleUnitSelect.search.categoryId = newValue
 						// 处理 分类属性
 						// this.getCategoryAttributes()
 					}
@@ -777,20 +777,11 @@
 				handler(newValue,oldValue){
 					if (newValue && newValue !== oldValue){
 						// 处理 运费模板 搜索条件
-						this.shippingTemplateSelect.params.sellerId = this.form.sellerId
-						this.shippingTemplateSelect.search.sellerId = this.form.sellerId
-					}
-				},
-				deep: true
-			},
-			'form.shippingTemplateId': {
-				// eslint-disable-next-line
-				handler(newValue,oldValue){
-					if (newValue && newValue !== oldValue){
-						// 处理 运费模板 搜索条件
-						this.shippingTemplateSelect.params.sellerId = this.form.sellerId
-						this.shippingTemplateSelect.search.sellerId = this.form.sellerId
-						this.$refs.shippingTemplateselectRemote?.getRemoteData()
+						// this.shippingTemplateSelect.params.sellerId = this.form.sellerId
+						// this.shippingTemplateSelect.search.sellerId = this.form.sellerId
+						this.$refs.shippingTemplateSelectRemote?.getRemoteData()
+						// 卖家ID发生改变时, 运费模板需要重置
+						this.form.shippingTemplateId = ''
 					}
 				},
 				deep: true
