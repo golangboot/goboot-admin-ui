@@ -32,7 +32,7 @@
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="快捷选择" prop="code">
-						<select-dict v-model="form.code" dict="banner_position" placeholder="" clearable filterable style="width: 100%;"></select-dict>
+						<select-dict v-model="form.code" dict="BANNER_POSITION" placeholder="" clearable filterable style="width: 100%;"></select-dict>
 					</el-form-item>
 				</el-col>
 			</el-row>
