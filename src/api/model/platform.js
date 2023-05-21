@@ -6,42 +6,42 @@ export default {
 	sys: {
 		department: {
 			tree: {
-				url: `${config.API_URL}/sys/department/tree`,
+				url: `${config.API_URL}/platform/sys/department/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			list: {
-				url: `${config.API_URL}/sys/department`,
+				url: `${config.API_URL}/platform/sys/department`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/department`,
+				url: `${config.API_URL}/platform/sys/department`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/department`,
+				url: `${config.API_URL}/platform/sys/department`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/department`,
+				url: `${config.API_URL}/platform/sys/department`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/department`,
+				url: `${config.API_URL}/platform/sys/department`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -51,35 +51,35 @@ export default {
 		},
 		position: {
 			list: {
-				url: `${config.API_URL}/sys/position`,
+				url: `${config.API_URL}/platform/sys/position`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/position`,
+				url: `${config.API_URL}/platform/sys/position`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/position`,
+				url: `${config.API_URL}/platform/sys/position`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/position`,
+				url: `${config.API_URL}/platform/sys/position`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/position`,
+				url: `${config.API_URL}/platform/sys/position`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -89,42 +89,42 @@ export default {
 		},
 		menu: {
 			tree: {
-				url: `${config.API_URL}/sys/menu/tree`,
+				url: `${config.API_URL}/platform/sys/menu/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			list: {
-				url: `${config.API_URL}/sys/menu`,
+				url: `${config.API_URL}/platform/sys/menu`,
 				name: "获取",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/menu`,
+				url: `${config.API_URL}/platform/sys/menu`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/menu`,
+				url: `${config.API_URL}/platform/sys/menu`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/menu`,
+				url: `${config.API_URL}/platform/sys/menu`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/menu`,
+				url: `${config.API_URL}/platform/sys/menu`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -132,21 +132,21 @@ export default {
 				}
 			},
 			sync: {
-				url: `${config.API_URL}/sys/menu/sync`,
+				url: `${config.API_URL}/platform/sys/menu/sync`,
 				name: "同步",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			export: {
-				url: `${config.API_URL}/sys/menu/export`,
+				url: `${config.API_URL}/platform/sys/menu/export`,
 				name: "导出附件",
 				get: async function(data, config={}){
 					return await http.get(this.url, data, config);
 				}
 			},
 			import: {
-				url: `${config.API_URL}/sys/menu/import`,
+				url: `${config.API_URL}/platform/sys/menu/import`,
 				name: "导入附件",
 				post: async function(data, config={}){
 					return await http.post(this.url, data, config);
@@ -155,35 +155,35 @@ export default {
 		},
 		dict: {
 			list: {
-				url: `${config.API_URL}/sys/dict`,
+				url: `${config.API_URL}/platform/sys/dict`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/dict`,
+				url: `${config.API_URL}/platform/sys/dict`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/dict`,
+				url: `${config.API_URL}/platform/sys/dict`,
 				name: "详情",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/dict`,
+				url: `${config.API_URL}/platform/sys/dict`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/dict`,
+				url: `${config.API_URL}/platform/sys/dict`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -191,14 +191,14 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/sys/dict/tree`,
+				url: `${config.API_URL}/platform/sys/dict/tree`,
 				name: "树型列表",
 				get: async function(){
 					return await http.get(this.url);
 				}
 			},
 			getDictItemList: {
-				url: `${config.API_URL}/sys/dict/getDictList`,
+				url: `${config.API_URL}/platform/sys/dict/getDictList`,
 				name: "获取字典列表子类",
 				get: async function(data){
 					return await http.get(this.url, data);
@@ -207,35 +207,35 @@ export default {
 		},
 		dictItem: {
 			list: {
-				url: `${config.API_URL}/sys/dictItem`,
+				url: `${config.API_URL}/platform/sys/dictItem`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/dictItem`,
+				url: `${config.API_URL}/platform/sys/dictItem`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/dictItem`,
+				url: `${config.API_URL}/platform/sys/dictItem`,
 				name: "详情",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/dictItem`,
+				url: `${config.API_URL}/platform/sys/dictItem`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/dictItem`,
+				url: `${config.API_URL}/platform/sys/dictItem`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -245,42 +245,42 @@ export default {
 		},
 		config: {
 			tree: {
-				url: `${config.API_URL}/sys/config/tree`,
+				url: `${config.API_URL}/platform/sys/config/tree`,
 				name: "树型列表",
 				get: async function(){
 					return await http.get(this.url);
 				}
 			},
 			list: {
-				url: `${config.API_URL}/sys/config`,
+				url: `${config.API_URL}/platform/sys/config`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/config`,
+				url: `${config.API_URL}/platform/sys/config`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/config`,
+				url: `${config.API_URL}/platform/sys/config`,
 				name: "详情",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/config`,
+				url: `${config.API_URL}/platform/sys/config`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/config`,
+				url: `${config.API_URL}/platform/sys/config`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -290,35 +290,35 @@ export default {
 		},
 		role: {
 			list: {
-				url: `${config.API_URL}/sys/role`,
+				url: `${config.API_URL}/platform/sys/role`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/role`,
+				url: `${config.API_URL}/platform/sys/role`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/role`,
+				url: `${config.API_URL}/platform/sys/role`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/role`,
+				url: `${config.API_URL}/platform/sys/role`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/role`,
+				url: `${config.API_URL}/platform/sys/role`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -326,35 +326,35 @@ export default {
 				}
 			},
 			sync: {
-				url: `${config.API_URL}/sys/role/sync`,
+				url: `${config.API_URL}/platform/sys/role/sync`,
 				name: "同步",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			getPermissionIdListByRoleId: {
-				url: `${config.API_URL}/sys/role/getPermissionIdListByRoleId`,
+				url: `${config.API_URL}/platform/sys/role/getPermissionIdListByRoleId`,
 				name: "根据角色ID获取权限ID列表",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			assignPermission: {
-				url: `${config.API_URL}/sys/role/assignPermission`,
+				url: `${config.API_URL}/platform/sys/role/assignPermission`,
 				name: "分配权限",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			getMenuIdListByRoleId: {
-				url: `${config.API_URL}/sys/role/getMenuIdListByRoleId`,
+				url: `${config.API_URL}/platform/sys/role/getMenuIdListByRoleId`,
 				name: "根据角色ID获取菜单ID列表",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			assignMenu: {
-				url: `${config.API_URL}/sys/role/assignMenu`,
+				url: `${config.API_URL}/platform/sys/role/assignMenu`,
 				name: "分配菜单",
 				post: async function(data){
 					return await http.post(this.url, data);
@@ -363,35 +363,35 @@ export default {
 		},
 		permission: {
 			list: {
-				url: `${config.API_URL}/sys/permission`,
+				url: `${config.API_URL}/platform/sys/permission`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/permission`,
+				url: `${config.API_URL}/platform/sys/permission`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/permission`,
+				url: `${config.API_URL}/platform/sys/permission`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/permission`,
+				url: `${config.API_URL}/platform/sys/permission`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/permission`,
+				url: `${config.API_URL}/platform/sys/permission`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -399,14 +399,14 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/sys/permission/tree`,
+				url: `${config.API_URL}/platform/sys/permission/tree`,
 				name: "树型列表",
 				get: async function(){
 					return await http.get(this.url);
 				}
 			},
 			sync: {
-				url: `${config.API_URL}/sys/permission/sync`,
+				url: `${config.API_URL}/platform/sys/permission/sync`,
 				name: "同步",
 				post: async function(data){
 					return await http.post(this.url, data);
@@ -415,35 +415,35 @@ export default {
 		},
 		user: {
 			list: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -451,21 +451,21 @@ export default {
 				}
 			},
 			assignGroups: {
-				url: `${config.API_URL}/user/assignGroups`,
+				url: `${config.API_URL}/platform/user/assignGroups`,
 				name: "分配用户组",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
 				}
 			},
 			assignRoles: {
-				url: `${config.API_URL}/user/assignRoles`,
+				url: `${config.API_URL}/platform/user/assignRoles`,
 				name: "分配角色",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
 				}
 			},
 			assignDepartments: {
-				url: `${config.API_URL}/user/assignDepartments`,
+				url: `${config.API_URL}/platform/user/assignDepartments`,
 				name: "分配部门",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
@@ -474,14 +474,14 @@ export default {
 		},
 		setting: {
 			list: {
-				url: `${config.API_URL}/sys/setting`,
+				url: `${config.API_URL}/platform/sys/setting`,
 				name: "列表",
 				get: async function(params){
 					return await http.get(this.url, params);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/setting`,
+				url: `${config.API_URL}/platform/sys/setting`,
 				name: "修改",
 				post: async function(data){
 					return await http.post(this.url, data);
@@ -490,7 +490,7 @@ export default {
 		},
 		route: {
 			list: {
-				url: `${config.API_URL}/sys/route/list`,
+				url: `${config.API_URL}/platform/sys/route/list`,
 				name: "列表",
 				get: async function(params){
 					return await http.get(this.url, params);
@@ -499,35 +499,35 @@ export default {
 		},
 		log: {
 			list: {
-				url: `${config.API_URL}/sys/log`,
+				url: `${config.API_URL}/platform/sys/log`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/log`,
+				url: `${config.API_URL}/platform/sys/log`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/log`,
+				url: `${config.API_URL}/platform/sys/log`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/log`,
+				url: `${config.API_URL}/platform/sys/log`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/log`,
+				url: `${config.API_URL}/platform/sys/log`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -537,35 +537,35 @@ export default {
 		},
 		notice: {
 			list: {
-				url: `${config.API_URL}/sys/notice`,
+				url: `${config.API_URL}/platform/sys/notice`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/notice`,
+				url: `${config.API_URL}/platform/sys/notice`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/notice`,
+				url: `${config.API_URL}/platform/sys/notice`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/notice`,
+				url: `${config.API_URL}/platform/sys/notice`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/notice`,
+				url: `${config.API_URL}/platform/sys/notice`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -575,35 +575,35 @@ export default {
 		},
 		area: {
 			list: {
-				url: `${config.API_URL}/sys/area`,
+				url: `${config.API_URL}/platform/sys/area`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/area`,
+				url: `${config.API_URL}/platform/sys/area`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/area`,
+				url: `${config.API_URL}/platform/sys/area`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/area`,
+				url: `${config.API_URL}/platform/sys/area`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/area`,
+				url: `${config.API_URL}/platform/sys/area`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -611,7 +611,7 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/sys/area/tree`,
+				url: `${config.API_URL}/platform/sys/area/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
@@ -620,35 +620,35 @@ export default {
 		},
 		fileDetail: {
 			list: {
-				url: `${config.API_URL}/sys/file/fileDetail`,
+				url: `${config.API_URL}/platform/sys/file/fileDetail`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/file/fileDetail`,
+				url: `${config.API_URL}/platform/sys/file/fileDetail`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/file/fileDetail`,
+				url: `${config.API_URL}/platform/sys/file/fileDetail`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/file/fileDetail`,
+				url: `${config.API_URL}/platform/sys/file/fileDetail`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/file/fileDetail`,
+				url: `${config.API_URL}/platform/sys/file/fileDetail`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -658,42 +658,42 @@ export default {
 		},
 		fileCategory: {
 			tree: {
-				url: `${config.API_URL}/sys/file/fileCategory/tree`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			list: {
-				url: `${config.API_URL}/sys/file/fileCategory`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/sys/file/fileCategory`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/sys/file/fileCategory`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/sys/file/fileCategory`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/sys/file/fileCategory`,
+				url: `${config.API_URL}/platform/sys/file/fileCategory`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -705,14 +705,14 @@ export default {
 	user: {
 		userCenter:{
 			myMenus: {
-				url: `${config.API_URL}/user/userCenter/myMenus`,
+				url: `${config.API_URL}/platform/user/userCenter/myMenus`,
 				name: "获取我的菜单",
 				get: async function(){
 					return await http.get(this.url);
 				}
 			},
 			getUserInfo: {
-				url: `${config.API_URL}/user/userCenter/getUserInfo`,
+				url: `${config.API_URL}/platform/user/userCenter/getUserInfo`,
 				name: "获取用户信息",
 				get: async function(params){
 					let res = await http.get(this.url, params)
@@ -723,7 +723,7 @@ export default {
 				}
 			},
 			setUserInfo: {
-				url: `${config.API_URL}/user/userCenter/setUserInfo`,
+				url: `${config.API_URL}/platform/user/userCenter/setUserInfo`,
 				name: "设置用户信息",
 				post: async function(params){
 					let res = await http.post(this.url, params)
@@ -735,21 +735,21 @@ export default {
 				}
 			},
 			changePassword: {
-				url: `${config.API_URL}/user/userCenter/changePassword`,
+				url: `${config.API_URL}/platform/user/userCenter/changePassword`,
 				name: "修改用户密码",
 				post: async function(params){
 					return await http.post(this.url, params)
 				}
 			},
 			logRecord: {
-				url: `${config.API_URL}/user/userCenter/logRecord`,
+				url: `${config.API_URL}/platform/user/userCenter/logRecord`,
 				name: "获取用户日志记录",
 				get: async function(params){
 					return await http.get(this.url, params)
 				}
 			},
 			deleteLogRecord: {
-				url: `${config.API_URL}/user/userCenter/logRecord`,
+				url: `${config.API_URL}/platform/user/userCenter/logRecord`,
 				name: "删除用户日志记录",
 				delete: async function(data){
 					return await http.delete(`${this.url}/${data.id}`, data)
@@ -758,35 +758,35 @@ export default {
 		},
 		user: {
 			list: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/user`,
+				url: `${config.API_URL}/platform/user`,
 				name: "删除",
 				delete: async function(data){
 					/*let id = data.id;
@@ -804,14 +804,14 @@ export default {
 				}
 			},
 			changeAccount: {
-				url: `${config.API_URL}/user/changeAccount`,
+				url: `${config.API_URL}/platform/user/changeAccount`,
 				name: "账户",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			assignRoles: {
-				url: `${config.API_URL}/user/assignRoles`,
+				url: `${config.API_URL}/platform/user/assignRoles`,
 				name: "分配角色",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
@@ -820,35 +820,35 @@ export default {
 		},
 		userGroup: {
 			list: {
-				url: `${config.API_URL}/user/userGroup`,
+				url: `${config.API_URL}/platform/user/userGroup`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/user/userGroup`,
+				url: `${config.API_URL}/platform/user/userGroup`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/user/userGroup`,
+				url: `${config.API_URL}/platform/user/userGroup`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/user/userGroup`,
+				url: `${config.API_URL}/platform/user/userGroup`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/user/userGroup`,
+				url: `${config.API_URL}/platform/user/userGroup`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -858,35 +858,35 @@ export default {
 		},
 		userLevel: {
 			list: {
-				url: `${config.API_URL}/user/userLevel`,
+				url: `${config.API_URL}/platform/user/userLevel`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/user/userLevel`,
+				url: `${config.API_URL}/platform/user/userLevel`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/user/userLevel`,
+				url: `${config.API_URL}/platform/user/userLevel`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/user/userLevel`,
+				url: `${config.API_URL}/platform/user/userLevel`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/user/userLevel`,
+				url: `${config.API_URL}/platform/user/userLevel`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -896,35 +896,35 @@ export default {
 		},
 		userLabel: {
 			list: {
-				url: `${config.API_URL}/user/userLabel`,
+				url: `${config.API_URL}/platform/user/userLabel`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/user/userLabel`,
+				url: `${config.API_URL}/platform/user/userLabel`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/user/userLabel`,
+				url: `${config.API_URL}/platform/user/userLabel`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/user/userLabel`,
+				url: `${config.API_URL}/platform/user/userLabel`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/user/userLabel`,
+				url: `${config.API_URL}/platform/user/userLabel`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -936,35 +936,35 @@ export default {
 	cms: {
 		article: {
 			list: {
-				url: `${config.API_URL}/cms/article`,
+				url: `${config.API_URL}/platform/cms/article`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/cms/article`,
+				url: `${config.API_URL}/platform/cms/article`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/cms/article`,
+				url: `${config.API_URL}/platform/cms/article`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/cms/article`,
+				url: `${config.API_URL}/platform/cms/article`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/cms/article`,
+				url: `${config.API_URL}/platform/cms/article`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -974,35 +974,35 @@ export default {
 		},
 		articleCategory: {
 			list: {
-				url: `${config.API_URL}/cms/articleCategory`,
+				url: `${config.API_URL}/platform/cms/articleCategory`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/cms/articleCategory`,
+				url: `${config.API_URL}/platform/cms/articleCategory`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/cms/articleCategory`,
+				url: `${config.API_URL}/platform/cms/articleCategory`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/cms/articleCategory`,
+				url: `${config.API_URL}/platform/cms/articleCategory`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/cms/articleCategory`,
+				url: `${config.API_URL}/platform/cms/articleCategory`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1010,7 +1010,7 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/cms/articleCategory/tree`,
+				url: `${config.API_URL}/platform/cms/articleCategory/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
@@ -1019,35 +1019,35 @@ export default {
 		},
 		articleComment: {
 			list: {
-				url: `${config.API_URL}/cms/articleComment`,
+				url: `${config.API_URL}/platform/cms/articleComment`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/cms/articleComment`,
+				url: `${config.API_URL}/platform/cms/articleComment`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/cms/articleComment`,
+				url: `${config.API_URL}/platform/cms/articleComment`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/cms/articleComment`,
+				url: `${config.API_URL}/platform/cms/articleComment`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/cms/articleComment`,
+				url: `${config.API_URL}/platform/cms/articleComment`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1057,35 +1057,35 @@ export default {
 		},
 		articleTag: {
 			list: {
-				url: `${config.API_URL}/cms/articleTag`,
+				url: `${config.API_URL}/platform/cms/articleTag`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/cms/articleTag`,
+				url: `${config.API_URL}/platform/cms/articleTag`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/cms/articleTag`,
+				url: `${config.API_URL}/platform/cms/articleTag`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/cms/articleTag`,
+				url: `${config.API_URL}/platform/cms/articleTag`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/cms/articleTag`,
+				url: `${config.API_URL}/platform/cms/articleTag`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1097,35 +1097,35 @@ export default {
 	store: {
 		category: {
 			list: {
-				url: `${config.API_URL}/store/category`,
+				url: `${config.API_URL}/platform/store/category`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/category`,
+				url: `${config.API_URL}/platform/store/category`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/category`,
+				url: `${config.API_URL}/platform/store/category`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/category`,
+				url: `${config.API_URL}/platform/store/category`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/category`,
+				url: `${config.API_URL}/platform/store/category`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1133,14 +1133,14 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/store/category/tree`,
+				url: `${config.API_URL}/platform/store/category/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			getCategoryAttributes: {
-				url: `${config.API_URL}/store/category/getCategoryAttributes`,
+				url: `${config.API_URL}/platform/store/category/getCategoryAttributes`,
 				name: "获取分类属性",
 				get: async function(data){
 					return await http.get(this.url, data);
@@ -1149,35 +1149,35 @@ export default {
 		},
 		brand: {
 			list: {
-				url: `${config.API_URL}/store/brand`,
+				url: `${config.API_URL}/platform/store/brand`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/brand`,
+				url: `${config.API_URL}/platform/store/brand`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/brand`,
+				url: `${config.API_URL}/platform/store/brand`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/brand`,
+				url: `${config.API_URL}/platform/store/brand`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/brand`,
+				url: `${config.API_URL}/platform/store/brand`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1187,35 +1187,35 @@ export default {
 		},
 		saleUnit: {
 			list: {
-				url: `${config.API_URL}/store/saleUnit`,
+				url: `${config.API_URL}/platform/store/saleUnit`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/saleUnit`,
+				url: `${config.API_URL}/platform/store/saleUnit`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/saleUnit`,
+				url: `${config.API_URL}/platform/store/saleUnit`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/saleUnit`,
+				url: `${config.API_URL}/platform/store/saleUnit`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/saleUnit`,
+				url: `${config.API_URL}/platform/store/saleUnit`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1225,35 +1225,35 @@ export default {
 		},
 		productAttribute: {
 			list: {
-				url: `${config.API_URL}/store/productAttribute`,
+				url: `${config.API_URL}/platform/store/productAttribute`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/productAttribute`,
+				url: `${config.API_URL}/platform/store/productAttribute`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/productAttribute`,
+				url: `${config.API_URL}/platform/store/productAttribute`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/productAttribute`,
+				url: `${config.API_URL}/platform/store/productAttribute`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/productAttribute`,
+				url: `${config.API_URL}/platform/store/productAttribute`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1263,35 +1263,35 @@ export default {
 		},
 		product: {
 			list: {
-				url: `${config.API_URL}/store/product`,
+				url: `${config.API_URL}/platform/store/product`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/product`,
+				url: `${config.API_URL}/platform/store/product`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/product`,
+				url: `${config.API_URL}/platform/store/product`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/product`,
+				url: `${config.API_URL}/platform/store/product`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/product`,
+				url: `${config.API_URL}/platform/store/product`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1301,35 +1301,35 @@ export default {
 		},
 		productSku: {
 			list: {
-				url: `${config.API_URL}/store/productSku`,
+				url: `${config.API_URL}/platform/store/productSku`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/productSku`,
+				url: `${config.API_URL}/platform/store/productSku`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/productSku`,
+				url: `${config.API_URL}/platform/store/productSku`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/productSku`,
+				url: `${config.API_URL}/platform/store/productSku`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/productSku`,
+				url: `${config.API_URL}/platform/store/productSku`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1339,35 +1339,35 @@ export default {
 		},
 		productSpec: {
 			list: {
-				url: `${config.API_URL}/store/productSpec`,
+				url: `${config.API_URL}/platform/store/productSpec`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/productSpec`,
+				url: `${config.API_URL}/platform/store/productSpec`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/productSpec`,
+				url: `${config.API_URL}/platform/store/productSpec`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/productSpec`,
+				url: `${config.API_URL}/platform/store/productSpec`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/productSpec`,
+				url: `${config.API_URL}/platform/store/productSpec`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1375,7 +1375,7 @@ export default {
 				}
 			},
 			tree: {
-				url: `${config.API_URL}/store/productSpec/tree`,
+				url: `${config.API_URL}/platform/store/productSpec/tree`,
 				name: "树型列表",
 				get: async function(data){
 					return await http.get(this.url, data);
@@ -1384,35 +1384,35 @@ export default {
 		},
 		productComment: {
 			list: {
-				url: `${config.API_URL}/store/productComment`,
+				url: `${config.API_URL}/platform/store/productComment`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/productComment`,
+				url: `${config.API_URL}/platform/store/productComment`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/productComment`,
+				url: `${config.API_URL}/platform/store/productComment`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/productComment`,
+				url: `${config.API_URL}/platform/store/productComment`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/productComment`,
+				url: `${config.API_URL}/platform/store/productComment`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1422,35 +1422,35 @@ export default {
 		},
 		merchant: {
 			list: {
-				url: `${config.API_URL}/store/merchant`,
+				url: `${config.API_URL}/platform/store/merchant`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/merchant`,
+				url: `${config.API_URL}/platform/store/merchant`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/merchant`,
+				url: `${config.API_URL}/platform/store/merchant`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/merchant`,
+				url: `${config.API_URL}/platform/store/merchant`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/merchant`,
+				url: `${config.API_URL}/platform/store/merchant`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1460,35 +1460,35 @@ export default {
 		},
 		merchantApply: {
 			list: {
-				url: `${config.API_URL}/store/merchantApply`,
+				url: `${config.API_URL}/platform/store/merchantApply`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/merchantApply`,
+				url: `${config.API_URL}/platform/store/merchantApply`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/merchantApply`,
+				url: `${config.API_URL}/platform/store/merchantApply`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/merchantApply`,
+				url: `${config.API_URL}/platform/store/merchantApply`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/merchantApply`,
+				url: `${config.API_URL}/platform/store/merchantApply`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1498,35 +1498,35 @@ export default {
 		},
 		shippingTemplate: {
 			list: {
-				url: `${config.API_URL}/store/shippingTemplate`,
+				url: `${config.API_URL}/platform/store/shippingTemplate`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/shippingTemplate`,
+				url: `${config.API_URL}/platform/store/shippingTemplate`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/shippingTemplate`,
+				url: `${config.API_URL}/platform/store/shippingTemplate`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/shippingTemplate`,
+				url: `${config.API_URL}/platform/store/shippingTemplate`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/shippingTemplate`,
+				url: `${config.API_URL}/platform/store/shippingTemplate`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1536,35 +1536,35 @@ export default {
 		},
 		order: {
 			list: {
-				url: `${config.API_URL}/store/order`,
+				url: `${config.API_URL}/platform/store/order`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/order`,
+				url: `${config.API_URL}/platform/store/order`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/order`,
+				url: `${config.API_URL}/platform/store/order`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/order`,
+				url: `${config.API_URL}/platform/store/order`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/order`,
+				url: `${config.API_URL}/platform/store/order`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1574,35 +1574,35 @@ export default {
 		},
 		orderRefund: {
 			list: {
-				url: `${config.API_URL}/store/orderRefund`,
+				url: `${config.API_URL}/platform/store/orderRefund`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/orderRefund`,
+				url: `${config.API_URL}/platform/store/orderRefund`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/orderRefund`,
+				url: `${config.API_URL}/platform/store/orderRefund`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/orderRefund`,
+				url: `${config.API_URL}/platform/store/orderRefund`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/orderRefund`,
+				url: `${config.API_URL}/platform/store/orderRefund`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1612,35 +1612,35 @@ export default {
 		},
 		express: {
 			list: {
-				url: `${config.API_URL}/store/express`,
+				url: `${config.API_URL}/platform/store/express`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/express`,
+				url: `${config.API_URL}/platform/store/express`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/express`,
+				url: `${config.API_URL}/platform/store/express`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/express`,
+				url: `${config.API_URL}/platform/store/express`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/express`,
+				url: `${config.API_URL}/platform/store/express`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
@@ -1650,35 +1650,35 @@ export default {
 		},
 		banner: {
 			list: {
-				url: `${config.API_URL}/store/banner`,
+				url: `${config.API_URL}/platform/store/banner`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/store/banner`,
+				url: `${config.API_URL}/platform/store/banner`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/store/banner`,
+				url: `${config.API_URL}/platform/store/banner`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/store/banner`,
+				url: `${config.API_URL}/platform/store/banner`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/store/banner`,
+				url: `${config.API_URL}/platform/store/banner`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
