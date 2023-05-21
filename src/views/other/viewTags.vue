@@ -45,10 +45,10 @@
 		},
 		methods: {
 			open1(){
-				this.$router.push('/usercenter')
+				this.$router.push('/userCenter')
 			},
 			open2(){
-				this.$router.push('/usercenter')
+				this.$router.push('/userCenter')
 				this.$route.is = true
 			},
 			refresh1(){
@@ -62,9 +62,9 @@
 			},
 			close3(){
 				useTabs.closeNext((tags)=>{
-					//回调返回所有标签的数组，这里其实是需要判断是否含有'/usercenter'，含有再操作的，这里为了演示就直接打开了。
+					//回调返回所有标签的数组，这里其实是需要判断是否含有'/userCenter'，含有再操作的，这里为了演示就直接打开了。
 					console.log(tags)
-					this.$router.push('/usercenter')
+					this.$router.push('/userCenter')
 					this.$route.is = true
 				})
 			},
