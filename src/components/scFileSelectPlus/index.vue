@@ -238,7 +238,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.file.fileDetail.delete.delete(reqData);
+				var res = await this.$API.platform.sys.fileDetail.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -353,7 +353,7 @@
 						// ids: this.selection.map(v => v.id),
 						ids: ids,
 					}
-					let res = await this.$API.file.fileDetail.delete.delete(reqData)
+					let res = await this.$API.platform.sys.fileDetail.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 					}
@@ -489,7 +489,7 @@
 			},
 			//加载树数据
 			async getTreeList(){
-				let res = await this.$API.file.fileCategory.tree.get();
+				let res = await this.$API.platform.sys.fileCategory.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', disabled: true,};
 				res.data.unshift(allNode);
@@ -512,8 +512,8 @@
 				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
 					this.loading = true;
 					let res = data.id
-						? await this.$API.file.fileCategory.update.put(data)
-						: await this.$API.file.fileCategory.add.post(data);
+						? await this.$API.platform.sys.fileCategory.update.put(data)
+						: await this.$API.platform.sys.fileCategory.add.post(data);
 					if (res.code == 200) {
 						this.$message.success("保存成功");
 					} else {
@@ -552,7 +552,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.file.fileCategory.delete.delete(reqData)
+				var res = await this.$API.platform.sys.fileCategory.delete.delete(reqData)
 
 				this.menuloading = false
 
@@ -591,7 +591,7 @@
 				}).then(async () => {
 					let row = data
 					var reqData = {id: row.id}
-					var res = await this.$API.file.fileCategory.delete.delete(reqData);
+					var res = await this.$API.platform.sys.fileCategory.delete.delete(reqData);
 					if(res.code == 200){
 						this.$refs.tree.remove(node)
 						this.$refs.table.refresh()

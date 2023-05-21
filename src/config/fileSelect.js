@@ -4,8 +4,8 @@ import API from "@/api";
 
 export default {
 	apiObj: API.file.upload,
-	menuApiObj: API.file.fileCategory.tree,
-	listApiObj: API.file.fileDetail.list,
+	menuApiObj: API.platform.sys.fileCategory.tree,
+	listApiObj: API.platform.sys.fileDetail.list,
 	successCode: 200,
 	maxSize: 30,
 	max: 100,

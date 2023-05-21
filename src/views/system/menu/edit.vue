@@ -179,7 +179,7 @@
 		methods: {
 			//加载树数据
 			async getSysRoles(){
-				var res = await this.$API.system.role.list.get();
+				var res = await this.$API.platform.sys.role.list.get();
 				this.sysRoles = res.data.rows;
 			},
 			//显示
@@ -207,9 +207,9 @@
 				this.loading = true
 				var res
 				if (this.form.id) {
-					res = await this.$API.system.menu.update.put(this.form)
+					res = await this.$API.platform.sys.menu.update.put(this.form)
 				} else {
-					res = await this.$API.system.menu.add.post(this.form)
+					res = await this.$API.platform.sys.menu.add.post(this.form)
 				}
 				this.loading = false
 				if(res.code == 200){

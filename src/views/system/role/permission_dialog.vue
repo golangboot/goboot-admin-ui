@@ -158,7 +158,7 @@
 				},1000)
 			},
 			async getMenu(){
-				var res = await this.$API.system.menu.tree.get()
+				var res = await this.$API.platform.sys.menu.tree.get()
 				this.menu.list = res.data
 
 				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
@@ -171,7 +171,7 @@
 				})
 			},
 			async getDept(){
-				var res = await this.$API.system.department.tree.get();
+				var res = await this.$API.platform.sys.department.tree.get();
 				this.data.list = res.data
 				this.data.checked = ["12", "2", "21", "22", "1"]
 				this.$nextTick(() => {

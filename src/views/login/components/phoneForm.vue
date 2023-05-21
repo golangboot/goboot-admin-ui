@@ -6,7 +6,7 @@
 				<template #append>
 					<el-select v-model="userType" style="width: 120px;">
 						<el-option :label="$t('login.user')" value="user"></el-option>
-						<el-option :label="$t('login.seller')" value="seller"></el-option>
+						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
 						<el-option :label="$t('login.enterprise')" value="enterprise"></el-option>
 						<el-option :label="$t('login.organization')" value="organization"></el-option>
 						<el-option :label="$t('login.admin')" value="admin"></el-option>

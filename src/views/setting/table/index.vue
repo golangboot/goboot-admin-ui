@@ -44,7 +44,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.system.table.list,
+				apiObj: this.$API.platform.sys.table.list,
 				params: {},
 				selection: []
 			}

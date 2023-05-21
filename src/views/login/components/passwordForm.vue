@@ -5,7 +5,7 @@
 				<!--<template #append>
 					<el-select v-model="userType" style="width: 120px;">
 						<el-option :label="$t('login.admin')" value="admin"></el-option>
-						<el-option :label="$t('login.seller')" value="seller"></el-option>
+						<el-option :label="$t('login.merchant')" value="merchant"></el-option>
 						<el-option :label="$t('login.user')" value="user"></el-option>
 					</el-select>
 				</template>-->
@@ -60,7 +60,7 @@
 				}else if(val == 'user'){
 					this.form.user = ''
 					this.form.password = ''
-				}else if(val == 'seller'){
+				}else if(val == 'merchant'){
 					this.form.user = ''
 					this.form.password = ''
 				}
@@ -101,9 +101,9 @@
 				//获取菜单
 				var menu = null
 				if(this.form.user == 'admin'){
-					menu = await this.$API.user.userCenter.myMenus.get()
+					menu = await this.$API.platform.user.userCenter.myMenus.get()
 				}else{
-					menu = await this.$API.user.userCenter.myMenus.get()
+					menu = await this.$API.platform.user.userCenter.myMenus.get()
 				}
 				if(menu.code == 200){
 					if(menu.data.menu.length==0){

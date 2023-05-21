@@ -88,7 +88,7 @@
 				<el-col :span="12">
 					<el-form-item label="用户ID" prop="userId">
 						<select-remote v-model="form.userId"
-									   :apiObj="$API.user.user.list"
+									   :apiObj="$API.platform.user.user.list"
 									   :params="{id: form.userId}"
 									   :searchClearParams="['id']"
 									   :request="{name: 'keyword'}"
@@ -200,7 +200,7 @@
 				return this
 			},
 			async getCategoryList(){
-				var res = await this.$API.file.fileCategory.tree.get();
+				var res = await this.$API.platform.sys.fileCategory.tree.get();
 				this.categoryOptions = res.data
 			},
 			//表单提交方法
@@ -210,9 +210,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.file.fileDetail.update.put(this.form)
+							res = await this.$API.platform.sys.fileDetail.update.put(this.form)
 						} else {
-							res = await this.$API.file.fileDetail.add.post(this.form)
+							res = await this.$API.platform.sys.fileDetail.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -232,7 +232,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.file.fileDetail.detail.get(reqData)
+					let res = await this.$API.platform.sys.fileDetail.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

@@ -148,15 +148,15 @@
 			},
 			//加载树数据
 			async getGroup(){
-				var res = await this.$API.user.userGroup.list.get();
+				var res = await this.$API.platform.user.userGroup.list.get();
 				this.groups = res.data.records;
 			},
 			async getRole(){
-				var res = await this.$API.system.role.list.get();
+				var res = await this.$API.platform.sys.role.list.get();
 				this.roles = res.data.records;
 			},
 			async getDept(){
-				var res = await this.$API.system.department.tree.get();
+				var res = await this.$API.platform.sys.department.tree.get();
 				this.departments = res.data;
 			},
 			selectedNodes() {
@@ -186,9 +186,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.system.user.update.put(this.form)
+							res = await this.$API.platform.sys.user.update.put(this.form)
 						} else {
-							res = await this.$API.system.user.add.post(this.form)
+							res = await this.$API.platform.sys.user.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){

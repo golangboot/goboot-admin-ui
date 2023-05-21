@@ -135,7 +135,7 @@
 			},
 			async getData() {
 				this.isSaving = true;
-				const res = await this.$API.user.userCenter.getUserInfo.get();
+				const res = await this.$API.platform.user.userCenter.getUserInfo.get();
 				this.isSaving = false;
 				this.userInfo = res.data;
 			},

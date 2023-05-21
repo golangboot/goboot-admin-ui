@@ -8,7 +8,7 @@ export default {
 	//配置组织
 	group: {
 		//请求接口对象
-		apiObj: API.system.department.list,
+		apiObj: API.platform.sys.department.list,
 		//接受数据字段映射
 		parseData: function (res) {
 			return {
@@ -50,7 +50,7 @@ export default {
 	//配置角色
 	role: {
 		//请求接口对象
-		apiObj: API.system.department.list,
+		apiObj: API.platform.sys.department.list,
 		//接受数据字段映射
 		parseData: function (res) {
 			return {

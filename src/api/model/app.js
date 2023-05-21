@@ -5,17 +5,15 @@ export default {
 	info: {
 		url: `${config.API_URL}/app/info`,
 		name: "App信息",
-		get: async function(){
+		get: async function () {
 			return await http.get(this.url);
 		}
 	},
-	site: {
-		info: {
-			url: `${config.API_URL}/app/site/info`,
-			name: "网站信息",
-			get: async function(){
-				return await http.get(this.url);
-			}
-		},
+	version: {
+		url: `${config.API_URL}/app/info`,
+		name: "App版本",
+		get: async function () {
+			return await http.get(this.url);
+		}
 	},
 }

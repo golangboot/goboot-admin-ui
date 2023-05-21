@@ -28,7 +28,7 @@
 		},
 		methods: {
 			async getVer(){
-				const res = await this.$API.app.info.get()
+				const res = await this.$API.app.version.get()
 				this.version = res.data.version
 			},
 			goLog(){

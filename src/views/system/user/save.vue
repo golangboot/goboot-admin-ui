@@ -290,23 +290,23 @@ export default {
 			return this;
 		},
 		async getDepartmentList(){
-			let res = await this.$API.system.department.tree.get();
+			let res = await this.$API.platform.sys.department.tree.get();
 			this.departmentOptions = res.data
 		},
 		async getPositionList(){
-			let res = await this.$API.system.position.list.get();
+			let res = await this.$API.platform.sys.position.list.get();
 			this.positionOptions = res.data.records;
 		},
 		async getGroupList(){
-			let res = await this.$API.user.userGroup.list.get();
+			let res = await this.$API.platform.user.userGroup.list.get();
 			this.groupOptions = res.data.records;
 		},
 		async getLabelList(){
-			let res = await this.$API.user.userLabel.list.get();
+			let res = await this.$API.platform.user.userLabel.list.get();
 			this.labelOptions = res.data.records;
 		},
 		async getRoleList(){
-			let res = await this.$API.system.role.list.get();
+			let res = await this.$API.platform.sys.role.list.get();
 			this.roleOptions = res.data.records;
 		},
 		//表单提交方法
@@ -316,9 +316,9 @@ export default {
 					this.isSaving = true;
 					let res;
 					if (this.form.id) {
-						res = await this.$API.user.user.update.put(this.form)
+						res = await this.$API.platform.user.user.update.put(this.form)
 					} else {
-						res = await this.$API.user.user.add.post(this.form)
+						res = await this.$API.platform.user.user.add.post(this.form)
 					}
 					this.isSaving = false;
 					if(res.code == 200){
@@ -338,7 +338,7 @@ export default {
 			if (data.id){
 				this.isSaving = true
 				let reqData = {id: data.id}
-				let res = await this.$API.user.user.detail.get(reqData)
+				let res = await this.$API.platform.user.user.detail.get(reqData)
 				this.isSaving = false
 				this.form = res.data
 			}

@@ -26,7 +26,7 @@ export default {
 		wechatLoginTitle: '二维码登录',
 		wechatLoginMsg: '请使用微信扫一扫登录 | 模拟3秒后自动扫描',
 		wechatLoginResult: '已扫描 | 请在设备中点击授权登录',
-		seller: '卖家',
+		merchant: '商家',
 		enterprise: '企业',
 		organization: '组织',
 		loginSuccess: '登录成功',

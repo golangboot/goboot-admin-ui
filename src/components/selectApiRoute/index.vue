@@ -146,7 +146,7 @@ export default {
 			this.isSaving = true
 
 			let reqData = {}
-			let res = await this.$API.system.route.list.get(reqData);
+			let res = await this.$API.platform.sys.route.list.get(reqData);
 			this.data = res.data;
 
 			this.isSaving = false

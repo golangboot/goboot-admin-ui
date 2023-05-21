@@ -86,7 +86,7 @@
 		methods: {
 			async getData(){
 				let reqData = {group: this.configGroup}
-				let res = await this.$API.system.setting.list.get(reqData);
+				let res = await this.$API.platform.sys.setting.list.get(reqData);
 				if (res.data){
 					let items = res.data;
 					// console.log(items)
@@ -103,7 +103,7 @@
 				this.$refs.form.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						let res = await this.$API.system.setting.update.post(this.form)
+						let res = await this.$API.platform.sys.setting.update.post(this.form)
 						this.isSaving = false;
 						if(res.code == 200){
 							// this.form = res.data

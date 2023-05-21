@@ -14,12 +14,12 @@
 		<el-row :gutter="15">
 			<el-col :lg="12">
 				<el-card shadow="never" header="异步单选">
-					<sc-select v-model="value" :apiObj="$API.system.dic.get" clearable filterable style="width: 100%;"></sc-select>
+					<sc-select v-model="value" :apiObj="$API.platform.sys.dic.get" clearable filterable style="width: 100%;"></sc-select>
 				</el-card>
 			</el-col>
 			<el-col :lg="12">
 				<el-card shadow="never" header="异步多选">
-					<sc-select v-model="value2" :apiObj="$API.system.dic.get" clearable filterable multiple style="width: 100%;"></sc-select>
+					<sc-select v-model="value2" :apiObj="$API.platform.sys.dic.get" clearable filterable multiple style="width: 100%;"></sc-select>
 				</el-card>
 			</el-col>
 			<el-col :lg="12">

@@ -84,7 +84,7 @@
 						placeholder: '请选择通知类型',
 						extend: {
 							request: async () => {
-								var list = await this.$API.system.dic.get.get()
+								var list = await this.$API.platform.sys.dic.get.get()
 								return list.data.map(item => {
 									return {
 										label: item.label,
@@ -106,7 +106,7 @@
 								var data = {
 									keyword: query,
 								}
-								var list = await this.$API.system.dic.get.get(data)
+								var list = await this.$API.platform.sys.dic.get.get(data)
 								return list.data.map(item => {
 									return {
 										label: item.label,
