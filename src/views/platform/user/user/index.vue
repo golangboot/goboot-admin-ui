@@ -27,15 +27,15 @@
 						<el-avatar :src="scope.row.avatar" v-if="scope.row.avatar" size="small"></el-avatar>
 					</template>
 				</el-table-column>
-				<el-table-column label="用户名" prop="username" width="150" sortable
+				<el-table-column label="用户名" prop="username" width="150" :show-overflow-tooltip="true" sortable
 								 column-key="filterUserName"
 								 :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
-				<el-table-column label="邮箱" prop="email" width="150" sortable></el-table-column>
-				<el-table-column label="手机号" prop="mobile" width="150" sortable></el-table-column>
-				<el-table-column label="余额" prop="balance" width="150" sortable></el-table-column>
-				<el-table-column label="积分" prop="integral" width="150" sortable></el-table-column>
-				<el-table-column label="姓名" prop="realName" width="150" sortable></el-table-column>
-				<el-table-column label="性别" prop="gender" width="150" sortable>
+				<el-table-column label="邮箱" prop="email" width="150" :show-overflow-tooltip="true" sortable></el-table-column>
+				<el-table-column label="手机号" prop="mobile" width="150" :show-overflow-tooltip="true" sortable></el-table-column>
+				<el-table-column label="余额" prop="balance" header-align="center" align="right" min-width="120" sortable></el-table-column>
+				<el-table-column label="积分" prop="integral" header-align="center" align="right" min-width="120" sortable></el-table-column>
+				<el-table-column label="姓名" prop="realName" width="120" :show-overflow-tooltip="true" sortable></el-table-column>
+				<el-table-column label="性别" prop="gender" width="100" sortable>
 					<template #default="scope">
 						<el-tag v-if="scope.row.gender==1" type="primary">男</el-tag>
 						<el-tag v-else-if="scope.row.gender==2" type="warning">女</el-tag>
@@ -48,6 +48,7 @@
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
+				<el-table-column label="备注" prop="remark" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
