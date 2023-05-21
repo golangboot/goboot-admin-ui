@@ -108,13 +108,13 @@
 
 						var res;
 						if (this.mode == 'group'){
-							res = await this.$API.platform.sys.user.assignGroups.post(this.form)
+							res = await this.$API.platform.user.user.assignGroups.post(this.form)
 						}
 						if (this.mode == 'role'){
-							res = await this.$API.platform.sys.user.assignRoles.post(this.form)
+							res = await this.$API.platform.user.user.assignRoles.post(this.form)
 						}
 						if (this.mode == 'department'){
-							res = await this.$API.platform.sys.user.assignDepartments.post(this.form)
+							res = await this.$API.platform.user.user.assignDepartments.post(this.form)
 						}
 
 						this.isSaving = false;

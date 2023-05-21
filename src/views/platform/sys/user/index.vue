@@ -111,7 +111,7 @@
 					emitPath: false,
 					checkStrictly: true
 				},
-				apiObj: this.$API.platform.sys.user.list,
+				apiObj: this.$API.platform.user.user.list,
 				params: {},
 				selection: [],
 				search: {
@@ -156,7 +156,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.platform.sys.user.delete.delete(reqData);
+				var res = await this.$API.platform.user.user.delete.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);
@@ -175,7 +175,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.platform.sys.user.delete.delete(reqData)
+					var res = await this.$API.platform.user.user.delete.delete(reqData)
 					if (res.code != 200) {
 						await this.$alert(res.message, "提示", {type: 'error'})
 						return

@@ -186,9 +186,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.platform.sys.user.update.put(this.form)
+							res = await this.$API.platform.user.user.update.put(this.form)
 						} else {
-							res = await this.$API.platform.sys.user.add.post(this.form)
+							res = await this.$API.platform.user.user.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){

@@ -413,65 +413,6 @@ export default {
 				}
 			},
 		},
-		user: {
-			list: {
-				url: `${config.API_URL}/platform/user`,
-				name: "列表",
-				get: async function(data){
-					return await http.get(this.url, data);
-				}
-			},
-			add: {
-				url: `${config.API_URL}/platform/user`,
-				name: "添加",
-				post: async function(data){
-					return await http.post(this.url, data);
-				}
-			},
-			detail: {
-				url: `${config.API_URL}/platform/user`,
-				name: "查看",
-				get: async function(data){
-					return await http.get(`${this.url}/${data.id}`, data);
-				}
-			},
-			update: {
-				url: `${config.API_URL}/platform/user`,
-				name: "更新",
-				put: async function(data){
-					return await http.put(`${this.url}`, data);
-				}
-			},
-			delete: {
-				url: `${config.API_URL}/platform/user`,
-				name: "删除",
-				delete: async function(data){
-					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
-					return await http.delete(`${this.url}/${id}`, data);
-				}
-			},
-			assignGroups: {
-				url: `${config.API_URL}/platform/user/assignGroups`,
-				name: "分配用户组",
-				post: async function(data){
-					return await http.post(`${this.url}`, data);
-				}
-			},
-			assignRoles: {
-				url: `${config.API_URL}/platform/user/assignRoles`,
-				name: "分配角色",
-				post: async function(data){
-					return await http.post(`${this.url}`, data);
-				}
-			},
-			assignDepartments: {
-				url: `${config.API_URL}/platform/user/assignDepartments`,
-				name: "分配部门",
-				post: async function(data){
-					return await http.post(`${this.url}`, data);
-				}
-			},
-		},
 		setting: {
 			list: {
 				url: `${config.API_URL}/platform/sys/setting`,
@@ -813,6 +754,20 @@ export default {
 			assignRoles: {
 				url: `${config.API_URL}/platform/user/assignRoles`,
 				name: "分配角色",
+				post: async function(data){
+					return await http.post(`${this.url}`, data);
+				}
+			},
+			assignGroups: {
+				url: `${config.API_URL}/platform/user/assignGroups`,
+				name: "分配用户组",
+				post: async function(data){
+					return await http.post(`${this.url}`, data);
+				}
+			},
+			assignDepartments: {
+				url: `${config.API_URL}/platform/user/assignDepartments`,
+				name: "分配部门",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
 				}

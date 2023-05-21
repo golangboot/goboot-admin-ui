@@ -126,7 +126,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: "systemMenu",
+		name: 'platformSysMenu',
 		components: {
 			saveDialog,
 			scFileImport,
