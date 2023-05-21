@@ -20,11 +20,10 @@
 						<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="字典项名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项值" prop="value" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字段类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项值" prop="value" width="130" fixed :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项编码" prop="code" width="130" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>
 					<template #default="scope">
 						<el-tag v-if="scope.row.isLock == 1" type="success">是</el-tag>
@@ -37,6 +36,7 @@
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
+				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">

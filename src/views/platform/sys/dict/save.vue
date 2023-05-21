@@ -4,17 +4,27 @@
 			<el-form-item label="字典名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="字典编码" prop="code">
+						<el-input v-model="form.code" clearable></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-button type="default" @click="form.code = String(form.code).toUpperCase()">编码转大写</el-button>
+				</el-col>
+			</el-row>
 			<el-form-item label="字典描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
-			<el-form-item label="字典编码" prop="code">
-				<el-input v-model="form.code" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="字典类型" prop="type">
-				<el-input v-model="form.type" clearable></el-input>
-			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
+					<el-form-item label="字典类型" prop="type">
+						<el-input v-model="form.type" clearable></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<select-dict v-model="form.type" dict="DICT_TYPE" placeholder="" clearable filterable style="width: 100%;"></select-dict>
 				</el-col>
 			</el-row>
 			<el-form-item label="是否锁定" prop="isLock">
@@ -34,9 +44,12 @@
 </template>
 
 <script>
+	import selectDict from "@/components/selectDict";
+
 	export default {
 		emits: ['success', 'closed'],
 		components:{
+			selectDict,
 		},
 		data() {
 			return {
@@ -61,7 +74,10 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入名称'}
+						{required: true, message: '请输入字典名称'}
+					],
+					code: [
+						{required: true, message: '请输入字典编码'}
 					],
 				},
 			}

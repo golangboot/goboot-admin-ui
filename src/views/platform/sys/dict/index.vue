@@ -16,9 +16,8 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe highlightCurrentRow @row-click="rowClick">
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="字典名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="字典编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="字典名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="字典编码" prop="code" width="150" fixed :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="字典描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="字典类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="是否锁定" prop="isGlobal" width="100" sortable>
@@ -33,6 +32,7 @@
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
+					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 					<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="170">

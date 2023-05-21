@@ -53,7 +53,8 @@
 			props: {
 				type: Object, default: () => {
 					return {
-						label: 'label',					//映射label显示字段
+						// label: 'label',					//映射label显示字段
+						label: 'name',					//映射label显示字段
 						value: 'value',					//映射value值字段
 						type: 'type',					//映射type值字段
 					}

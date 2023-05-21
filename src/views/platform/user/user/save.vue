@@ -54,13 +54,34 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
-									<el-form-item label="标签" prop="labelIds">
+									<el-form-item label="用户标签" prop="labelIds">
 										<el-select v-model="form.labelIds" multiple filterable style="width: 100%">
 											<el-option v-for="item in labelOptions" :key="item.id" :label="item.name" :value="item.id"/>
 										</el-select>
 									</el-form-item>
 								</el-col>
 							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="12">
+									<el-form-item label="用户类型" prop="type">
+										<select-dict v-model="form.type" dict="USER_TYPE" placeholder="" clearable filterable style="width: 100%;"></select-dict>
+									</el-form-item>
+								</el-col>
+								<el-col :span="12">
+								</el-col>
+							</el-row>
+							<el-form-item label="用户备注" prop="remark">
+								<template #label="{ label }">
+									<span>{{ label }}</span>
+									<span>
+										<el-tooltip>
+											<template #content>仅管理员可见</template>
+											<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+										</el-tooltip>
+									</span>
+								</template>
+								<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+							</el-form-item>
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="用户状态" prop="status">
@@ -212,8 +233,13 @@
 </template>
 
 <script>
+	import selectDict from "@/components/selectDict";
+
 	export default {
 		emits: ['success', 'closed'],
+		components:{
+			selectDict,
+		},
 		data() {
 			return {
 				loading: false,
