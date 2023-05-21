@@ -214,7 +214,7 @@
 						// console.log('rowDrop -> nextRow:', nextRow)
 						if (lastRow && lastRow.sort) {
 							sort = lastRow.sort + 1
-						} else if (nextRow && nextRow.style) {
+						} else if (nextRow && nextRow.sort) {
 							sort = nextRow.sort - 1
 						}
 						let reqData = currRow
