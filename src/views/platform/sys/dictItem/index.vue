@@ -22,9 +22,9 @@
 				</el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="字典项名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项编码" prop="code" width="100" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字典项值" prop="value" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字段类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>
 					<template #default="scope">
 						<el-tag v-if="scope.row.isLock == 1" type="success">是</el-tag>
