@@ -60,7 +60,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'storeMerchantApply',
+		name: 'platformStoreMerchantApply',
 		components: {
 			saveDialog,
 		},

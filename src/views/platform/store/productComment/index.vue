@@ -51,7 +51,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'storeProductComment',
+		name: 'platformStoreProductComment',
 		components: {
 			saveDialog,
 		},

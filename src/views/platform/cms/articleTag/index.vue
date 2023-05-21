@@ -58,7 +58,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'cmsArticleTag',
+		name: 'platformCmsArticleTag',
 		components: {
 			saveDialog,
 		},

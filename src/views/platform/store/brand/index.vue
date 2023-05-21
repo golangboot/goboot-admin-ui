@@ -83,7 +83,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'storeBrand',
+		name: 'platformStoreBrand',
 		components: {
 			saveDialog,
 		},

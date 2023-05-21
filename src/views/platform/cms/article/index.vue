@@ -59,7 +59,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'cmsArticle',
+		name: 'platformCmsArticle',
 		components: {
 			saveDialog,
 		},

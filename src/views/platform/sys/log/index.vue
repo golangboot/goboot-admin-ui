@@ -61,7 +61,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'systemLog',
+		name: 'platformSysLog',
 		components: {
 			saveDialog,
 		},

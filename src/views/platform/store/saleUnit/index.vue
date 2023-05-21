@@ -75,7 +75,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'storeSaleUnit',
+		name: 'platformStoreSaleUnit',
 		components: {
 			saveDialog,
 		},

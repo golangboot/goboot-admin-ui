@@ -86,7 +86,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'systemArea',
+		name: 'platformSysArea',
 		components: {
 			saveDialog,
 		},

@@ -65,7 +65,7 @@
 	import Sortable from "sortablejs";
 
 	export default {
-		name: 'systemDictItem',
+		name: 'platformSysDictItem',
 		components: {
 			saveDialog,
 		},

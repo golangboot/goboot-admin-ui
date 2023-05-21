@@ -59,7 +59,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'storeOrder',
+		name: 'platformStoreOrder',
 		components: {
 			saveDialog,
 		},

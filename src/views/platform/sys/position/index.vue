@@ -82,7 +82,7 @@
 	import treeUtils from "@/utils/tree";
 
 	export default {
-		name: 'systemPosition',
+		name: 'platformSysPosition',
 		components: {
 			saveDialog,
 		},

@@ -71,7 +71,7 @@
 	import selectRemote from "@/components/selectRemote";
 
 	export default {
-		name: 'storeShippingTemplate',
+		name: 'platformStoreShippingTemplate',
 		components: {
 			saveDialog,
 			selectRemote,

@@ -25,7 +25,7 @@
 	import useTabs from '@/utils/useTabs'
 
 	export default {
-		name: 'systemFile',
+		name: 'platformSysFile',
 		components: {
 			scFileSelect
 		},

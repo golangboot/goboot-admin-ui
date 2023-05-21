@@ -77,7 +77,7 @@ import saveDialog from './save'
 import accountDialog from './account'
 
 export default {
-	name: 'user',
+	name: 'platformUserUser',
 	components: {
 		saveDialog,
 		accountDialog,

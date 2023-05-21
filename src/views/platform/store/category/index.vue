@@ -93,7 +93,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'storeCategory',
+		name: 'platformStoreCategory',
 		components: {
 			saveDialog,
 		},

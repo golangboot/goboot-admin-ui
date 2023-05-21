@@ -40,7 +40,7 @@
 
 <script>
 	export default {
-		name: 'systemSetting',
+		name: 'platformSysSetting',
 		data() {
 			return {
 				visible: false,

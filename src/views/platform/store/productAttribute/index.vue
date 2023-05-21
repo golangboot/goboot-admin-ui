@@ -110,7 +110,7 @@
 	import useTabs from "@/utils/useTabs";
 
 	export default {
-		name: 'storeAttribute',
+		name: 'platformStoreAttribute',
 		components: {
 			saveDialog,
 		},

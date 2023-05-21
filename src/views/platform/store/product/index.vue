@@ -146,7 +146,7 @@ import selectRemote from '@/components/selectRemote'
 import useTabs from "@/utils/useTabs";
 
 export default {
-	name: 'storeProduct',
+	name: 'platformStoreProduct',
 	components: {
 		saveDialog,
 		scSelectFilter,

@@ -88,7 +88,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'systemDepartment',
+		name: 'platformSysDepartment',
 		components: {
 			saveDialog,
 		},

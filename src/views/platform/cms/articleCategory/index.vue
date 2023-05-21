@@ -100,7 +100,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'cmsArticleCategory',
+		name: 'platformCmsArticleCategory',
 		components: {
 			saveDialog,
 		},

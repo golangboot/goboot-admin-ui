@@ -62,7 +62,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'storeExpress',
+		name: 'platformStoreExpress',
 		components: {
 			saveDialog,
 		},

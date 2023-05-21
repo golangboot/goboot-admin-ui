@@ -95,7 +95,7 @@
 	import treeUtils from '@/utils/tree'
 
 	export default {
-		name: 'systemPermission',
+		name: 'platformSysPermission',
 		components: {
 			saveDialog,
 		},

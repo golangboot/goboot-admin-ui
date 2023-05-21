@@ -64,7 +64,7 @@
 	import dictItem from '../dictItem'
 
 	export default {
-		name: 'systemDict',
+		name: 'platformSysDict',
 		components: {
 			saveDialog,
 			dictItem

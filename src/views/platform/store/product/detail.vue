@@ -31,7 +31,7 @@
 
 <script>
 export default {
-	name: 'storeProductDetail',
+	name: 'platformStoreProductDetail',
 	data() {
 		return {
 			mode: "add",
