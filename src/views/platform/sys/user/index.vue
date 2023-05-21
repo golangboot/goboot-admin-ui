@@ -14,86 +14,24 @@
 				</el-footer>
 			</el-container>
 		</el-aside>
-		<el-container class="is-vertical">
-				<el-header>
-					<div class="left-panel">
-						<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-						<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignGroups">分配用户组</el-button> -->
-						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignRoles">分配角色</el-button> -->
-						<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignDepartments">分配部门</el-button> -->
-						<!--<el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>-->
-					</div>
-					<div class="right-panel">
-						<div class="right-panel-search">
-							<el-input v-model="search.name" placeholder="用户名/邮箱/手机号/姓名/昵称" clearable></el-input>
-							<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
-						</div>
-					</div>
-				</el-header>
-				<el-main class="nopadding">
-					<scTable ref="table" :apiObj="apiObj" :params="params" @selection-change="selectionChange" stripe remoteSort remoteFilter>
-						<el-table-column type="selection" width="50"></el-table-column>
-						<el-table-column label="ID" prop="id" width="80" sortable='custom'></el-table-column>
-						<el-table-column label="头像" width="80" column-key="filterAvatar" :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
-							<template #default="scope">
-								<el-avatar :src="scope.row.avatar" size="small"></el-avatar>
-							</template>
-						</el-table-column>
-						<el-table-column label="用户名" prop="username" width="150" sortable='custom' column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
-						<el-table-column label="邮箱" prop="email" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="手机号" prop="mobile" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="姓名" prop="realName" width="150" sortable='custom'></el-table-column>
-						<el-table-column label="性别" prop="gender" width="150" sortable>
-							<template #default="scope">
-								<el-tag v-if="scope.row.gender==1" type="primary">男</el-tag>
-								<el-tag v-else-if="scope.row.gender==2" type="warning">女</el-tag>
-								<el-tag v-else type="info">保密</el-tag>
-							</template>
-						</el-table-column>
-						<!--<el-table-column label="所属角色" prop="groupName" width="200" sortable='custom'></el-table-column>-->
-						<el-table-column label="状态" prop="status" width="150">
-							<template #default="scope">
-								<el-tag v-if="scope.row.status==1" type="success">正常</el-tag>
-								<el-tag v-if="scope.row.status==0" type="danger">禁用</el-tag>
-							</template>
-						</el-table-column>
-						<el-table-column label="创建时间" prop="createTime" width="170" sortable='custom'></el-table-column>
-						<el-table-column label="操作" fixed="right" align="right" width="160">
-							<template #default="scope">
-								<el-button-group>
-									<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
-									<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-									<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
-										<template #reference>
-											<el-button text type="primary" size="small">删除</el-button>
-										</template>
-									</el-popconfirm>
-								</el-button-group>
-							</template>
-						</el-table-column>
-
-					</scTable>
-				</el-main>
-		</el-container>
+		<user-table ref="userTable"></user-table>
 	</el-container>
 
-	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
-	<assign-dialog v-if="dialog.assign" ref="assignDialog" @closed="dialog.assign=false"></assign-dialog>
+	<!--<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>-->
 
 </template>
 
 <script>
 	// import saveDialog from './save'
-	import assignDialog from './assign'
 	import saveDialog from '@/views/platform/user/user/save'
 	import treeUtils from '@/utils/tree'
+	import userTable from '@/views/platform/user/user'
 
 	export default {
 		name: 'platformSysUser',
 		components: {
 			saveDialog,
-			assignDialog,
+			userTable,
 		},
 		data() {
 			return {
@@ -215,9 +153,13 @@
 			},
 			//树点击事件
 			treeNodeClick(data){
-				this.search.departmentId = data.id
+				// this.search.departmentId = data.id
+				// this.$refs.table.upData(this.search)
 				// this.$refs.table.reload(this.search)
-				this.$refs.table.upData(this.search)
+				this.$nextTick(() => {
+					this.$refs.userTable.params.departmentId = data.id
+					this.$refs.userTable.$refs.table.reload(this.$refs.userTable.params)
+				})
 			},
 			//树展开/收缩
 			shrinkTreeNode () {

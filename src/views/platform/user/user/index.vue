@@ -5,6 +5,10 @@
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
 				<el-button type="primary" plain :disabled="selection.length!=1" @click="accountManagement">账户管理</el-button>
+				<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignGroups">分配用户组</el-button> -->
+				<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignRoles">分配角色</el-button> -->
+				<!-- <el-button type="primary" plain :disabled="selection.length!=1" @click="assignDepartments">分配部门</el-button> -->
+				<!--<el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>-->
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -14,8 +18,7 @@
 			</div>
 		</el-header>
 		<el-main class="nopadding">
-			<scTable ref="table" :apiObj="table.apiObj" :column="table.column" row-key="id"
-					 @selection-change="selectionChange" stripe>
+			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="头像" prop="avatar" width="80" column-key="filterAvatar"
@@ -69,29 +72,31 @@
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
 	<account-dialog v-if="dialog.account" ref="accountDialog" @closed="dialog.account=false"></account-dialog>
+	<assign-dialog v-if="dialog.assign" ref="assignDialog" @closed="dialog.assign=false"></assign-dialog>
 
 </template>
 
 <script>
 import saveDialog from './save'
 import accountDialog from './account'
+import assignDialog from './assign'
 
 export default {
 	name: 'platformUserUser',
 	components: {
 		saveDialog,
 		accountDialog,
+		assignDialog,
 	},
 	data() {
 		return {
 			dialog: {
 				save: false,
 				account: false,
+				assign: false,
 			},
-			table: {
-				apiObj: this.$API.platform.user.user.list,
-				params: {},
-			},
+			apiObj: this.$API.platform.user.user.list,
+			params: {},
 			selection: [],
 			search: {
 				keyword: "", // 关键字
@@ -208,7 +213,37 @@ export default {
 				let row = this.selection.at(0);
 				this.$refs.accountDialog.open().setData(row)
 			})
-		}
+		},
+		//分配用户组
+		assignGroups(){
+			this.dialog.assign = true
+			this.$nextTick(() => {
+				let data = {
+					userIds: this.selection.map(v => v.id)
+				}
+				this.$refs.assignDialog.open('group').setData(data)
+			})
+		},
+		//分配角色
+		assignRoles(){
+			this.dialog.assign = true
+			this.$nextTick(() => {
+				let data = {
+					userIds: this.selection.map(v => v.id)
+				}
+				this.$refs.assignDialog.open('role').setData(data)
+			})
+		},
+		//分配部门
+		assignDepartments(){
+			this.dialog.assign = true
+			this.$nextTick(() => {
+				let data = {
+					userIds: this.selection.map(v => v.id)
+				}
+				this.$refs.assignDialog.open('department').setData(data)
+			})
+		},
 	},
 }
 </script>

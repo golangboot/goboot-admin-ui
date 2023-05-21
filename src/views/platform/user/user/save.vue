@@ -80,10 +80,9 @@
 								</el-col>
 								<el-col :span="12">
 									<el-form-item label="性别" prop="gender">
-										<sc-select v-model="form.gender" dict="user_gender" dictType="INTEGER" :defaultOptions="genderOptions" clearable filterable style="width: 100%;"></sc-select>
-										<!--<el-radio-group v-model="form.gender">
+										<el-radio-group v-model="form.gender">
 											<el-radio v-for="(item, index) in genderOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-										</el-radio-group>-->
+										</el-radio-group>
 									</el-form-item>
 								</el-col>
 							</el-row>
@@ -317,11 +316,11 @@
 				return this;
 			},
 			async getDepartmentList(){
-				let res = await this.$API.system.department.tree.get();
+				let res = await this.$API.platform.sys.department.tree.get();
 				this.departmentOptions = res.data
 			},
 			async getPositionList(){
-				let res = await this.$API.system.position.list.get({isGlobal: 1, size: 100});
+				let res = await this.$API.platform.sys.position.list.get({isGlobal: 1, size: 100});
 				this.positionOptions = res.data.records;
 				// if (Object.keys(params).length > 0){}
 				let departmentId = this.form.departmentId;
@@ -330,7 +329,7 @@
 						departmentId: departmentId,
 						size: 100,
 					}
-					let response = await this.$API.system.position.list.get(params);
+					let response = await this.$API.platform.sys.position.list.get(params);
 					let items = response.data.records;
 					items.forEach(item => {
 						let flag = false;
@@ -354,7 +353,7 @@
 				this.labelOptions = res.data.records;
 			},
 			async getRoleList(){
-				let res = await this.$API.system.role.list.get();
+				let res = await this.$API.platform.sys.role.list.get();
 				this.roleOptions = res.data.records;
 			},
 			//表单提交方法
