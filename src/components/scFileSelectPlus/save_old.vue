@@ -193,7 +193,7 @@
 					// 解析数据
 					parseData: function (res) {
 						return {
-							data: res.data.records || res.data,
+							data: res.data?.records || res.data,
 							msg: res.message,
 							code: res.code
 						}
@@ -233,7 +233,7 @@
 					reqData.userId = this.form.userId
 				}
 				var res = await this.$API.platform.user.user.list.get(reqData);
-				let items = res.data.records
+				let items = res.data?.records
 				this.userOptions = []
 				items.forEach(item => {
 					this.userOptions.push({
@@ -241,7 +241,7 @@
 						value: item.id,
 					})
 				})
-				// this.userOptions = res.data.records
+				// this.userOptions = res.data?.records
 
 				this.loading = false
 			},

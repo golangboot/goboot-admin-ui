@@ -149,11 +149,11 @@
 			//加载树数据
 			async getGroup(){
 				var res = await this.$API.platform.user.userGroup.list.get();
-				this.groups = res.data.records;
+				this.groups = res.data?.records;
 			},
 			async getRole(){
 				var res = await this.$API.platform.sys.role.list.get();
-				this.roles = res.data.records;
+				this.roles = res.data?.records;
 			},
 			async getDept(){
 				var res = await this.$API.platform.sys.department.tree.get();

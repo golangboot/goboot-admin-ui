@@ -174,7 +174,7 @@
 					// 解析数据
 					parseData: function (res) {
 						return {
-							data: res.data.records || res.data,
+							data: res.data?.records || res.data,
 							msg: res.message,
 							code: res.code
 						}

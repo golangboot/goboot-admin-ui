@@ -198,8 +198,8 @@ export default {
 				}
 			},
 			getDictItemList: {
-				url: `${config.API_URL}/platform/sys/dict/getDictList`,
-				name: "获取字典列表子类",
+				url: `${config.API_URL}/platform/sys/dict/getDictItemList`,
+				name: "获取字典项列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}

@@ -25,7 +25,7 @@ export default {
 	listParseData: function (res) {
 		return {
 			data: res.data,
-			rows: res.data.records || res.data.rows,
+			rows: res.data?.records || res.data?.rows,
 			total: res.data.total,
 			msg: res.message || res.msg,
 			code: res.code

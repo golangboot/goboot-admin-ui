@@ -72,14 +72,6 @@
 					],
 				},
 				userSelect: {
-					// 解析数据
-					parseData: function (res) {
-						return {
-							data: res.data.records || res.data,
-							msg: res.message,
-							code: res.code
-						}
-					},
 					// 解析数据字段
 					parseDataField: function (item) {
 						return {

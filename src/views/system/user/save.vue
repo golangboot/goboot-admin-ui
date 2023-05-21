@@ -295,19 +295,19 @@ export default {
 		},
 		async getPositionList(){
 			let res = await this.$API.platform.sys.position.list.get();
-			this.positionOptions = res.data.records;
+			this.positionOptions = res.data?.records;
 		},
 		async getGroupList(){
 			let res = await this.$API.platform.user.userGroup.list.get();
-			this.groupOptions = res.data.records;
+			this.groupOptions = res.data?.records;
 		},
 		async getLabelList(){
 			let res = await this.$API.platform.user.userLabel.list.get();
-			this.labelOptions = res.data.records;
+			this.labelOptions = res.data?.records;
 		},
 		async getRoleList(){
 			let res = await this.$API.platform.sys.role.list.get();
-			this.roleOptions = res.data.records;
+			this.roleOptions = res.data?.records;
 		},
 		//表单提交方法
 		submit(){

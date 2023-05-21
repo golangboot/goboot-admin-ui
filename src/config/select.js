@@ -6,7 +6,7 @@ export default {
 	dictApiObj: API.platform.sys.dict.getDictItemList,		//获取字典接口对象
 	parseData: function (res) {
 		return {
-			data: res.data.records || res.data,				//分析行数据字段结构
+			data: res.data?.records || res.data,				//分析行数据字段结构
 			msg: res.message,			//分析描述字段结构
 			code: res.code				//分析状态字段结构
 		}

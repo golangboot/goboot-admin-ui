@@ -74,7 +74,7 @@ export default {
 		parseData: {
 			type: Function, default: (res) => {
 				return {
-					data: res.data.records || res.data,
+					data: res.data?.records || res.data,
 					msg: res.message,
 					code: res.code
 				}
@@ -90,6 +90,23 @@ export default {
 				}
 			}
 		},*/
+		/*
+		// 解析数据
+		parseData: function (res) {
+			return {
+				data: res.data?.records || res.data,
+				msg: res.message,
+				code: res.code
+			}
+		},
+		// 解析数据字段
+		parseDataField: function (item) {
+			return {
+				label: item.username || item.nickname || item.mobile || item.email,
+				value: item.id,
+			}
+		},
+		*/
 	},
 	computed: {},
 	data() {
