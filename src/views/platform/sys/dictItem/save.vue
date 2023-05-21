@@ -7,6 +7,9 @@
 			<el-form-item label="字典项值" prop="value">
 				<el-input v-model="form.value" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
+			<el-form-item label="字典项编码" prop="code">
+				<el-input v-model="form.code" clearable></el-input>
+			</el-form-item>
 			<el-form-item label="字段类型" prop="type">
 				<el-input v-model="form.type" clearable></el-input>
 			</el-form-item>

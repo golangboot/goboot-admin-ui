@@ -22,6 +22,7 @@
 				</el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="字典项名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项编码" prop="code" width="100" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字典项值" prop="value" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字段类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>
@@ -197,11 +198,34 @@
 					handle: ".move",
 					animation: 300,
 					ghostClass: "ghost",
-					onEnd({ newIndex, oldIndex }) {
+					async onEnd({newIndex, oldIndex}) {
 						const tableData = _this.$refs.table.tableData
 						const currRow = tableData.splice(oldIndex, 1)[0]
 						tableData.splice(newIndex, 0, currRow)
-						_this.$message.success("排序成功")
+						// _this.$message.success("排序成功")
+						// console.log('rowDrop -> newIndex:', newIndex)
+						// console.log('rowDrop -> oldIndex:', oldIndex)
+						// console.log('rowDrop -> currRow:', currRow)
+						// console.log('rowDrop -> tableData:', tableData)
+						let sort = 1000
+						const lastRow = tableData[newIndex - 1]
+						const nextRow = tableData[newIndex + 1]
+						// console.log('rowDrop -> lastRow:', lastRow)
+						// console.log('rowDrop -> nextRow:', nextRow)
+						if (lastRow && lastRow.sort) {
+							sort = lastRow.sort + 1
+						} else if (nextRow && nextRow.style) {
+							sort = nextRow.sort - 1
+						}
+						let reqData = currRow
+						reqData.sort = sort
+						let res = await _this.$API.platform.sys.dictItem.update.put(reqData)
+						if (res.code == 200) {
+							_this.handleSaveSuccess(res.data, 'edit')
+							_this.$message.success("排序成功")
+						} else {
+							await _this.$alert(res.message, "提示", {type: 'error'})
+						}
 					}
 				})
 			},
