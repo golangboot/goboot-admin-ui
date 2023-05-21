@@ -125,13 +125,10 @@
 
 	import saveDialog from './save'
 
-	import edit from './edit'
-
 	export default {
 		name: "systemMenu",
 		components: {
 			saveDialog,
-			edit,
 			scFileImport,
 			scFileExport,
 		},
