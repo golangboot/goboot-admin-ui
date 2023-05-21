@@ -17,14 +17,14 @@ const routes = [
 		}
 	},
 	{
-		path: "/user_register",
+		path: "/userRegister",
 		component: () => import(/* webpackChunkName: "userRegister" */ '@/views/login/userRegister'),
 		meta: {
 			title: "注册"
 		}
 	},
 	{
-		path: "/reset_password",
+		path: "/resetPassword",
 		component: () => import(/* webpackChunkName: "resetPassword" */ '@/views/login/resetPassword'),
 		meta: {
 			title: "重置密码"

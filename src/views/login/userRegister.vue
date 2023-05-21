@@ -6,8 +6,8 @@
 		    <el-step title="完成注册" />
 		</el-steps>
 		<el-form v-if="stepActive==0" ref="stepForm_0" :model="form" :rules="rules" :label-width="120">
-			<el-form-item label="登录账号" prop="user">
-				<el-input v-model="form.user" placeholder="请输入登录账号"></el-input>
+			<el-form-item label="登录账号" prop="username">
+				<el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
 				<div class="el-form-item-msg">登录账号将作为登录时的唯一凭证</div>
 			</el-form-item>
 			<el-form-item label="登录密码" prop="password">
@@ -23,28 +23,28 @@
 			</el-form-item>
 		</el-form>
 		<el-form v-if="stepActive==1" ref="stepForm_1" :model="form" :rules="rules" :label-width="120">
-			<el-form-item label="真实姓名" prop="username">
-				<el-input v-model="form.username" placeholder="请输入真实姓名"></el-input>
-			</el-form-item>
+			<!--<el-form-item label="真实姓名" prop="realName">
+				<el-input v-model="form.realName" placeholder="请输入真实姓名"></el-input>
+			</el-form-item>-->
 			<el-form-item label="邮箱" prop="email">
 				<el-input v-model="form.email" placeholder="请输入邮箱地址"></el-input>
 			</el-form-item>
-			<el-form-item label="账号类型" prop="userType">
+			<!--<el-form-item label="账号类型" prop="userType">
 				<el-radio-group v-model="form.userType">
 					<el-radio-button label="1">企业开发者</el-radio-button>
 					<el-radio-button label="2">企业开发者</el-radio-button>
 				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="开通类别" prop="open">
+			</el-form-item>-->
+			<!--<el-form-item label="开通类别" prop="open">
 				<el-checkbox-group v-model="form.open">
 					<el-checkbox label="1">云存储API</el-checkbox>
 					<el-checkbox label="2">云检索API</el-checkbox>
 					<el-checkbox label="3">Javescript API</el-checkbox>
 				</el-checkbox-group>
-			</el-form-item>
+			</el-form-item>-->
 		</el-form>
 		<div v-if="stepActive==2">
-			<el-result icon="success" title="注册成功" sub-title="可以使用登录账号以及手机号登录系统">
+			<el-result icon="success" title="注册成功" sub-title="可以使用登录账号或邮箱以及手机号登录系统">
 				<template #extra>
 					<el-button type="primary" @click="goLogin">前去登录</el-button>
 				</template>
@@ -53,7 +53,7 @@
 		<el-form style="text-align: center;">
 			<el-button v-if="stepActive>0 && stepActive<2" @click="pre">上一步</el-button>
 			<el-button v-if="stepActive<1" type="primary" @click="next">下一步</el-button>
-			<el-button v-if="stepActive==1" type="primary" @click="save">提交</el-button>
+			<el-button v-if="stepActive==1" type="primary" :loading="isSaving" @click="save">提交</el-button>
 		</el-form>
 		<el-dialog v-model="showAgree" title="平台服务协议" :width="800" destroy-on-close>
 			平台服务协议
@@ -78,18 +78,19 @@
 			return {
 				stepActive: 0,
 				showAgree: false,
+				isSaving: false,
 				form: {
-					user: "",
+					username: "",
 					password: "",
 					password2: "",
 					agree: false,
-					username: "",
+					realName: "",
 					email: "",
 					userType: "1",
 					open: []
 				},
 				rules: {
-					user: [
+					username: [
 						{ required: true, message: '请输入账号名'}
 					],
 					password: [
@@ -114,18 +115,18 @@
 							}
 						}}
 					],
-					username: [
+					realName: [
 						{ required: true, message: '请输入真实姓名'}
 					],
 					email: [
 						{ required: true, message: '请输入邮箱地址'}
 					],
-					userType: [
+					/*userType: [
 						{ required: true, message: '请选择账户类型'}
-					],
-					open: [
+					],*/
+					/*open: [
 						{ required: true, message: '请选择开通类别'}
-					]
+					],*/
 				}
 			}
 		},
@@ -148,9 +149,17 @@
 			},
 			save(){
 				const formName = `stepForm_${this.stepActive}`
-				this.$refs[formName].validate((valid) => {
+				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						this.stepActive += 1
+						this.isLogin = true
+						let res = await this.$API.auth.register.post(this.form)
+						if(res.code == 200){
+							this.stepActive += 1
+							this.$message.success("操作成功")
+						}else{
+							await this.$alert(res.message, "提示", {type: 'error'})
+						}
+						this.isSaving = false;
 					}else{
 						return false
 					}

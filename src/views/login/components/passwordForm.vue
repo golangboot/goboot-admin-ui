@@ -19,14 +19,14 @@
 					<el-checkbox :label="$t('login.rememberMe')" v-model="form.autoLogin"></el-checkbox>
 				</el-col>
 				<el-col :span="12" class="login-forgot">
-					<router-link to="/reset_password">{{ $t('login.forgetPassword') }}？</router-link>
+					<router-link to="/resetPassword">{{ $t('login.forgetPassword') }}？</router-link>
 				</el-col>
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary" style="width: 100%;" :loading="isLogin" round @click="login" @keyup.enter="login">{{ $t('login.signIn') }}</el-button>
 		</el-form-item>
 		<div class="login-reg">
-			{{$t('login.noAccount')}} <router-link to="/user_register">{{$t('login.createAccount')}}</router-link>
+			{{$t('login.noAccount')}} <router-link to="/userRegister">{{$t('login.createAccount')}}</router-link>
 		</div>
 	</el-form>
 </template>

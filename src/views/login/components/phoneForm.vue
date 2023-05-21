@@ -24,7 +24,7 @@
 			<el-button type="primary" style="width: 100%;" :loading="isLogin" round @click="login" @keyup.enter="login">{{ $t('login.signIn') }}</el-button>
 		</el-form-item>
 		<div class="login-reg">
-			{{$t('login.noAccount')}} <router-link to="/user_register">{{$t('login.createAccount')}}</router-link>
+			{{$t('login.noAccount')}} <router-link to="/userRegister">{{$t('login.createAccount')}}</router-link>
 		</div>
 	</el-form>
 </template>
