@@ -201,7 +201,7 @@
 										</el-select>
 									</el-form-item>
 								</el-col>
-								<el-col :span="12">
+								<!--<el-col :span="12">
 									<el-form-item label="员工账号" prop="isEmployee">
 										<template #label="{ label }">
 											<span>{{ label }}</span>
@@ -214,11 +214,11 @@
 										</template>
 										<el-switch
 											v-model="form.isEmployee" inline-prompt
-											style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+											style="&#45;&#45;el-switch-on-color: #13ce66; &#45;&#45;el-switch-off-color: #ff4949"
 											:active-value="1" :inactive-value="0" active-text="是" inactive-text="否"
 										/>
 									</el-form-item>
-								</el-col>
+								</el-col>-->
 							</el-row>
 						</el-tab-pane>
 					</el-tabs>
