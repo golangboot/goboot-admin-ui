@@ -21,11 +21,11 @@
 						<template #label="{ label }">
 							<span>{{ label }}</span>
 							<span>
-						<el-tooltip>
-							<template #content>广告位置编码</template>
-							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-						</el-tooltip>
-					</span>
+							<el-tooltip>
+								<template #content>广告位置编码</template>
+								<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+							</el-tooltip>
+						</span>
 						</template>
 						<el-input v-model="form.code" clearable></el-input>
 					</el-form-item>
