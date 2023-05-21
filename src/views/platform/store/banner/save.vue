@@ -14,15 +14,26 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-
+			<el-form-item label="网址" prop="url">
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>点击轮播图跳转的网址</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-input v-model="form.url" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
+			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="编码" prop="code">
+					<el-form-item label="轮播图位置" prop="code">
 						<template #label="{ label }">
 							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
-									<template #content>广告位置编码</template>
+									<template #content>轮播图位置编码</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
@@ -36,8 +47,8 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="时间">
-				<el-date-picker v-model="dateTimeRangeModel" type="datetimerange"
+			<el-form-item label="生效时间">
+				<el-date-picker v-model="dateTimeRangeModel" :shortcuts="dateTimeRangeShortcuts" type="datetimerange"
 								range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
 								format="YYYY-MM-DD HH:mm:ss"
 								value-format="YYYY-MM-DD HH:mm:ss"
@@ -98,6 +109,113 @@
 					],
 				},
 				dateTimeRangeModel: [],
+				// https://element-plus.gitee.io/zh-CN/component/date-picker.html#选择一段时间
+				dateTimeRangeShortcuts: [
+					{
+						text: '1天',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setHours(24)
+							return [start, end]
+						},
+					},
+					{
+						text: '1周',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setHours(24 * 7)
+							return [start, end]
+						},
+					},
+					{
+						text: '1个月',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(1)
+							return [start, end]
+						},
+					},
+					{
+						text: '3个月',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(3)
+							return [start, end]
+						},
+					},
+					{
+						text: '6个月',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(6)
+							return [start, end]
+						},
+					},
+					{
+						text: '1年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12)
+							return [start, end]
+						},
+					},
+					{
+						text: '2年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 2)
+							return [start, end]
+						},
+					},
+					{
+						text: '3年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 3)
+							return [start, end]
+						},
+					},
+					{
+						text: '5年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 5)
+							return [start, end]
+						},
+					},
+					{
+						text: '10年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 10)
+							return [start, end]
+						},
+					},
+					{
+						text: '20年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 20)
+							return [start, end]
+						},
+					},
+					{
+						text: '30年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 30)
+							return [start, end]
+						},
+					},
+					{
+						text: '100年',
+						value: () => {
+							const start = new Date()
+							const end = new Date().setMonth(12 * 100)
+							return [start, end]
+						},
+					},
+				],
 			}
 		},
 		watch: {
@@ -170,8 +288,10 @@
 				}
 			},
 			dateTimeRangeChange(dateTimeArray){
-				this.form.startTime = dateTimeArray[0]
-				this.form.endTime = dateTimeArray[1]
+				if (dateTimeArray){
+					this.form.startTime = dateTimeArray[0]
+					this.form.endTime = dateTimeArray[1]
+				}
 			}
 		}
 	}

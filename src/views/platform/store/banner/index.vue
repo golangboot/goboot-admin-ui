@@ -17,7 +17,7 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="轮播图名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="轮播图名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="图片" prop="image" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
@@ -25,7 +25,8 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="编码" prop="code" width="100"></el-table-column>
+					<el-table-column label="网址" prop="url" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="轮播图位置" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="开始时间" prop="startTime" width="150"></el-table-column>
 					<el-table-column label="结束时间" prop="endTime" width="150"></el-table-column>

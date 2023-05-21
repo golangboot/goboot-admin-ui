@@ -165,7 +165,7 @@
 </script>
 
 <style scoped>
-	.sc-select {display: inline-block;position: relative;}
+	.sc-select {display: inline-flex;position: relative;}
 	.sc-select-loading {position: absolute;top:0;left:0;right:0;bottom:0;background: #fff;z-index: 100;border-radius: 5px;border: 1px solid #EBEEF5;display: flex;align-items: center;padding-left:10px;}
 	.sc-select-loading i {font-size: 14px;}
 

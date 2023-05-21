@@ -199,7 +199,7 @@ export default {
 
 <style scoped>
 .sc-select {
-	display: inline-block;
+	display: inline-flex;
 	position: relative;
 }
 
