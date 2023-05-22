@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 		<el-header class="header-tabs">
-			<el-tabs type="card" v-model="search.groupId" @tab-change="tabChange">
+			<el-tabs type="card" v-model="params.groupId" @tab-change="tabChange">
 				<el-tab-pane label="全部商品" name=""></el-tab-pane>
 				<el-tab-pane label="回收站商品" name="-1"></el-tab-pane>
 				<!--<el-tab-pane label="自营商品" name="1"></el-tab-pane>-->
@@ -355,9 +355,8 @@ export default {
 			let params = {
 				groupId: name
 			}
-			// this.$refs.table.reload(params)
-			Object.assign(this.search, params)
-			this.$refs.table.reload(this.search)
+			Object.assign(this.params, params)
+			this.$refs.table.reload(this.params)
 		},
 		filterChange(data) {
 			// this.$refs.table.upData(data)

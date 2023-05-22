@@ -1,15 +1,23 @@
 <template>
 	<el-container>
-		<el-aside width="25%" v-loading="treeShowLoading">
+		<el-header class="header-tabs">
+			<el-tabs type="card" v-model="params.groupId" @tab-change="tabChange">
+				<el-tab-pane label="系统菜单" :name="0"></el-tab-pane>
+				<el-tab-pane label="商家菜单" :name="1"></el-tab-pane>
+			</el-tabs>
+		</el-header>
+		<el-main class="nopadding">
 			<el-container>
-				<el-header>
-					<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
-				</el-header>
-				<el-main class="nopadding">
-					<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" draggable
-							 :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox
-							 :filter-node-method="treeNodeFilter" @node-click="treeNodeClick" @node-drop="treeNodeDrop">
-						<template #default="{node, data}">
+				<el-aside width="25%" v-loading="treeShowLoading">
+					<el-container>
+						<el-header>
+							<el-input placeholder="输入关键字进行过滤" v-model="treeFilterText" clearable></el-input>
+						</el-header>
+						<el-main class="nopadding">
+							<el-tree ref="tree" class="menu" node-key="id" :data="treeList" :props="treeProps" draggable
+									 :highlight-current="true" :expand-on-click-node="false" check-strictly show-checkbox
+									 :filter-node-method="treeNodeFilter" @node-click="treeNodeClick" @node-drop="treeNodeDrop">
+								<template #default="{node, data}">
 							<span class="custom-tree-node">
 								<span class="label">{{ node.label }}</span>
 								<!--<span class="code">{{ data.code }}</span>-->
@@ -21,97 +29,99 @@
 									</el-button-group>
 								</span>
 							</span>
-						</template>
-					</el-tree>
-				</el-main>
-				<el-footer style="height:51px;">
-					<el-button type="primary" size="small" icon="el-icon-plus" @click="treeAdd"></el-button>
-					<el-button type="danger" size="small" plain icon="el-icon-delete" @click="treeDel"></el-button>
-					<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
-					<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
-				</el-footer>
-			</el-container>
-		</el-aside>
-		<el-container class="is-vertical">
-			<el-header>
-				<div class="left-panel">
-					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-					<!--<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>-->
-					<sc-file-import :apiObj="$API.platform.sys.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
-						<template #default="{open}">
-							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
-						</template>
-						<template #uploader>
-							<el-icon class="el-icon--upload"><sc-icon-file-excel /></el-icon>
-							<div class="el-upload__text">
-								将文件拖到此处或 <em>点击选择文件上传</em>
+								</template>
+							</el-tree>
+						</el-main>
+						<el-footer style="height:51px;">
+							<el-button type="primary" size="small" icon="el-icon-plus" @click="treeAdd"></el-button>
+							<el-button type="danger" size="small" plain icon="el-icon-delete" @click="treeDel"></el-button>
+							<el-button type="default" size="small" icon="el-icon-folder-opened" @click="shrinkTreeNode" v-if="treeStatus"></el-button>
+							<el-button type="default" size="small" icon="el-icon-folder" @click="shrinkTreeNode" v-if="!treeStatus"></el-button>
+						</el-footer>
+					</el-container>
+				</el-aside>
+				<el-container class="is-vertical">
+					<el-header>
+						<div class="left-panel">
+							<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
+							<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
+							<!--<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>-->
+							<sc-file-import :apiObj="$API.platform.sys.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
+								<template #default="{open}">
+									<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
+								</template>
+								<template #uploader>
+									<el-icon class="el-icon--upload"><sc-icon-file-excel /></el-icon>
+									<div class="el-upload__text">
+										将文件拖到此处或 <em>点击选择文件上传</em>
+									</div>
+								</template>
+								<template #form="{formData}">
+									<el-form-item label="覆盖已有数据">
+										<el-switch v-model="formData.coverage" />
+									</el-form-item>
+									<el-form-item label="跳过错误数据">
+										<el-switch v-model="formData.skipError" />
+									</el-form-item>
+								</template>
+							</sc-file-import>
+							<sc-file-export :apiObj="$API.platform.sys.menu.export" blob :fileName="'菜单列表_' + Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
+								<template #default="{open}">
+									<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
+								</template>
+								<template #form="{formData}">
+									<el-form-item label="导出条数">
+										<el-select v-model="formData.limit" placeholder="全部">
+											<el-option label="100条" value="100" />
+											<el-option label="500条" value="500" />
+											<el-option label="1000条" value="1000" />
+											<el-option label="5000条" value="5000" />
+											<el-option label="10000条" value="10000" />
+										</el-select>
+									</el-form-item>
+								</template>
+							</sc-file-export>
+						</div>
+						<div class="right-panel">
+							<div class="right-panel-search">
+								<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input>
+								<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
 							</div>
-						</template>
-						<template #form="{formData}">
-							<el-form-item label="覆盖已有数据">
-								<el-switch v-model="formData.coverage" />
-							</el-form-item>
-							<el-form-item label="跳过错误数据">
-								<el-switch v-model="formData.skipError" />
-							</el-form-item>
-						</template>
-					</sc-file-import>
-					<sc-file-export :apiObj="$API.platform.sys.menu.export" blob :fileName="'菜单列表_' + Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
-						<template #default="{open}">
-							<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
-						</template>
-						<template #form="{formData}">
-							<el-form-item label="导出条数">
-								<el-select v-model="formData.limit" placeholder="全部">
-									<el-option label="100条" value="100" />
-									<el-option label="500条" value="500" />
-									<el-option label="1000条" value="1000" />
-									<el-option label="5000条" value="5000" />
-									<el-option label="10000条" value="10000" />
-								</el-select>
-							</el-form-item>
-						</template>
-					</sc-file-export>
-				</div>
-				<div class="right-panel">
-					<div class="right-panel-search">
-						<el-input v-model="search.keyword" placeholder="关键字" clearable @keyup.enter="upSearch"></el-input>
-						<el-button type="primary" icon="el-icon-search" @click="upSearch"></el-button>
-					</div>
-				</div>
-			</el-header>
-			<el-main class="nopadding">
-				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
-					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="id" width="100" sortable></el-table-column>
-					<el-table-column label="名称" prop="name" width="200"></el-table-column>
-					<el-table-column label="标题" prop="title" width="200"></el-table-column>
-					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-					<el-table-column label="状态" prop="status" width="80">
-						<template #default="scope">
-							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
-						</template>
-					</el-table-column>
-					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
-					<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-					<el-table-column label="操作" fixed="right" align="right" width="170">
-						<template #default="scope">
-							<el-button-group>
-								<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
-								<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
-									<template #reference>
-										<el-button text type="primary" size="small">删除</el-button>
-									</template>
-								</el-popconfirm>
-							</el-button-group>
-						</template>
-					</el-table-column>
+						</div>
+					</el-header>
+					<el-main class="nopadding">
+						<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
+							<el-table-column type="selection" width="50"></el-table-column>
+							<el-table-column label="ID" prop="id" width="100" sortable></el-table-column>
+							<el-table-column label="名称" prop="name" width="200"></el-table-column>
+							<el-table-column label="标题" prop="title" width="200"></el-table-column>
+							<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
+							<el-table-column label="状态" prop="status" width="80">
+								<template #default="scope">
+									<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
+								</template>
+							</el-table-column>
+							<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
+							<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
+							<el-table-column label="操作" fixed="right" align="right" width="170">
+								<template #default="scope">
+									<el-button-group>
+										<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
+										<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+										<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+											<template #reference>
+												<el-button text type="primary" size="small">删除</el-button>
+											</template>
+										</el-popconfirm>
+									</el-button-group>
+								</template>
+							</el-table-column>
 
-				</scTable>
-			</el-main>
-		</el-container>
+						</scTable>
+					</el-main>
+				</el-container>
+			</el-container>
+		</el-main>
 	</el-container>
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
@@ -138,7 +148,9 @@
 					save: false,
 				},
 				apiObj: this.$API.platform.sys.menu.list,
-				params: {},
+				params: {
+					groupId: 0,
+				},
 				column: [
 					{
 						label: "ID",
@@ -241,14 +253,14 @@
 			}
 		},
 		mounted() {
-			this.getTreeList()
+			this.getTreeList(this.params)
 		},
 		methods: {
 			//添加
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('add')
+					this.$refs.saveDialog.open('add').setData(this.params)
 				})
 			},
 			//编辑
@@ -351,8 +363,8 @@
 				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
 			//加载树数据
-			async getTreeList(){
-				let res = await this.$API.platform.sys.menu.tree.get();
+			async getTreeList(params = {}){
+				let res = await this.$API.platform.sys.menu.tree.get(params);
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', title: '全部', disabled: true,};
 				res.data.unshift(allNode);
@@ -473,6 +485,13 @@
 				this.treeStatus = !this.treeStatus;
 				// 改变每个节点的状态
 				treeUtils.changeTreeNodeStatus(this.$refs.tree.store.root, this.treeStatus);
+			},
+			//标签切换
+			// eslint-disable-next-line
+			tabChange(name) {
+				// console.log('tabChange -> name:', name)
+				this.getTreeList(this.params)
+				this.$refs.table.reload(this.params)
 			},
 		}
 	}

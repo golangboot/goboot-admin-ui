@@ -236,7 +236,7 @@
 			async getMenu(){
 				this.isSaving = true
 
-				var res = await this.$API.platform.sys.menu.tree.get()
+				let res = await this.$API.platform.sys.menu.tree.get({groupId: 0})
 				this.menu.list = res.data
 
 				let reqData = {id: this.form.id}

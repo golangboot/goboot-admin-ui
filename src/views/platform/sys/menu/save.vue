@@ -11,6 +11,12 @@
 							<el-form-item label="上级菜单" prop="parentId">
 								<el-cascader v-model="form.parentId" :options="menuOptions" :props="menuProps" :show-all-levels="true" placeholder="顶级菜单" style="width:100%" filterable clearable></el-cascader>
 							</el-form-item>
+							<el-form-item label="菜单组" prop="groupId">
+								<el-radio-group v-model="form.groupId">
+									<el-radio-button :label="0">系统</el-radio-button>
+									<el-radio-button :label="1">商家</el-radio-button>
+								</el-radio-group>
+							</el-form-item>
 							<el-form-item label="类型" prop="meta.type">
 								<el-radio-group v-model="form.meta.type">
 									<el-radio-button label="menu">菜单</el-radio-button>
@@ -147,7 +153,8 @@
 				//表单数据
 				form: {
 					id: "",
-					parentId: "",
+					parentId: 0,
+					groupId: 0,
 					name: "",
 					path: "",
 					component: "",
