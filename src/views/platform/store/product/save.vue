@@ -46,9 +46,9 @@
 									<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 								</el-form-item>
 
-								<el-form-item label="商品图片" prop="image">
+								<!--<el-form-item label="商品图片" prop="image">
 									<sc-upload v-model="form.image" title="请上传图片" :width="80" :height="80"></sc-upload>
-								</el-form-item>
+								</el-form-item>-->
 
 								<el-form-item label="商品相册" prop="images">
 									<sc-upload-multiple v-model="form.images" :width="80" :height="80" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
@@ -532,7 +532,7 @@
 						{ required: true, message: '请选择商品分类', trigger: ['change', 'blur']}
 					],
 					images: [
-						{ required: true, message: '请上传至少1张商品相册图片', trigger: ['change', 'blur']}
+						{ required: true, message: '商品相册不能为空，请至少上传1张图片', trigger: ['change', 'blur']}
 					],
 				},
 				statusOptions: [
