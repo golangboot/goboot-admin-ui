@@ -745,28 +745,28 @@ export default {
 				}
 			},
 			changeAccount: {
-				url: `${config.API_URL}/platform/user/changeAccount`,
+				url: `${config.API_URL}/platform/user/user/changeAccount`,
 				name: "账户",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			assignRoles: {
-				url: `${config.API_URL}/platform/user/assignRoles`,
+				url: `${config.API_URL}/platform/user/user/assignRoles`,
 				name: "分配角色",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
 				}
 			},
 			assignGroups: {
-				url: `${config.API_URL}/platform/user/assignGroups`,
+				url: `${config.API_URL}/platform/user/user/assignGroups`,
 				name: "分配用户组",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
 				}
 			},
 			assignDepartments: {
-				url: `${config.API_URL}/platform/user/assignDepartments`,
+				url: `${config.API_URL}/platform/user/user/assignDepartments`,
 				name: "分配部门",
 				post: async function(data){
 					return await http.post(`${this.url}`, data);
