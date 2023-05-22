@@ -54,7 +54,7 @@
 	import saveDialog from './save'
 
 	export default {
-		name: 'platformStoreBanner',
+		name: 'platformSearchKeyword',
 		components: {
 			saveDialog,
 		},
