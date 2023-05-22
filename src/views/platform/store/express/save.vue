@@ -1,18 +1,18 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="快递物流名称" prop="name">
+			<el-form-item label="快递名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="快递物流介绍" prop="description">
+			<el-form-item label="快递介绍" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
-			<el-form-item label="快递物流编码" prop="code">
+			<el-form-item label="快递编码" prop="code">
 				<template #label="{ label }">
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>请填写快递物流英文编码</template>
+							<template #content>请填写快递英文编码</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -21,8 +21,8 @@
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="快递物流图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传快递物流图片"></sc-upload>
+					<el-form-item label="快递图片" prop="image">
+						<sc-upload v-model="form.image" title="请上传快递图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -68,7 +68,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入快递物流名称'}
+						{required: true, message: '请输入快递名称'}
 					],
 				},
 			}

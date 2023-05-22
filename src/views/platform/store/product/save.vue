@@ -550,7 +550,7 @@
 				],
 				logisticsTypeOptions: [
 					{label: "无需发货", value: 0,},
-					{label: "快递物流", value: 1,},
+					{label: "快递", value: 1,},
 					// {label: "自提点自提", value: 2,}, // 预留功能未实现, 暂时隐藏
 					// {label: "到店核销", value: 3,}, // 预留功能未实现, 暂时隐藏
 				],

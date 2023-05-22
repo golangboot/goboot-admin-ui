@@ -57,7 +57,7 @@
 							</el-form-item>
 						</template>
 					</sc-file-import>
-					<sc-file-export :apiObj="$API.platform.sys.menu.export" blob :fileName="'菜单列表_'+Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
+					<sc-file-export :apiObj="$API.platform.sys.menu.export" blob :fileName="'菜单列表_' + Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
 						<template #default="{open}">
 							<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
 						</template>

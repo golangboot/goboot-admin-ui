@@ -17,7 +17,7 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="快递物流名称" prop="name" width="150"></el-table-column>
+					<el-table-column label="快递名称" prop="name" width="150"></el-table-column>
 					<el-table-column label="LOGO" prop="image" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
@@ -25,8 +25,8 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="快递物流编码" prop="code" width="100"></el-table-column>
-					<el-table-column label="快递物流介绍" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="快递编码" prop="code" width="100"></el-table-column>
+					<el-table-column label="快递介绍" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
