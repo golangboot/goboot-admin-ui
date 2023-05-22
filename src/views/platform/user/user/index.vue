@@ -24,7 +24,10 @@
 				<el-table-column label="头像" prop="avatar" width="80" column-key="filterAvatar"
 								 :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
 					<template #default="scope">
-						<el-avatar :src="scope.row.avatar" v-if="scope.row.avatar" size="small"></el-avatar>
+						<!--<el-avatar :src="scope.row.avatar" v-if="scope.row.avatar" size="small"></el-avatar>-->
+						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+							<el-image class="image" :src="scope.row.avatar" v-if="scope.row.avatar" fit="cover" :preview-src-list="[scope.row.avatar]" hide-on-click-modal preview-teleported></el-image>
+						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="用户名" prop="username" width="150" :show-overflow-tooltip="true" sortable

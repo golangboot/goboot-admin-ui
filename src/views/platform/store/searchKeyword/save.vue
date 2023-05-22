@@ -1,11 +1,8 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="搜索关键字名称" prop="name">
+			<el-form-item label="关键字名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
-			</el-form-item>
-			<el-form-item label="描述" prop="description">
-				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-form-item label="网址" prop="url">
 				<template #label="{ label }">
@@ -65,7 +62,7 @@
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入搜索关键字名称'}
+						{required: true, message: '请输入关键字名称'}
 					],
 				},
 			}

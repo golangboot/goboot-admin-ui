@@ -346,7 +346,7 @@
 					this.$refs.table.refresh()
 				}
 				//重获获取用户菜单
-				this.$store.commit("getUserMenus")
+				// this.$store.commit("getUserMenus")
 				// 触发树更新
 				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
 			},
