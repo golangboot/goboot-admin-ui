@@ -111,7 +111,7 @@
 				<el-input v-model="form.classMethodName" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
-				<el-input v-model="form.remark" clearable type="textarea"></el-input>
+				<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>

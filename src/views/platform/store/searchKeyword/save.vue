@@ -1,40 +1,23 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="店铺名称" prop="name">
+			<el-form-item label="搜索关键字名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="店铺描述" prop="description">
+			<el-form-item label="描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="LOGO" prop="image">
-						<sc-upload v-model="form.image" title="请上传LOGO"></sc-upload>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="店铺类型" prop="type">
-				<el-radio-group v-model="form.type">
-					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="自营店铺" prop="isSelf">
-				<el-radio-group v-model="form.isSelf">
-					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId"
-							   :apiObj="$API.platform.user.user.list"
-							   :params="{id: form.userId}"
-							   :searchClearParams="['id']"
-							   :request="{name: 'keyword'}"
-							   :props="{label: 'label', value: 'value'}"
-							   :parseData="userSelect.parseData"
-							   :parseDataField="userSelect.parseDataField"
-							   clearable filterable style="width:100%">
-				</select-remote>
+			<el-form-item label="网址" prop="url">
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>点击搜索关键字跳转的网址</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-input v-model="form.url" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -54,12 +37,9 @@
 </template>
 
 <script>
-	import selectRemote from "@/components/selectRemote";
-
 	export default {
 		emits: ['success', 'closed'],
 		components:{
-			selectRemote,
 		},
 		data() {
 			return {
@@ -76,36 +56,27 @@
 					id:"",
 					name: "",
 					code: "",
-					label: "",
 					sort: null,
 					status: 1,
 					remark: "",
-					isSelf: 0,
+					startTime: '',
+					endTime: '',
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入店铺名称'}
+						{required: true, message: '请输入搜索关键字名称'}
 					],
 				},
-				userSelect: {
-					// 解析数据字段
-					parseDataField: function (item) {
-						return {
-							label: item.username || item.nickname || item.mobile || item.email,
-							value: item.id,
-						}
-					},
-				},
-				typeOptions: [
-					{label: "普通店铺", value: 0,},
-					{label: "旗舰店", value: 1,},
-				],
-				isSelfOptions: [
-					{label: "否", value: 0,},
-					{label: "是", value: 1,},
-				],
 			}
+		},
+		watch: {
+			form: {
+				// eslint-disable-next-line
+				handler: function (newVal, oldVal) {
+				},
+				deep: true
+			},
 		},
 		mounted() {
 		},
@@ -121,11 +92,11 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
-							res = await this.$API.platform.store.merchant.update.put(this.form)
+							res = await this.$API.platform.store.searchKeyword.update.put(this.form)
 						} else {
-							res = await this.$API.platform.store.merchant.add.post(this.form)
+							res = await this.$API.platform.store.searchKeyword.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -145,11 +116,11 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.platform.store.merchant.detail.get(reqData)
+					let res = await this.$API.platform.store.searchKeyword.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
-			}
+			},
 		}
 	}
 </script>
