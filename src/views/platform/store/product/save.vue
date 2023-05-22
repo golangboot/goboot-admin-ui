@@ -531,6 +531,9 @@
 					categoryId: [
 						{ required: true, message: '请选择商品分类', trigger: ['change', 'blur']}
 					],
+					images: [
+						{ required: true, message: '请上传至少1张商品相册图片', trigger: ['change', 'blur']}
+					],
 				},
 				statusOptions: [
 					{label: "上架", value: 1,},
