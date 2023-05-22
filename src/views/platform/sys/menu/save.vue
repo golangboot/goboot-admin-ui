@@ -13,8 +13,8 @@
 							</el-form-item>
 							<el-form-item label="菜单组" prop="groupId">
 								<el-radio-group v-model="form.groupId">
-									<el-radio-button :label="0">系统</el-radio-button>
-									<el-radio-button :label="1">商家</el-radio-button>
+									<el-radio-button :label="0">系统菜单</el-radio-button>
+									<el-radio-button :label="1">商家菜单</el-radio-button>
 								</el-radio-group>
 							</el-form-item>
 							<el-form-item label="类型" prop="meta.type">
