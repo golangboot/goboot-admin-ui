@@ -59,6 +59,7 @@ export default {
 			if (res.code == 200) {
 				if (res.data.menu.length > 0) {
 					tool.data.set(config.DATA_CODE.MENU, res.data.menu)
+					tool.data.set(config.DATA_CODE.ROLES, res.data.roles)
 					tool.data.set(config.DATA_CODE.PERMISSIONS, res.data.permissions)
 					tool.data.set(config.DATA_CODE.DASHBOARD_GRID, res.data.dashboardGrid)
 				}
