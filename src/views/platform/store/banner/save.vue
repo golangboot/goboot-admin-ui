@@ -1,8 +1,8 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="轮播图名称" prop="name">
-				<el-input v-model="form.name" clearable></el-input>
+			<el-form-item label="轮播图标题" prop="title">
+				<el-input v-model="form.title" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
@@ -104,8 +104,8 @@
 				},
 				//验证规则
 				rules: {
-					name: [
-						{required: true, message: '请输入轮播图名称'}
+					title: [
+						{required: true, message: '请输入轮播图标题'}
 					],
 				},
 				dateTimeRangeModel: [],
