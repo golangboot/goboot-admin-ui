@@ -94,6 +94,19 @@
 									</el-col>
 								</el-row>
 
+								<el-form-item label="包装清单" prop="packingList">
+									<template #label="{ label }">
+										<span>{{ label }}</span>
+										<span>
+											<el-tooltip>
+												<template #content>商品包装清单，例如：数据线*1,充电器*2</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+									</template>
+									<el-input v-model="form.packingList" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+								</el-form-item>
+
 								<el-form-item label="商品状态" prop="status">
 									<el-radio-group v-model="form.status">
 										<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
