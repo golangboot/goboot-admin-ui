@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
+	<el-dialog :title="titleMap[mode]" v-model="visible" :width="'80%'" :top="'5vh'" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
 			<el-row :gutter="20">
 				<el-col :span="12">
@@ -90,6 +90,20 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-form-item label="数据获取方式" prop="dataSourceType">
+				<template #label="{ label }">
+					<span>{{ label }}</span>
+					<span>
+						<el-tooltip>
+							<template #content>获取商品数据来源方式</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+				</template>
+				<el-radio-group v-model="form.dataSourceType">
+					<el-radio v-for="(item, index) in dataSourceTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+				</el-radio-group>
+			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -135,6 +149,7 @@
 					sort: null,
 					status: 1,
 					remark: "",
+					dataSourceType: 0,
 				},
 				//验证规则
 				rules: {
@@ -145,6 +160,13 @@
 						{ required: true, message: '请选择商品分类', trigger: ['change', 'blur']}
 					],
 				},
+				dataSourceTypeOptions: [
+					{label: "自动", value: 0},
+					{label: "按商品排序", value: 1},
+					{label: "按商品销量", value: 2},
+					{label: "按商品创建时间", value: 3},
+					// {label: "指定商品", value: 4},
+				],
 			}
 		},
 		mounted() {
