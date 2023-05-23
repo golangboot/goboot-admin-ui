@@ -18,7 +18,7 @@
 				</el-col>
 			</el-form-item>
 			<el-form-item label="头像" prop="avatar">
-				<sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
+				<sc-upload :width="80" :height="80" v-model="form.avatar" title="上传头像"></sc-upload>
 			</el-form-item>
 			<el-form-item label="个性签名">
 				<el-input v-model="form.intro" type="textarea"></el-input>

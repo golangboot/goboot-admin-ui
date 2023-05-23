@@ -10,7 +10,7 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="LOGO" prop="image">
-						<sc-upload v-model="form.image" title="请上传LOGO"></sc-upload>
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传LOGO"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>

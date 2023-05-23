@@ -40,7 +40,7 @@
 								</el-col>
 								<el-col :span="12">
 									<el-form-item label="头像" prop="avatar">
-										<sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
+										<sc-upload :width="80" :height="80" v-model="form.avatar" title="上传头像"></sc-upload>
 									</el-form-item>
 								</el-col>
 							</el-row>
@@ -136,12 +136,12 @@
 							<el-row :gutter="20">
 								<el-col :span="12">
 									<el-form-item label="证件正面" prop="identityCardFront">
-										<sc-upload v-model="form.identityCardFront" title="请上传证件正面"></sc-upload>
+										<sc-upload :width="80" :height="80" v-model="form.identityCardFront" title="请上传证件正面"></sc-upload>
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
 									<el-form-item label="证件背面" prop="identityCardBack">
-										<sc-upload v-model="form.identityCardBack" title="请上传证件背面"></sc-upload>
+										<sc-upload :width="80" :height="80" v-model="form.identityCardBack" title="请上传证件背面"></sc-upload>
 									</el-form-item>
 								</el-col>
 							</el-row>

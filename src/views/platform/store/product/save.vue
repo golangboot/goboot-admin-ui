@@ -47,11 +47,11 @@
 								</el-form-item>
 
 								<!--<el-form-item label="商品图片" prop="image">
-									<sc-upload v-model="form.image" title="请上传图片" :width="80" :height="80"></sc-upload>
+									<sc-upload :width="80" :height="80" v-model="form.image" title="请上传图片"></sc-upload>
 								</el-form-item>-->
 
 								<el-form-item label="商品相册" prop="images">
-									<sc-upload-multiple v-model="form.images" :width="80" :height="80" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
+									<sc-upload-multiple :width="80" :height="80" v-model="form.images" draggable :limit="10" title="请上传图片" tip="建议尺寸：800*800，可拖拽改变图片顺序，默认首张图为主图，最多上传10张"></sc-upload-multiple>
 								</el-form-item>
 
 								<el-row :gutter="20">
@@ -158,7 +158,7 @@
 									</template>-->
 									<template #image="slotProps">
 										<div class="image-upload-container" style="margin: 0 auto;">
-											<sc-upload v-model="slotProps.row.image" title="请上传图片" :width="80" :height="80"></sc-upload>
+											<sc-upload :width="80" :height="80" v-model="slotProps.row.image" title="请上传图片"></sc-upload>
 										</div>
 									</template>
 									<template #status="slotProps">

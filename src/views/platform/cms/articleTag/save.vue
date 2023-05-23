@@ -7,7 +7,7 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="标签图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传标签图片"></sc-upload>
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传标签图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>

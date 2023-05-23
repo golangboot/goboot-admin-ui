@@ -32,7 +32,7 @@
 											</el-tooltip>
 										</span>
 									</template>
-									<sc-upload v-model="form['site.logo']" title="请上网站LOGO图片"></sc-upload>
+									<sc-upload :width="80" :height="80" v-model="form['site.logo']" title="请上网站LOGO图片"></sc-upload>
 								</el-form-item>
 							</el-col>
 							<el-col :span="12">
@@ -46,7 +46,7 @@
 											</el-tooltip>
 										</span>
 									</template>
-									<sc-upload v-model="form['site.logoSquare']" title="请上网站LOGO图片"></sc-upload>
+									<sc-upload :width="80" :height="80" v-model="form['site.logoSquare']" title="请上网站LOGO图片"></sc-upload>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -62,7 +62,7 @@
 											</el-tooltip>
 										</span>
 									</template>
-									<sc-upload v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
+									<sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
 								</el-form-item>
 							</el-col>
 						</el-row>

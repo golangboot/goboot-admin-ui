@@ -7,12 +7,12 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="分类图标" prop="icon">
-						<sc-upload v-model="form.icon" title="请上传分类图标"></sc-upload>
+						<sc-upload :width="80" :height="80" v-model="form.icon" title="请上传分类图标"></sc-upload>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="分类图片" prop="image">
-						<sc-upload v-model="form.image" title="请上传分类图片"></sc-upload>
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传分类图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
