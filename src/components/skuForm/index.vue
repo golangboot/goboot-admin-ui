@@ -410,14 +410,14 @@ export default {
 						this.combinationAttributes()
 					} else {
 						this.form.skuData = []
-						const obj = {
-							[this.skuProps.sku]: this.emptySku
-						}
+						let skuDataItem = this.skus[0] || {}
+						let obj = Object.assign({}, skuDataItem)
+						obj[this.skuProps.sku] = this.emptySku
 						// console.log('myAttributes -> this.skus before:', this.skus)
 						this.structures.forEach(structureItem => {
 							if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
 								// 在此处赋值skus已有参数数值 sku初始赋值已有数据
-								if (this.skus && this.skus[0] && typeof this.skus[0][structureItem.name] != 'undefined') {
+								if (skuDataItem && typeof skuDataItem[structureItem.name] != 'undefined') {
 									// console.log(`myAttributes -> this.skus assign[${structureItem.name}]:`, this.skus[0][structureItem.name])
 									obj[structureItem.name] = this.skus[0][structureItem.name]
 								} else {
