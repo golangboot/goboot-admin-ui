@@ -173,7 +173,7 @@
 				},
 				keyword: null,
 				pageSize: config.pageSize || 20,
-				pageSizes: [10, 20, 30, 40, 50, 100, 500, 1000],
+				pageSizes: [10, 20, 30, 50, 100, 500, 1000],
 				total: 0,
 				currentPage: 1,
 				fileList: [],
