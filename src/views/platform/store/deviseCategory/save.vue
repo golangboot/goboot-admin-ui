@@ -23,7 +23,7 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>标题一般使用商品分类名称，便于用户区分，也可以自定义</template>
+							<template #content>标题一般使用商品分类名称，便于用户区分，也可以自定义，留空时默认使用分类名称</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -54,7 +54,7 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-row :gutter="20">
+			<!--<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="图片" prop="image">
 						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传图片"></sc-upload>
@@ -65,7 +65,7 @@
 						<el-input v-model="form.url" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
 					</el-form-item>
 				</el-col>
-			</el-row>
+			</el-row>-->
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="左侧图片" prop="leftImage">
@@ -138,9 +138,9 @@
 				},
 				//验证规则
 				rules: {
-					title: [
+					/*title: [
 						{required: true, message: '请输入标题'}
-					],
+					],*/
 					categoryId: [
 						{ required: true, message: '请选择商品分类', trigger: ['change', 'blur']}
 					],
@@ -190,15 +190,16 @@
 					this.form = res.data
 				}
 			},
+			// eslint-disable-next-line
 			onSelectChange(val){
 				// console.log(this.$refs.selectRemote.selectedLabel)
 				// console.log(this.$refs.selectRemote.options)
-				this.$refs.selectRemote.options.forEach(option => {
+				/*this.$refs.selectRemote.options.forEach(option => {
 					// console.log(option)
 					if (option.id == val){
 						this.form.title = option.name
 					}
-				})
+				})*/
 			}
 		}
 	}

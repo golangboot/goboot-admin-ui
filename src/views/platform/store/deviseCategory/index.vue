@@ -17,16 +17,30 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
+					<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
+						<template #default="scope">
+							<span>{{ scope.row.category?.name }}</span>
+						</template>
+					</el-table-column>
 					<el-table-column label="标题" prop="title" width="150"></el-table-column>
 					<el-table-column label="描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="位置编码" prop="code" width="100"></el-table-column>
-					<el-table-column label="图片" prop="image" width="100">
+					<el-table-column label="左侧图片" prop="leftImage" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-								<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
+								<el-image class="image" :src="scope.row.leftImage" :preview-src-list="[scope.row.leftImage]" v-if="scope.row.leftImage" fit="cover" hide-on-click-modal preview-teleported></el-image>
 							</div>
 						</template>
 					</el-table-column>
+					<el-table-column label="左侧链接" prop="leftLink" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="底部图片" prop="bottomImage" width="100">
+						<template #default="scope">
+							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+								<el-image class="image" :src="scope.row.bottomImage" :preview-src-list="[scope.row.bottomImage]" v-if="scope.row.bottomImage" fit="cover" hide-on-click-modal preview-teleported></el-image>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column label="底部链接" prop="bottomLink" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
