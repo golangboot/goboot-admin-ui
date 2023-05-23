@@ -413,13 +413,21 @@ export default {
 						const obj = {
 							[this.skuProps.sku]: this.emptySku
 						}
-						this.structures.forEach(v => {
-							if (!(v.type == 'slot' && v.skuProperty == false)) {
-								obj[v.name] = typeof v.defaultValue != 'undefined' ? v.defaultValue : ''
+						// console.log('myAttributes -> this.skus before:', this.skus)
+						this.structures.forEach(structureItem => {
+							if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
+								// 在此处赋值skus已有参数数值 sku初始赋值已有数据
+								if (this.skus && this.skus[0] && typeof this.skus[0][structureItem.name] != 'undefined') {
+									// console.log(`myAttributes -> this.skus assign[${structureItem.name}]:`, this.skus[0][structureItem.name])
+									obj[structureItem.name] = this.skus[0][structureItem.name]
+								} else {
+									obj[structureItem.name] = typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : ''
+								}
 							}
 						})
+						// console.log('myAttributes -> this.skus', this.skus)
 						this.form.skuData.push(obj)
-						// console.log('form.skuData', this.form.skuData)
+						// console.log('myAttributes -> form.skuData.push', this.form.skuData)
 					}
 					this.clearValidate()
 					if (this.attributes && this.attributes.length > 0) {
@@ -443,7 +451,8 @@ export default {
 						// console.log(`如果有老数据，或者 sku 数据为空，则更新父级 sku 数据`)
 						// 更新父组件
 						let skus = []
-						newValue.forEach(skuDataItem => {
+						// eslint-disable-next-line
+						newValue.forEach((skuDataItem, skuDataIndex) => {
 							// console.log('form.skuData skuDataItem:', skuDataItem)
 							//使用 Object.assign() 拷贝数据, 可以避免直接赋值时, 如果删除元素数据会导致原数据也被删除
 							let obj = Object.assign({}, skuDataItem)
@@ -451,10 +460,12 @@ export default {
 							if (skuDataItem[this.skuProps.attributeParams]) {
 								obj[this.skuProps.attributeParams] = skuDataItem[this.skuProps.attributeParams]
 							}
+							// console.log(`form.skuData skus[${skuDataIndex}]:`, this.skus[skuDataIndex])
 							//表格结构数据过滤
 							this.structures.forEach(structureItem => {
 								// console.log('form.skuData structureItem', structureItem)
 								if (!(structureItem.type == 'slot' && structureItem.skuProperty == false)) {
+									// console.log('form.skuData skuDataItem:', skuDataItem)
 									// console.log('form.skuData.structures structureItem:', structureItem)
 									// console.log(`form.skuData.structures skuDataItem.${structureItem.name}:`, skuDataItem[structureItem.name])
 									// obj[structureItem.name] = skuDataItem[structureItem.name] || (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
@@ -462,7 +473,7 @@ export default {
 										// console.log('form.skuData structureItem:', skuDataItem[structureItem.name])
 										obj[structureItem.name] = skuDataItem[structureItem.name]
 									} else {
-										obj[structureItem.name] = (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
+										obj[structureItem.name] = typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : ''
 									}
 									// obj[structureItem.name] = (typeof skuDataItem[structureItem.name] != 'undefined') ? skuDataItem[structureItem.name] : (typeof structureItem.defaultValue != 'undefined' ? structureItem.defaultValue : '')
 								}
@@ -604,6 +615,7 @@ export default {
 		},
 		// 根据 attributes 进行排列组合，生成 skuData 数据
 		combinationAttributes(index = 0, skuDataTemp = []) {
+			// console.log('combinationAttributes -> skus', this.skus)
 			// console.log('combinationAttributes => this.attributes', this.attributes)
 			// console.log('combinationAttributes => structures', this.structures)
 			if (index === 0) {
@@ -679,7 +691,7 @@ export default {
 						}
 					}
 				}
-				// console.log('combinationAttributes -> skus',this.skus)
+				// console.log('combinationAttributes -> skus', this.skus)
 				// 原属性赋值
 				if (this.skus && this.skus.length > 0) {
 					for (let i = 0; i < this.skus.length; i++) {

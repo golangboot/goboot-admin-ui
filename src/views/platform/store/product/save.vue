@@ -1076,7 +1076,7 @@
 				})
 
 				this.form.saleAttributes = Object.assign(this.form.saleAttributes || [], saleAttributes)
-				// this.$refs.skuForm?.init() // skuForm初始化
+				this.$refs.skuForm?.init() // skuForm初始化
 				// console.log('handleCategoryAttributes -> skuForm.isInit:', this.$refs.skuForm.isInit)
 
 				// this.form.specAttributes = Object.assign(this.form.specAttributes || [], specAttributes)
