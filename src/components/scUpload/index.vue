@@ -7,7 +7,7 @@
 			<el-image class="image" :src="file.tempFile" fit="cover"></el-image>
 		</div>
 		<div v-if="file && file.status=='success'" class="sc-upload__img">
-			<el-image class="image" :src="file.url" :preview-src-list="[file.url]" fit="cover" hide-on-click-modal preview-teleported append-to-body :z-index="9999">
+			<el-image class="image" :src="file.url" :preview-src-list="[file.url]" fit="scale-down" hide-on-click-modal preview-teleported append-to-body :z-index="9999">
 				<template #placeholder>
 					<div class="sc-upload__img-slot">
 						Loading...

@@ -6,7 +6,7 @@
 					<el-form-item label="商品分类" prop="categoryId">
 						<select-remote v-model="form.categoryId" ref="selectRemote"
 									   :apiObj="$API.platform.store.category.list"
-									   :params="{id: form.categoryId, parentId: 0}"
+									   :params="{id: form.categoryId}"
 									   :searchClearParams="['id']"
 									   :request="{name: 'keyword'}"
 									   :props="{label: 'name', value: 'id',}"
