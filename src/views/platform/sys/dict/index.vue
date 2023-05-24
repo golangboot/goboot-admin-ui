@@ -17,7 +17,7 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe highlightCurrentRow @row-click="rowClick">
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="字典名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="字典编码" prop="code" width="150" fixed :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column label="字典编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="字典描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="字典类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="是否锁定" prop="isGlobal" width="100" sortable>

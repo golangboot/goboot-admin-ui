@@ -20,8 +20,8 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="头像" prop="avatar" width="80" column-key="filterAvatar"
+				<el-table-column label="ID" prop="id" width="150" fixed sortable></el-table-column>
+				<el-table-column label="头像" prop="avatar" width="80" fixed column-key="filterAvatar"
 								 :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
 					<template #default="scope">
 						<!--<el-avatar :src="scope.row.avatar" v-if="scope.row.avatar" size="small"></el-avatar>-->
@@ -30,7 +30,7 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="用户名" prop="username" width="150" :show-overflow-tooltip="true" sortable
+				<el-table-column label="用户名" prop="username" width="150" fixed :show-overflow-tooltip="true" sortable
 								 column-key="filterUserName"
 								 :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
 				<el-table-column label="邮箱" prop="email" width="150" :show-overflow-tooltip="true" sortable></el-table-column>

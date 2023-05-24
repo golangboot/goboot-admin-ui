@@ -64,15 +64,15 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="商品图片" prop="image" width="80">
+				<el-table-column label="ID" prop="id" width="150" fixed sortable></el-table-column>
+				<el-table-column label="商品图片" prop="image" fixed width="80">
 					<template #default="scope">
 						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
 							<el-image class="image" :src="scope.row.image" v-if="scope.row.image" :preview-src-list="[scope.row.image]" fit="cover" hide-on-click-modal preview-teleported></el-image>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="商品名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="商品名称" prop="name" width="150" fixed :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
 						<span>{{ scope.row.category?.name }}</span>

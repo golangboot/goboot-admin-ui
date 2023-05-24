@@ -21,7 +21,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="字典项名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项值" prop="value" width="130" fixed :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="字典项值" prop="value" width="130" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字典项类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="字典项编码" prop="code" width="130" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>

@@ -30,16 +30,16 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-					<el-table-column label="品牌名称" prop="name" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="LOGO" prop="image" width="100">
+					<el-table-column label="ID" prop="id" width="150" fixed sortable></el-table-column>
+					<el-table-column label="品牌LOGO" prop="image" fixed width="80">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
 								<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="品牌编码" prop="code" width="100"></el-table-column>
+          <el-table-column label="品牌名称" prop="name" fixed width="150" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column label="品牌编码" prop="code" width="100"></el-table-column>
 					<el-table-column label="品牌介绍" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="是否全局" prop="isGlobal" width="100" sortable>
 						<template #default="scope">

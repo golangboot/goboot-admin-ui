@@ -32,7 +32,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`首费（${priceUnit}）`" prop="startFee">
+						<el-form-item :label="`首运费（${priceUnit}）`" prop="startFee">
 							<el-input-number v-model="form.startFee" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
@@ -42,7 +42,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item :label="`续费（${priceUnit}）`" prop="addFee">
+						<el-form-item :label="`续运费（${priceUnit}）`" prop="addFee">
 							<el-input-number v-model="form.addFee" placeholder="" controls-position="right" :min="0"></el-input-number>
 						</el-form-item>
 					</el-col>
@@ -68,7 +68,7 @@
 							<el-input-number v-model="scope.row.startStandard" :placeholder="scope.column.label" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="startFee" :label="`首费（${priceUnit}）`" width="145">
+					<el-table-column prop="startFee" :label="`首运费（${priceUnit}）`" width="145">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.startFee" :placeholder="scope.column.label" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 						</template>
@@ -78,7 +78,7 @@
 							<el-input-number v-model="scope.row.addStandard" :placeholder="scope.column.label" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 						</template>
 					</el-table-column>
-					<el-table-column prop="addFee" :label="`续费（${priceUnit}）`" width="145">
+					<el-table-column prop="addFee" :label="`续运费（${priceUnit}）`" width="145">
 						<template #default="scope">
 							<el-input-number v-model="scope.row.addFee" :placeholder="scope.column.label" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 						</template>
@@ -242,13 +242,13 @@
 						{required: true, message: '请输入首量', trigger: ['change', 'blur']}
 					],
 					startFee: [
-						{required: true, message: '请输入首费', trigger: ['change', 'blur']}
+						{required: true, message: '请输入首运费', trigger: ['change', 'blur']}
 					],
 					addStandard: [
 						{required: true, message: '请输入增加量', trigger: ['change', 'blur']}
 					],
 					addFee: [
-						{required: true, message: '请输入续费', trigger: ['change', 'blur']}
+						{required: true, message: '请输入续运费', trigger: ['change', 'blur']}
 					],
 				},
 				typeOptions: [
