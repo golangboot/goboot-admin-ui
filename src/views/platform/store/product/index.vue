@@ -72,7 +72,15 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="商品名称" prop="name" width="150" fixed :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="商品名称" prop="name" width="250" fixed>
+          <template #default="scope">
+            <el-tooltip :content="scope.row.name">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.name}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
 				<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
 						<span>{{ scope.row.category?.name }}</span>
