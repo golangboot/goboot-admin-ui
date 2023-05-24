@@ -78,6 +78,18 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="顶部图片" prop="topImage">
+            <sc-upload :width="80" :height="80" v-model="form.topImage" title="请上传图片"></sc-upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="顶部链接" prop="topLink">
+            <el-input v-model="form.topLink" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="底部图片" prop="bottomImage">
@@ -104,6 +116,15 @@
 					<el-radio v-for="(item, index) in dataSourceTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<el-form-item label="数据限制数量" prop="dataLimitCount">
+						<el-input-number v-model="form.dataLimitCount" controls-position="right" style="width: 100%;"></el-input-number>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+				</el-col>
+			</el-row>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
@@ -149,7 +170,8 @@
 					sort: null,
 					status: 1,
 					remark: "",
-					dataSourceType: 0,
+					dataSourceType: 1,
+					dataLimitCount: 8,
 				},
 				//验证规则
 				rules: {

@@ -33,6 +33,14 @@
 						</template>
 					</el-table-column>
 					<el-table-column label="左侧链接" prop="leftLink" width="150" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column label="顶部图片" prop="topImage" width="100">
+            <template #default="scope">
+              <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+                <el-image class="image" :src="scope.row.topImage" :preview-src-list="[scope.row.topImage]" v-if="scope.row.topImage" fit="cover" hide-on-click-modal preview-teleported></el-image>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="顶部链接" prop="topLink" width="150" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="底部图片" prop="bottomImage" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
