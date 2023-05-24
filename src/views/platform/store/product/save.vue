@@ -68,7 +68,19 @@
 										</el-form-item>
 									</el-col>
 									<el-col :span="12">
-										<el-form-item label="销售单位" prop="saleUnitId">
+                    <el-form-item label="销售单位" prop="saleUnit">
+                      <template #label="{ label }">
+                        <span>{{ label }}</span>
+                        <span>
+                          <el-tooltip>
+                            <template #content>销售单位，例如：个、件、箱等</template>
+                            <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                          </el-tooltip>
+                        </span>
+                      </template>
+                      <el-input v-model="form.saleUnit" clearable></el-input>
+                    </el-form-item>
+										<!--<el-form-item label="销售单位" prop="saleUnitId">
 											<select-remote v-model="form.saleUnitId"
 														   :apiObj="$API.platform.store.saleUnit.list"
 														   :params="{id: form.saleUnitId, categoryId: form.categoryId}"
@@ -77,7 +89,7 @@
 														   :props="{label: 'name', value: 'id',}"
 														   clearable filterable style="width: 100%;">
 											</select-remote>
-										</el-form-item>
+										</el-form-item>-->
 									</el-col>
 								</el-row>
 
