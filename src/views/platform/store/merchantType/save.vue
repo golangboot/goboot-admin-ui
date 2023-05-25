@@ -1,12 +1,15 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="名称" prop="name">
+			<el-form-item label="店铺类型名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="描述" prop="description">
+			<el-form-item label="店铺类型要求" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
+      <el-form-item label="店铺保证金(元)" prop="deposit">
+        <el-input-number v-model="form.deposit" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+      </el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="图片" prop="image">

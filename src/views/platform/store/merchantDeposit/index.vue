@@ -17,15 +17,9 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column label="图片" prop="image" width="100">
-          <template #default="scope">
-            <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-              <el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
+        <el-table-column label="保证金" prop="deposit" header-align="center" align="right" min-width="120" sortable></el-table-column>
+        <el-table-column label="支付时间" prop="payTime" width="150"></el-table-column>
+        <el-table-column label="余额" prop="balance" header-align="center" align="right" min-width="120" sortable></el-table-column>
         <el-table-column label="状态" prop="status" width="80">
           <template #default="scope">
             <el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>

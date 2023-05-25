@@ -1,10 +1,10 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="名称" prop="name">
+			<el-form-item label="经营类目名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="描述" prop="description">
+			<el-form-item label="经营类目要求" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
@@ -14,6 +14,18 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+      <el-form-item label="手续费（%）" prop="transactionFeeRate">
+        <template #label="{ label }">
+          <span>{{ label }}</span>
+          <span>
+						<el-tooltip>
+							<template #content>商家手续费（%），例如填写： 3 ，则表示收取 3% 的手续费。输入值为 0 时，则表示不收取手续费</template>
+							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+						</el-tooltip>
+					</span>
+        </template>
+        <el-input-number v-model="form.transactionFeeRate" placeholder="请输入手续费" controls-position="right" :precision="2" :step="0.1" :min="0" :max="100" style="width: 100%;"></el-input-number>
+      </el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>

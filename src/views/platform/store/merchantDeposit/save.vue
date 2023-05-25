@@ -4,19 +4,31 @@
 			<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="描述" prop="description">
-				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
-			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="图片" prop="image">
-						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传图片"></sc-upload>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="排序" prop="sort">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="保证金" prop="deposit">
+            <el-input-number v-model="form.deposit" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="支付时间" prop="payTime">
+            <el-date-picker v-model="form.payTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="余额" prop="balance">
+            <el-input-number v-model="form.balance" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
+
+			<!--<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
-			</el-form-item>
+			</el-form-item>-->
       <el-form-item label="是否有效" prop="status">
         <el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
       </el-form-item>

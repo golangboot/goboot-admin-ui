@@ -16,13 +16,26 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="经营类目名称" prop="name" width="150"></el-table-column>
+        <el-table-column label="经营类目要求" prop="description" width="300">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.description}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="图片" prop="image" width="100">
           <template #default="scope">
             <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
               <el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="手续费" prop="transactionFeeRate" header-align="center" align="center" min-width="120" sortable>
+          <template #default="scope">
+            <span>{{ scope.row.transactionFeeRate || 0 }}%</span>
           </template>
         </el-table-column>
         <el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>

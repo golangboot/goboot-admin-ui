@@ -24,7 +24,15 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="店铺名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="店铺简介" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="店铺简介" prop="description" width="300">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.description}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="店铺类型" prop="type" width="120" :show-overflow-tooltip="true" sortable>
           <template #default="scope">
             <el-tag v-if="scope.row.type==1" type="primary">企业店铺</el-tag>
@@ -35,8 +43,8 @@
           </template>
         </el-table-column>
         <el-table-column label="联系人" prop="contact" width="150" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column label="联系电话" prop="telephone" width="150" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column label="联系地址" prop="address" width="250" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系电话" prop="telephone" width="120" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系地址" prop="address" width="200" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
