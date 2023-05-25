@@ -15,12 +15,11 @@
 		<el-main class="nopadding">
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="" width="60">
+				<el-table-column label="拖动排序" width="80" fixed>
 					<template #default>
 						<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
 					</template>
 				</el-table-column>
-				<!--<el-table-column label="字典项名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>-->
         <el-table-column label="字典项名称" prop="name" width="120" fixed>
           <template #default="scope">
             <el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
@@ -30,7 +29,6 @@
             </el-tooltip>
           </template>
         </el-table-column>
-				<!--<el-table-column label="字典项值" prop="value" width="130" :show-overflow-tooltip="true"></el-table-column>-->
         <el-table-column label="字典项值" prop="value" width="150">
           <template #default="scope">
             <el-tooltip :content="scope.row.value" effect="light" :disabled="!(scope.row.value && scope.row.value.length > 60)">
@@ -42,11 +40,18 @@
         </el-table-column>
         <el-table-column label="字典项类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="是否锁定" prop="isLock" width="100" sortable>
-					<template #default="scope">
-						<el-tag v-if="scope.row.isLock == 1" type="success">是</el-tag>
-						<el-tag v-else type="warning">否</el-tag>
-					</template>
-				</el-table-column>
+          <template #default="scope">
+            <el-switch v-model="scope.row.isLock"
+                       @change="isLockChangeSwitch($event, scope.row)"
+                       :loading="scope.row.$switch_isLock"
+                       :active-value="1" :inactive-value="0"
+                       active-text="已锁定" inactive-text="未锁定"
+                       inline-prompt
+                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+            >
+            </el-switch>
+          </template>
+        </el-table-column>
 				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
@@ -210,6 +215,22 @@
 					await this.$alert(res.message, "提示", {type: 'error'})
 				}
 			},
+      async isLockChangeSwitch(val, row) {
+        //1.还原数据
+        row.isLock = row.isLock == 1 ? 0 : 1
+        //2.执行加载
+        row.$switch_isLock = true;
+        //3.等待接口返回后改变值
+        let reqData = {id: row.id, isLock: val}
+        let res = await this.$API.platform.sys.dict.update.put(reqData);
+        delete row.$switch_isLock;
+        if (res.code == 200) {
+          row.isLock = val;
+          this.$message.success("操作成功")
+        } else {
+          await this.$alert(res.message, "提示", {type: 'error'})
+        }
+      },
 			//搜索
 			upSearch(){
 				this.$refs.table.upData(this.search)

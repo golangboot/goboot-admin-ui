@@ -52,7 +52,15 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="是否锁定" prop="isLock">
-            <el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
+            <el-switch
+                v-model="form.isLock"
+                class="form-switch"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                :active-value="1" :inactive-value="0"
+                active-text="已锁定" inactive-text="未锁定"
+            >
+            </el-switch>
           </el-form-item>
         </el-col>
       </el-row>
