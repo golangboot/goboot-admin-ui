@@ -6,6 +6,22 @@
 			</el-form-item>
       <el-row :gutter="20">
         <el-col :span="12">
+          <el-form-item label="商家" prop="merchantId">
+            <select-remote v-model="form.merchantId"
+                           :apiObj="$API.platform.store.merchant.list"
+                           :params="{id: form.merchantId}"
+                           :searchClearParams="['id']"
+                           :request="{name: 'keyword'}"
+                           :props="{label: 'name', value: 'id',}"
+                           clearable filterable style="width: 100%;">
+            </select-remote>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
           <el-form-item label="保证金" prop="deposit">
             <el-input-number v-model="form.deposit" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
           </el-form-item>
