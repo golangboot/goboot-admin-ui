@@ -88,6 +88,22 @@
 						<el-form-item label="联系地址" prop="address" clearable>
 							<el-input v-model="form['site.address']" clearable type="textarea"></el-input>
 						</el-form-item>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="二维码" prop="qrCode" clearable>
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+											<el-tooltip>
+												<template #content>二维码可以上传公众号关注二维码、客服微信二维码、微信群二维码等图片</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+                  </template>
+                  <sc-upload :width="80" :height="80" v-model="form['site.qrCode']" title="请上传图片"></sc-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
 						<el-form-item>
 							<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
 							<el-button @click="visible=false" >取 消</el-button>
