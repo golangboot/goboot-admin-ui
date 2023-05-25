@@ -22,8 +22,26 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="保证金" prop="deposit">
+          <el-form-item label="保证金(元)" prop="deposit">
             <el-input-number v-model="form.deposit" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="余额(元)" prop="balance">
+            <el-input-number v-model="form.balance" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="支付状态" prop="payStatus">
+            <el-switch
+                v-model="form.payStatus"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                :active-value="1" :inactive-value="0"
+                active-text="已支付" inactive-text="未支付"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -32,16 +50,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item label="余额" prop="balance">
-            <el-input-number v-model="form.balance" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-        </el-col>
-      </el-row>
-
 			<!--<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>-->

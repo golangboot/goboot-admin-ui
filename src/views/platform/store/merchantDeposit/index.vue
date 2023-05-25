@@ -17,9 +17,23 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="名称" prop="name" width="150"></el-table-column>
-        <el-table-column label="保证金" prop="deposit" header-align="center" align="right" min-width="120" sortable></el-table-column>
+        <el-table-column label="保证金" prop="deposit" header-align="center" align="right" min-width="120" sortable>
+          <template #default="scope">
+            <span>{{ scope.row.deposit || 0 }}元</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="余额" prop="balance" header-align="center" align="right" min-width="120" sortable>
+          <template #default="scope">
+            <span>{{ scope.row.balance || 0 }}元</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="支付状态" prop="payStatus" width="100">
+          <template #default="scope">
+            <el-tag v-if="scope.row.payStatus == 1" type="success">已支付</el-tag>
+            <el-tag v-else type="warning">未支付</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="支付时间" prop="payTime" width="150"></el-table-column>
-        <el-table-column label="余额" prop="balance" header-align="center" align="right" min-width="120" sortable></el-table-column>
         <el-table-column label="状态" prop="status" width="80">
           <template #default="scope">
             <el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
