@@ -27,12 +27,24 @@
 					<select-dict v-model="form.type" dict="DICT_TYPE" placeholder="" clearable filterable style="width: 100%;"></select-dict>
 				</el-col>
 			</el-row>
-			<el-form-item label="是否锁定" prop="isLock">
-				<el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
-			</el-form-item>
-			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="是否锁定" prop="isLock">
+            <el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="排序" prop="sort">
+            <el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>

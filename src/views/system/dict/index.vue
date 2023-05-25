@@ -54,7 +54,7 @@
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" align="right" width="170">
+					<el-table-column label="操作" fixed="right" align="center" width="170">
 						<template #default="scope">
 							<el-button-group>
 								<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>

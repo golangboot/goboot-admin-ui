@@ -32,7 +32,7 @@
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="170">
+				<el-table-column label="操作" fixed="right" align="center" width="170">
 					<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>

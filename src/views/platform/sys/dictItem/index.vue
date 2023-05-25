@@ -20,11 +20,28 @@
 						<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="字典项名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项值" prop="value" width="130" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="字典项编码" prop="code" width="130" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="是否锁定" prop="isLock" width="100" sortable>
+				<!--<el-table-column label="字典项名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>-->
+        <el-table-column label="字典项名称" prop="name" width="120" fixed>
+          <template #default="scope">
+            <el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.name}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+				<!--<el-table-column label="字典项值" prop="value" width="130" :show-overflow-tooltip="true"></el-table-column>-->
+        <el-table-column label="字典项值" prop="value" width="150">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.value" effect="light" :disabled="!(scope.row.value && scope.row.value.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.value}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column label="字典项类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="是否锁定" prop="isLock" width="100" sortable>
 					<template #default="scope">
 						<el-tag v-if="scope.row.isLock == 1" type="success">是</el-tag>
 						<el-tag v-else type="warning">否</el-tag>
@@ -36,10 +53,28 @@
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
+        <el-table-column label="字典项编码" prop="code" width="150">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.code" effect="light" :disabled="!(scope.row.code && scope.row.code.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.code}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column label="字典项描述" prop="description" width="150">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.description}}
+              </span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="170">
+				<el-table-column label="操作" fixed="right" align="center" width="170">
 					<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>

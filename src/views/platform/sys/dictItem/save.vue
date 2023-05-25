@@ -4,9 +4,19 @@
 			<el-form-item label="字典项名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="字典项值" prop="value">
-				<el-input v-model="form.value" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="字典项值" prop="value">
+            <el-input v-model="form.value" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-button type="default" @click="form.value = String(form.value).toUpperCase()">编码转大写</el-button>
+        </el-col>
+      </el-row>
+      <el-form-item label="字典项描述" prop="description">
+        <el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+      </el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="字典项编码" prop="code">
@@ -27,22 +37,34 @@
 					<select-dict v-model="form.type" dict="DICT_ITEM_TYPE" placeholder="" clearable filterable style="width: 100%;"></select-dict>
 				</el-col>
 			</el-row>
-			<el-form-item label="所属字典" prop="dictId">
-				<select-remote v-model="form.dictId"
-							   :apiObj="$API.platform.sys.dict.list"
-							   :params="{id: form.dictId}"
-							   :searchClearParams="['id']"
-							   :request="{name: 'keyword'}"
-							   :props="{label: 'name', value: 'id',}"
-							   clearable filterable style="width:100%">
-				</select-remote>
-			</el-form-item>
-			<el-form-item label="是否锁定" prop="isLock">
-				<el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
-			</el-form-item>
-			<el-form-item label="排序" prop="sort">
-				<el-input-number v-model="form.sort" controls-dictItem="right" style="width: 100%;"></el-input-number>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="所属字典" prop="dictId">
+            <select-remote v-model="form.dictId"
+                           :apiObj="$API.platform.sys.dict.list"
+                           :params="{id: form.dictId}"
+                           :searchClearParams="['id']"
+                           :request="{name: 'keyword'}"
+                           :props="{label: 'name', value: 'id',}"
+                           clearable filterable style="width:100%">
+            </select-remote>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否锁定" prop="isLock">
+            <el-switch v-model="form.isLock" :active-value="1" :inactive-value="0"></el-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="排序" prop="sort">
+            <el-input-number v-model="form.sort" controls-dictItem="right" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
 			<el-form-item label="是否有效" prop="status">
 				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
@@ -90,6 +112,9 @@
 					name: [
 						{required: true, message: '请输入字典项名称'}
 					],
+          value: [
+            {required: true, message: '请输入字典项值'}
+          ],
 				},
 				dictSelect: {
 					// api接口

@@ -35,7 +35,7 @@
 				<el-table-column label="请求类名称" prop="className" width="500" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="请求类方法名称" prop="classMethodName" width="150" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="备注" prop="remark" min-width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="170">
+				<el-table-column label="操作" fixed="right" align="center" width="170">
 					<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>

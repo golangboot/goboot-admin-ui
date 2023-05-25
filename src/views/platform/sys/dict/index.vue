@@ -16,7 +16,16 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe highlightCurrentRow @row-click="rowClick">
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="字典名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
+					<!--<el-table-column label="字典名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>-->
+          <el-table-column label="字典名称" prop="name" width="120" fixed>
+            <template #default="scope">
+              <el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.name}}
+              </span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
 					<!--<el-table-column label="字典编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>-->
           <el-table-column label="字典编码" prop="code" width="150">
             <template #default="scope">
@@ -53,7 +62,7 @@
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 					<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-					<el-table-column label="操作" fixed="right" align="right" width="170">
+					<el-table-column label="操作" fixed="right" align="center" width="170">
 						<template #default="scope">
 							<el-button-group>
 								<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
