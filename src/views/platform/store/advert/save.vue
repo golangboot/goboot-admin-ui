@@ -1,7 +1,7 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="轮播图标题" prop="title">
+			<el-form-item label="广告标题" prop="title">
 				<el-input v-model="form.title" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="描述" prop="description">
@@ -19,7 +19,7 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>点击轮播图跳转的网址</template>
+							<template #content>点击广告跳转的网址</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -28,12 +28,12 @@
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="轮播图位置" prop="code">
+					<el-form-item label="广告位置" prop="code">
 						<template #label="{ label }">
 							<span>{{ label }}</span>
 							<span>
 								<el-tooltip>
-									<template #content>轮播图位置编码</template>
+									<template #content>广告位置编码</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
@@ -105,7 +105,7 @@
 				//验证规则
 				rules: {
 					title: [
-						{required: true, message: '请输入轮播图标题'}
+						{required: true, message: '请输入广告标题'}
 					],
 				},
 				dateTimeRangeModel: [],
@@ -260,9 +260,9 @@
 						this.isSaving = true;
 						let res;
 						if (this.form.id) {
-							res = await this.$API.platform.store.banner.update.put(this.form)
+							res = await this.$API.platform.store.advert.update.put(this.form)
 						} else {
-							res = await this.$API.platform.store.banner.add.post(this.form)
+							res = await this.$API.platform.store.advert.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -282,7 +282,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.platform.store.banner.detail.get(reqData)
+					let res = await this.$API.platform.store.advert.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}
