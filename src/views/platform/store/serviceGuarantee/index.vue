@@ -26,11 +26,6 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column label="店铺保证金" prop="deposit" header-align="center" align="right" min-width="120" sortable>
-          <template #default="scope">
-            <span>{{ scope.row.deposit || 0 }}元</span>
-          </template>
-        </el-table-column>
         <el-table-column label="图片" prop="image" width="100">
           <template #default="scope">
             <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
