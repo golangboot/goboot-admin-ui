@@ -267,7 +267,7 @@
 							this.form.optionType = 0
 						}
 
-						var res;
+						let res;
 						if (this.form.id) {
 							res = await this.$API.platform.store.productAttribute.update.put(this.form)
 						} else {

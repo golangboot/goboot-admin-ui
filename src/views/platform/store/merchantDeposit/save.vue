@@ -1,34 +1,25 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
-		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px" label-position="right">
-			<el-form-item label="订单名称" prop="name">
+		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
+			<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="描述" prop="description">
+				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="LOGO" prop="image">
-						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传LOGO"></sc-upload>
+					<el-form-item label="图片" prop="image">
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="用户" prop="userId">
-				<select-remote v-model="form.userId"
-							   :apiObj="$API.platform.user.user.list"
-							   :params="{id: form.userId}"
-							   :searchClearParams="['id']"
-							   :request="{name: 'keyword'}"
-							   :props="{label: 'label', value: 'value'}"
-							   :parseData="userSelect.parseData"
-							   :parseDataField="userSelect.parseDataField"
-							   clearable filterable style="width:100%">
-				</select-remote>
-			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
 			</el-form-item>
-			<el-form-item label="是否有效" prop="status">
-				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
-			</el-form-item>
+      <el-form-item label="是否有效" prop="status">
+        <el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+      </el-form-item>
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
@@ -66,22 +57,13 @@
 					label: "",
 					sort: null,
 					status: 1,
-					remark: ""
+					remark: "",
 				},
 				//验证规则
 				rules: {
 					name: [
-						{required: true, message: '请输入订单名称'}
+						{required: true, message: '请输入名称'}
 					],
-				},
-				userSelect: {
-					// 解析数据字段
-					parseDataField: function (item) {
-						return {
-							label: item.username || item.nickname || item.mobile || item.email,
-							value: item.id,
-						}
-					},
 				},
 			}
 		},
@@ -101,9 +83,9 @@
 						this.isSaving = true;
 						let res;
 						if (this.form.id) {
-							res = await this.$API.platform.store.order.update.put(this.form)
+							res = await this.$API.platform.store.merchantDeposit.update.put(this.form)
 						} else {
-							res = await this.$API.platform.store.order.add.post(this.form)
+							res = await this.$API.platform.store.merchantDeposit.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -123,7 +105,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.platform.store.order.detail.get(reqData)
+					let res = await this.$API.platform.store.merchantDeposit.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

@@ -136,7 +136,7 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						var res;
+						let res;
 						if (this.form.id) {
 							res = await this.$API.platform.store.merchant.update.put(this.form)
 						} else {
