@@ -14,11 +14,32 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="店铺类型" prop="type">
-				<el-radio-group v-model="form.type">
-					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="经营类目" prop="merchantCategoryId">
+            <select-remote v-model="form.merchantCategoryId"
+                           :apiObj="$API.platform.store.merchantCategory.list"
+                           :params="{id: form.merchantCategoryId}"
+                           :searchClearParams="['id']"
+                           :request="{name: 'keyword'}"
+                           :props="{label: 'name', value: 'id',}"
+                           clearable filterable style="width: 100%;">
+            </select-remote>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="店铺类型" prop="merchantTypeId">
+            <select-remote v-model="form.merchantTypeId"
+                           :apiObj="$API.platform.store.merchantType.list"
+                           :params="{id: form.merchantTypeId}"
+                           :searchClearParams="['id']"
+                           :request="{name: 'keyword'}"
+                           :props="{label: 'name', value: 'id',}"
+                           clearable filterable style="width: 100%;">
+            </select-remote>
+          </el-form-item>
+        </el-col>
+      </el-row>
 			<el-form-item label="自营店铺" prop="isSelf">
 				<el-radio-group v-model="form.isSelf">
 					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>

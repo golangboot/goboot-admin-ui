@@ -17,7 +17,7 @@
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
 				<el-table-column label="店铺名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="店铺描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="店铺介绍" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="营业执照" prop="image" width="100">
           <template #default="scope">
             <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
