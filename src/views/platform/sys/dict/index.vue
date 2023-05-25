@@ -17,8 +17,26 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe highlightCurrentRow @row-click="rowClick">
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="字典名称" prop="name" width="120" fixed :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="字典编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="字典描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
+					<!--<el-table-column label="字典编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>-->
+          <el-table-column label="字典编码" prop="code" width="150">
+            <template #default="scope">
+              <el-tooltip :content="scope.row.code" effect="light" :disabled="!(scope.row.code && scope.row.code.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.code}}
+              </span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+					<!--<el-table-column label="字典描述" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>-->
+          <el-table-column label="字典描述" prop="description" width="150">
+            <template #default="scope">
+              <el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+                {{scope.row.description}}
+              </span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
 					<el-table-column label="字典类型" prop="type" width="100" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column label="是否锁定" prop="isGlobal" width="100" sortable>
 						<template #default="scope">
