@@ -10,7 +10,7 @@
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="LOGO" prop="image">
-						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传LOGO"></sc-upload>
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传LOGO图片"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -24,6 +24,21 @@
 					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
 				</el-radio-group>
 			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="联系人" prop="contact">
+            <el-input v-model="form.contact" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="联系电话" prop="telephone">
+            <el-input v-model="form.telephone" clearable></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-form-item label="联系地址" prop="address">
+        <el-input v-model="form.address" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+      </el-form-item>
 			<el-form-item label="用户" prop="userId">
 				<select-remote v-model="form.userId"
 							   :apiObj="$API.platform.user.user.list"

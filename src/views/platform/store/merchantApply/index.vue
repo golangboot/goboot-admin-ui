@@ -16,26 +16,40 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="LOGO" prop="image" width="100">
+				<el-table-column label="店铺名称" prop="name" width="150"></el-table-column>
+				<el-table-column label="店铺描述" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="营业执照" prop="image" width="100">
+          <template #default="scope">
+            <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
+              <el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="联系人" prop="contact" width="150" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系电话" prop="telephone" width="150" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系地址" prop="address" width="250" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="店铺类型" prop="type" width="120" :show-overflow-tooltip="true" sortable>
+          <template #default="scope">
+            <el-tag v-if="scope.row.type==1" type="primary">企业店铺</el-tag>
+            <el-tag v-else-if="scope.row.type==2" type="success">官方旗舰店</el-tag>
+            <el-tag v-else-if="scope.row.type==3" type="warning">工厂直营店</el-tag>
+            <el-tag v-else-if="scope.row.type==4" type="danger">个人店铺</el-tag>
+            <el-tag v-else type="info">普通店铺</el-tag>
+          </template>
+        </el-table-column>
+        <!--<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>-->
+				<el-table-column label="审核状态" prop="status" width="100">
 					<template #default="scope">
-						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-							<el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
-						</div>
+            <el-tag v-if="scope.row.status==1" type="success">审核通过</el-tag>
+            <el-tag v-else-if="scope.row.status==2" type="danger">审核驳回</el-tag>
+            <el-tag v-else type="warning">待审核</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="商家入驻申请名称" prop="name" width="150"></el-table-column>
-				<el-table-column label="商家入驻申请简介" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
-				<el-table-column label="状态" prop="status" width="80">
-					<template #default="scope">
-						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
-					</template>
-				</el-table-column>
-				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
+        <el-table-column label="审核备注" prop="remark" min-width="150"></el-table-column>
+        <el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
-					<template #default="scope">
+				<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
 							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>

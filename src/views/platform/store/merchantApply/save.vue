@@ -1,29 +1,39 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="名称" prop="name">
+			<el-form-item label="店铺名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="描述" prop="description">
+			<el-form-item label="店铺描述" prop="description">
 				<el-input v-model="form.description" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 			</el-form-item>
+      <el-form-item label="店铺类型" prop="type">
+        <el-radio-group v-model="form.type">
+          <el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+        </el-radio-group>
+      </el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="LOGO" prop="image">
-						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传LOGO"></sc-upload>
+					<el-form-item label="营业执照" prop="image">
+						<sc-upload :width="80" :height="80" v-model="form.image" title="请上传营业执照"></sc-upload>
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="店铺类型" prop="type">
-				<el-radio-group v-model="form.type">
-					<el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="自营店铺" prop="isSelf">
-				<el-radio-group v-model="form.isSelf">
-					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
-				</el-radio-group>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="联系人" prop="contact">
+            <el-input v-model="form.contact" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="联系电话" prop="telephone">
+            <el-input v-model="form.telephone" clearable></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-form-item label="联系地址" prop="address">
+        <el-input v-model="form.address" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
+      </el-form-item>
 			<el-form-item label="用户" prop="userId">
 				<select-remote v-model="form.userId"
 							   :apiObj="$API.platform.user.user.list"
@@ -36,11 +46,13 @@
 							   clearable filterable style="width:100%">
 				</select-remote>
 			</el-form-item>
-			<el-form-item label="排序" prop="sort">
+			<!--<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
-			</el-form-item>
-			<el-form-item label="是否有效" prop="status">
-				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
+			</el-form-item>-->
+			<el-form-item label="审核状态" prop="status">
+        <el-radio-group v-model="form.status">
+          <el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+        </el-radio-group>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="form.remark" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="255" :show-word-limit="true" type="textarea"></el-input>
@@ -105,6 +117,11 @@
 					{label: "否", value: 0,},
 					{label: "是", value: 1,},
 				],
+        statusOptions: [
+          {label: "待审核", value: 0},
+          {label: "审核通过", value: 1},
+          {label: "审核驳回", value: 2},
+        ],
 			}
 		},
 		mounted() {

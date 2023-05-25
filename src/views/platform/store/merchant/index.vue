@@ -25,15 +25,27 @@
 				</el-table-column>
 				<el-table-column label="店铺名称" prop="name" width="150"></el-table-column>
 				<el-table-column label="店铺简介" prop="description" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
+        <el-table-column label="店铺类型" prop="type" width="120" :show-overflow-tooltip="true" sortable>
+          <template #default="scope">
+            <el-tag v-if="scope.row.type==1" type="primary">企业店铺</el-tag>
+            <el-tag v-else-if="scope.row.type==2" type="success">官方旗舰店</el-tag>
+            <el-tag v-else-if="scope.row.type==3" type="warning">工厂直营店</el-tag>
+            <el-tag v-else-if="scope.row.type==4" type="danger">个人店铺</el-tag>
+            <el-tag v-else type="info">普通店铺</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="联系人" prop="contact" width="150" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系电话" prop="telephone" width="150" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="联系地址" prop="address" width="250" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
-				<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
+        <el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
+        <el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 				<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-				<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
