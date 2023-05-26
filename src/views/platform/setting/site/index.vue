@@ -8,18 +8,24 @@
 						<el-form-item label="网站名称" prop="name">
 							<el-input v-model="form['site.name']" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="网址" prop="url">
-							<template #label="{ label }">
-								<span>{{ label }}</span>
-								<span>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="服务端网址" prop="url">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
 									<el-tooltip>
-										<template #content>服务器后端网址，例如：https://www.example.com</template>
+										<template #content>服务器后端Api接口网址，例如：https://api.example.com ，留空时系统会自动获取网址</template>
 										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 									</el-tooltip>
 								</span>
-							</template>
-							<el-input v-model="form['site.url']" clearable></el-input>
-						</el-form-item>
+                  </template>
+                  <el-input v-model="form['site.url']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+              </el-col>
+            </el-row>
 						<el-row :gutter="20">
 							<el-col :span="12">
 								<el-form-item label="网站LOGO" prop="logo" clearable>
@@ -118,7 +124,7 @@
 
 <script>
 	export default {
-		name: 'settingSite',
+		name: 'siteSetting',
 		data() {
 			return {
 				visible: false,
