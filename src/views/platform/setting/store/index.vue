@@ -7,18 +7,18 @@
           <el-tab-pane label="商城设置">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="显示商家店铺" prop="isShowMerchant">
+                <el-form-item label="商城状态" prop="enabled">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
                       <el-tooltip>
-                        <template #content>开启时商城正常展示店铺信息，关闭则隐藏店铺信息</template>
+                        <template #content>开启时商城正常，关闭则隐藏商城信息</template>
                         <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </span>
                   </template>
                   <el-switch
-                      v-model="form['store.isShowMerchant']"
+                      v-model="form['store.enabled']"
                       class="form-switch"
                       inline-prompt
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
@@ -168,7 +168,30 @@
           <el-tab-pane label="商家设置">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label-width="180px" label="开启商家入驻" prop="merchant.enabled">
+                <el-form-item label-width="180px" label="显示商家店铺" prop="merchant.isShowMerchant">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>开启时商城正常展示店铺信息，关闭则隐藏店铺信息</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-switch
+                      v-model="form['store.merchant.isShowMerchant']"
+                      class="form-switch"
+                      inline-prompt
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                      :active-value="'1'" :inactive-value="'0'"
+                      active-text="开启" inactive-text="关闭"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label-width="180px" label="开启商家入驻" prop="merchant.openMerchantApply">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
@@ -179,7 +202,7 @@
                     </span>
                   </template>
                   <el-switch
-                      v-model="form['store.merchant.enabled']"
+                      v-model="form['store.merchant.openMerchantApply']"
                       class="form-switch"
                       inline-prompt
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
