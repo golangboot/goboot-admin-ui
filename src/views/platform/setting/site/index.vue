@@ -101,7 +101,7 @@
                     <span>{{ label }}</span>
                     <span>
 											<el-tooltip>
-												<template #content>二维码可以上传公众号关注二维码、客服微信二维码、微信群二维码等图片</template>
+												<template #content>二维码可以上传公众号关注二维码、微信客服二维码、微信群二维码等图片</template>
 												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
