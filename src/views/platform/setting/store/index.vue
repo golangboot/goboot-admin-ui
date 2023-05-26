@@ -12,7 +12,7 @@
                     <span>{{ label }}</span>
                     <span>
                       <el-tooltip>
-                        <template #content>开启时商城正常，关闭则隐藏商城信息</template>
+                        <template #content>开启时商城正常，关闭则隐藏商城信息。一般用于系统升级维护时使用</template>
                         <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </span>
