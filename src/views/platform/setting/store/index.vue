@@ -7,31 +7,24 @@
           <el-tab-pane label="商城设置">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="电脑端网址" prop="pcUrl">
+                <el-form-item label="显示商家店铺" prop="isShowMerchant">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
                       <el-tooltip>
-                        <template #content>电脑端网址，例如：https://www.example.com</template>
+                        <template #content>开启时商城正常展示店铺信息，关闭则隐藏店铺信息</template>
                         <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </span>
                   </template>
-                  <el-input v-model="form['store.pcUrl']" clearable></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="手机端网址" prop="h5Url">
-                  <template #label="{ label }">
-                    <span>{{ label }}</span>
-                    <span>
-                      <el-tooltip>
-                        <template #content>手机端网址，例如：https://h5.example.com</template>
-                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-                      </el-tooltip>
-                    </span>
-                  </template>
-                  <el-input v-model="form['store.h5Url']" clearable></el-input>
+                  <el-switch
+                      v-model="form['store.isShowMerchant']"
+                      class="form-switch"
+                      inline-prompt
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                      :active-value="'1'" :inactive-value="'0'"
+                      active-text="开启" inactive-text="关闭"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>

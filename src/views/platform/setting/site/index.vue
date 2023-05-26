@@ -10,6 +10,36 @@
 						</el-form-item>
             <el-row :gutter="20">
               <el-col :span="12">
+                <el-form-item label="电脑端网址" prop="pcUrl">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>电脑端网址，例如：https://www.example.com</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-input v-model="form['site.pcUrl']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="手机端网址" prop="h5Url">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>手机端网址，例如：https://h5.example.com</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-input v-model="form['site.h5Url']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
                 <el-form-item label="服务端网址" prop="url">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
