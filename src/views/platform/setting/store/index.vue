@@ -141,7 +141,7 @@
               <el-input-number v-model="form['store.order.orderRefundTimer']" controls-position="right"></el-input-number>
               <div class="el-form-item-msg">例如：设置10天指用户确认收货10天内可以退货；如未设置，默认用户在确认收货后15天就不能退货了。</div>
             </el-form-item>
-            <el-form-item label-width="180px" label="自动处理商户退款订单期限（天）" prop="order.autoRefundTimer">
+            <el-form-item label-width="auto" label="自动处理商户退款订单期限（天）" prop="order.autoRefundTimer">
               <el-input-number v-model="form['store.order.autoRefundTimer']" controls-position="right"></el-input-number>
               <div class="el-form-item-msg">申请退款的订单超过期限，将自动退款处理。</div>
             </el-form-item>
@@ -175,7 +175,7 @@
           <el-tab-pane label="商家设置">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="开启商家入驻" prop="merchant.enabled">
+                <el-form-item label-width="180px" label="开启商家入驻" prop="merchant.enabled">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
@@ -198,7 +198,7 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="商家资质是否必传" prop="merchant.certificationRequired">
+                <el-form-item label-width="180px" label="商家资质是否必传" prop="merchant.certificationRequired">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
@@ -221,7 +221,7 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="店铺保证金图标显示状态" prop="merchant.depositIconShowStatus">
+                <el-form-item label-width="180px" label="店铺保证金图标状态" prop="merchant.depositIconShowStatus">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
@@ -242,7 +242,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="保证金图标" prop="merchant.depositIcon" clearable>
+                <el-form-item label-width="180px" label="店铺保证金图标" prop="merchant.depositIcon" clearable>
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
