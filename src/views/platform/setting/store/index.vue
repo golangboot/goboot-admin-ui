@@ -1,10 +1,10 @@
 <template>
 	<el-main>
 		<el-card shadow="never">
-			<el-tabs tab-position="top">
+      <el-form ref="form" :model="form" :rules="rules" label-width="130px" style="margin-top: 20px;">
+        <el-tabs tab-position="top">
 
-				<el-tab-pane label="商城设置">
-					<el-form ref="form" :model="form" :rules="rules" label-width="110px" style="margin-top: 20px;">
+          <el-tab-pane label="商城设置">
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="电脑端网址" prop="pcUrl">
@@ -35,14 +35,33 @@
                 </el-form-item>
               </el-col>
             </el-row>
-						<el-form-item>
-							<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
-							<el-button @click="visible=false" >取 消</el-button>
-						</el-form-item>
-					</el-form>
-				</el-tab-pane>
+          </el-tab-pane>
 
-			</el-tabs>
+          <el-tab-pane label="金额设置">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="金额小数点位数" prop="money.scale">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+									<el-tooltip>
+										<template #content>全局设置商城中跟金额有关的数字保留小数点的位数，默认保留小数点后2位</template>
+										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+									</el-tooltip>
+								</span>
+                  </template>
+                  <el-input-number v-model="form['store.money.scale']" controls-position="right" style="width: 100%;"></el-input-number>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+        </el-tabs>
+        <el-form-item>
+          <el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
+          <el-button @click="visible=false" >取 消</el-button>
+        </el-form-item>
+      </el-form>
 		</el-card>
 	</el-main>
 </template>
