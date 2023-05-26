@@ -1,7 +1,7 @@
 <template>
 	<el-main>
 		<el-card shadow="never">
-      <el-form ref="form" :model="form" :rules="rules" label-width="130px" style="margin-top: 20px;">
+      <el-form ref="form" :model="form" :rules="rules" label-width="150px" style="margin-top: 20px;">
         <el-tabs tab-position="top">
 
           <el-tab-pane label="商城设置">
@@ -11,11 +11,11 @@
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
-									<el-tooltip>
-										<template #content>电脑端网址，例如：https://www.example.com</template>
-										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-									</el-tooltip>
-								</span>
+                      <el-tooltip>
+                        <template #content>电脑端网址，例如：https://www.example.com</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
                   </template>
                   <el-input v-model="form['store.pcUrl']" clearable></el-input>
                 </el-form-item>
@@ -25,11 +25,11 @@
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
-									<el-tooltip>
-										<template #content>手机端网址，例如：https://h5.example.com</template>
-										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-									</el-tooltip>
-								</span>
+                      <el-tooltip>
+                        <template #content>手机端网址，例如：https://h5.example.com</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
                   </template>
                   <el-input v-model="form['store.h5Url']" clearable></el-input>
                 </el-form-item>
@@ -50,8 +50,121 @@
 									</el-tooltip>
 								</span>
                   </template>
-                  <el-input-number v-model="form['store.money.scale']" controls-position="right" style="width: 100%;"></el-input-number>
+                  <el-input-number v-model="form['store.money.scale']" controls-position="right"></el-input-number>
                 </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+          <el-tab-pane label="商品设置">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="商品评价显示状态" prop="product.openCommentStatus">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>商品评价显示状态，开启后会展示商品评价</template>
+                        <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-switch
+                      v-model="form['store.product.openCommentStatus']"
+                      class="form-switch"
+                      inline-prompt
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                      :active-value="'1'" :inactive-value="'0'"
+                      active-text="显示" inactive-text="隐藏"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="手机端购买方式" prop="product.mobileBuyType">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+											<el-tooltip>
+												<template #content>电脑端商品详情页，手机购买展示的二维码，支持网址和二维码图片</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+                  </template>
+                  <el-radio-group v-model="form['store.product.mobileBuyType']">
+                    <el-radio v-for="(item, index) in mobileBuyTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12" v-if="form['store.product.mobileBuyType'] == 'IMAGE'">
+                <el-form-item label="手机端购买二维码" prop="product.mobileBuyQrCodeUrl" clearable>
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+											<el-tooltip>
+												<template #content>二维码可以上传公众号二维码、小程序二维码、APP下载二维码等图片</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+                  </template>
+                  <sc-upload :width="80" :height="80" v-model="form['store.product.mobileBuyQrCodeUrl']" title="请上传图片"></sc-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12" v-else>
+                <el-form-item label="手机端购买网址" prop="product.mobileBuyUrl">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+									<el-tooltip>
+										<template #content>手机端跳转网址模板，例如：<code>${domain}/#/pages/goods/index?id=${id}</code></template>
+										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+									</el-tooltip>
+								</span>
+                  </template>
+                  <el-input v-model="form['store.product.mobileBuyUrl']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+          <el-tab-pane label="订单设置">
+            <el-form-item label-width="200px" label="订单自动关闭时间(分钟)" prop="order.autoCloseOrderTimer">
+              <el-input-number v-model="form['store.order.autoCloseOrderTimer']" controls-position="right"></el-input-number>
+              <div class="el-form-item-msg">订单提交后待支付时长</div>
+            </el-form-item>
+            <el-form-item label-width="200px" label="订单自动收货时间(天)" prop="order.autoTakeOrderTimer">
+              <el-input-number v-model="form['store.order.autoTakeOrderTimer']" controls-position="right"></el-input-number>
+              <div class="el-form-item-msg">订单自动收货时间(天) 自发货日算起；当设置为0时，默认自动收货时间是15天。</div>
+            </el-form-item>
+            <el-form-item label-width="200px" label="订单售后时长(天)" prop="order.orderRefundTimer">
+              <el-input-number v-model="form['store.order.orderRefundTimer']" controls-position="right"></el-input-number>
+              <div class="el-form-item-msg">例如：设置10天指用户确认收货10天内可以退货；如未设置，默认用户在确认收货后15天就不能退货了。</div>
+            </el-form-item>
+            <el-form-item label-width="200px" label="自动处理退款订单期限（天）" prop="order.autoRefundTimer">
+              <el-input-number v-model="form['store.order.autoRefundTimer']" controls-position="right"></el-input-number>
+              <div class="el-form-item-msg">自动处理商户退款订单期限（天） 申请退款的订单超过期限，将自动退款处理。</div>
+            </el-form-item>
+            <el-form-item label-width="200px" label="订单自动好评状态" prop="order.openAutoComment">
+              <el-switch
+                  v-model="form['store.order.openAutoComment']"
+                  class="form-switch"
+                  inline-prompt
+                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                  :active-value="'1'" :inactive-value="'0'"
+                  active-text="开启" inactive-text="关闭"
+              />
+              <div class="el-form-item-msg">开启后，会自动对n天内未评价的订单默认五星好评</div>
+            </el-form-item>
+            <el-form-item label-width="200px" label="订单自动评价时间(天)" prop="order.autoCommentTimer">
+              <el-input-number v-model="form['store.order.autoCommentTimer']" controls-position="right"></el-input-number>
+              <div class="el-form-item-msg">订单自动好评触发时间</div>
+            </el-form-item>
+
+            <el-row :gutter="20">
+              <el-col :span="12">
+              </el-col>
+              <el-col :span="12">
               </el-col>
             </el-row>
           </el-tab-pane>
@@ -76,6 +189,7 @@
 				//表单数据
 				form: {
 					"store.name": "",
+					"'store.product.mobileBuyType'": "URL",
 				},
 				//验证规则
 				rules: {
@@ -84,6 +198,10 @@
 					],
 				},
 				configGroup: 'store',
+        mobileBuyTypeOptions: [
+          {label: "网址", value: "URL",},
+          {label: "图片", value: "IMAGE",},
+        ],
 			}
 		},
 		mounted() {

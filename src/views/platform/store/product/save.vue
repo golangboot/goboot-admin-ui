@@ -321,7 +321,7 @@
 									</template>
 									<el-switch
 										v-model="form.customFormStatus"
-										class="ml-2"
+                    class="form-switch"
 										inline-prompt
 										style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
 										:active-value="1" :inactive-value="0"
