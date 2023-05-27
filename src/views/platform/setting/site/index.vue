@@ -1,13 +1,13 @@
 <template>
-	<el-main>
-		<el-card shadow="never">
-			<el-tabs tab-position="top">
+  <el-main>
+    <el-card shadow="never">
+      <el-tabs tab-position="top">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px" style="margin-top: 20px;">
 
-				<el-tab-pane label="网站设置">
-					<el-form ref="form" :model="form" :rules="rules" label-width="110px" style="margin-top: 20px;">
-						<el-form-item label="网站名称" prop="name">
-							<el-input v-model="form['site.name']" clearable></el-input>
-						</el-form-item>
+          <el-tab-pane label="网站设置">
+            <el-form-item label="网站名称" prop="name">
+              <el-input v-model="form['site.name']" clearable></el-input>
+            </el-form-item>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="电脑端网址" prop="pcUrl">
@@ -56,74 +56,74 @@
               <el-col :span="12">
               </el-col>
             </el-row>
-						<el-row :gutter="20">
-							<el-col :span="12">
-								<el-form-item label="网站LOGO" prop="logo" clearable>
-									<template #label="{ label }">
-										<span>{{ label }}</span>
-										<span>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="网站LOGO" prop="logo" clearable>
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
 											<el-tooltip>
 												<template #content>请上网站LOGO（长方形）</template>
 												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
-									</template>
-									<sc-upload :width="80" :height="80" v-model="form['site.logo']" title="请上网站LOGO图片"></sc-upload>
-								</el-form-item>
-							</el-col>
-							<el-col :span="12">
-								<el-form-item label="网站LOGO（正方形）" prop="logoSquare" clearable>
-									<template #label="{ label }">
-										<span>{{ label }}</span>
-										<span>
+                  </template>
+                  <sc-upload :width="80" :height="80" v-model="form['site.logo']" title="请上网站LOGO图片"></sc-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="网站LOGO（正方形）" prop="logoSquare" clearable>
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
 											<el-tooltip>
 												<template #content>请上网站LOGO（正方形）</template>
 												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
-									</template>
-									<sc-upload :width="80" :height="80" v-model="form['site.logoSquare']" title="请上网站LOGO图片"></sc-upload>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-row :gutter="20">
-							<el-col :span="12">
-								<el-form-item label="网站图标" prop="favicon" clearable>
-									<template #label="{ label }">
-										<span>{{ label }}</span>
-										<span>
+                  </template>
+                  <sc-upload :width="80" :height="80" v-model="form['site.logoSquare']" title="请上网站LOGO图片"></sc-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="网站图标" prop="favicon" clearable>
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
 											<el-tooltip>
 												<template #content>浏览器标签上的网站小图标</template>
 												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 											</el-tooltip>
 										</span>
-									</template>
-									<sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-form-item label="网站标题" prop="title" clearable>
-							<el-input v-model="form['site.title']"></el-input>
-							<div class="el-form-item-msg">首页显示，浏览器标签上的标题</div>
-						</el-form-item>
-						<el-form-item label="网站关键词" prop="keywords" clearable>
-							<el-input v-model="form['site.keywords']" clearable type="textarea"></el-input>
-						</el-form-item>
-						<el-form-item label="网站描述" prop="description" clearable>
-							<el-input v-model="form['site.description']" clearable type="textarea"></el-input>
-						</el-form-item>
-						<el-form-item label="网站版权" prop="copyright" clearable>
-							<el-input v-model="form['site.copyright']" clearable type="textarea"></el-input>
-						</el-form-item>
-						<el-form-item label="网站ICP备案号" prop="icp" clearable>
-							<el-input v-model="form['site.icp']"></el-input>
-						</el-form-item>
-						<el-form-item label="联系电话" prop="telephone" clearable>
-							<el-input v-model="form['site.telephone']"></el-input>
-						</el-form-item>
-						<el-form-item label="联系地址" prop="address" clearable>
-							<el-input v-model="form['site.address']" clearable type="textarea"></el-input>
-						</el-form-item>
+                  </template>
+                  <sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item label="网站标题" prop="title" clearable>
+              <el-input v-model="form['site.title']"></el-input>
+              <div class="el-form-item-msg">首页显示，浏览器标签上的标题</div>
+            </el-form-item>
+            <el-form-item label="网站关键词" prop="keywords" clearable>
+              <el-input v-model="form['site.keywords']" clearable type="textarea"></el-input>
+            </el-form-item>
+            <el-form-item label="网站描述" prop="description" clearable>
+              <el-input v-model="form['site.description']" clearable type="textarea"></el-input>
+            </el-form-item>
+            <el-form-item label="网站版权" prop="copyright" clearable>
+              <el-input v-model="form['site.copyright']" clearable type="textarea"></el-input>
+            </el-form-item>
+            <el-form-item label="网站ICP备案号" prop="icp" clearable>
+              <el-input v-model="form['site.icp']"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话" prop="telephone" clearable>
+              <el-input v-model="form['site.telephone']"></el-input>
+            </el-form-item>
+            <el-form-item label="联系地址" prop="address" clearable>
+              <el-input v-model="form['site.address']" clearable type="textarea"></el-input>
+            </el-form-item>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="二维码" prop="qrCode" clearable>
@@ -140,16 +140,16 @@
                 </el-form-item>
               </el-col>
             </el-row>
-						<el-form-item>
-							<el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
-							<el-button @click="visible=false" >取 消</el-button>
-						</el-form-item>
-					</el-form>
-				</el-tab-pane>
+          </el-tab-pane>
 
-			</el-tabs>
-		</el-card>
-	</el-main>
+          <el-form-item>
+            <el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
+            <el-button @click="visible=false" >取 消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tabs>
+    </el-card>
+  </el-main>
 </template>
 
 <script>

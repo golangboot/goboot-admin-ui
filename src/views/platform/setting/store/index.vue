@@ -1,8 +1,8 @@
 <template>
-	<el-main>
-		<el-card shadow="never">
-      <el-form ref="form" :model="form" :rules="rules" label-width="150px" style="margin-top: 20px;">
-        <el-tabs tab-position="top">
+  <el-main>
+    <el-card shadow="never">
+      <el-tabs tab-position="top">
+        <el-form ref="form" :model="form" :rules="rules" label-width="150px" style="margin-top: 20px;">
 
           <el-tab-pane label="商城设置">
             <el-row :gutter="20">
@@ -274,14 +274,14 @@
             </el-row>
           </el-tab-pane>
 
-        </el-tabs>
-        <el-form-item>
-          <el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
-          <el-button @click="visible=false" >取 消</el-button>
-        </el-form-item>
-      </el-form>
-		</el-card>
-	</el-main>
+          <el-form-item>
+            <el-button type="primary" :loading="isSaving" @click="submit()">保 存</el-button>
+            <el-button @click="visible=false" >取 消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tabs>
+    </el-card>
+  </el-main>
 </template>
 
 <script>
