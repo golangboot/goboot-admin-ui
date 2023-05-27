@@ -54,6 +54,18 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+				  <el-form-item label="网站根路径" prop="index">
+					  <template #label="{ label }">
+						  <span>{{ label }}</span>
+						  <span>
+									<el-tooltip>
+										<template #content>网站根路径，例如：<code>forward:/app/welcome</code></template>
+										<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled/></el-icon>
+									</el-tooltip>
+								</span>
+					  </template>
+					  <el-input v-model="form['site.index']" clearable></el-input>
+				  </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
