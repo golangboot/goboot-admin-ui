@@ -10,16 +10,24 @@
 						<div>{{ item[attributeProps.label] }}</div>
 					</template>
 					<template v-if="item[attributeProps.options] && item[attributeProps.options].length > 0">
-						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]" :key="`attribute-item-${index}-${index2}`">
-							<el-checkbox :key="`attribute-checkbox-${index}-${index2}`" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" @change="checked => handleAttributeValueChange(checked, index, index2, item2)"></el-checkbox>
-							<el-button v-if="item.canDeleteAttribute" text class="sku-check-item-btn" type="danger" size="default" icon="el-icon-delete" @click="myAttributes[index][attributeProps.options].splice(index2, 1)"></el-button>
+						<div class="sku-check-item" v-for="(item2, index2) in item[attributeProps.options]"
+							:key="`attribute-item-${index}-${index2}`">
+							<el-checkbox :key="`attribute-checkbox-${index}-${index2}`" v-model="item2.checked"
+								:label="item2[attributeProps.label]" size="default"
+								@change="checked => handleAttributeValueChange(checked, index, index2, item2)"></el-checkbox>
+							<el-button v-if="item.canDeleteAttribute" text class="sku-check-item-btn" type="danger"
+								size="default" icon="el-icon-delete"
+								@click="myAttributes[index][attributeProps.options].splice(index2, 1)"></el-button>
 						</div>
 					</template>
 					<div class="attr-button-group">
 						<div class="add-attr">
-							<el-input v-if="item.canAddAttribute" v-model="addAttributeValueText[index]" :key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable @keyup.enter="onAddAttributeValue(index)">
+							<el-input v-if="item.canAddAttribute" v-model="addAttributeValueText[index]"
+								:key="`attribute-input-${index}`" size="default" placeholder="请输入规格项" clearable
+								@keyup.enter="onAddAttributeValue(index)">
 								<template v-slot:append>
-									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;" @click="onAddAttributeValue(index)">添加</el-button>
+									<el-button type="default" size="default" icon="el-icon-plus" style="display: flex;"
+										@click="onAddAttributeValue(index)">添加</el-button>
 								</template>
 							</el-input>
 						</div>
@@ -37,14 +45,17 @@
 				<el-table-column prop="label" width="120" :resizable="false" />
 				<el-table-column>
 					<template #default="scope">
-						<el-checkbox v-for="(item2, index2) in scope.row[attributeProps.options]" :key="index2" v-model="item2.checked" :label="item2[attributeProps.label]" size="default" />
+						<el-checkbox v-for="(item2, index2) in scope.row[attributeProps.options]" :key="index2"
+							v-model="item2.checked" :label="item2[attributeProps.label]" size="default" />
 					</template>
 				</el-table-column>
 				<el-table-column width="250">
 					<template #default="scope">
-						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格项" class="add-attr" clearable @keyup.enter="onAddAttribute(scope.$index)">
+						<el-input v-model="scope.row.addAttribute" size="default" placeholder="新增一个规格项" class="add-attr"
+							clearable @keyup.enter="onAddAttribute(scope.$index)">
 							<template v-slot:append>
-								<el-button size="default" icon="el-icon-plus" @click="onAddAttribute(scope.$index)">添加</el-button>
+								<el-button size="default" icon="el-icon-plus"
+									@click="onAddAttribute(scope.$index)">添加</el-button>
 							</template>
 						</el-input>
 					</template>
@@ -53,10 +64,14 @@
 		</div>
 		<div class="sku-list">
 			<el-form ref="form" :model="form" :disabled="formDisabled" status-icon inline-message>
-				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" v-bind="tableProps" stripe border highlight-current-row>
+				<el-table ref="table" :data="form.skuData" :span-method="objectSpanMethod" v-bind="tableProps" stripe border
+					highlight-current-row>
 					<!-- 考虑到异步加载的情况，如果 attribute 数据先加载完成，则表头会立马展示，效果不理想，故使用emitAttributes 数据，该数据为计算属性，通过 myAttribute 生成，结构与 attribute 一致 -->
-					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center" :resizable="false" fixed />
-					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`" :label="attr[attributeProps.label]" :prop="attr[attributeProps.label]" width="120" align="center" :resizable="false" fixed>
+					<el-table-column v-if="emitAttributes.length > 0" label="序号" type="index" width="50" align="center"
+						:resizable="false" fixed />
+					<el-table-column v-for="(attr, index) in emitAttributes" :key="`attribute-${index}`"
+						:label="attr[attributeProps.label]" :prop="attr[attributeProps.label]" width="120" align="center"
+						:resizable="false" fixed>
 						<!-- 自定义表格内部展示 -->
 						<!--<template #default="scope">
 							<el-form-item>
@@ -64,22 +79,29 @@
 							</el-form-item>
 						</template>-->
 					</el-table-column>
-					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`" :label="item[attributeProps.label]" :prop="item.name" align="center" :resizable="false" min-width="120px">
+					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`"
+						:label="item[attributeProps.label]" :prop="item.name" align="center" :resizable="false"
+						min-width="120px">
 						<!-- 自定义表头 -->
 						<template #header>
-                            <span :class="{'required_title': item.required}">
-                                {{ item[attributeProps.label] }}
-                            </span>
+							<span :class="{ 'required_title': item.required }">
+								{{ item[attributeProps.label] }}
+							</span>
 							<el-tooltip v-if="item.tip" effect="dark" :content="item.tip" placement="top">
-								<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
+								<el-icon
+									style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
 							</el-tooltip>
 						</template>
 						<!-- 自定义表格内部展示 -->
 						<template #default="scope">
 							<!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
-							<el-form-item :key="`structure-input-${index}-${scope.$index}`" :prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
-								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable />
-								<el-input-number v-else-if="item.type == 'input-number'" v-model="scope.row[item.name]" :placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0" size="default" clearable />
+							<el-form-item :key="`structure-input-${index}-${scope.$index}`"
+								:prop="`skuData.${scope.$index}.${item.name}`" :rules="rules[item.name]">
+								<el-input v-if="item.type == 'input'" v-model="scope.row[item.name]"
+									:placeholder="`${item[attributeProps.label]}`" size="default" clearable />
+								<el-input-number v-else-if="item.type == 'input-number'" v-model="scope.row[item.name]"
+									:placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0"
+									size="default" clearable />
 								<template v-else-if="item.type == 'slot'">
 									<slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
 								</template>
@@ -89,20 +111,29 @@
 					<!-- 批量设置，当 sku 数超过 1 个时出现 -->
 					<!-- <template v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" #append></template> -->
 				</el-table>
-				<el-table :data="[{}]" :show-header="false" v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" border>
+				<el-table :data="[{}]" :show-header="false"
+					v-if="isBatchSet && form.skuData.length >= batchSetShowTriggerCount" border>
 					<el-table-column :width="attributes.length * 120 + 50" align="center" :resizable="false" fixed>
 						<template #default="scope">
-							<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default" icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
+							<el-button :key="`batch-structure-button-${scope.$index}`" type="default" size="default"
+								icon="el-icon-edit" @click="onBatchSets()">批量设置</el-button>
 						</template>
 					</el-table-column>
-					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
+					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center"
+						:resizable="false" min-width="120px">
 						<template #default="scope">
-							<el-form-item v-if="item.batch != false" :key="`batch-structure-input-${index}-${scope.$index}`">
+							<el-form-item v-if="item.batch != false"
+								:key="`batch-structure-input-${index}-${scope.$index}`">
 								<!--<el-input v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />-->
-								<el-input v-if="item.type == 'input'" v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
-								<el-input-number v-else-if="item.type == 'input-number'" v-model="batchSetData[item.name]" :placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0" size="default" clearable @keyup.enter="onBatchSet(item.name)" />
+								<el-input v-if="item.type == 'input'" v-model="batchSetData[item.name]"
+									:placeholder="`${item[attributeProps.label]}`" size="default" clearable
+									@keyup.enter="onBatchSet(item.name)" />
+								<el-input-number v-else-if="item.type == 'input-number'" v-model="batchSetData[item.name]"
+									:placeholder="`${item[attributeProps.label]}`" controls-position="right" :min="0"
+									size="default" clearable @keyup.enter="onBatchSet(item.name)" />
 								<template v-else-if="item.type == 'slot'">
-									<slot :name="item.name" :index="scope.$index" :row="batchSetData = scope.row" :column="scope.column" />
+									<slot :name="item.name" :index="scope.$index" :row="batchSetData = scope.row"
+										:column="scope.column" />
 								</template>
 							</el-form-item>
 						</template>
@@ -540,8 +571,8 @@ export default {
 							[this.attributeProps.label]: v[this.attributeProps.label],
 							[this.attributeProps.value]: v[this.attributeProps.value],
 							[this.attributeProps.options]: [],
-							canAddAttribute: typeof v.canAddAttribute != 'undefined' ?  v.canAddAttribute : true,
-							canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ?  v.canDeleteAttribute : true,
+							canAddAttribute: typeof v.canAddAttribute != 'undefined' ? v.canAddAttribute : true,
+							canDeleteAttribute: typeof v.canDeleteAttribute != 'undefined' ? v.canDeleteAttribute : true,
 							addAttribute: '',
 						}
 						v[this.attributeProps.options].forEach(item2 => {
@@ -681,8 +712,8 @@ export default {
 					// 将原有的 sku 数据和新的 sku 数据比较，相同的 sku 则把原有的 sku 数据覆盖到新的 sku 数据里
 					for (let i = 0; i < this.form.skuData.length; i++) {
 						for (let j = 0; j < skuDataTemp.length; j++) {
-							if (typeof this.form.skuData[i] != 'undefined'){
-								if (typeof skuDataTemp[j] != 'undefined'){
+							if (typeof this.form.skuData[i] != 'undefined') {
+								if (typeof skuDataTemp[j] != 'undefined') {
 									if (this.form.skuData[i][this.skuProps.sku] === skuDataTemp[j][this.skuProps.sku]) {
 										skuDataTemp[j] = this.form.skuData[i]
 									}
@@ -718,7 +749,7 @@ export default {
 				return item.checked;
 			})
 			if (!flag) {
-				this.$message({type: 'warning', message: '请勾选需要删除的规格项'})
+				this.$message({ type: 'warning', message: '请勾选需要删除的规格项' })
 				return
 			}
 			this.myAttributes[index][this.attributeProps.options] = this.myAttributes[index][this.attributeProps.options].filter((item) => {
@@ -728,8 +759,8 @@ export default {
 		// 新增一个规格
 		onAddAttribute(index) {
 			// console.log('onAddAttribute.index:', index)
-			if (!this.myAttributes[index].addAttribute){
-				this.$message({type: 'warning', message: '规格项不能为空'})
+			if (!this.myAttributes[index].addAttribute) {
+				this.$message({ type: 'warning', message: '规格项不能为空' })
 				return
 			}
 			let addAttributeText = this.myAttributes[index].addAttribute.trim()
@@ -782,8 +813,8 @@ export default {
 		onAddAttributeValue(index) {
 			let addAttributeText = this.addAttributeValueText[index]
 			// console.log('onAddAttributeValue index:', index)
-			if (!addAttributeText){
-				this.$message({type: 'warning', message: '规格项不能为空'})
+			if (!addAttributeText) {
+				this.$message({ type: 'warning', message: '规格项不能为空' })
 				return
 			}
 			addAttributeText = addAttributeText.trim()
@@ -794,7 +825,7 @@ export default {
 					if (this.optionTotalCountLimit > 0) {
 						let attributeOptionTotalCount = 0
 						this.myAttributes.forEach(myAttribute => {
-							let myAttributeOptions =  myAttribute[this.attributeProps.options]
+							let myAttributeOptions = myAttribute[this.attributeProps.options]
 							if (myAttributeOptions) {
 								attributeOptionTotalCount += myAttributeOptions.length
 							}
@@ -917,7 +948,7 @@ export default {
 				})
 				this.batchSetData[type] = ''
 				// 批量设置完成后，触发一次当前列的验证
-				this.validateFieldByColumns([type], () => {})
+				this.validateFieldByColumns([type], () => { })
 			}
 		},
 		// 自定义输入框验证，通过调用 structure 里的 validate 方法实现，重点是 callback 要带过去
@@ -931,7 +962,7 @@ export default {
 		},
 		// sku 表单验证
 		validate(callback) {
-			if (!callback){
+			if (!callback) {
 				return this.$refs['form'].validate()
 			}
 			this.$refs['form'].validate(valid => {
@@ -948,7 +979,7 @@ export default {
 			})*/
 			let i = 0
 			// eslint-disable-next-line
-			for(let idx in this.form.skuData){
+			for (let idx in this.form.skuData) {
 				columns.forEach(v => {
 					let prop = `skuData.${i}.${v}`
 					props.push(prop)
@@ -971,7 +1002,7 @@ export default {
 			this.$refs['form'].clearValidate()
 		},
 		// 触发表格合并(数据获取)
-		triggerMergeTable(){
+		triggerMergeTable() {
 			// this.$refs.table.doLayout()
 			// console.log('tableData:', tableData)
 			// console.log('attributes', this.attributes)
@@ -988,8 +1019,8 @@ export default {
 		},
 		// 默认接受四个值 { row-当前行的值, column-当前列的值, rowIndex-行的下标, columnIndex-列的下标 }
 		// eslint-disable-next-line
-		objectSpanMethod({row, column, rowIndex, columnIndex}) {
-			return this.mergeTableSpanMethod(this.tableRowSpanArray, this.tableRowSpanNumObject, {row, column, rowIndex, columnIndex})
+		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+			return this.mergeTableSpanMethod(this.tableRowSpanArray, this.tableRowSpanNumObject, { row, column, rowIndex, columnIndex })
 		},
 		/**
 		 * 合并相同数据，导出合并列所需的方法(只适合el-table)
@@ -1042,15 +1073,15 @@ export default {
 		 * @returns {{colspan: number, rowspan: *}|{colspan: number, rowspan: number}}
 		 */
 		// eslint-disable-next-line
-		mergeTableSpanMethod(rowSpanArray, rowSpanNumObject, {row, column, rowIndex, columnIndex}) {
+		mergeTableSpanMethod(rowSpanArray, rowSpanNumObject, { row, column, rowIndex, columnIndex }) {
 			if (typeof column != 'undefined' && rowSpanArray.includes(column['property'])) {
 				let rowSpan = rowSpanNumObject[column['property']][rowIndex];
 				if (rowSpan > 0) {
-					return {rowspan: rowSpan, colspan: 1}
+					return { rowspan: rowSpan, colspan: 1 }
 				}
-				return {rowspan: 0, colspan: 0}
+				return { rowspan: 0, colspan: 0 }
 			}
-			return {rowspan: 1, colspan: 1}
+			return { rowspan: 1, colspan: 1 }
 		},
 	},
 }
@@ -1060,25 +1091,31 @@ export default {
 .sku-container {
 	:deep(.el-card) {
 		margin: 10px 0;
+
 		.el-card__header {
 			line-height: initial;
 			padding: 10px 20px;
 		}
+
 		.el-card__body {
 			padding: 10px 20px 20px;
 		}
 	}
+
 	.sku-check {
 		.theme-1 {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
 			margin-bottom: 10px;
+
 			.item {
 				width: 32%;
+
 				&:last-child:nth-child(3n - 1) {
 					margin-right: calc(100% - 32% * 2 - 4% / 2) !important;
 				}
+
 				/*.add-attr {
 					width: 100%;
 					margin-top: 10px;
@@ -1088,29 +1125,36 @@ export default {
 					align-items: center;
 					justify-content: space-between;
 					margin-top: 10px;
+
 					.add-attr {
 						flex: 1;
 						padding-right: 20px;
 					}
+
 					.delete-attr {}
 				}
 			}
 		}
+
 		.theme-2 {
 			border: 1px solid #ebeef5;
 			border-bottom: 0;
 			margin-bottom: 20px;
 		}
+
 		.theme-3 {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
 			margin-bottom: 10px;
+
 			.item {
 				width: 49%;
+
 				&:last-child:nth-child(2n - 1) {
 					margin-right: calc(100% - 49% * 2 - 4% / 2) !important;
 				}
+
 				/*.add-attr {
 					width: 100%;
 					margin-top: 10px;
@@ -1120,18 +1164,23 @@ export default {
 					align-items: center;
 					justify-content: space-between;
 					margin-top: 10px;
+
 					.add-attr {
 						flex: 1;
 						padding-right: 20px;
 					}
+
 					.delete-attr {}
 				}
 			}
 		}
-		.theme-1 .sku-check-item, .theme-3 .sku-check-item {
+
+		.theme-1 .sku-check-item,
+		.theme-3 .sku-check-item {
 			position: relative;
 			display: inline-flex;
 			align-items: center;
+
 			.sku-check-item-btn {
 				padding-left: 10px;
 				padding-right: 10px;
@@ -1139,41 +1188,53 @@ export default {
 				margin-right: 10px;
 				visibility: hidden;
 			}
+
 			&:hover .sku-check-item-btn {
 				visibility: visible;
 			}
 		}
 	}
+
 	.sku-name {
 		text-align: right;
 	}
+
 	.batch-set {
 		width: 100%;
 		margin-top: 5px;
 	}
+
 	.sku-list {
 		line-height: initial;
+
 		:deep(.el-input__inner) {
 			text-align: center;
 		}
+
 		:deep(.el-table__append-wrapper) {
 			overflow: initial;
+
 			.el-table {
 				overflow: initial;
+
 				.el-table__body-wrapper {
 					overflow: initial;
 				}
 			}
 		}
+
 		:deep(.el-form-item) {
 			margin-bottom: 0;
+
 			.el-form-item__content {
 				line-height: initial;
+
 				.el-form-item__error {
 					margin-left: 0;
 				}
 			}
 		}
+
 		.required_title::before {
 			content: '*';
 			color: #f56c6c;
