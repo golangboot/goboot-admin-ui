@@ -52,6 +52,29 @@
             </el-row>
           </el-tab-pane>
 
+          <el-tab-pane label="VIP会员设置">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label-width="180px" label="购买VIP会员二维码网址" prop="vip.payVipQrCodeUrl">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>付费购买VIP会员二维码网址</template>
+                        <el-icon style="
+                            vertical-align: middle;
+                            margin-top: -3px;
+                            margin-left: 3px;
+                          "><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+					<el-input v-model="form['store.vip.payVipQrCodeUrl']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
           <el-tab-pane label="商品设置">
             <el-row :gutter="20">
               <el-col :span="12">
