@@ -16,8 +16,24 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="文章标题" prop="title" width="150" :show-overflow-tooltip="true"></el-table-column>
-				<el-table-column label="文章简介" prop="description" width="200" :show-overflow-tooltip="true"></el-table-column>
+				<el-table-column label="文章标题" prop="title" width="200">
+					<template #default="scope">
+						<el-tooltip :content="scope.row.title" effect="light" :disabled="!(scope.row.title && scope.row.title.length > 60)">
+					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+						{{scope.row.title}}
+					  </span>
+						</el-tooltip>
+					</template>
+				</el-table-column>
+				<el-table-column label="文章简介" prop="description" width="200">
+					<template #default="scope">
+						<el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+						{{scope.row.description}}
+					  </span>
+						</el-tooltip>
+					</template>
+				</el-table-column>
 				<el-table-column label="封面图片" prop="image" width="100">
 					<template #default="scope">
 						<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">

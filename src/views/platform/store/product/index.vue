@@ -73,14 +73,14 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="商品名称" prop="name" width="250" fixed>
-          <template #default="scope">
-            <el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
-              <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
-                {{scope.row.name}}
-              </span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
+				  <template #default="scope">
+					<el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
+					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+						{{scope.row.name}}
+					  </span>
+					</el-tooltip>
+				  </template>
+				</el-table-column>
 				<el-table-column label="商品分类" prop="category" width="100" :show-overflow-tooltip="true">
 					<template #default="scope">
 						<span>{{ scope.row.category?.name }}</span>
