@@ -71,7 +71,7 @@
                     <span>{{ label }}</span>
                     <span>
                       <el-tooltip>
-                        <template #content>网站根路径，例如：<code>forward:/app/welcome</code></template>
+                        <template #content>网站根路径，例如：<code>forward:/index.html</code></template>
                         <el-icon style="
                             vertical-align: middle;
                             margin-top: -3px;
