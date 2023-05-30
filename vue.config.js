@@ -1,10 +1,13 @@
 const { defineConfig } = require('@vue/cli-service')
+const env = process.env.NODE_ENV;
 
 module.exports = defineConfig({
 	//设置为空打包后不分更目录还是多级目录
-	publicPath:'',
+	publicPath: env === 'development' ? '' : '/',
 	//build编译后存放静态文件的目录
 	//assetsDir: "static",
+	assetsDir: "static_admin",
+	indexPath: env === 'development' ? 'index.html' : 'admin.html',
 
 	// build编译后不生成资源MAP文件
 	productionSourceMap: false,
