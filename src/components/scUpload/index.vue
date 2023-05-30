@@ -155,7 +155,8 @@
 					files.splice(0, 1)
 				}
 				if(this.cropper && file.status=='ready'){
-					const acceptIncludes = ["image/gif", "image/jpeg", "image/png"].includes(file.raw.type)
+					// const acceptIncludes = ["image/gif", "image/jpeg", "image/png"].includes(file.raw.type)
+					const acceptIncludes = this.accept.replace(/\s/g,"").split(",").includes(file.raw.type)
 					if(!acceptIncludes){
 						this.$notify.warning({
 							title: '上传文件警告',
@@ -174,6 +175,7 @@
 				}
 			},
 			before(file){
+				// console.log('file.type:', file.type); // image/x-icon
 				const acceptIncludes = this.accept.replace(/\s/g,"").split(",").includes(file.type)
 				if(!acceptIncludes){
 					this.$notify.warning({

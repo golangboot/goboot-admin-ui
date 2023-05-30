@@ -138,7 +138,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标"></sc-upload>
+                  <sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标" :accept="'image/x-icon'"></sc-upload>
                 </el-form-item>
               </el-col>
             </el-row>
