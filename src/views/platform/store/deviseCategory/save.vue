@@ -78,7 +78,7 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-      <el-row :gutter="20">
+      <!--<el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="顶部图片" prop="topImage">
             <sc-upload :width="80" :height="80" v-model="form.topImage" title="请上传图片"></sc-upload>
@@ -89,7 +89,7 @@
             <el-input v-model="form.topLink" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row>-->
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="底部图片" prop="bottomImage">
