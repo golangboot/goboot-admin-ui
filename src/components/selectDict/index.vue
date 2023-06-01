@@ -16,6 +16,7 @@
 			v-bind="$attrs"
 			:loading="loading"
 			@visible-change="visibleChange"
+      ref="select"
 		>
 			<el-option
 				v-for="(item, index) in options"
@@ -23,10 +24,27 @@
 				:label="item[props.label]"
 				:value="objValueType ? item : item[props.value]"
 			>
-				<slot name="option" :data="item"></slot>
+				<slot name="option" :data="item">
+          <el-row>
+            <el-col :span="24">
+              <span style="display: flex;align-items: center;justify-content: space-between;">
+                {{ item[props.label] }}
+                <el-tooltip v-if="item[props.tips] && item[props.tips] !== ''" effect="light">
+                  <template #content>
+                    <span style="max-width: 50%;line-height: 2;color: var(--el-color-info);">
+                      {{ item[props.tips] }}
+                    </span>
+                  </template>
+                  <el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-info-filled /></el-icon>
+                  <!--<el-icon class="sc-statistic-tips" style="margin-left: .5rem;"><el-icon-question-filled/></el-icon>-->
+                </el-tooltip>
+              </span>
+            </el-col>
+          </el-row>
+        </slot>
 			</el-option>
 		</el-select>
-	</div>
+  </div>
 </template>
 
 <script>
@@ -53,10 +71,11 @@
 			props: {
 				type: Object, default: () => {
 					return {
-						// label: 'label',					//映射label显示字段
-						label: 'name',					//映射label显示字段
-						value: 'value',					//映射value值字段
+						// label: 'label',		//映射label显示字段
+						label: 'name',				//映射label显示字段
+						value: 'value',				//映射value值字段
 						type: 'type',					//映射type值字段
+            tips: 'description',	//映射tips值字段
 					}
 				}
 			},
@@ -75,10 +94,24 @@
 			objValueType: { type: Boolean, default: false },
 		},
 		computed: {
-			isDictSelect() {
+			/*isDictSelect() {
 				return this.dict && this.dict !== ''
-			},
+			},*/
 		},
+    /*watch: {
+      '$attrs.modelValue': {
+        // eslint-disable-next-line
+        handler(newValue, oldValue){
+          // console.log('selectDict -> $attrs.modelValue:', newValue, oldValue)
+          if (newValue && newValue !== oldValue){
+            // this.selectChange(newValue);
+            // console.log('selectDict -> select:', this.$refs.select)
+            // console.log('selectDict -> select:', this.$refs.select.selected)
+          }
+        },
+        deep: true
+      },
+    },*/
 		data() {
 			return {
 				loading: false,
@@ -113,6 +146,7 @@
 					let label = item[this.props.label]
 					let value = item[this.props.value]
 					let type = item[this.props.type]
+					let tips = item[this.props.tips]
 					if (this.dictType && this.dictType !== ''){
 						type = this.dictType
 					}
@@ -136,6 +170,8 @@
 					options.push({
 						[this.props.label]: label,
 						[this.props.value]: value,
+						[this.props.type]: type,
+						[this.props.tips]: tips,
 					})
 				})
 				if (options.length <= 0){
@@ -165,7 +201,7 @@
 </script>
 
 <style scoped>
-	.sc-select {display: inline-flex;position: relative;}
+	.sc-select {display: inline-flex;position: relative;align-items: center;}
 	.sc-select-loading {position: absolute;top:0;left:0;right:0;bottom:0;background: #fff;z-index: 100;border-radius: 5px;border: 1px solid #EBEEF5;display: flex;align-items: center;padding-left:10px;}
 	.sc-select-loading i {font-size: 14px;}
 
