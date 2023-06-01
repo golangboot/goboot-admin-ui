@@ -38,6 +38,12 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="产品上架免审核" prop="isExemptAudit" width="120">
+          <template #default="scope">
+            <el-tag v-if="scope.row.isExemptAudit == 1" type="success">免审核</el-tag>
+            <el-tag v-else type="warning">需要审核</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
         <el-table-column label="状态" prop="status" width="80">
           <template #default="scope">

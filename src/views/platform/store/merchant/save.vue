@@ -40,6 +40,21 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="产品上架免审核" prop="isExemptAudit">
+            <el-switch
+                v-model="form.isExemptAudit"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                :active-value="1" :inactive-value="0"
+                active-text="免审核" inactive-text="需要审核"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
 			<el-form-item label="自营店铺" prop="isSelf">
 				<el-radio-group v-model="form.isSelf">
 					<el-radio v-for="(item, index) in isSelfOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>

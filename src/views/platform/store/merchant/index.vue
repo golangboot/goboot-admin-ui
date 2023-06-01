@@ -42,6 +42,18 @@
             <el-tag v-else type="info">普通店铺</el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="自营店铺" prop="isSelf" width="100" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <el-tag v-if="scope.row.isSelf == 1" type="success">是</el-tag>
+            <el-tag v-else type="warning">否</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="产品上架免审核" prop="isExemptAudit" width="120">
+          <template #default="scope">
+            <el-tag v-if="scope.row.isExemptAudit == 1" type="success">免审核</el-tag>
+            <el-tag v-else type="warning">需要审核</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="联系人" prop="contact" width="150" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="联系电话" prop="telephone" width="120" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="联系地址" prop="address" width="200" :show-overflow-tooltip="true"></el-table-column>
