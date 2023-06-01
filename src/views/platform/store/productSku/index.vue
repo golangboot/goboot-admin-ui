@@ -24,7 +24,15 @@
 							</div>
 						</template>
 					</el-table-column>
-          <el-table-column label="商品Sku名称" prop="name" fixed width="150" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column label="商品Sku名称" prop="name" width="250">
+            <template #default="scope">
+              <el-tooltip :content="scope.row.name" effect="light" :disabled="!(scope.row.name && scope.row.name.length > 60)">
+					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+						{{scope.row.name}}
+					  </span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
           <el-table-column label="价格" prop="price" header-align="center" align="right" min-width="120" sortable></el-table-column>
 					<el-table-column label="市场价" prop="marketPrice" header-align="center" align="right" min-width="120" sortable></el-table-column>
 					<el-table-column label="成本价" prop="costPrice" header-align="center" align="right" min-width="120" sortable></el-table-column>

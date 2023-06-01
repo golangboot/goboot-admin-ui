@@ -81,7 +81,7 @@
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`structure-${index}`"
 						:label="item[attributeProps.label]" :prop="item.name" align="center" :resizable="false"
-						min-width="120px">
+						min-width="150px">
 						<!-- 自定义表头 -->
 						<template #header>
 							<span :class="{ 'required_title': item.required }">
@@ -120,7 +120,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column v-for="(item, index) in structures" :key="`batch-structure-${index}`" align="center"
-						:resizable="false" min-width="120px">
+						:resizable="false" min-width="150px">
 						<template #default="scope">
 							<el-form-item v-if="item.batch != false"
 								:key="`batch-structure-input-${index}-${scope.$index}`">

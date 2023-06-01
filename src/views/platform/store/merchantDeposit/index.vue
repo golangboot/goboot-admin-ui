@@ -16,7 +16,11 @@
 			<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-				<el-table-column label="名称" prop="name" width="150"></el-table-column>
+        <el-table-column label="商家" prop="merchant" width="150" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <span>{{ scope.row.merchant?.name }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="保证金" prop="deposit" header-align="center" align="right" min-width="120" sortable>
           <template #default="scope">
             <span>{{ scope.row.deposit || 0 }}元</span>

@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'90%'" :close-on-click-modal="mode == 'show'"
+	<el-drawer :title="titleMap[mode]" v-model="visible" :size="'96%'" :close-on-click-modal="mode == 'show'"
 		destroy-on-close @closed="$emit('closed')">
 		<el-container v-loading="loading">
 			<el-main style="padding:0 20px 20px 20px;">
@@ -228,7 +228,7 @@
 									<el-table-column prop="param" label="参数值">
 										<template #default="scope">
 											<!-- :rules="specAttributesRules[scope.row.value]" :required="scope.row.required" :inline-message="true" :error="`${scope.row.label}不能为空`" -->
-											<el-form-item :key="`specAttributes-param-${scope.$index}`"
+											<el-form-item :key="`specAttributes-param-${scope.$index}`" label=" " label-width="30px"
 												:prop="`specAttributes.${scope.$index}.${scope.column.property}`"
 												:rules="specAttributesRules[scope.row.value]" :inline-message="true"
 												style="margin-bottom: 0;">
@@ -886,7 +886,7 @@ export default {
 				}
 				if (newValue && newValue.length > 10) {
 					// 调整Sku表单组件中表格的高度
-					this.skuFormTableProps.height = `calc(100vh - 5vh - 180px )`
+					// this.skuFormTableProps.height = `calc(100vh - 5vh - 180px )`
 				}
 			},
 			deep: true

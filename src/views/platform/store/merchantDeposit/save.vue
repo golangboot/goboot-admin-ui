@@ -1,9 +1,9 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="名称" prop="name">
+			<!--<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" clearable></el-input>
-			</el-form-item>
+			</el-form-item>-->
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="商家" prop="merchantId">

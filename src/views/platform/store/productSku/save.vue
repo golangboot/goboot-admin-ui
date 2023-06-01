@@ -23,9 +23,15 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-			<el-form-item label="价格" prop="price">
-				<el-input-number v-model="form.price" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
-			</el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="价格" prop="price">
+            <el-input-number v-model="form.price" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        </el-col>
+      </el-row>
 			<el-row :gutter="20">
 				<el-col :span="12">
 					<el-form-item label="市场价" prop="marketPrice">
