@@ -12,6 +12,7 @@
 		<div v-if="initLoading" class="sc-select-loading">
 			<el-icon class="is-loading"><el-icon-loading /></el-icon>
 		</div>
+    <!-- 添加属性: allow-create default-first-option filterable 可直接回车键入 -->
 		<el-select
 			v-bind="$attrs"
 			:loading="loading"
