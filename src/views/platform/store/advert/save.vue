@@ -19,7 +19,7 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>点击广告跳转的网址</template>
+							<template #content>点击图片跳转的网址</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -28,7 +28,7 @@
 			</el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
-					<el-form-item label="广告位置" prop="code">
+					<el-form-item label="广告位置" prop="position">
 						<template #label="{ label }">
 							<span>{{ label }}</span>
 							<span>
@@ -38,12 +38,22 @@
 								</el-tooltip>
 							</span>
 						</template>
-						<el-input v-model="form.code" clearable></el-input>
-					</el-form-item>
+						<!--<el-input v-model="form.position" clearable></el-input>-->
+            <select-dict v-model="form.position" dict="BANNER_POSITION" placeholder="" allow-create default-first-option clearable filterable style="width: 100%;"></select-dict>
+          </el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="快捷选择" prop="code">
-						<select-dict v-model="form.code" dict="ENDPOINT_POSITION" placeholder="" clearable filterable style="width: 100%;"></select-dict>
+					<el-form-item label="端点" prop="endpoint">
+            <template #label="{ label }">
+              <span>{{ label }}</span>
+              <span>
+								<el-tooltip>
+									<template #content>端点编码</template>
+									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+								</el-tooltip>
+							</span>
+            </template>
+						<select-dict v-model="form.endpoint" dict="ENDPOINT_LIST" placeholder="" allow-create default-first-option clearable filterable style="width: 100%;"></select-dict>
 					</el-form-item>
 				</el-col>
 			</el-row>

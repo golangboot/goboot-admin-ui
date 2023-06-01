@@ -19,7 +19,7 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>点击轮播图跳转的网址</template>
+							<template #content>点击图片跳转的网址</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
@@ -48,7 +48,7 @@
               <span>{{ label }}</span>
               <span>
 								<el-tooltip>
-									<template #content>轮播图端点编码</template>
+									<template #content>端点编码</template>
 									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 								</el-tooltip>
 							</span>
