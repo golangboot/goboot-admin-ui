@@ -306,7 +306,7 @@ export default {
 				return {
 					sku: 'sku',
 					attributeParams: 'attributeParams',
-					attribute: 'attribute',
+          attributeName: 'attributeName',
 					attributeValue: 'attributeValue',
 				}
 			}
@@ -657,7 +657,7 @@ export default {
 						[this.attributes[0][this.attributeProps.label]]: this.attributes[0][this.attributeProps.options][i][this.attributeProps.label],
 					}
 					let attributeParams = {
-						[this.skuProps.attribute]: {
+						[this.skuProps.attributeName]: {
 							[this.attributeProps.label]: this.attributes[0][this.attributeProps.label],
 							[this.attributeProps.value]: this.attributes[0][this.attributeProps.value],
 						},
@@ -689,7 +689,7 @@ export default {
 						// console.log('temp[temp.length - 1][\'sku\']:', temp[temp.length - 1]['sku'])
 						obj[this.skuProps.sku] = [obj[this.skuProps.sku], obj2[this.attributeProps.label]].join(this.separator)
 						let attributeParams = {
-							[this.skuProps.attribute]: {
+							[this.skuProps.attributeName]: {
 								[this.attributeProps.label]: this.attributes[index][this.attributeProps.label],
 								[this.attributeProps.value]: this.attributes[index][this.attributeProps.value],
 							},
