@@ -18,7 +18,7 @@
 					</span>
         </template>
         <el-input v-model="form.domain" clearable></el-input>
-        <div class="el-form-item-msg">例如输入：<code>vip.example.com</code>，其中 <code>vip</code> 为租户二级域名，<code>example.com</code> 为平台顶级域名</div>
+        <div class="el-form-item-msg">例如输入：<code>vip</code>，则租户的独立域名为：<code>http://vip.example.com</code>，其中 <code>example.com</code> 为平台顶级域名</div>
       </el-form-item>
 			<el-row :gutter="20">
 				<el-col :span="12">
