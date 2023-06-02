@@ -229,7 +229,7 @@ export default {
           let res = await this.$API.platform.app.siteConfig.setConfig.post(this.form);
           this.isSaving = false;
           if (res.code == 200) {
-            // this.form = res.data
+            this.form = res.data
             // this.$emit('success', this.form, this.mode)
             this.visible = false;
             this.$message.success("操作成功");
