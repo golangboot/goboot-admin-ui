@@ -5,22 +5,6 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="130px" style="margin-top: 20px;">
 
           <el-tab-pane label="系统设置">
-            <el-form-item label="应用网址" prop="url">
-              <template #label="{ label }">
-                <span>{{ label }}</span>
-                <span>
-                      <el-tooltip>
-                        <template #content>应用网址，例如：http://www.example.com 留空时系统会自动获取网址</template>
-                        <el-icon style="
-                            vertical-align: middle;
-                            margin-top: -3px;
-                            margin-left: 3px;
-                          "><el-icon-question-filled /></el-icon>
-                      </el-tooltip>
-                    </span>
-              </template>
-              <el-input v-model="form['app.url']" clearable></el-input>
-            </el-form-item>
             <el-form-item label="应用名称" prop="name">
               <el-input v-model="form['app.name']" clearable></el-input>
             </el-form-item>
@@ -46,6 +30,48 @@
               </template>
               <el-switch v-model="form['app.debug']" :active-value="'true'" :inactive-value="'false'"></el-switch>
             </el-form-item>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="应用网址" prop="url">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>
+                          服务器（后端）Api接口网址，例如：<code>https://www.example.com</code>、<code>https://api.example.com</code>，留空时系统会自动获取网址
+                        </template>
+                        <el-icon style="
+                            vertical-align: middle;
+                            margin-top: -3px;
+                            margin-left: 3px;
+                          "><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-input v-model="form['app.url']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="应用根路径" prop="index">
+                  <template #label="{ label }">
+                    <span>{{ label }}</span>
+                    <span>
+                      <el-tooltip>
+                        <template #content>
+                          服务器（后端）根路径，例如：<code>forward:/index.html</code>
+                        </template>
+                        <el-icon style="
+                            vertical-align: middle;
+                            margin-top: -3px;
+                            margin-left: 3px;
+                          "><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+                  </template>
+                  <el-input v-model="form['app.index']" clearable></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-tab-pane>
 
           <el-tab-pane label="金额设置">
@@ -90,11 +116,12 @@
 				isSaving: false,
 				//表单数据
 				form: {
-					"app.url": "",
 					"app.name": "",
 					"app.version": "",
 					"app.author": "",
 					"app.debug": "false",
+          "app.url": "",
+          "app.index": "",
 					"app.moneyScale": "2",
 				},
 				//验证规则
