@@ -19,8 +19,8 @@
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
           <el-table-column label="LOGO" prop="image" width="100">
             <template #default="scope">
-              <div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
-                <el-image class="image" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="cover" hide-on-click-modal preview-teleported></el-image>
+              <div style="display: flex; align-items: center;">
+                <el-image class="image" style="max-width: 100px; height: 40px;" :src="scope.row.image" :preview-src-list="[scope.row.image]" v-if="scope.row.image" fit="scale-down" hide-on-click-modal preview-teleported></el-image>
               </div>
             </template>
           </el-table-column>
@@ -43,8 +43,8 @@
             </template>
           </el-table-column>
           <el-table-column label="租户域名" prop="domain" width="150" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="开始时间" prop="startTime" width="150"></el-table-column>
-					<el-table-column label="结束时间" prop="endTime" width="150"></el-table-column>
+          <el-table-column label="授权开始时间" prop="startTime" width="150"></el-table-column>
+					<el-table-column label="授权结束时间" prop="endTime" width="150"></el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
