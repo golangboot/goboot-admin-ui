@@ -5,16 +5,32 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="130px" style="margin-top: 20px;">
 
           <el-tab-pane label="系统设置">
-            <el-form-item label="系统名称" prop="name">
+            <el-form-item label="应用网址" prop="url">
+              <template #label="{ label }">
+                <span>{{ label }}</span>
+                <span>
+                      <el-tooltip>
+                        <template #content>应用网址，例如：http://www.example.com 留空时系统会自动获取网址</template>
+                        <el-icon style="
+                            vertical-align: middle;
+                            margin-top: -3px;
+                            margin-left: 3px;
+                          "><el-icon-question-filled /></el-icon>
+                      </el-tooltip>
+                    </span>
+              </template>
+              <el-input v-model="form['app.url']" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="应用名称" prop="name">
               <el-input v-model="form['app.name']" clearable></el-input>
             </el-form-item>
-            <el-form-item label="版本号" prop="version">
+            <el-form-item label="应用版本号" prop="version">
               <el-input v-model="form['app.version']" clearable></el-input>
             </el-form-item>
-            <el-form-item label="开发者" prop="author" clearable>
+            <el-form-item label="应用开发者" prop="author" clearable>
               <el-input v-model="form['app.author']"></el-input>
             </el-form-item>
-            <el-form-item label="调试模式" prop="debug">
+            <el-form-item label="应用调试模式" prop="debug">
               <template #label="{ label }">
                 <span>{{ label }}</span>
                 <span>
@@ -74,10 +90,12 @@
 				isSaving: false,
 				//表单数据
 				form: {
+					"app.url": "",
 					"app.name": "",
 					"app.version": "",
 					"app.author": "",
 					"app.debug": "false",
+					"app.moneyScale": "2",
 				},
 				//验证规则
 				rules: {
