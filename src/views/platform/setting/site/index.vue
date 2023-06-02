@@ -5,7 +5,7 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="110px" style="margin-top: 20px">
           <el-tab-pane label="网站设置">
             <el-form-item label="网站名称" prop="name">
-              <el-input v-model="form['site.name']" clearable></el-input>
+              <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
             <el-row :gutter="20">
               <el-col :span="12">
@@ -23,7 +23,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <el-input v-model="form['site.pcUrl']" clearable></el-input>
+                  <el-input v-model="form.pcUrl" clearable></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -41,7 +41,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <el-input v-model="form['site.h5Url']" clearable></el-input>
+                  <el-input v-model="form.h5Url" clearable></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -62,11 +62,11 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <el-input v-model="form['site.url']" clearable></el-input>
+                  <el-input v-model="form.url" clearable></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="网站根路径" prop="index">
+              <!--<el-col :span="12">
+                <el-form-item label="网站首页" prop="home">
                   <template #label="{ label }">
                     <span>{{ label }}</span>
                     <span>
@@ -80,9 +80,9 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <el-input v-model="form['site.index']" clearable></el-input>
+                  <el-input v-model="form.home" clearable></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col>-->
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
@@ -100,7 +100,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <sc-upload :width="80" :height="80" v-model="form['site.logo']" title="请上网站LOGO图片"></sc-upload>
+                  <sc-upload :width="80" :height="80" v-model="form.logo" title="请上网站LOGO图片"></sc-upload>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -118,7 +118,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <sc-upload :width="80" :height="80" v-model="form['site.logoSquare']" title="请上网站LOGO图片"></sc-upload>
+                  <sc-upload :width="80" :height="80" v-model="form.logoSquare" title="请上网站LOGO图片"></sc-upload>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -138,31 +138,31 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <sc-upload :width="80" :height="80" v-model="form['site.favicon']" title="请上网站图标" :accept="'image/x-icon'"></sc-upload>
+                  <sc-upload :width="80" :height="80" v-model="form.favicon" title="请上网站图标" :accept="'image/x-icon'"></sc-upload>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-form-item label="网站标题" prop="title" clearable>
-              <el-input v-model="form['site.title']"></el-input>
+              <el-input v-model="form.title"></el-input>
               <div class="el-form-item-msg">首页显示，浏览器标签上的标题</div>
             </el-form-item>
             <el-form-item label="网站关键词" prop="keywords" clearable>
-              <el-input v-model="form['site.keywords']" clearable type="textarea"></el-input>
+              <el-input v-model="form.keywords" clearable type="textarea"></el-input>
             </el-form-item>
             <el-form-item label="网站描述" prop="description" clearable>
-              <el-input v-model="form['site.description']" clearable type="textarea"></el-input>
+              <el-input v-model="form.description" clearable type="textarea"></el-input>
             </el-form-item>
             <el-form-item label="网站版权" prop="copyright" clearable>
-              <el-input v-model="form['site.copyright']" clearable type="textarea"></el-input>
+              <el-input v-model="form.copyright" clearable type="textarea"></el-input>
             </el-form-item>
             <el-form-item label="网站ICP备案号" prop="icp" clearable>
-              <el-input v-model="form['site.icp']"></el-input>
+              <el-input v-model="form.icp"></el-input>
             </el-form-item>
             <el-form-item label="联系电话" prop="telephone" clearable>
-              <el-input v-model="form['site.telephone']"></el-input>
+              <el-input v-model="form.telephone"></el-input>
             </el-form-item>
             <el-form-item label="联系地址" prop="address" clearable>
-              <el-input v-model="form['site.address']" clearable type="textarea"></el-input>
+              <el-input v-model="form.address" clearable type="textarea"></el-input>
             </el-form-item>
             <el-row :gutter="20">
               <el-col :span="12">
@@ -180,7 +180,7 @@
                       </el-tooltip>
                     </span>
                   </template>
-                  <sc-upload :width="80" :height="80" v-model="form['site.qrCode']" title="请上传图片"></sc-upload>
+                  <sc-upload :width="80" :height="80" v-model="form.qrCode" title="请上传图片"></sc-upload>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -205,21 +205,11 @@ export default {
       isSaving: false,
       //表单数据
       form: {
-        "site.name": "",
-        "site.url": "",
-        "site.logo": "",
-        "site.title": "",
-        "site.keywords": "",
-        "site.description": "",
-        "site.copyright": "",
-        "site.icp": "",
-        "site.index": "",
       },
       //验证规则
       rules: {
-        "site.name": [{ required: true, message: "请输入网站名称" }],
+        // "site.name": [{ required: true, message: "请输入网站名称" }],
       },
-      configGroup: "site",
     };
   },
   mounted() {
@@ -227,25 +217,16 @@ export default {
   },
   methods: {
     async getData() {
-      let reqData = { group: this.configGroup };
-      let res = await this.$API.platform.sys.setting.list.get(reqData);
-      if (res.data) {
-        let items = res.data;
-        // console.log(items)
-        for (let key in items) {
-          let item = items[key];
-          // console.log(item)
-          this.form[item.code] = item.value;
-        }
-        // console.log(this.form)
-      }
+      let reqData = {};
+      let res = await this.$API.platform.app.siteConfig.getConfig.get(reqData);
+      this.form = res.data;
     },
     //表单提交方法
     submit() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.isSaving = true;
-          let res = await this.$API.platform.sys.setting.update.post(this.form);
+          let res = await this.$API.platform.app.siteConfig.setConfig.post(this.form);
           this.isSaving = false;
           if (res.code == 200) {
             // this.form = res.data

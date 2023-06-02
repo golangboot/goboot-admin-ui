@@ -2060,4 +2060,110 @@ export default {
 			},
 		},
 	},
+	app: {
+		siteConfig: {
+			list: {
+				url: `${config.API_URL}/platform/app/siteConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/platform/app/siteConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/platform/app/siteConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/platform/app/siteConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/platform/app/siteConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+			getConfig: {
+				url: `${config.API_URL}/platform/app/siteConfig/getConfig`,
+				name: "获取配置",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			setConfig: {
+				url: `${config.API_URL}/platform/app/siteConfig/setConfig`,
+				name: "设置配置",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+		},
+		storeConfig: {
+			list: {
+				url: `${config.API_URL}/platform/app/storeConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/platform/app/storeConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/platform/app/storeConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/platform/app/storeConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/platform/app/storeConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+			getConfig: {
+				url: `${config.API_URL}/platform/app/storeConfig/getConfig`,
+				name: "获取配置",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			setConfig: {
+				url: `${config.API_URL}/platform/app/storeConfig/setConfig`,
+				name: "设置配置",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+		},
+	},
 }
