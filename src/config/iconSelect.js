@@ -198,7 +198,7 @@ export default {
 				"el-icon-picture-rounded",
 				"el-icon-pie-chart",
 				"el-icon-place",
-				"el-icon-platform",
+				"el-icon-backend",
 				"el-icon-plus",
 				"el-icon-pointer",
 				"el-icon-position",

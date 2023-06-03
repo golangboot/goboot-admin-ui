@@ -101,9 +101,9 @@
 				//获取菜单
 				var menu = null
 				if(this.form.user == 'admin'){
-					menu = await this.$API.platform.user.userCenter.myMenus.get()
+					menu = await this.$API.backend.user.userCenter.myMenus.get()
 				}else{
-					menu = await this.$API.platform.user.userCenter.myMenus.get()
+					menu = await this.$API.backend.user.userCenter.myMenus.get()
 				}
 				if(menu.code == 200){
 					if(menu.data.menu.length==0){

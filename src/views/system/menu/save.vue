@@ -227,7 +227,7 @@
 			},
 			//加载树数据
 			async getMenu(){
-				var res = await this.$API.platform.sys.menu.tree.get();
+				var res = await this.$API.backend.sys.menu.tree.get();
 				this.menu = res.data;
 			},
 			//简单化菜单
@@ -251,9 +251,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.platform.sys.menu.update.put(this.form)
+							res = await this.$API.backend.sys.menu.update.put(this.form)
 						} else {
-							res = await this.$API.platform.sys.menu.add.post(this.form)
+							res = await this.$API.backend.sys.menu.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -274,7 +274,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.platform.sys.menu.detail.get(reqData)
+					let res = await this.$API.backend.sys.menu.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

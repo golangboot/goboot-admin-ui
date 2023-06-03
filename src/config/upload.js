@@ -17,7 +17,7 @@ export default {
 			id: res.data.id,
 			contentType: res.data.contentType,
 			ext: res.data.ext,
-			platform: res.data.platform,
+			backend: res.data.backend,
 		}
 	},
 	apiObjFile: API.file.uploadFile,	//附件上传请求API对象

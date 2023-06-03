@@ -61,7 +61,7 @@
 				this.$refs.form.validate(async (valid) => {
 					if (valid) {
 						this.isSaving = true;
-						const res = await this.$API.platform.user.userCenter.changePassword.post(this.form);
+						const res = await this.$API.backend.user.userCenter.changePassword.post(this.form);
 						this.isSaving = false;
 						if (res.code == 200) {
 							this.$emit('success', this.form, this.mode)

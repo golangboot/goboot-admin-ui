@@ -163,7 +163,7 @@
 					id: data.id
 				}
 				setTimeout(async ()=>{
-					var res = await this.$API.platform.sys.table.info.get(params)
+					var res = await this.$API.backend.sys.table.info.get(params)
 					this.loading = false
 					this.form = res.data
 				},400)

@@ -118,7 +118,7 @@
 					}
 				],
 				date: [],
-				apiObj: this.$API.platform.sys.log.list,
+				apiObj: this.$API.backend.sys.log.list,
 				params: {},
 				search: {
 					keyword: ""

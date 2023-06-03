@@ -40,7 +40,7 @@
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
 					<!--<el-button type="primary" plain @click="syncMenu">同步菜单</el-button>-->
-					<sc-file-import :apiObj="$API.platform.sys.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
+					<sc-file-import :apiObj="$API.backend.sys.menu.import" :data="{otherData:'meta'}" templateUrl="http://www.scuiadmin/file.xlsx" accept=".xls, .xlsx" :maxSize="30" tip="请上传小于或等于 30M 的 .xls, .xlsx 格式文件(自定义TIP)" @success="success">
 						<template #default="{open}">
 							<el-button type="primary" icon="sc-icon-upload" @click="open">导入</el-button>
 						</template>
@@ -59,7 +59,7 @@
 							</el-form-item>
 						</template>
 					</sc-file-import>
-					<sc-file-export :apiObj="$API.platform.sys.menu.export" blob :fileName="'菜单列表_'+Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
+					<sc-file-export :apiObj="$API.backend.sys.menu.export" blob :fileName="'菜单列表_'+Date.now()" :data="{otherData:'meta'}" showData :column="column" :fileTypes="['xlsx','docx','pdf']">
 						<template #default="{open}">
 							<el-button type="primary" icon="sc-icon-download" @click="open">导出</el-button>
 						</template>
@@ -142,7 +142,7 @@
 				dialog: {
 					save: false,
 				},
-				apiObj: this.$API.platform.sys.menu.list,
+				apiObj: this.$API.backend.sys.menu.list,
 				params: {},
 				column: [
 					{
@@ -274,7 +274,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.platform.sys.menu.delete.delete(reqData);
+				var res = await this.$API.backend.sys.menu.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -292,7 +292,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.platform.sys.menu.delete.delete(reqData)
+					var res = await this.$API.backend.sys.menu.delete.delete(reqData)
 					if (res.code == 200) {
 						this.selection.forEach(item => {
 							this.$refs.table.tableData.forEach((itemI, indexI) => {
@@ -321,7 +321,7 @@
 				row.status = row.status == '1'?'0':'1'
 				row.$switch_status = true;
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.platform.sys.menu.update.put(reqData);
+				var res = await this.$API.backend.sys.menu.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -344,7 +344,7 @@
 			},
 			async syncMenu(){
 				var reqData = {}
-				var res = await this.$API.platform.sys.menu.sync.post(reqData);
+				var res = await this.$API.backend.sys.menu.sync.post(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("操作成功")
@@ -355,7 +355,7 @@
 			//加载树数据
 			async getMenu(){
 				this.menuloading = true
-				var res = await this.$API.platform.sys.menu.tree.get();
+				var res = await this.$API.backend.sys.menu.tree.get();
 				this.menuloading = false
 				this.menuList = res.data;
 			},
@@ -401,9 +401,9 @@
 
 				var res
 				if (data.id) {
-					res = await this.$API.platform.sys.menu.update.put(data)
+					res = await this.$API.backend.sys.menu.update.put(data)
 				} else {
-					res = await this.$API.platform.sys.menu.add.post(data)
+					res = await this.$API.backend.sys.menu.add.post(data)
 				}
 				if (res.code == 200) {
 					this.$message.success("保存成功")
@@ -427,7 +427,7 @@
 					}
 				}
 				this.menuloading = true
-				var res = await this.$API.platform.sys.menu.add.post(newMenuData)
+				var res = await this.$API.backend.sys.menu.add.post(newMenuData)
 				this.menuloading = false
 				newMenuData.id = res.data.id || res.data
 
@@ -457,7 +457,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.platform.sys.menu.delete.delete(reqData)
+				var res = await this.$API.backend.sys.menu.delete.delete(reqData)
 				this.menuloading = false
 
 				if(res.code == 200){

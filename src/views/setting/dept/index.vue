@@ -60,7 +60,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.platform.sys.department.tree,
+				apiObj: this.$API.backend.sys.department.tree,
 				params: {},
 				selection: [],
 				search: {
@@ -93,7 +93,7 @@
 			//删除
 			async table_del(row){
 				var reqData = {id: row.id}
-				var res = await this.$API.platform.sys.department.delete.delete(reqData);
+				var res = await this.$API.backend.sys.department.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
@@ -111,7 +111,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.platform.sys.dictItem.delete.delete(reqData)
+					var res = await this.$API.backend.sys.dictItem.delete.delete(reqData)
 					if (res.code == 200) {
 						this.selection.forEach(item => {
 							this.$refs.table.tableData.forEach((itemI, indexI) => {

@@ -3,7 +3,7 @@ import API from "@/api";
 //字典选择器配置
 
 export default {
-	dictApiObj: API.platform.sys.dict.getDictItemList,		//获取字典接口对象
+	dictApiObj: API.backend.sys.dict.getDictItemList,		//获取字典接口对象
 	parseData: function (res) {
 		return {
 			data: res.data?.records || res.data,				//分析行数据字段结构

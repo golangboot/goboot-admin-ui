@@ -120,7 +120,7 @@
 		methods: {
 			//加载树数据
 			async getDict(){
-				var res = await this.$API.platform.sys.dict.tree.get();
+				var res = await this.$API.backend.sys.dict.tree.get();
 				this.treeShowLoading = false;
 				const allNode = {id: '', name: '全部', label: '全部', title: '全部', disabled: true,};
 				res.data.unshift(allNode);
@@ -135,7 +135,7 @@
 						parentId: firstNode.id,
 						// code: firstNode.code,
 					}
-					this.listApi = this.$API.platform.sys.dict.list;
+					this.listApi = this.$API.backend.sys.dict.list;
 				}
 			},
 			//树过滤
@@ -173,7 +173,7 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.platform.sys.dict.delete.delete(reqData)
+				var res = await this.$API.backend.sys.dict.delete.delete(reqData)
 				this.menuloading = false
 
 				if (res.code == 200) {
@@ -224,7 +224,7 @@
 					var reqData = {
 						id: data.id
 					}
-					var res = await this.$API.platform.sys.dict.delete.delete(reqData)
+					var res = await this.$API.backend.sys.dict.delete.delete(reqData)
 					if (res.code == 200) {
 						//删除节点是否为高亮当前 是的话 设置第一个节点高亮
 						var dictCurrentKey = this.$refs.tree.getCurrentKey();
@@ -259,8 +259,8 @@
 				treeUtils.treeNodeDrop(draggingNode, dropNode, dropType, async data => {
 					this.loading = true
 					let res = data.id
-						? await this.$API.platform.sys.dict.update.put(data)
-						: await this.$API.platform.sys.dict.add.post(data)
+						? await this.$API.backend.sys.dict.update.put(data)
+						: await this.$API.backend.sys.dict.add.post(data)
 					if (res.code == 200) {
 						this.$message.success("保存成功")
 					} else {
@@ -322,7 +322,7 @@
 			//删除明细
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.platform.sys.dict.delete.delete(reqData);
+				var res = await this.$API.backend.sys.dict.delete.delete(reqData);
 				if(res.code == 200){
 					this.$refs.table.tableData.splice(index, 1);
 					this.$message.success("删除成功")
@@ -341,7 +341,7 @@
 					var reqData = {
 						ids: this.selection.map(v => v.id)
 					}
-					var res = await this.$API.platform.sys.dict.delete.delete(reqData)
+					var res = await this.$API.backend.sys.dict.delete.delete(reqData)
 					if (res.code == 200) {
 						this.selection.forEach(item => {
 							this.$refs.table.tableData.forEach((itemI, indexI) => {
@@ -387,7 +387,7 @@
 				row.$switch_status = true;
 				//3.等待接口返回后改变值
 				var reqData = {id: row.id,status: val}
-				var res = await this.$API.platform.sys.dict.update.put(reqData);
+				var res = await this.$API.backend.sys.dict.update.put(reqData);
 				delete row.$switch_status;
 				if(res.code == 200){
 					row.status = val;
@@ -408,7 +408,7 @@
 						this.listApiParams = {
 							code: data.code,
 						}
-						this.listApi = this.$API.platform.sys.dict.list;
+						this.listApi = this.$API.backend.sys.dict.list;
 					}
 					// this.$refs.tree.append(data, data.parentId[0])
 					this.$refs.tree.append(data, data.parentId)

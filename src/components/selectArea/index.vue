@@ -103,7 +103,7 @@ export default {
 						parentId: pid,
 						size: 999999,
 					}
-					let res = await this.$API.platform.sys.area.list.get(reqData);
+					let res = await this.$API.backend.sys.area.list.get(reqData);
 					if (res.code == 200) {
 						let items = res.data?.records || res.data;
 						// console.log('items:', items)
@@ -215,7 +215,7 @@ export default {
 		async getTreeList() {
 			this.isSaving = true
 			let reqData = {}
-			let res = await this.$API.platform.sys.area.tree.get(reqData);
+			let res = await this.$API.backend.sys.area.tree.get(reqData);
 			let items = res.data;
 			this.treeOptions = items;
 			if (this.limitLevel && this.limitLevel > 0) {

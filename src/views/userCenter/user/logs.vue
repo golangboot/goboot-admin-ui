@@ -38,7 +38,7 @@
 				dialog: {
 					save: false
 				},
-				apiObj: this.$API.platform.user.userCenter.logRecord,
+				apiObj: this.$API.backend.user.userCenter.logRecord,
 				params: {},
 				selection: [],
 				data: [
@@ -84,7 +84,7 @@
 			//删除
 			async table_del(row, index){
 				var reqData = {id: row.id}
-				var res = await this.$API.platform.user.userCenter.deleteLogRecord.delete(reqData);
+				var res = await this.$API.backend.user.userCenter.deleteLogRecord.delete(reqData);
 				if(res.code == 200){
 					//这里选择刷新整个表格 OR 插入/编辑现有表格数据
 					this.$refs.table.tableData.splice(index, 1);

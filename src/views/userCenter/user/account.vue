@@ -87,7 +87,7 @@
 		methods: {
 			async getData() {
 				this.isSaving = true;
-				const res = await this.$API.platform.user.userCenter.getUserInfo.get();
+				const res = await this.$API.backend.user.userCenter.getUserInfo.get();
 				this.isSaving = false;
 				this.form = res.data;
 			},
@@ -96,7 +96,7 @@
 					// console.log(`valid:${valid}`)
 					if (valid) {
 						this.isSaving = true;
-						const res = await this.$API.platform.user.userCenter.setUserInfo.post(this.form);
+						const res = await this.$API.backend.user.userCenter.setUserInfo.post(this.form);
 						this.isSaving = false;
 						if (res.code == 200) {
 							this.$emit('success', this.form, this.mode)

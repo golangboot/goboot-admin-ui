@@ -52,9 +52,9 @@ export default {
 		async getUserMenus(state, role = 'admin') {
 			let res = null
 			if (role == 'admin') {
-				res = await api.platform.user.userCenter.myMenus.get()
+				res = await api.backend.user.userCenter.myMenus.get()
 			} else {
-				res = await api.platform.user.userCenter.myMenus.get()
+				res = await api.backend.user.userCenter.myMenus.get()
 			}
 			if (res.code == 200) {
 				if (res.data.menu.length > 0) {

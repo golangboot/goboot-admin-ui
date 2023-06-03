@@ -84,12 +84,12 @@
 			},
 			//获取字典列表
 			async getDict(){
-				var res = await this.$API.platform.sys.dict.tree.get();
+				var res = await this.$API.backend.sys.dict.tree.get();
 				this.dict = res.data;
 			},
 			//获取字典类型列表
 			async getDictTypeList(){
-				var res = await this.$API.platform.sys.dictItem.list.get();
+				var res = await this.$API.backend.sys.dictItem.list.get();
 				this.dictTypeList = res.data;
 			},
 			//表单提交方法
@@ -99,9 +99,9 @@
 						this.isSaving = true;
 						var res;
 						if (this.form.id) {
-							res = await this.$API.platform.sys.dict.update.put(this.form)
+							res = await this.$API.backend.sys.dict.update.put(this.form)
 						} else {
-							res = await this.$API.platform.sys.dict.add.post(this.form)
+							res = await this.$API.backend.sys.dict.add.post(this.form)
 						}
 						this.isSaving = false;
 						if(res.code == 200){
@@ -122,7 +122,7 @@
 				if (data.id){
 					this.isSaving = true
 					let reqData = {id: data.id}
-					let res = await this.$API.platform.sys.dict.detail.get(reqData)
+					let res = await this.$API.backend.sys.dict.detail.get(reqData)
 					this.isSaving = false
 					this.form = res.data
 				}

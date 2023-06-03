@@ -51,7 +51,7 @@
 		methods: {
 			async getData(){
 				this.loading = true
-				var res = await this.$API.platform.sys.tasks.list.get()
+				var res = await this.$API.backend.sys.tasks.list.get()
 				this.tasks = res.data
 				this.loading = false
 			},

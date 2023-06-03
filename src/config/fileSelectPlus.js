@@ -4,8 +4,8 @@ import API from "@/api";
 
 export default {
 	apiObj: API.file.upload,
-	menuApiObj: API.platform.sys.fileCategory.tree,
-	listApiObj: API.platform.sys.fileDetail.list,
+	menuApiObj: API.backend.sys.fileCategory.tree,
+	listApiObj: API.backend.sys.fileDetail.list,
 	successCode: 200,
 	maxSize: 1024,
 	max: 1000,
@@ -19,7 +19,7 @@ export default {
 			originalFilename: res.data.originalFilename,
 			contentType: res.data.contentType,
 			ext: res.data.ext,
-			platform: res.data.platform,
+			backend: res.data.backend,
 		}
 	},
 	listParseData: function (res) {
@@ -49,7 +49,7 @@ export default {
 		originalFilename: 'originalFilename',
 		contentType: 'contentType',
 		ext: 'ext',
-		platform: 'platform',
+		backend: 'backend',
 	},
 	files: {
 		doc: {
