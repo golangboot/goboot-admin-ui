@@ -127,10 +127,42 @@
 										:maxlength="255" :show-word-limit="true" type="textarea"></el-input>
 								</el-form-item>
 
+								<el-row :gutter="20">
+									<el-col :span="12">
+										<el-form-item label="库存扣减方式" prop="stockDeductionMethod">
+											<template #label="{ label }">
+												<span>{{ label }}</span>
+												<span>
+											<el-tooltip>
+												<template #content>拍下减库存，存在恶拍风险；付款减库存，存在超卖风险</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+											</template>
+											<el-radio-group v-model="form.stockDeductionMethod">
+												<el-radio v-for="(item, index) in stockDeductionMethodOptions" :key="index" :label="item.value">{{item.label }}</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :span="12">
+										<el-form-item label="库存预警数量" prop="stockWarningCount">
+											<template #label="{ label }">
+												<span>{{ label }}</span>
+												<span>
+											<el-tooltip>
+												<template #content>库存低于预警数量时，会进行提醒，预警数量根据商品Sku库存进行判断</template>
+												<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
+											</el-tooltip>
+										</span>
+											</template>
+											<el-input-number v-model="form.stockWarningCount" controls-position="right" style="width: 100%;"></el-input-number>
+										</el-form-item>
+									</el-col>
+								</el-row>
+
 								<el-form-item label="商品状态" prop="status">
 									<el-radio-group v-model="form.status">
-										<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{
-											item.label }}</el-radio>
+										<el-radio v-for="(item, index) in statusOptions" :key="index" :label="item.value">{{item.label }}</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-card>
@@ -550,6 +582,7 @@ export default {
 				image: "",
 				images: "",
 				type: 0,
+				stockDeductionMethod: 0,
 				shippingType: 1,
 				isFreeShipping: 0,
 				shippingTemplateId: null,
@@ -585,6 +618,10 @@ export default {
 			statusOptions: [
 				{ label: "上架", value: 1, },
 				{ label: "下架", value: 0, },
+			],
+			stockDeductionMethodOptions: [
+				{ label: "买家拍下减库存", value: 0, },
+				{ label: "买家付款减库存", value: 1, },
 			],
 			typeOptions: [
 				{ label: "实物商品（物流发货）", value: 0, },
