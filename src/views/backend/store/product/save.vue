@@ -263,29 +263,20 @@
 							</el-card>
 
 							<el-card shadow="never" header="物流设置">
-								<el-form-item label="物流方式" prop="logisticsType">
-									<el-radio-group v-model="form.logisticsType">
-										<el-radio v-for="(item, index) in logisticsTypeOptions" :key="index"
+								<el-form-item label="配送方式" prop="shippingType">
+									<el-radio-group v-model="form.shippingType">
+										<el-radio v-for="(item, index) in shippingTypeOptions" :key="index"
 											:label="item.value">{{ item.label }}</el-radio>
 									</el-radio-group>
 								</el-form-item>
-								<template v-if="form.logisticsType == 1">
-									<el-form-item label="运费类型" prop="freightType">
-										<el-radio-group v-model="form.freightType">
-											<el-radio v-for="(item, index) in freightTypeOptions" :key="index"
+								<template v-if="form.shippingType == 1">
+									<el-form-item label="是否包邮" prop="isFreeShipping" :rules="isFreeShippingRules">
+										<el-radio-group v-model="form.isFreeShipping">
+											<el-radio v-for="(item, index) in isFreeShippingOptions" :key="index"
 												:label="item.value">{{ item.label }}</el-radio>
 										</el-radio-group>
 									</el-form-item>
-									<el-row :gutter="20" v-if="form.freightType == 1">
-										<el-col :span="12">
-											<el-form-item label="运费价格" prop="freightPrice">
-												<el-input-number v-model="form.freightPrice" placeholder="请输入运费价格（元）"
-													controls-position="right" :min="0"
-													style="width: 50%;"></el-input-number>
-											</el-form-item>
-										</el-col>
-									</el-row>
-									<el-row :gutter="20" v-if="form.freightType == 2">
+									<el-row :gutter="20" v-if="form.isFreeShipping != 1">
 										<el-col :span="12">
 											<el-form-item label="运费模板" prop="shippingTemplateId"
 												:rules="shippingTemplateRules">
@@ -492,9 +483,9 @@
 							<el-result icon="success" title="操作成功" sub-title="商品保存成功">
 								<template #extra>
 									<el-button type="primary" @click="resetForm()">继续添加商品</el-button>
-									<el-button @click="mode = 'show'; stepFormActive = 0">查看商品</el-button>
-									<el-button type="warning"
-										@click="mode = 'add'; stepFormActive = 0; form.id = ''">复制商品</el-button>
+									<el-button type="info" @click="mode = 'show'; stepFormActive = 0">查看商品</el-button>
+									<el-button type="warning" @click="mode = 'add'; stepFormActive = 0; form.id = ''">复制商品</el-button>
+									<el-button type="default" @click="visible = false">返回列表</el-button>
 								</template>
 							</el-result>
 						</el-col>
@@ -559,8 +550,9 @@ export default {
 				image: "",
 				images: "",
 				type: 0,
-				logisticsType: 0,
-				freightType: 0,
+				shippingType: 1,
+				isFreeShipping: 0,
+				shippingTemplateId: null,
 				customFormStatus: 0,
 				customFormParams: [],
 				//用于复原sku数据
@@ -583,6 +575,9 @@ export default {
 				categoryId: [
 					{ required: true, message: '请选择商品分类', trigger: ['change', 'blur'] }
 				],
+				shippingType: [
+					{ required: true, message: '请选择配送方式', trigger: ['change', 'blur'] }
+				],
 				images: [
 					{ required: true, message: '商品相册不能为空，请至少上传1张图片', trigger: ['change', 'blur'] }
 				],
@@ -600,16 +595,15 @@ export default {
 				{ label: "审核通过", value: 1 },
 				{ label: "审核驳回", value: 2 },
 			],
-			logisticsTypeOptions: [
+			shippingTypeOptions: [
 				{ label: "无需发货", value: 0, },
-				{ label: "快递", value: 1, },
+				{ label: "快递发货", value: 1, },
 				// {label: "自提点自提", value: 2,}, // 预留功能未实现, 暂时隐藏
 				// {label: "到店核销", value: 3,}, // 预留功能未实现, 暂时隐藏
 			],
-			freightTypeOptions: [
-				{ label: "免费包邮", value: 0, },
-				{ label: "固定运费", value: 1, },
-				{ label: "运费模板", value: 2, },
+			isFreeShippingOptions: [
+				{ label: "否", value: 0, },
+				{ label: "是", value: 1, },
 			],
 			treeOptions: [],
 			treeProps: {
@@ -618,7 +612,7 @@ export default {
 				// checkStrictly: true,
 				checkStrictly: false, // 只能选择叶子节点(最后一级分类)
 				emitPath: false,
-				expandTrigger: "hover",
+				// expandTrigger: "hover",
 			},
 			brandSelect: {
 				// api接口
@@ -825,10 +819,18 @@ export default {
 			})
 			return rules
 		},
+		isFreeShippingRules() {
+			// 重新生成验证规则
+			let rules = []
+			if (this.form.shippingType == 1) {
+				rules.push({ required: true, message: `是否包邮不能为空`, trigger: ['change', 'blur'] })
+			}
+			return rules
+		},
 		shippingTemplateRules() {
 			// 重新生成验证规则
 			let rules = []
-			if (this.form.freightType == 2) {
+			if (this.form.isFreeShipping != 1) {
 				rules.push({ required: true, message: `运费模板不能为空`, trigger: ['change', 'blur'] })
 			}
 			return rules

@@ -257,8 +257,8 @@
 					{label: "按体积", value: 3,},
 				],
 				isFreeShippingOptions: [
-					{label: "自定义运费", value: 0,},
-					{label: "包邮", value: 1,},
+					{label: "否", value: 0,},
+					{label: "是", value: 1,},
 				],
 				shippingAreasAddTemplate: {
 					areas: {},
