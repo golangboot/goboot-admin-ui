@@ -23,8 +23,8 @@
 			<el-form-item label="积分" prop="number" v-if="formParams.accountType == 2">
 				<el-input-number v-model="formParams.number" placeholder="请输入改变积分" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
-			<el-form-item label="虚拟币" prop="number" v-if="formParams.accountType == 3">
-				<el-input-number v-model="formParams.number" placeholder="请输入改变虚拟币" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+			<el-form-item label="信用额度" prop="number" v-if="formParams.accountType == 3">
+				<el-input-number v-model="formParams.number" placeholder="请输入改变信用额度" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="formParams.remark" clearable type="textarea"></el-input>
@@ -46,7 +46,7 @@ export default {
 			titleMap: {
 				balance: '余额',
 				integral: '积分',
-				virtualCoin: '虚拟币'
+				virtualCoin: '信用额度'
 			},
 			visible: false,
 			isSaving: false,
@@ -76,7 +76,7 @@ export default {
 			accountTypeOptions: [
 				{label: "余额", value: 1, code: "balance",},
 				{label: "积分", value: 2, code: "integral",},
-				{label: "虚拟币", value: 3, code: "virtualCoin",},
+				{label: "信用额度", value: 3, code: "virtualCoin",},
 			],
 			changeTypeOptions: [
 				{label: "增加", value: 1,},

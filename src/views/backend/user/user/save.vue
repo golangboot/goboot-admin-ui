@@ -175,7 +175,7 @@
 							</el-row>
 							<el-row :gutter="20">
 								<el-col :span="12">
-									<el-form-item label="虚拟币" prop="virtualCoin">
+									<el-form-item label="信用额度" prop="virtualCoin">
 										<el-input-number v-model="form.virtualCoin" disabled controls-position="right" :min="0" style="width: 100%;"></el-input-number>
 									</el-form-item>
 								</el-col>
