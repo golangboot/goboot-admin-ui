@@ -221,6 +221,21 @@
 								</el-col>-->
 							</el-row>
 						</el-tab-pane>
+						<el-tab-pane label="子母账号管理">
+							<el-form-item label="所属用户" prop="userId">
+								<select-remote v-model="form.parentId"
+											   :apiObj="$API.backend.user.user.list"
+											   :params="{id: form.parentId}"
+											   :searchClearParams="['id']"
+											   :request="{name: 'keyword'}"
+											   :props="{label: 'label', value: 'value'}"
+											   :parseData="userSelect.parseData"
+											   :parseDataField="userSelect.parseDataField"
+											   clearable filterable style="width:100%">
+								</select-remote>
+								<div class="el-form-item-msg">点击选择框的清除图标，然后输入关键词搜索选择所属用户后，该用户将归属为所选择用户下面的子账号</div>
+							</el-form-item>
+						</el-tab-pane>
 					</el-tabs>
 				</el-form>
 			</el-main>
@@ -234,11 +249,13 @@
 
 <script>
 	import selectDict from "@/components/selectDict";
+	import selectRemote from "@/components/selectRemote";
 
 	export default {
 		emits: ['success', 'closed'],
 		components:{
 			selectDict,
+			selectRemote,
 		},
 		data() {
 			return {
@@ -324,6 +341,15 @@
 					value: "id",
 					multiple: true,
 					checkStrictly: true
+				},
+				userSelect: {
+					// 解析数据字段
+					parseDataField: function (item) {
+						return {
+							label: item.username || item.nickname || item.mobile || item.email,
+							value: item.id,
+						}
+					},
 				},
 			}
 		},
