@@ -343,7 +343,7 @@
 
 <script>
 export default {
-  name: "storeSetting",
+  name: "storeConfigAppBackend",
   data() {
     return {
       visible: false,

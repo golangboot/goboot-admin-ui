@@ -198,7 +198,7 @@
 
 <script>
 export default {
-  name: "siteSetting",
+  name: "siteConfigAppBackend",
   data() {
     return {
       visible: false,
