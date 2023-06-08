@@ -17,15 +17,24 @@
 				<scTable ref="table" :apiObj="apiObj" :params="params" row-key="id" @selection-change="selectionChange" stripe>
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="ID" prop="id" width="150" sortable></el-table-column>
-          <el-table-column label="标题" prop="title" width="200">
-            <template #default="scope">
-              <el-tooltip :content="scope.row.title" effect="light" :disabled="!(scope.row.title && scope.row.title.length > 60)">
+					<el-table-column label="标题" prop="title" width="200">
+						<template #default="scope">
+							<el-tooltip :content="scope.row.title" effect="light" :disabled="!(scope.row.title && scope.row.title.length > 60)">
 					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
 						{{scope.row.title}}
 					  </span>
-              </el-tooltip>
-            </template>
-          </el-table-column>
+							</el-tooltip>
+						</template>
+					</el-table-column>
+					<el-table-column label="描述" prop="description" width="150">
+						<template #default="scope">
+							<el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
+						{{scope.row.description}}
+					  </span>
+							</el-tooltip>
+						</template>
+					</el-table-column>
 					<el-table-column label="图片" prop="image" width="100">
 						<template #default="scope">
 							<div style="display: flex; align-items: center; max-width: 40px; height: 40px;">
@@ -33,30 +42,24 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="网址" prop="url" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<!--<el-table-column label="编码" prop="code" width="150" :show-overflow-tooltip="true"></el-table-column>-->
-					<el-table-column label="位置" prop="position" width="150" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column label="端点" prop="endpoint" width="150" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="描述" prop="description" width="200">
-            <template #default="scope">
-              <el-tooltip :content="scope.row.description" effect="light" :disabled="!(scope.row.description && scope.row.description.length > 60)">
+					<el-table-column label="网址" prop="url" width="200">
+						<template #default="scope">
+							<el-tooltip :content="scope.row.url" effect="light" :disabled="!(scope.row.url && scope.row.url.length > 60)">
 					  <span style="display:-webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 2; -webkit-box-orient:vertical;">
-						{{scope.row.description}}
+						{{scope.row.url}}
 					  </span>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-					<el-table-column label="开始时间" prop="startTime" width="150"></el-table-column>
-					<el-table-column label="结束时间" prop="endTime" width="150"></el-table-column>
+							</el-tooltip>
+						</template>
+					</el-table-column>
 					<el-table-column label="排序" prop="sort" width="80" sortable></el-table-column>
 					<el-table-column label="状态" prop="status" width="80" sortable>
 						<template #default="scope">
 							<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" :active-value="1" :inactive-value="0"></el-switch>
 						</template>
 					</el-table-column>
+					<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 					<el-table-column label="更新时间" prop="updateTime" width="150"></el-table-column>
-					<el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="center" width="170">
 						<template #default="scope">
 							<el-button-group>
@@ -206,5 +209,5 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>

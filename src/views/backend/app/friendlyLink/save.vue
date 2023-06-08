@@ -1,7 +1,7 @@
 <template>
 	<el-dialog :title="titleMap[mode]" v-model="visible" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="130px" label-position="right">
-			<el-form-item label="友情链接标题" prop="title">
+			<el-form-item label="标题" prop="title">
 				<el-input v-model="form.title" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="描述" prop="description">
@@ -19,52 +19,12 @@
 					<span>{{ label }}</span>
 					<span>
 						<el-tooltip>
-							<template #content>点击图片跳转的网址</template>
+							<template #content>点击跳转网址</template>
 							<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
 						</el-tooltip>
 					</span>
 				</template>
 				<el-input v-model="form.url" :autosize="{ minRows: 2, maxRows: 4 }" :maxlength="500" :show-word-limit="true" type="textarea"></el-input>
-			</el-form-item>
-			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-form-item label="友情链接位置" prop="position">
-						<template #label="{ label }">
-							<span>{{ label }}</span>
-							<span>
-								<el-tooltip>
-									<template #content>友情链接位置编码</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-						</template>
-						<!--<el-input v-model="form.position" clearable></el-input>-->
-            <select-dict v-model="form.position" dict="BANNER_POSITION" placeholder="" allow-create default-first-option clearable filterable style="width: 100%;"></select-dict>
-          </el-form-item>
-				</el-col>
-				<el-col :span="12">
-					<el-form-item label="端点" prop="endpoint">
-            <template #label="{ label }">
-              <span>{{ label }}</span>
-              <span>
-								<el-tooltip>
-									<template #content>端点编码</template>
-									<el-icon style="vertical-align: middle;margin-top: -3px;margin-left: 3px;"><el-icon-question-filled /></el-icon>
-								</el-tooltip>
-							</span>
-            </template>
-						<select-dict v-model="form.endpoint" dict="ENDPOINT_LIST" placeholder="" allow-create default-first-option clearable filterable style="width: 100%;"></select-dict>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-form-item label="生效时间">
-				<el-date-picker v-model="dateTimeRangeModel" :shortcuts="dateTimeRangeShortcuts" type="datetimerange"
-								range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-								format="YYYY-MM-DD HH:mm:ss"
-								value-format="YYYY-MM-DD HH:mm:ss"
-								@change="dateTimeRangeChange"
-								style="width: 100%;">
-				</el-date-picker>
 			</el-form-item>
 			<el-form-item label="排序" prop="sort">
 				<el-input-number v-model="form.sort" controls-position="right" style="width: 100%;"></el-input-number>
@@ -85,7 +45,6 @@
 
 <script>
 	import selectDict from "@/components/selectDict";
-  import dateConfig from "@/config/date";
 
 	export default {
 		emits: ['success', 'closed'],
@@ -116,38 +75,19 @@
 				//验证规则
 				rules: {
 					title: [
-						{required: true, message: '请输入友情链接标题'}
+						{required: true, message: '请输入标题'}
 					],
 				},
-				dateTimeRangeModel: [],
-        dateTimeRangeShortcuts: dateConfig.shortcuts,
 			}
 		},
 		watch: {
 			form: {
 				// eslint-disable-next-line
 				handler: function (newVal, oldVal) {
-					if (newVal.startTime || newVal.endTime) {
-						this.dateTimeRangeModel[0] = newVal.startTime
-						this.dateTimeRangeModel[1] = newVal.endTime
-					}
 				},
+				immediate: true,
 				deep: true
 			},
-			/*dateTimeRangeModel: {
-				// eslint-disable-next-line
-				handler: function (newVal, oldVal) {
-					if (newVal === null || !newVal) {
-						this.dateTimeRangeModel = []
-						this.form.startTime = ''
-						this.form.endTime = ''
-					} else {
-						this.form.startTime = newVal[0]
-						this.form.endTime = newVal[1]
-					}
-				},
-				deep: true
-			},*/
 		},
 		mounted() {
 		},
@@ -192,15 +132,9 @@
 					this.form = res.data
 				}
 			},
-			dateTimeRangeChange(dateTimeArray){
-				if (dateTimeArray){
-					this.form.startTime = dateTimeArray[0]
-					this.form.endTime = dateTimeArray[1]
-				}
-			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>

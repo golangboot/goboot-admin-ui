@@ -120,5 +120,5 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>
