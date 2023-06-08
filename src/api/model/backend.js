@@ -2167,35 +2167,35 @@ export default {
 		},
 		friendlyLink: {
 			list: {
-				url: `${config.API_URL}/backend/store/friendlyLink`,
+				url: `${config.API_URL}/backend/app/friendlyLink`,
 				name: "列表",
 				get: async function(data){
 					return await http.get(this.url, data);
 				}
 			},
 			add: {
-				url: `${config.API_URL}/backend/store/friendlyLink`,
+				url: `${config.API_URL}/backend/app/friendlyLink`,
 				name: "添加",
 				post: async function(data){
 					return await http.post(this.url, data);
 				}
 			},
 			detail: {
-				url: `${config.API_URL}/backend/store/friendlyLink`,
+				url: `${config.API_URL}/backend/app/friendlyLink`,
 				name: "查看",
 				get: async function(data){
 					return await http.get(`${this.url}/${data.id}`, data);
 				}
 			},
 			update: {
-				url: `${config.API_URL}/backend/store/friendlyLink`,
+				url: `${config.API_URL}/backend/app/friendlyLink`,
 				name: "更新",
 				put: async function(data){
 					return await http.put(`${this.url}`, data);
 				}
 			},
 			delete: {
-				url: `${config.API_URL}/backend/store/friendlyLink`,
+				url: `${config.API_URL}/backend/app/friendlyLink`,
 				name: "删除",
 				delete: async function(data){
 					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
