@@ -2203,5 +2203,199 @@ export default {
 				}
 			},
 		},
+		smsConfig: {
+			list: {
+				url: `${config.API_URL}/backend/app/smsConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/backend/app/smsConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/backend/app/smsConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/backend/app/smsConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/backend/app/smsConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+			getConfig: {
+				url: `${config.API_URL}/backend/app/smsConfig/getConfig`,
+				name: "获取配置",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			setConfig: {
+				url: `${config.API_URL}/backend/app/smsConfig/setConfig`,
+				name: "设置配置",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+		},
+		paymentConfig: {
+			list: {
+				url: `${config.API_URL}/backend/app/paymentConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/backend/app/paymentConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/backend/app/paymentConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/backend/app/paymentConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/backend/app/paymentConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+			getConfig: {
+				url: `${config.API_URL}/backend/app/paymentConfig/getConfig`,
+				name: "获取配置",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			setConfig: {
+				url: `${config.API_URL}/backend/app/paymentConfig/setConfig`,
+				name: "设置配置",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+		},
+		oauthConfig: {
+			list: {
+				url: `${config.API_URL}/backend/app/oauthConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/backend/app/oauthConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/backend/app/oauthConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/backend/app/oauthConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/backend/app/oauthConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+			getConfig: {
+				url: `${config.API_URL}/backend/app/oauthConfig/getConfig`,
+				name: "获取配置",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			setConfig: {
+				url: `${config.API_URL}/backend/app/oauthConfig/setConfig`,
+				name: "设置配置",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+		},
+		notificationConfig: {
+			list: {
+				url: `${config.API_URL}/backend/app/notificationConfig`,
+				name: "列表",
+				get: async function(data){
+					return await http.get(this.url, data);
+				}
+			},
+			add: {
+				url: `${config.API_URL}/backend/app/notificationConfig`,
+				name: "添加",
+				post: async function(data){
+					return await http.post(this.url, data);
+				}
+			},
+			detail: {
+				url: `${config.API_URL}/backend/app/notificationConfig`,
+				name: "查看",
+				get: async function(data){
+					return await http.get(`${this.url}/${data.id}`, data);
+				}
+			},
+			update: {
+				url: `${config.API_URL}/backend/app/notificationConfig`,
+				name: "更新",
+				put: async function(data){
+					return await http.put(`${this.url}`, data);
+				}
+			},
+			delete: {
+				url: `${config.API_URL}/backend/app/notificationConfig`,
+				name: "删除",
+				delete: async function(data){
+					let id = (Array.isArray(data.ids) ? data.ids.filter(Boolean) : []).concat(data.id || []).filter(Boolean).map(String).join(',') || '';
+					return await http.delete(`${this.url}/${id}`, data);
+				}
+			},
+		},
 	},
 }

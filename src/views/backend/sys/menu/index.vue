@@ -359,9 +359,9 @@
 				}
 				// 触发树更新
 				treeUtils.treeHandleSuccess(this.$refs.tree, data, mode)
-				this.getTreeList(this.params)
-        //重获获取用户菜单
-        this.$store.commit("getUserMenus")
+				// this.getTreeList(this.params)
+				//重获获取用户菜单
+				this.$store.commit("getUserMenus")
 			},
 			//加载树数据
 			async getTreeList(params = {}){
