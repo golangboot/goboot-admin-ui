@@ -3,7 +3,7 @@
 		<el-row :gutter="15">
 			<el-col :lg="18">
 				<el-card shadow="never">
-					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :max="1000" @submit="submit">
+					<sc-file-select v-model="file" :multiple="multiple" :hideUpload="hideUpload" :maxSize="10" :max="1000" @submit="submit">
 						<template #do>
 							<el-button @click="refreshPage()">刷新</el-button>
 						</template>

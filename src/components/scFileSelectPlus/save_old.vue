@@ -229,9 +229,9 @@
 				var reqData = {
 					keyword: query,
 				}
-				if (this.form.userId){
+				/*if (this.form.userId){
 					reqData.userId = this.form.userId
-				}
+				}*/
 				var res = await this.$API.backend.user.user.list.get(reqData);
 				let items = res.data?.records
 				this.userOptions = []
@@ -278,10 +278,10 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-				if (this.form.userId){
+				/*if (this.form.userId){
 					// this.getRemoteData("")
 					this.userSelect.params.id = this.form.userId
-				}
+				}*/
 			}
 		}
 	}

@@ -34,7 +34,7 @@
 				<el-col :span="12">
 					<el-form-item label="文件大小" prop="size">
 						<el-input v-model="form.size" clearable>
-							<template #append>Byte</template>
+							<template #append>字节（Byte）</template>
 						</el-input>
 					</el-form-item>
 				</el-col>
@@ -236,9 +236,9 @@
 					this.isSaving = false
 					this.form = res.data
 				}
-				if (this.form.userId){
+				/*if (this.form.userId){
 					this.userSelect.params.id = this.form.userId
-				}
+				}*/
 			}
 		}
 	}
